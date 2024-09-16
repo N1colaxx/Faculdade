@@ -27,12 +27,12 @@ max_brancos = {'nome': '', 'total': 0}
 max_nulos = {'nome': '', 'total': 0}
 max_validos = {'nome': '', 'total': 0}
 
-
-def calcular_porcentagem (brancos, nulos, validos, eleitores):
-    p_brancos = (brancos / eleitores) * 100
-    p_nulos   = (nulos   / eleitores) * 100
-    p_validos = (validos / eleitores) * 100
-    return  p_brancos, p_nulos, p_validos
+# a = brancos      b = nulos    c = validos     d = eleitores
+def calcular_porcentagem (a, b, c, d):
+    a = (a / d) * 100
+    b = (b / d) * 100
+    c = (c / d) * 100
+    return  a, b, c
 
 
 # Lista para armazenar os dados dos Municipios
