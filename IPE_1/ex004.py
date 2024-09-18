@@ -42,10 +42,11 @@ municipios = []
 for i in range (1,3):
     print('\n','-=-'*5, 'Cadastro de Municipios', '-=-'*5)
     nome = input('Informe o Nome do {}° Municipio: '.format(i))
-    eleitores = int(input('Informe o Toatal de Eleitores: '.strip()))
     brancos   = int(input('Informe o Numero de votos em branco: '.strip()))
     nulos     = int(input('Informe o Numero de votos nulos: '.strip()))
     validos   = int(input('Informe o numero de votos validos: '.strip()))
+
+    eleitores = (brancos + nulos + validos)
 
     # chama a função para calcular a porcentage,
     # onde (P_brancos = brancos)  (P_nulos = nulos) (P_validos_validos)
