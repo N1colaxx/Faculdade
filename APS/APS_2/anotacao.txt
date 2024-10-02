@@ -1,0 +1,56 @@
+
+
+
+Observações:
+1) É obrigatório o uso de funções com passagem de parâmetros
+para criptografar e descriptografar.
+2) Terá acréscimo de meio ponto (0,5) para o sistema se usar
+também arquivos para armazenar dados de entrada e saída.
+3) Todos os elementos do grupo precisam saber explicar o uso
+de arquivos, funções, passagem de parâmetros,
+técnica/algoritmos implementados, entre outros detalhes de
+programação. Para isso aconselha-se que cada elemento do
+grupo desenvolva/programe uma parte do código.
+4) Relatórios fora do padrão, sem formatação correta, com
+pouco conteúdo e erros, SERÃO REPROVADO DIRETAMENTE
+sem nem mesmo apresentar para BANCA.
+
+Cifras e Codigos 
+
+Chave Criptografica
+
+Criptografica Simetrica 
+
+Criptografica Assimetrica 
+
+Criptografica Moderna 
+
+Criptografica Quantica 
+
+Assinatura Digital 
+
+Algoritimos de Criptografia 
+
+
+
+        * implementar em Python *
+com uso de funções, passagem de parâmetros e se possível com acesso a arquivo.
+
+Tera 2 telas => 
+            A primeira tela deve apresentar o assunto de sustentabilidade envolvido. (isto é, para que serve o sistema) e uma mensagem com 2 opções
+(uma opção para cada tipo de algoritmo que foi implementado).
+            Após a escolha do algoritmo, deverá ir para outra tela a qual solicitará a frase ou senha para acesso. 
+Após a digitação da senha ou frase o sistema ou programa deverá apresentar a mesma criptografada. E 
+uma opção para descriptografar. Feito isso, deve solicitar se deseja continuar para poder voltar na tela que permite escolher
+uma das opções para os algoritmos implementados.
+
+O programa deverá contemplar a possibilidade de cifragem de frases completas
+até o limite de 128 caracteres, e também a sua respectiva descriptografia. A frase
+e eventual chave serão fornecidas no momento da execução. Nestes testes o
+grupo deverá demonstrar a eficiência do sistema ou cenário proposto.
+
+
+
+Tabela Asqui
+
+2 algoritmos escolhidos, para fazer a criptografia. fazer 1 ex com cada algoritmo
