@@ -59,3 +59,8 @@ grupo deverá demonstrar a eficiência do sistema ou cenário proposto.
 Tabela Asqui
 
 2 algoritmos escolhidos, para fazer a criptografia. fazer 1 ex com cada algoritmo
+
+
+Python:
+cryptography: Biblioteca poderosa e fácil de usar para implementar criptografia, incluindo AES, RSA e hashing.
+pycryptodome: Uma biblioteca completa para realizar criptografia simétrica e assimétrica, além de hash.
