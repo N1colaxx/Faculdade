@@ -1,0 +1,90 @@
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(45deg, #061de3, #e306ca);
+    font-family: Hevetica, sans-serif;
+    color: rgb(211, 211, 211);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 250px;
+    height: 400px;
+    perspective: 800px;
+    margin: 25px;
+}
+.container:hover > .card {
+    cursor: pointer;
+    transform: rotateY(180deg) rotateZ(180deg);
+}
+
+
+
+.front1, .front2,.front3,.front4,
+.back {
+    width: 100%;
+    height: 100%;
+    border-radius: 2rem;
+    box-shadow: 0 0 5px 2px rgba(50, 50, 50, 0.25);
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.card {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    transition: transform 1500ms;
+    transform-style: preserve-3d;
+}
+
+
+.front1 {
+    background-image: url('/criadores/assets/foto/ni2.jpg') ;
+    background-size: cover; /* para ajustar a imagem ao tamanho da div */
+    /* background-position: center; */
+}
+.front2 {
+    background-image: url('/criadores/assets/foto/l2.jpg') ;
+    background-size: cover; /* para ajustar a imagem ao tamanho da div */
+    /* background-position: center; */
+}
+.front3 {
+    background-image: url('/criadores/assets/foto/F.jpg') ;
+    background-size: cover; /* para ajustar a imagem ao tamanho da div */
+    /* background-position: center; */
+}
+.front4 {
+    background-image: url('/criadores/assets/foto/S.jpg') ;
+    background-size: cover; /* para ajustar a imagem ao tamanho da div */
+    /* background-position: center; */
+}
+
+
+.back {
+    background-color: #3a3a3a;
+    transform: rotateY(180deg) rotateZ(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0.8;
+}
+
+.back > p {
+    padding: 1rem;
+    font-family:Platypi, sans-serif;
+}

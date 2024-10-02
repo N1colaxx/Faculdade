@@ -1,0 +1,171 @@
+
+
+
+
+p {
+    font-size:1em;
+ }
+
+
+ strong {
+    font-size: 1,7em;
+ }
+
+
+.container1{  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+    gap: 10%;
+    /* background: #333; */
+}
+
+.info {
+    width: 40%;
+    height: auto;
+    /* background: #b62b12; */
+}
+
+
+.imgCB {
+    width: 50%;
+    height: auto;
+ }
+ .imgCV {
+    width: 30%;
+    /* border: 1px solid #12b69b; */
+ }
+
+ .p1 {
+    display: flex;
+    margin-left: 10%;
+    font-size: 2em;
+ }
+
+
+.btn{
+    width: 100%;
+    padding: 2% ;    
+
+    border-radius: 50px;
+    font-size: 16px;
+    text-align: center;
+    transform: skew(10deg);
+    transform: scale(1);
+
+    background: var(--VERDE);
+    cursor: pointer;
+    border: 1px solid #12b69b; 
+
+    margin-top: 30px;
+}
+
+ .btn:hover, .btn2:hover {
+    background: rgb(13, 63, 20);
+    transform: scale(1.1);
+ }
+
+
+
+ .btn2 {
+    width: auto;
+    padding: 1% ;     
+ 
+    border-radius: 50px;
+    
+    text-align: center;
+    transform: skew(10deg);
+    transform: scale(1);
+
+    background: #333;
+    cursor: pointer;
+    border: 1px solid #12b69b; 
+
+    margin-top: 10%; 
+ }
+
+ #aling{
+    text-align: center;
+ }
+
+ .title {
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.container-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 15%;
+}
+
+
+
+.conteudo {
+    display: flex;
+    justify-content: center; 
+    width: 100%;
+    align-items: center; 
+    gap: 10%; 
+}
+
+.label {
+    height: auto;
+    width: 35%;
+    padding: 1%;
+    margin-top: 2%;
+}
+
+.labelFQA {
+    height: auto;
+    width: 50%;
+    padding: 1%;
+    margin-top: 5%;
+}
+
+
+  .container-3 {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 15%;
+    padding: 0 20px;
+    flex-wrap: wrap; /* Adicionado para que as seções possam ser envolvidas */
+}
+
+.section {
+    flex: 1; /* Adicionado para que as seções possam ocupar o espaço disponível */
+    min-width: 300px; /* Ajustado para permitir que as seções diminuam de largura */
+    min-height: 750px;
+    height: auto;
+    padding: 5%;
+
+}
+
+.assunto {
+    margin-top: 5%;
+    padding: 2%;   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+
+footer {
+    background-color: #333;
+    color: #fff;
+
+    text-align: center;
+    padding: 20px;
+    margin-top: 5%;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+}

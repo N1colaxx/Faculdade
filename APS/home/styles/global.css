@@ -1,0 +1,35 @@
+@import url('./background.css');
+@import url('./header.css');
+@import url('./main.css');
+
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --text: #EDF1F7;
+  --red: #C51212;
+  --blue: #0ca6ff;
+  --green: #00fd2a;
+  --VERDE: #056d16;
+  --yellow: #ffc12b;
+  --white: #ffffff;
+}
+
+body, button, a {
+  color: var(--text);
+  font: 400 1rem "Mukta", sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
