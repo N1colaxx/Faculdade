@@ -15,6 +15,11 @@ grupo desenvolva/programe uma parte do código.
 pouco conteúdo e erros, SERÃO REPROVADO DIRETAMENTE
 sem nem mesmo apresentar para BANCA.
 
+
+
+Perguntar ==> Tem q fazer um exemplo de criptografia de cada tipo ? ou excolher 1 e fazer encima dos 2 algoritimos 
+escolidos.
+
 Cifras e Codigos 
 
 Chave Criptografica
