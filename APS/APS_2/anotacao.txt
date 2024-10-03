@@ -1,25 +1,6 @@
 
 
 
-Observações:
-1) É obrigatório o uso de funções com passagem de parâmetros
-para criptografar e descriptografar.
-2) Terá acréscimo de meio ponto (0,5) para o sistema se usar
-também arquivos para armazenar dados de entrada e saída.
-3) Todos os elementos do grupo precisam saber explicar o uso
-de arquivos, funções, passagem de parâmetros,
-técnica/algoritmos implementados, entre outros detalhes de
-programação. Para isso aconselha-se que cada elemento do
-grupo desenvolva/programe uma parte do código.
-4) Relatórios fora do padrão, sem formatação correta, com
-pouco conteúdo e erros, SERÃO REPROVADO DIRETAMENTE
-sem nem mesmo apresentar para BANCA.
-
-
-
-Perguntar ==> Tem q fazer um exemplo de criptografia de cada tipo ? ou excolher 1 e fazer encima dos 2 algoritimos 
-escolidos.
-
 Cifras e Codigos 
 
 Chave Criptografica
@@ -37,30 +18,77 @@ Assinatura Digital
 Algoritimos de Criptografia 
 
 
+Observações:
+1) É obrigatório o uso de funções com passagem de parâmetros
+para criptografar e descriptografar.
+2) Terá acréscimo de meio ponto (0,5) para o sistema se usar
+também arquivos para armazenar dados de entrada e saída.
+3) Todos os elementos do grupo precisam saber explicar o uso
+de arquivos, funções, passagem de parâmetros,
+técnica/algoritmos implementados, entre outros detalhes de
+programação. Para isso aconselha-se que cada elemento do
+grupo desenvolva/programe uma parte do código.
+4) Relatórios fora do padrão, sem formatação correta, com
+pouco conteúdo e erros, SERÃO REPROVADO DIRETAMENTE
+sem nem mesmo apresentar para BANCA.
 
         * implementar em Python *
 com uso de funções, passagem de parâmetros e se possível com acesso a arquivo.
 
-Tera 2 telas => 
-            A primeira tela deve apresentar o assunto de sustentabilidade envolvido. (isto é, para que serve o sistema) e uma mensagem com 2 opções
-(uma opção para cada tipo de algoritmo que foi implementado).
-            Após a escolha do algoritmo, deverá ir para outra tela a qual solicitará a frase ou senha para acesso. 
-Após a digitação da senha ou frase o sistema ou programa deverá apresentar a mesma criptografada. E 
-uma opção para descriptografar. Feito isso, deve solicitar se deseja continuar para poder voltar na tela que permite escolher
-uma das opções para os algoritmos implementados.
+Terá 2 telas => 
+                Primeira tela deve apresentar o assunto de sustentabilidade envolvido. (isto é, para que serve o sistema) e uma mensagem com 2 opções (uma opção para cada tipo de algoritmo que foi implementado).
+        
+                Após a escolha do algoritmo, deverá ir para outra tela a qual solicitará a frase ou senha para acesso. Após a digitação da senha ou frase o sistema ou programa, deverá apresentar a mesma criptografada. E 
+                uma opção para descriptografar. 
 
-O programa deverá contemplar a possibilidade de cifragem de frases completas
-até o limite de 128 caracteres, e também a sua respectiva descriptografia. A frase
-e eventual chave serão fornecidas no momento da execução. Nestes testes o
-grupo deverá demonstrar a eficiência do sistema ou cenário proposto.
+                Feito isso, deve solicitar se deseja continuar para poder voltar na tela que permite escolher
+                uma das opções para os algoritmos implementados.
 
+                O programa deverá contemplar a possibilidade de cifragem de frases completas até o limite de 128 caracteres, e também a sua respectiva descriptografia. A frase
+                e eventual chave serão fornecidas no momento da execução. Nestes testes o grupo deverá demonstrar a eficiência do sistema ou cenário proposto.
 
 
-Tabela Asqui
+Excolher 2 algoritmos para fazer a criptografia. fazer 1 ex de cada algoritmo
 
-2 algoritmos escolhidos, para fazer a criptografia. fazer 1 ex com cada algoritmo
+
 
 
 Python:
 cryptography: Biblioteca poderosa e fácil de usar para implementar criptografia, incluindo AES, RSA e hashing.
 pycryptodome: Uma biblioteca completa para realizar criptografia simétrica e assimétrica, além de hash.
+
+
+Modos de Operação de Criptografia:
+
+ECB (Electronic Codebook): Modo básico que criptografa cada bloco de dados de forma independente. Não é seguro para a maioria dos usos, pois blocos iguais de dados resultam em blocos iguais criptografados.
+
+CBC (Cipher Block Chaining): Cada bloco de texto cifrado é "encadeado" com o bloco anterior, o que aumenta a segurança.
+
+CFB (Cipher Feedback): Usa parte do texto cifrado como entrada para criptografar os próximos blocos, permitindo criptografia em fluxo.
+
+CTR (Counter Mode): Converte um cifrador de blocos em um cifrador de fluxo, ideal para paralelismo e criptografia de dados em grande volume.
+
+
+
+                Biblioteca ---> cryptography
+
+Conceitos e Funcionalidades Principais:
+Cifra (Cipher): Um objeto que representa o algoritmo de criptografia simétrica. No caso da criptografia simétrica, como o AES, o Cipher exige que você defina o algoritmo (AES), o modo de operação (CBC, CFB, etc.) e um backend seguro.
+
+Algoritmos (Algorithms): 
+A biblioteca oferece suporte para algoritmos simétricos como AES e Triple DES (3DES). Eles estão disponíveis no módulo algorithms.
+
+Modos de Operação (Modes): 
+Modos de operação determinam como a criptografia é aplicada em blocos de dados. Modos como CBC, CFB, CTR, e GCM (para autenticação) são suportados. Cada modo tem diferentes implicações de segurança.
+
+Backend: 
+O backend trata da implementação de baixo nível das operações criptográficas. Geralmente, o backend padrão (default_backend()) é usado, que é seguro e adequado para a maioria dos casos.
+
+
+
+____    Assimetrica     _____
+biblioteca / gerar a Chave e iv( vetor de inicialização) / define o algoritimo, coloca a Chave o Vetor e o modo de operação / criptografa e descriptografa.
+
+
+
+
