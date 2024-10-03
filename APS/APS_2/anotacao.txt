@@ -44,8 +44,8 @@ Terá 2 telas =>
                 Feito isso, deve solicitar se deseja continuar para poder voltar na tela que permite escolher
                 uma das opções para os algoritmos implementados.
 
-                O programa deverá contemplar a possibilidade de cifragem de frases completas até o limite de 128 caracteres, e também a sua respectiva descriptografia. A frase
-                e eventual chave serão fornecidas no momento da execução. Nestes testes o grupo deverá demonstrar a eficiência do sistema ou cenário proposto.
+                O programa deverá contemplar a possibilidade de cifragem = (criptografai) de frases completas até o limite de 128 caracteres =  ( ) , e também a sua respectiva descriptografia.
+                A frase e eventual chave serão fornecidas no momento da execução. Nestes testes o grupo deverá demonstrar a eficiência do sistema ou cenário proposto.
 
 
 Excolher 2 algoritmos para fazer a criptografia. fazer 1 ex de cada algoritmo

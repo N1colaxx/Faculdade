@@ -23,7 +23,7 @@ def gerar_cartela():
         # (i + 1) * 5 => (0 + 1) * 5 = 5
 
         # a fatia sera-> numero[0:5] -> [23, 55, 89, 67, 12]
-        linha = numeros[i * 5:  (i + 1) * 5]
+        linha = numeros[ i * 5:  (i + 1) * 5 ]
 
         if i == 2:
             emo = random.choice(emoji_list)
