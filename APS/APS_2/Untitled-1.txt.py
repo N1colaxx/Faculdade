@@ -30,7 +30,7 @@ from Crypto.Random import get_random_bytes
 
 # Geração de chave e IV
 key = get_random_bytes(32)  # Chave de 256 bits
-iv = get_random_bytes(16)   # IV de 128 bits
+iv = get_random_bytes(16)   # IV de 128 bits 
 
 # Criptografando
 cipher = AES.new(key, AES.MODE_CBC, iv)
