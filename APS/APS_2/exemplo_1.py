@@ -66,7 +66,7 @@ def descriptografar_mensagem():
 def btn_voltar():
     label_mensagem_criptografada.config(text="")
     label_mensagem_descriptografada.config(text="")
-    frame_entrada.tkraise()
+    janela_des_cripto.tkraise()
     entrada_mensagem.delete(0, END)
 
 
@@ -109,7 +109,7 @@ botao_voltar = Button(janela_cripto, text='Voltar', command=btn_voltar)
 botao_voltar.pack(pady=10)
 
 # Mostrar a tela de entrada de mensagem primeiro
-frame_entrada.tkraise()
+janela_des_cripto.tkraise()
 
 # Iniciar o loop da janela
 janela.mainloop()
