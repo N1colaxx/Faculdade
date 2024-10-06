@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 import os
@@ -17,8 +18,12 @@ def criptografar_mensagem():
 
     mensagem = entrada_mensagem.get()
 
-    if not mensagem:
-        label_mensagem_criptografada.config(text="Por favor, digite uma mensagem.")
+    if not mensagem :
+        messagebox.showerror("ERRO.", "Por favor, digite uma mensagem.")
+        return
+    
+    if len(mensagem) > 128:
+        messagebox.showerror("ERRO", "A frase não pode exceder 128 caracteres.")
         return
 
     else:

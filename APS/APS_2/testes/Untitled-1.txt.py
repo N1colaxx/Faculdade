@@ -25,6 +25,7 @@
     # print('-='*20)
     # print("Texto descriptografado:", decrypted_text.decode())  # Decodificando para string
 
+
 from tkinter import *
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend

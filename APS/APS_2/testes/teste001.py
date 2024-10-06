@@ -57,7 +57,7 @@ label_input = tk.Label(root, text="Digite aqui:")
 label_input.pack(pady=5)
 
 # Entrada de texto destacada
-entry = tk.Entry(root, width=50, font=('Arial', 14), bd=3, relief="solid")
+entry = tk.Entry(root, width=50, font=('Arial', 10), bd=1, relief="solid")
 entry.pack(pady=10)
 
 # Botão de criptografia AES
