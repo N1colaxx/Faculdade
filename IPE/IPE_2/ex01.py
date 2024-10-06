@@ -9,8 +9,6 @@ def gerar_list_produto(n):
         produtos.append(produto)
     return produtos
 
-
-
 def gerar_produto(cod):
 
     nome = ('Produto {}'.format(cod))
@@ -37,13 +35,10 @@ def gerar_produto(cod):
         'ipi': round(ipi, 2)
     }
 
-
-
 def exibir_produtos(produtos):
     for produto in produtos:
         print('---'*20)
         print(produto)
-
 
 iniciar = gerar_list_produto(5)
 exibir_produtos(iniciar)

@@ -21,13 +21,16 @@ Algoritimos de Criptografia
 Observações:
 1) É obrigatório o uso de funções com passagem de parâmetros
 para criptografar e descriptografar.
+
 2) Terá acréscimo de meio ponto (0,5) para o sistema se usar
 também arquivos para armazenar dados de entrada e saída.
+
 3) Todos os elementos do grupo precisam saber explicar o uso
 de arquivos, funções, passagem de parâmetros,
 técnica/algoritmos implementados, entre outros detalhes de
 programação. Para isso aconselha-se que cada elemento do
 grupo desenvolva/programe uma parte do código.
+
 4) Relatórios fora do padrão, sem formatação correta, com
 pouco conteúdo e erros, SERÃO REPROVADO DIRETAMENTE
 sem nem mesmo apresentar para BANCA.

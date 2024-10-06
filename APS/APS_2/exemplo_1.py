@@ -8,7 +8,6 @@ from typing import Optional
 
 
 
-
 key: Optional[bytes] = None
 iv: Optional[bytes] = None
 mensagem_criptografada: Optional[bytes] = None
@@ -42,7 +41,7 @@ def criptografar_mensagem():
 
         # Mudando para a segunda t  ela e exibindo a mensagem criptografada
         label_mensagem_criptografada.config(text=f"Mensagem Criptografada ==> {mensagem_hex}")
-        janela_criptografada.tkraise()
+        janela_cripto.tkraise()
         botao_voltar.pack_forget() #deixa ele oculto
 
 
@@ -77,33 +76,36 @@ janela = Tk()
 janela.title("Criptografia de Mensagem")
 
 # Configuração da primeira
-frame_entrada = Frame(janela)
-frame_entrada.grid(row=0, column=0, sticky='news')
+janela_des_cripto = Frame(janela)
+janela_des_cripto.grid(row=0, column=0, sticky='news')
 
-label_orientacao = Label(frame_entrada, text="Digite uma mensagem para criptografar ", )
-label_orientacao.pack(pady=10)
+label_orientacao_j1= Label(janela_des_cripto, text="Digite uma mensagem para criptografar ", )
+label_orientacao_j1.pack(pady=10)
 
-entrada_mensagem = Entry(frame_entrada, width=40, bd=2, relief="solid" )
+entrada_mensagem = Entry(janela_des_cripto, width=40, bd=3, relief="solid" )
 entrada_mensagem.pack(pady=10)
 
-botao_criptografar = Button(frame_entrada, text="Criptografar", command=criptografar_mensagem)
+botao_criptografar = Button(janela_des_cripto, text="Criptografar", command=criptografar_mensagem)
 botao_criptografar.pack(pady=10)
 
 
 # Configuração da segunda tela
-janela_criptografada = Frame(janela)
-janela_criptografada.grid(row=0, column=0, sticky='news')
+janela_cripto = Frame(janela)
+janela_cripto.grid(row=0, column=0, sticky='news')
 
-label_mensagem_criptografada = Label(janela_criptografada, text="")
+label_orientacao_j2 = Label(janela_cripto, text="")
+label_orientacao_j2.pack(pady=10)
+
+label_mensagem_criptografada = Label(janela_cripto, text="")
 label_mensagem_criptografada.pack(pady=10)
 
-botao_descriptografar = Button(janela_criptografada, text="Descriptografar", command=descriptografar_mensagem)
+botao_descriptografar = Button(janela_cripto, text="Descriptografar", command=descriptografar_mensagem)
 botao_descriptografar.pack(pady=10)
 
-label_mensagem_descriptografada = Label(janela_criptografada, text="")
+label_mensagem_descriptografada = Label(janela_cripto, text="")
 label_mensagem_descriptografada.pack(pady=10)
 
-botao_voltar = Button(janela_criptografada, text='Voltar', command=btn_voltar)
+botao_voltar = Button(janela_cripto, text='Voltar', command=btn_voltar)
 botao_voltar.pack(pady=10)
 
 # Mostrar a tela de entrada de mensagem primeiro
