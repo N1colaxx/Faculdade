@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import padding
 import os
 from typing import Optional
 
@@ -33,12 +34,14 @@ def criptografar_mensagem():
         cipher = Cipher(algorithms.AES(key), modes.CFB(iv), backend=default_backend())
         encryptor = cipher.encryptor()
 
-        mensagem_bytes = mensagem.encode()      
-        mensagem_criptografada = encryptor.update(mensagem_bytes) + encryptor.finalize()
+        padder = padding.PKCS7(algorithms.AES.block_size).padder()
+        padded_data = padder.update(mensagem.encode()) + padder.finalize()
+
+        mensagem_criptografada = encryptor.update(padded_data) + encryptor.finalize()
         mensagem_hex = mensagem_criptografada.hex()
 
         # Mudando para a segunda t  ela e exibindo a mensagem criptografada
-        label_mensagem_criptografada.config(text=f"Mensagem Criptografada: {mensagem_hex}")
+        label_mensagem_criptografada.config(text=f"Mensagem Criptografada ==> {mensagem_hex}")
         janela_criptografada.tkraise()
         botao_voltar.pack_forget() #deixa ele oculto
 
@@ -51,9 +54,13 @@ def descriptografar_mensagem():
     des_encryptor = cipher.decryptor()
 
     mensagem_descriptografada = des_encryptor.update(mensagem_criptografada) + des_encryptor.finalize()
+
+    unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
+    mensagem_descriptografada = unpadder.update(mensagem_descriptografada) + unpadder.finalize()
+    
     clean_tex = mensagem_descriptografada.decode('utf-8')
 
-    label_mensagem_descriptografada.config(text=f"Mensagem Descriptografada: {clean_tex}")
+    label_mensagem_descriptografada.config(text=f"Mensagem Descriptografada ==> {clean_tex}")
 
     botao_voltar.pack(pady=10)
 
@@ -73,10 +80,10 @@ janela.title("Criptografia de Mensagem")
 frame_entrada = Frame(janela)
 frame_entrada.grid(row=0, column=0, sticky='news')
 
-label_orientacao = Label(frame_entrada, text="Digite uma mensagem para criptografar: ")
+label_orientacao = Label(frame_entrada, text="Digite uma mensagem para criptografar ", )
 label_orientacao.pack(pady=10)
 
-entrada_mensagem = Entry(frame_entrada, width=40)
+entrada_mensagem = Entry(frame_entrada, width=40, bd=2, relief="solid" )
 entrada_mensagem.pack(pady=10)
 
 botao_criptografar = Button(frame_entrada, text="Criptografar", command=criptografar_mensagem)
