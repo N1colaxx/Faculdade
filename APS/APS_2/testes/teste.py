@@ -104,3 +104,51 @@ frame_entrada.tkraise()
 
 # Iniciar o loop da janela
 janela.mainloop()
+
+
+#  Outro tipo de Algoritimo Cifra de Cigenere parecida com a de Cesar porem um oiuco mais forte
+# 
+# def cifra_vigenere(texto, chave):
+#     resultado = []
+#     chave_expandida = expandir_chave(texto, chave)
+#     for i in range(len(texto)):
+#         letra_texto = texto[i]
+#         letra_chave = chave_expandida[i]
+# 
+#         if letra_texto.isalpha():
+#             base = 65 if letra_texto.isupper() else 97
+#             deslocamento = (ord(letra_texto) + ord(letra_chave) - 2 * base) % 26
+#             resultado.append(chr(deslocamento + base))
+#         else:
+#             resultado.append(letra_texto)
+# 
+#     return ''.join(resultado)
+# 
+# 
+# def decifra_vigenere(texto, chave):
+#     resultado = []
+#     chave_expandida = expandir_chave(texto, chave)
+#     for i in range(len(texto)):
+#         letra_texto = texto[i]
+#         letra_chave = chave_expandida[i]
+# 
+#         if letra_texto.isalpha():
+#             base = 65 if letra_texto.isupper() else 97
+#             deslocamento = (ord(letra_texto) - ord(letra_chave)) % 26
+#             resultado.append(chr(deslocamento + base))
+#         else:
+#             resultado.append(letra_texto)
+# 
+#     return ''.join(resultado)
+# 
+# 
+# def expandir_chave(texto, chave):
+#     chave_expandida = []
+#     indice_chave = 0
+#     for i in range(len(texto)):
+#         if texto[i].isalpha():
+#             chave_expandida.append(chave[indice_chave % len(chave)])
+#             indice_chave += 1
+#         else:
+#             chave_expandida.append(texto[i])
+#     return ''.join(chave_expandida)
