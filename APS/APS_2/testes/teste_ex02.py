@@ -1,4 +1,6 @@
+import random
 import os
+
 
 
 # Função para criptografar usando a cifra de Vigenère
@@ -15,6 +17,12 @@ def vigenere_encrypt(plaintext, key):
         else:
             encrypted.append(char)  # Não altera caracteres não alfabéticos
     return ''.join(encrypted)
+
+
+def sub_espaco(text):
+    synbols = ['!','@',"#","&"]
+    text = text.replace(" ", random.choice(synbols))
+    return text
 
 
 # Função para descriptografar usando a cifra de Vigenère
@@ -56,29 +64,47 @@ def mostra_file_content(filename):
 
 # Função principal
 def main():
-    key = 'i love diks and the c#'
-    action = input("Digite 'c' para criptografar ou 'd' para descriptografar: ").lower().strip()
-
-    if action == 'c':
-        plaintext = input("Digite a frase a ser criptografada: ")
-        encrypted = vigenere_encrypt(plaintext, key)
-        print(f"Frase criptografada: {encrypted}")
-        save_to_file('Hitorico.txt', f"Criptografado: {encrypted}")
-
-    elif action == 'd':
-        print('-=-' * 50)
-        # Exibir o conteúdo do arquivo antes de descriptografar
-        mostra_file_content('Hitorico.txt')
-
-        ciphertext = input("Digite a frase a ser descriptografada: ")
-        decrypted = vigenere_decrypt(ciphertext, key)
-
-        # Não salva a descriptografia no arquivo
-        print(f"Frase descriptografada: {decrypted}")
+    continuar = 'S'
+    while continuar.upper() == 'S':
+        key = 'i love diks and the c#'
+        action = input("Digite 'c' para criptografar ou 'd' para descriptografar: ").lower().strip()
 
 
-    else:
-        print("Ação inválida!")
+        if action == 'c':
+            plaintext = input("Digite a frase a ser criptografada: ".replace("",''))
+            plaintext =  sub_espaco(plaintext)
+
+            encrypted = vigenere_encrypt(plaintext, key)
+            print(f"Frase criptografada: {encrypted}")
+            save_to_file('Hitorico.txt', f"Criptografado: {encrypted}")
+
+        elif action == 'd':
+            print('-=-' * 50)
+            # Exibir o conteúdo do arquivo antes de descriptografar
+            mostra_file_content('Hitorico.txt')
+
+            print('_-_' * 50)
+            ciphertext = input("Digite a frase a ser descriptografada: ")
+            decrypted = vigenere_decrypt(ciphertext, key)
+
+            # Não salva a descriptografia no arquivo
+            print('_-_'*50)
+            print(f"Frase descriptografada: {decrypted}")
+            print('_-_' * 50)
+
+        else:
+            print("Ação inválida!")
+
+        while True:
+            continuar = input("Quer continuar S/N? ").strip().upper()
+            if continuar == "S":
+                break
+            elif continuar == "N":
+                print("Ok, muito obg.")
+                exit()
+            else:
+                print("Opção Invalida!!")
+
 
 
 if __name__ == "__main__":
