@@ -1,23 +1,27 @@
 from tkinter import *
 from tkinter import messagebox
 
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import padding
-import os
 
-from typing import Optional
+abc = [
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' '  # Letras e espaço
+]
+
+# Correspondente de caracteres no array cod
+cod = [
+    '!', '@', '#', "'", '$', '%', '&', '(', ')', '+', '=', '§', '_', '-', '£', '¢', '¬', '.', ';', ':', '/',
+    '?', 'º', '^', '~', ']', '}', '[', '{', '<', '>', '|', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+    '`', '"', '*', ',', '\\', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', # Caracteres que correspondem às letras
+]
 
 
-
-key: Optional[bytes] = None
-iv: Optional[bytes] = None
-msg_cripto: Optional[bytes] = None
-
+key = 5
+msg_crip = ""
 
 def encrypt_msg():
-    global key, iv, msg_cripto
-
+    global msg_crip
+    list_caracter = []
+    shit = key
     msg = entrada_mensagem.get()
 
     if not msg:
@@ -28,45 +32,45 @@ def encrypt_msg():
         messagebox.showerror("ERRO", "A frase não pode exceder 128 caracteres.")
         return
 
-    else:
-        # Criptografando a mensagem
-        key = os.urandom(32)
-        iv = os.urandom(16)
+    for letra in msg:
+            if letra in abc:
+                i = (abc.index(letra) + shit) % len(abc)
+                nova_letra = cod[i]
+                list_caracter.append(nova_letra)
+    msg_crip = ''.join(list_caracter)
 
-        cipher = Cipher(algorithms.AES(key), modes.CFB(iv), backend=default_backend())
-        encryptor = cipher.encryptor()
+    #Mudando para a segunda tela e exibindo a mensagem criptografada
+    janela_des_cripto.pack_forget()  # Esconde a primeira tela
+    janela_cripto.pack(padx=10, pady=10)  # Exibe a segunda tela
 
-        padder = padding.PKCS7(algorithms.AES.block_size).padder()
-        padded_data = padder.update(msg.encode()) + padder.finalize()
+    label_orientacao_j2.config(text=f"Mensagem antes de Criptografar ==> {msg} ")
+    label_mensagem_criptografada.config(text=f"Mensagem Criptografada ==> {msg_crip} ")
 
-        msg_cripto = encryptor.update(padded_data) + encryptor.finalize()
-        msg_hex = msg_cripto.hex()
+    botao_voltar.pack_forget()  # Deixa o botão "Voltar" oculto até descriptografar
 
-        #Mudando para a segunda tela e exibindo a mensagem criptografada
-        janela_des_cripto.pack_forget()  # Esconde a primeira tela
-        janela_cripto.pack(padx=10, pady=10)  # Exibe a segunda tela
-
-        label_orientacao_j2.config(text=f"Mensagem antes de Criptografar ==> {msg} ")
-        label_mensagem_criptografada.config(text=f"Mensagem Criptografada ==> {msg_hex} ")
-
-        botao_voltar.pack_forget()  # Deixa o botão "Voltar" oculto até descriptografar
-
+    return msg_crip
 
 # Função para descriptografar a mensagem
 def decrypt_msg():
-    global key, iv, msg_cripto
+    global msg_crip
+    list_caracter = []
+    shit = key
 
-    cipher = Cipher(algorithms.AES(key), modes.CFB(iv), backend=default_backend())
-    des_encryptor = cipher.decryptor()
+    if msg_crip is None:
+        messagebox.showerror("ERRO", "Não há mensagem criptografada para descriptografar.")
+        botao_voltar.pack(pady=10)
+        return
 
-    msg_des_cripto = des_encryptor.update(msg_cripto) + des_encryptor.finalize()
 
-    unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
-    msg_des_cripto = unpadder.update(msg_des_cripto) + unpadder.finalize()
+    for letra in msg_crip:
+        if letra in cod:
+            i = (cod.index(letra) - shit) % len(cod)
+            nova_letra = abc[i] if i < len(abc) else ' '
+            list_caracter.append(nova_letra)
+    msg_des_crip = ''.join(list_caracter)
 
-    clean_tex = msg_des_cripto.decode('utf-8')
-    label_mensagem_descriptografada.config(text=f"Mensagem Descriptografada ==> {clean_tex} ")
 
+    label_mensagem_descriptografada.config(text=f"Mensagem Descriptografada ==> {msg_des_crip} ")
     botao_voltar.pack(pady=10)  # Mostra o botão "Voltar" após descriptografar
 
 
