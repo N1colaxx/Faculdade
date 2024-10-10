@@ -7,23 +7,25 @@ emoji_list = [
     ':rainbow:', ':balloon:', ':rocket:', ':trophy:', ':pizza:'
 ]
 
+        
 def gerar_cartela():
-    # Gera uma lista de números únicos entre 0 e 99
-    numeros = random.sample(range(100), 25)  # SEMPLE -> vai sorter os numeros, ai no 1 definimos o range = 0, 99 e depois o parametro para o sorteio q é 25
+    # Define os intervalos para cada coluna do bingo
+    colunas = {
+        0: list(range(1, 16)),    # Coluna B (1 a 15)
+        1: list(range(16, 31)),   # Coluna I (16 a 30)
+        2: list(range(31, 46)),   # Coluna N (31 a 45)
+        3: list(range(46, 61)),   # Coluna G (46 a 60)
+        4: list(range(61, 76))    # Coluna O (61 a 75)
+    }
+
     matriz_cartela = []
 
-    # Divide os 25 números em 5 linhas de 5 números
     for i in range(5):
-        # indeces ->      0   1    2   3   4  5   6   7   8  9  10  11  12  13 14  15  16  17  18  19  20  21  22  23  24
-        # ex-> numeros = [23, 55, 89, 67, 12, 3, 78, 45, 99, 4, 76, 51, 34, 9, 28, 33, 46, 61, 25, 80, 44, 30, 63, 74, 18]
-
-        # i*5 é o primeiro Indice
-        # (i + 1) *5 é p segundo indice
-        # i * 5 => 0 * 5 = 0
-        # (i + 1) * 5 => (0 + 1) * 5 = 5
-
-        # a fatia sera-> numero[0:5] -> [23, 55, 89, 67, 12]
-        linha = numeros[ i * 5:  (i + 1) * 5 ]
+        linha = []
+        for j in range(5):
+            numero = random.choice(colunas[j])  # Escolhe um número da coluna correspondente
+            colunas[j].remove(numero)  # Remove o número para evitar repetição
+            linha.append(numero)
 
         if i == 2:
             emo = random.choice(emoji_list)
