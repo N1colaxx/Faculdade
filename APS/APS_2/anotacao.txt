@@ -95,3 +95,5 @@ biblioteca / gerar a Chave e iv( vetor de inicialização) / define o algoritimo
 
 
 
+
+Referencial teorico 

@@ -36,7 +36,7 @@ def gerar_cartela():
     return matriz_cartela
 
 def exibir_cartela(cart):
-    print("Cartela de Bingo:")
+    print("Cartela de Binge:")
     print("=" * 25)
 
     for linha in cart: # linhas
