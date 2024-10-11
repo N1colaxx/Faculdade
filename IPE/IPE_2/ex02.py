@@ -3,7 +3,7 @@ import random
 from emoji  import emojize
 
 emoji_list = [
-     ':thumbs_up:', ':fire:', ':red_heart:', ':sun:', ':star:',
+     ':thumbs_up:', ':fire:', ':star:',
     ':rainbow:', ':balloon:', ':rocket:', ':trophy:', ':pizza:'
 ]
 
@@ -37,17 +37,17 @@ def gerar_cartela():
 
 def exibir_cartela(cart):
     print("Cartela de Binge:")
-    print("=" * 25)
+    print("=" * 29)
 
     for linha in cart: # linhas
         for num in linha:   # N° de cada linha
             if isinstance(num, str):
-                print(f"{num:^5}", end="  ")  # Centraliza a palavra 'Bingo' em 5 espaços
+                print(f"{num:>3}", end="  ")  # Centraliza a palavra 'Bingo' em 5 espaços
             else:
-                print(f"{num:3d}", end="  ")  # Formata os números para ocupar 2 espaços
+                print(f"{num:>4}", end="  ")  # Formata os números para ocupar 2 espaços
 
         print()  # Quebra de linha após cada linha da cartela
-    print("=" * 25)
+    print("=" * 29)
 
 # Gerar e exibir a cartela de bingo
 cartela = gerar_cartela()
