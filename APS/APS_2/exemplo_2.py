@@ -2,40 +2,47 @@ import random
 import os
 
 
-
 # Função para criptografar usando a cifra de Vigenère
 def vigenere_encrypt(plaintext, key):
     encrypted = []
     key_length = len(key)
-    for i, char in enumerate(plaintext):
+    key_index = 0  # Índice da chave
+    for char in plaintext:
         if char.isalpha():
-            shift = ord(key[i % key_length].lower()) - ord('a')
+            shift = ord(key[key_index % key_length].lower()) - ord('a')
             if char.islower():
                 encrypted.append(chr((ord(char) - ord('a') + shift) % 26 + ord('a')))
             else:
                 encrypted.append(chr((ord(char) - ord('A') + shift) % 26 + ord('A')))
+            key_index += 1  # Avança no índice da chave
         else:
             encrypted.append(char)  # Não altera caracteres não alfabéticos
     return ''.join(encrypted)
 
 
 def sub_espaco(text):
-    synbols = ['!','@',"#","&"]
+    synbols = ['!', '@', "#", "&"]
     text = text.replace(" ", random.choice(synbols))
     return text
+
+
+def restore_spaces(text, symbol):
+    return text.replace(symbol, ' ')
 
 
 # Função para descriptografar usando a cifra de Vigenère
 def vigenere_decrypt(ciphertext, key):
     decrypted = []
     key_length = len(key)
-    for i, char in enumerate(ciphertext):
+    key_index = 0  # Índice da chave
+    for char in ciphertext:
         if char.isalpha():
-            shift = ord(key[i % key_length].lower()) - ord('a')
+            shift = ord(key[key_index % key_length].lower()) - ord('a')
             if char.islower():
                 decrypted.append(chr((ord(char) - ord('a') - shift) % 26 + ord('a')))
             else:
                 decrypted.append(chr((ord(char) - ord('A') - shift) % 26 + ord('A')))
+            key_index += 1  # Avança no índice da chave
         else:
             decrypted.append(char)  # Não altera caracteres não alfabéticos
     return ''.join(decrypted)
@@ -43,7 +50,7 @@ def vigenere_decrypt(ciphertext, key):
 
 # Função para salvar os dados em um arquivo
 def save_to_file(filename, data):
-    with open(filename, 'a') as file:  # 'a' para adicionar ao final do arquivo
+    with open(filename, 'a') as file:
         file.write(data + '\n')
 
 
@@ -53,58 +60,57 @@ def mostra_file_content(filename):
         print("Conteúdo do arquivo (frases criptografadas):")
         with open(filename, 'r') as file:
             for line in file:
-                # Apenas exibe as linhas que contêm "Criptografado"
-                if "Criptografado" in line:
-                    print(line.strip())
+                print(line.strip())
     else:
         print("O arquivo não existe.")
-
-
 
 
 # Função principal
 def main():
     continuar = 'S'
     while continuar.upper() == 'S':
-        key = 'i love diks and the c#'
+        key = 'i love diks '
+        print('\n')
         action = input("Digite 'c' para criptografar ou 'd' para descriptografar: ").lower().strip()
 
-
         if action == 'c':
-            plaintext = input("Digite a frase a ser criptografada: ".replace("",''))
-            plaintext =  sub_espaco(plaintext)
+            print('- -' * 20)
+            plaintext = input("Digite a frase a ser criptografada: ").strip()
+            if not plaintext:
+                print("Frase não pode estar em branco!")
+                continue
 
+            plaintext = sub_espaco(plaintext)
             encrypted = vigenere_encrypt(plaintext, key)
+            print('- -' * 20)
             print(f"Frase criptografada: {encrypted}")
-            save_to_file('Hitorico.txt', f"Criptografado: {encrypted}")
+            save_to_file('Historico.txt', f"Criptografado: {encrypted}")
 
         elif action == 'd':
             print('-=-' * 50)
-            # Exibir o conteúdo do arquivo antes de descriptografar
-            mostra_file_content('Hitorico.txt')
-
+            mostra_file_content('Historico.txt')
             print('_-_' * 50)
-            ciphertext = input("Digite a frase a ser descriptografada: ")
+            ciphertext = input("Digite a frase a ser descriptografada: ").strip()
+            if not ciphertext:
+                print("Frase não pode estar em branco!")
+                continue
+
             decrypted = vigenere_decrypt(ciphertext, key)
+            # Restaura os espaços removidos
+            for symbol in ['!', '@', "#", "&"]:
+                decrypted = restore_spaces(decrypted, symbol)
 
-            # Não salva a descriptografia no arquivo
-            print('_-_'*50)
-            print(f"Frase descriptografada: {decrypted}")
             print('_-_' * 50)
+            print(f"Frase descriptografada: {decrypted}")
+            print('\n')
 
         else:
             print("Ação inválida!")
 
-        while True:
-            continuar = input("Quer continuar S/N? ").strip().upper()
-            if continuar == "S":
-                break
-            elif continuar == "N":
-                print("Ok, muito obg.")
-                exit()
-            else:
-                print("Opção Invalida!!")
-
+        continuar = input("Quer continuar S/N? ").strip().upper()
+        if continuar != "S":
+            print("Ok, muito obg.")
+            exit()
 
 
 if __name__ == "__main__":

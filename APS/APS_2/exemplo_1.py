@@ -39,6 +39,9 @@ def encrypt_msg():
                 list_caracter.append(nova_letra)
     msg_crip = ''.join(list_caracter)
 
+    # Mudar o título da janela para "Descriptografia das Mensagens"
+    janela.title("Descriptografia das Mensagens")
+
     #Mudando para a segunda tela e exibindo a mensagem criptografada
     janela_des_cripto.pack_forget()  # Esconde a primeira tela
     janela_cripto.pack(padx=10, pady=10)  # Exibe a segunda tela
@@ -75,6 +78,9 @@ def decrypt_msg():
 
 
 def btn_voltar():
+    # Mudar o título da janela de volta para "Criptografia das Mensagens"
+    janela.title("Criptografia das Mensagens")
+
     label_mensagem_criptografada.config(text="")
     label_mensagem_descriptografada.config(text="")
     janela_cripto.pack_forget()  # Esconde a segunda tela
@@ -84,7 +90,7 @@ def btn_voltar():
 
 # Criar a janela principal
 janela = Tk()
-janela.title("Criptografia de Mensagem")
+janela.title("Criptografia das Mensagem")
 
 
 # Configuração da primeira tela
