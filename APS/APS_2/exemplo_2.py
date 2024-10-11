@@ -79,6 +79,9 @@ def main():
             if not plaintext:
                 print("Frase não pode estar em branco!")
                 continue
+            if len(plaintext) > 128:
+                print('"ERRO"', "A frase não pode exceder 128 caracteres.")
+                continue
 
             plaintext = sub_espaco(plaintext)
             encrypted = vigenere_encrypt(plaintext, key)
