@@ -20,7 +20,7 @@ msg_crip = ""
 
 def encrypt_msg():
     global msg_crip
-    list_caracter = []
+    list_caracter = [] # recebe a frase emcriptada
     shit = key
     msg = entrada_mensagem.get()
 
@@ -34,8 +34,8 @@ def encrypt_msg():
 
     for letra in msg:
             if letra in abc:
-                i = (abc.index(letra) + shit) % len(abc)
-                nova_letra = cod[i]
+                i = (abc.index(letra) + shit) % len(abc) # .index -> para inteirar sobre cada letra da frase
+                nova_letra = cod[i] # cod[i] -> acessa a lista de COD e substitue a letra por um cod corespondente.
                 list_caracter.append(nova_letra)
     msg_crip = ''.join(list_caracter)
 
@@ -68,8 +68,14 @@ def decrypt_msg():
     for letra in msg_crip:
         if letra in cod:
             i = (cod.index(letra) - shit) % len(cod)
-            nova_letra = abc[i] if i < len(abc) else ' '
-            list_caracter.append(nova_letra)
+
+            if i < len(abc): # Verifica se i é um índice válido em abc
+                nova_letra = abc[i]
+            else:
+                nova_letra = " "
+        else:
+            nova_letra = letra  # Se o caractere não estiver em cod, mantém o caractere original
+        list_caracter.append(nova_letra)
     msg_des_crip = ''.join(list_caracter)
 
 
