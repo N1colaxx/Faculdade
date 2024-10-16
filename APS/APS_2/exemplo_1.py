@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 
+# Listas de caracteres para criptografia e descriptografia
 abc = [
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w',
     'x', 'y', 'z',
@@ -14,15 +15,15 @@ cod = [
     '`', '"', '*', ',', '\\', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'
 ]
 
-msg_crip = ""
+msg_crip = ""  # Mensagem criptografada global
 
 
 def encrypt_msg():
-    global msg_crip
+    global msg_crip  # Acessa a variável global para armazenar a mensagem criptografada
     list_caracter = []
-    msg = entrada_mensagem.get()
+    msg = entrada_mensagem.get()  # Obtém a mensagem da entrada
 
-    try: # verifica a entrada da Key
+    try:
         key = int(entrada_key.get())  # Obtém a chave inserida pelo usuário
     except ValueError:
         messagebox.showerror("ERRO", "Por favor, confira se o campo CHAVE está preenchido e se a chave digitada é numérica.")
@@ -36,30 +37,32 @@ def encrypt_msg():
         messagebox.showerror("ERRO", "A frase não pode exceder 128 caracteres.")
         return
 
+    # Criptografia da mensagem
     for letra in msg:
         if letra in abc:
             i = (abc.index(letra) + key) % len(abc)
-            nova_letra = cod[i]
+            nova_letra = cod[i]  # Converte a letra para o símbolo correspondente
             list_caracter.append(nova_letra)
-    msg_crip = ''.join(list_caracter)
 
-    janela.title("Descriptografia das Mensagens")
+    msg_crip = ''.join(list_caracter)  # Junta os caracteres criptografados em uma string
 
-    janela_des_cripto.pack_forget() # Esconde a primeira tela
-    janela_cripto.pack(padx=10, pady=10)    # Exibe a segunda tela
+    janela.title("Descriptografia das Mensagens")  # Altera o título da janela
+    janela_des_cripto.pack_forget()  # Esconde a primeira tela
+    janela_cripto.pack(padx=10, pady=10)  # Exibe a segunda tela
 
+    # Atualiza as labels com as mensagens
     label_orientacao_j2.config(text=f"Mensagem antes de Criptografar ==> {msg}")
     label_mensagem_criptografada.config(text=f"Mensagem Criptografada ==> {msg_crip}")
 
-    botao_voltar.pack_forget()  # Deixa o botão "Voltar" oculto até descriptografar
+    botao_voltar.pack_forget()  # Esconde o botão "Voltar" até que a descriptografia ocorra
 
 
 def decrypt_msg():
-    global msg_crip
+    global msg_crip  # Acessa a variável global da mensagem criptografada
     list_caracter = []
 
     try:
-        key = int(entrada_key.get())  # Usa a chave inserida pelo usuário para descriptografar
+        key = int(entrada_key.get())  # Usa a chave inserida para descriptografar
     except ValueError:
         messagebox.showerror("ERRO", "Chave inválida.")
         return
@@ -68,28 +71,34 @@ def decrypt_msg():
         messagebox.showerror("ERRO", "Não há mensagem criptografada para descriptografar.")
         return
 
+    # Descriptografia da mensagem
     for letra in msg_crip:
         if letra in cod:
-            i = (cod.index(letra) - key) % len(cod)
-            nova_letra = abc[i]  # não precisa da verificação aqui, já que i é garantido para ser válido
+            i = (cod.index(letra) - key) % len(cod)  # Corrige a indexação usando a chave
+            if i < len(abc):
+                nova_letra = abc[i]  # Converte de volta para a letra correspondente
+            else:
+                nova_letra = " "  # Se o índice não for válido, adiciona um espaço
         else:
-            nova_letra = letra
+            nova_letra = letra  # Se não estiver na lista de codificação, mantém o caractere original
         list_caracter.append(nova_letra)
 
-    msg_des_crip = ''.join(list_caracter)
+    msg_des_crip = ''.join(list_caracter)  # Junta os caracteres descriptografados
 
+    # Atualiza a label com a mensagem descriptografada
     label_mensagem_descriptografada.config(text=f"Mensagem Descriptografada ==> {msg_des_crip}")
-    botao_voltar.pack(pady=10)
+    botao_voltar.pack(pady=10)  # Exibe o botão "Voltar"
 
 
 def btn_voltar():
+    # Função para voltar à tela inicial
     janela.title("Criptografia das Mensagens")
     label_mensagem_criptografada.config(text="")
     label_mensagem_descriptografada.config(text="")
-    janela_cripto.pack_forget()
-    janela_des_cripto.pack(padx=10, pady=10)
-    entrada_mensagem.delete(0, END)
-    entrada_key.delete(0, END)
+    janela_cripto.pack_forget()  # Esconde a tela de criptografia
+    janela_des_cripto.pack(padx=10, pady=10)  # Volta para a tela inicial
+    entrada_mensagem.delete(0, END)  # Limpa o campo de mensagem
+    entrada_key.delete(0, END)  # Limpa o campo da chave
 
 
 # Criar a janela principal
@@ -134,7 +143,6 @@ label_mensagem_descriptografada.pack(pady=10)
 botao_voltar = Button(janela_cripto, text='Voltar', command=btn_voltar)
 botao_voltar.pack(pady=10)
 
-janela_des_cripto.tkraise()
+janela_des_cripto.tkraise()  # Levanta a tela inicial
 
-janela.mainloop()
-
+janela.mainloop()  # Inicia o loop da aplicação
