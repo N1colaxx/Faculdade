@@ -40,5 +40,55 @@ def exibir_produtos(produtos):
         print('---'*20)
         print(produto)
 
-iniciar = gerar_list_produto(5)
+def encontrar_maiores_menores(pro):
+    # Produto com maior e menor preço de venda
+    produto_maior_preco = max(pro, key=lambda x: x['preco_venda'])
+    produto_menor_preco = min(pro, key=lambda x: x['preco_venda'])
+
+    # Produto com maior e menor estoque
+    produto_maior_estoque = max(pro, key=lambda x: x['estoque'])
+    produto_menor_estoque = min(pro, key=lambda x: x['estoque'])
+
+    # Produto com maior e menor ICMS (maior ICMS > 0)
+    produto_maior_icms = max(pro, key=lambda x: x['icms'])
+    produto_menor_icms = min([p for p in pro if p['icms'] > 0], key=lambda x: x['icms'])
+
+    # Produto com maior e menor lucro
+    produto_maior_lucro = max(pro, key=lambda x: x['preco_venda'] - x['preco_custo'])
+    produto_menor_lucro = min(pro, key=lambda x: x['preco_venda'] - x['preco_custo'])
+
+    return {
+        'maior_preco': produto_maior_preco,
+        'menor_preco': produto_menor_preco,
+        'maior_estoque': produto_maior_estoque,
+        'menor_estoque': produto_menor_estoque,
+        'maior_icms': produto_maior_icms,
+        'menor_icms': produto_menor_icms,
+        'maior_lucro': produto_maior_lucro,
+        'menor_lucro': produto_menor_lucro
+    }
+
+def exibir_tabela(resultados):
+    print(f"{'Descrição':<30} | {'Produto':<25} | {'Valor':>12}")
+    print('-' * 70)
+    print(f"Produto de maior preço      | {resultados['maior_preco']['nome']:<25} |  R$ {resultados['maior_preco']['preco_venda']:>5.2f}")
+    print(f"Produto de menor preço      | {resultados['menor_preco']['nome']:<25} |  R$ {resultados['menor_preco']['preco_venda']:>5.2f}")
+    print(f"Produto de maior estoque    | {resultados['maior_estoque']['nome']:<25} |  {resultados['maior_estoque']['estoque']:>5}")
+    print(f"Produto de menor estoque    | {resultados['menor_estoque']['nome']:<25} |  {resultados['menor_estoque']['estoque']:>5}")
+    print(f"Produto de maior ICMS       | {resultados['maior_icms']['nome']:<25} |  {resultados['maior_icms']['icms']:>5.2f}%")
+    print(f"Produto de menor ICMS > 0   | {resultados['menor_icms']['nome']:<25} |  {resultados['menor_icms']['icms']:>5.2f}%")
+    print(f"Produto de maior lucro      | {resultados['maior_lucro']['nome']:<25} |  R$ {round(resultados['maior_lucro']['preco_venda'] - resultados['maior_lucro']['preco_custo'], 2):>5.2f}")
+    print(f"Produto de menor lucro      | {resultados['menor_lucro']['nome']:<25} |  R$ {round(resultados['menor_lucro']['preco_venda'] - resultados['menor_lucro']['preco_custo'], 2):>5.2f}")
+
+# Gerar a lista de produtos
+produtos = gerar_list_produto(10)
+
+# Encontrar os produtos com maiores e menores valores
+resultados = encontrar_maiores_menores(produtos)
+
+
+iniciar = produtos
+
 exibir_produtos(iniciar)
+print('\n\n')
+exibir_tabela(resultados)

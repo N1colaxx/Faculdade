@@ -8,7 +8,7 @@ from tkinter import messagebox
 def vigenere_encrypt(plaintext, key):
     encrypted = []
     key_length = len(key)
-    key_index = 0
+    key_index = 0  # intera sobre cada char
 
     for char in plaintext:
         if char.isalpha():
