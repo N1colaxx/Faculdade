@@ -52,22 +52,22 @@ body {
 
 
 .front1 {
-    background-image: url('/criadores/assets/foto/ni2.jpg') ;
+    background-image: url('/APS/APS_1/criadores/assets/foto/ni2.jpg') ;
     background-size: cover; /* para ajustar a imagem ao tamanho da div */
     /* background-position: center; */
 }
 .front2 {
-    background-image: url('/criadores/assets/foto/l2.jpg') ;
+    background-image: url('/APS/APS_1/criadores/assets/foto/l2.jpg') ;
     background-size: cover; /* para ajustar a imagem ao tamanho da div */
     /* background-position: center; */
 }
 .front3 {
-    background-image: url('/criadores/assets/foto/F.jpg') ;
+    background-image: url('/APS/APS_1/criadores/assets/foto/F.jpg') ;
     background-size: cover; /* para ajustar a imagem ao tamanho da div */
     /* background-position: center; */
 }
 .front4 {
-    background-image: url('/criadores/assets/foto/S.jpg') ;
+    background-image: url('/APS/APS_1/criadores/assets/foto/S.jpg') ;
     background-size: cover; /* para ajustar a imagem ao tamanho da div */
     /* background-position: center; */
 }
