@@ -1,0 +1,27 @@
+
+
+
+1. Modelo Hierárquico ou de Árvore
+    Esse modelo apresenta uma relação hierárquica entre os dados, semelhante à relação de pai e filho.
+
+    O pai pode ter vários filhos, mas cada filho pode ter apenas um pai.
+    Representa bem a relação 1 para N (um para muitos).
+    Exemplo: Organograma empresarial.
+
+
+2.  Modelo em Rede
+    Esse modelo é uma extensão do hierárquico, com maior flexibilidade.
+
+    Não se limita à relação 1 para N, permitindo também a relação N para N (muitos para muitos).
+    Utiliza a estrutura membro-proprietário, onde um membro pode pertencer a vários proprietários.
+    Exemplo: Sistema de gestão acadêmica, onde um aluno pode estar matriculado em vários cursos e cada curso pode ter muitos alunos.
+
+3. Modelo Relacional 
+    Esse modelo organiza os dados em um formato tabular, onde os dados são armazenados em tabelas bidimensionais.
+
+    A base de dados é visualizada como um conjunto de tabelas (ou relações).
+    Cada tabela representa uma entidade, e os relacionamentos entre elas são definidos pelos valores dos dados (chaves primárias e estrangeiras).
+    As tabelas consistem em:
+    Linhas (tuplas): Representam registros individuais.
+    Colunas (atributos): Representam as propriedades ou características dos registros.
+    Simetria nas consultas: As operações sobre os dados são baseadas em uma linguagem padronizada, geralmente SQL (Structured Query Language).
