@@ -1,0 +1,113 @@
+Chave Candidata:
+    São todos os atributos (ou combinações de atributos) que podem identificar unicamente, cada registro em uma tabela.
+
+    Exemplo: Em uma tabela de clientes, tanto o CPF quanto o e-mail podem ser chaves candidatas, pois ambos identificam registros únicos.
+
+Chave Primária:
+    É a chave candidata escolhida para ser o identificador principal da tabela.
+
+    Ela não pode ter valores duplicados nem nulos.
+    Exemplo: Se você escolhe o CPF como chave primária, ele será o identificador único de cada cliente.
+
+Chave Estrangeira:
+    É um atributo em uma tabela que faz referência à chave primária de outra tabela, criando uma relação entre elas.
+
+    Exemplo: Em uma tabela de pedidos, o campo cliente_cpf pode ser uma chave estrangeira que referencia o CPF da tabela de clientes.
+    Assim, quando você define uma chave estrangeira, normalmente ela se conecta à chave primária da outra tabela para garantir a integridade referencial.
+
+
+Entidade = uma Tabela
+Atributo = uma Coluna
+    atributo simples -> armazena um unico valor indivisivel 
+    atributo composto -> pode ser dividido em partes menores com significados próprios 
+    atributo derivado -> obtido a partir de outros atributos
+    atributo chave -> identifica de forma unica uma instância de uma entidade 
+    atributo nulo -> quando um valor pode não existir para determinado atributo
+    atributo armazenado -> contem valores que não são derivados e precisam ser explicamente armazenados
+Ocorrência = uma Linha
+
+Mapeamento de Entidades:
+    Para cada entidade deve ser criada uma relação (tabela)
+    Para cada atributo SIMPLES incluir uma coluna
+    No atributo COMPOSTO, incluir atributos simples que o compõe (Endereço)
+
+Mapeamento de Atributos Multivalorados:
+
+    Para cada atributo mult/ deve ser criado uma tabela pela chave primaria da tabela/entidade e pelo atributo mult/
+    A chave primaria da nova tabela sera o par de Atributos
+    se o atributo mult/ 
+
+Mapeamento de Relacionamentos
+    Um relacionamento pode se transformar em:
+        - Uma tabela
+        - Uma coluna de uma das tabelas envolvidas
+        - Fusão de duas tabelas 
+
+    Isso dependendo da cardinalidade minima e maxima dos Relacionamentos
+    No caso da FUSÂO devemos considerar também outros relacionamentos da entidade
+
+
+Relacionamentos Binarios - Um para um    
+
+    Nesse relacionamento ambas entidade têm participação opcional
+
+    cpf,nome          data,regime            cpf,nome 
+    (HOMEM)     0,1     {casamento}     0,1     (MULHER) 
+
+    - Adição de colunas = MELHOR -> pois tem menor n° de junções e de chaves
+        Mulher (identM,nome,identH,data,rgime)
+        HOMEM (identH,nome)
+
+    - Tabela própria = ACEITAVEL 
+        Mulher (identM,nome) 
+        HOMEM   (identH,nome)
+        casamento   (identM,identH,data,regime)
+
+    - Fusão de tabelas = INVIAVEL -> pois a chave primaria artificial [ja que n pode estar completa]
+        casamento (identM,identH,data,regime,nomeM,nomeH)
+
+Implementação de Relacionamentos 1:1 
+    Nesse   relacionamento a participação opconal/obrigatoria
+
+    codigo,nome                             codigo,dataExp
+    (correntista)   1,1     {}      0,1     (Cartão magnetico)
+
+    - Fusão de tabelas
+        Correntista (codCorrent,Nome,codCartão,dataExp)
+
+    - Adição de colunas
+        Correntista (codCorrent,Nome)
+        Cartão  (codCartão,dataExp,codCorrent) 
+
+
+    Adição de colunas "versus" fusão de tabelas
+        - Fusão de tabelas é melhor em termos de número de 
+    junções e número de chaves
+        - Adicão de colunas é melhor em termos de campos 
+    opcionais
+        - Fusão de tabelas é considerada a melhor e adição de 
+    colunas é aceitáve
+
+Relacionamentos Binarios - Um para Muitos 
+    Nele já tem 2 tabelas, uma para cada conjunto de entidades do relacionamento.
+    Ai incluimos a chave estrangeira, na tabela do muitos(N), a chave primaria do "lado um"
+    Incluir tbm colunas de atributos
+
+    codigo,nome                dataLotação              codigo,nome
+    (departamento)      1,1     {lotação}       0,N     (empregado)
+
+    Departamento (codDep,Nome)
+    Empregado   (codEmp,Nome,codDep,dataLota)
+
+
+Relacionamentos Binarios - Muitos para Muitos
+    Ja temos 2 tabelas, uma para cada entidade.
+    Ai cria uma nova tabela contendo, como chave estrangeira, as chaves primarias (A combinação dessas chaves estrangeiras forma a chave primaria da nova tabela) 
+    Incluir tbm colunas com atributos
+
+    codigo,nome                   função                condigo,titulo
+    (engennheiro)       0,N     {atuação}      0,N      (projeto)
+
+    Engennheiro (codEng,Nome)
+    Projeto (codProj,Nome)
+    Atuação (codEng,codProj,função)
