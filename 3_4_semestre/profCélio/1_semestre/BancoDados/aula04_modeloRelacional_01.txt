@@ -27,21 +27,23 @@ Atributo = uma Coluna
 Ocorrência = uma Linha
 
 Mapeamento de Entidades:
-    Para cada entidade deve ser criada uma relação (tabela)
-    Para cada atributo SIMPLES incluir uma coluna
-    No atributo COMPOSTO, incluir atributos simples que o compõe (Endereço)
+    Cada entidade deve ser criada uma tabela, onde:
+        - Atributo SIMPLES viram colunas
+        - No atributo COMPOSTO, são divididos em suas partes, ex:
+        "Endereço" pode virar "Rua", "Número", "Cidade", etc.
 
 Mapeamento de Atributos Multivalorados:
-
-    Para cada atributo mult/ deve ser criado uma tabela pela chave primaria da tabela/entidade e pelo atributo mult/
-    A chave primaria da nova tabela sera o par de Atributos
-    se o atributo mult/ 
+    Para atributos que podem te multiplos valores:
+        - criamos uma nova tabela contendo:
+            -- A chave primaria de entidade original.
+            -- O atributo multivalorado
+        - A chave prima dessa nova tabela será a combinação desses dois atributos.
 
 Mapeamento de Relacionamentos
-    Um relacionamento pode se transformar em:
-        - Uma tabela
-        - Uma coluna de uma das tabelas envolvidas
-        - Fusão de duas tabelas 
+    Um relacionamento dependendo da CARDINALIDADE, pode se transformar em:
+        - Uma tabela (para relacionamento N:N)
+        - Uma coluna em uma das tabelas envolvidas (1:N ou 1:1)
+        - Fusão de duas tabelas, considerando outros relacionamentos da entidade 
 
     Isso dependendo da cardinalidade minima e maxima dos Relacionamentos
     No caso da FUSÂO devemos considerar também outros relacionamentos da entidade
