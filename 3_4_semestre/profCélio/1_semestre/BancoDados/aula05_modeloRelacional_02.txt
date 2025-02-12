@@ -1,1 +1,213 @@
 lista de ex DRE. Vai na pasta de Diagramas
+
+
+1º Lista de Exercícios de Modelagem de Banco
+
+
+ex_1:
+    Sem usar atributos opcionais, nem atributos multivalorados, construa um DER com as mesmas 
+    informações do diagrama abaixo, mas agora, considere que o funcionário poderá exercer várias funções 
+    diferentes na empresa. Coloque atributos em entidades, defina a Chave primária, represente a 
+    cardinalidade e por fim construa o DER.  
+    Funcionário 
+    código
+    nome 
+    Função 
+
+ex_2 ORGANIZADOR DE DVDs
+    Um organizador eletrônico de DVDs, mantém cadastrados, títulos de filmes, onde para cada filme é 
+    registrado seu número, título, duração, ano e gênero (Drama, Aventura, Musical, .., etc). Uma lista de 
+    atores está relacionada a cada filme e de cada um desses atores, espera-se encontrar o nome, código de 
+    cadastro, data de nascimento, sexo e nacionalidade. Todo filme é produzido por uma produtora. De cada 
+    produtora são relevantes o nome, sua localização, um número de telefone e outro de fax. 
+
+ex_3 LOJA DE PRODUTOS ELETRÔNICOS
+    A loja possui um cadastro de clientes, onde destes é guardado o n° de CPF, nome, idade, estado 
+    civil e até três números de telefone, onde cada número de telefone pode estar relacionado a vários clientes 
+    diferentes. Os clientes são identificados por seu CPF. De cada produto da loja é guardado seu código de 
+    barras, descrição, valor de venda, valor de compra e a quantidade em estoque. Para cada compra, que só 
+    pode ser realizada por um cliente, registra-se o número da compra, a data, valor, produtos e quantidade de 
+    cada produto. Em cada compra, o cliente pode adquirir vários produtos diferentes em quantidades 
+    diferentes. 
+
+ex_4 CONFEITARIA.
+    A função de uma confeitaria está basicamente relacionada a produção de bolos, pães, doces, .., etc. 
+    Para simplificar e evitar enganos, a confeitaria quer se organizar internamente, de forma que tenha 
+    informações como: descrição do produto, valor do produto, descrição e quantidade dos ingredientes em 
+    cada produto, onde cada ingrediente se distingue por um código e que é diferente para cada tipo de 
+    Página 2 de 3
+    embalagem (unidade) do ingrediente. Cada ingrediente é fornecido por um ou vários fornecedores, cada 
+    fornecedor pode fornecer o ingrediente com um preço diferente. O preço cobrado por cada fornecedor 
+    para cada ingrediente é de fundamental importância para a confeitaria. Do fornecedor dados como CNPJ, 
+    nome, endereço, cidade, contato e telefones devem ser registrados. 
+    (4b) Amplie o modelo acima para aceitar encomendas dos clientes. Obs: deverá ser incluído um controle 
+    dos clientes da confeitaria. O cliente não faz encomendas personalizadas, ou seja, só consegue 
+    encomendar um produto da lista fornecida pela confeitaria. 
+
+ex_5 LIGA DE FUTEBOL
+    Cada time é composto por 22 jogadores e um técnico, mais um nome único de time, símbolo e 
+    cores predominantes. Cada jogador tem um registro único, nome, apelido, idade e número da camisa que 
+    veste no time. Os técnicos além de nome, data de nascimento e endereço, possuem também um número 
+    de treinador obtido na federação esportiva. É necessário a cada jogo registrar os times que jogaram, 
+    data, estádio, gols do time da casa e gols do visitante. 
+
+ex_6 BIBLIOTECA
+    Uma biblioteca tem um grande número de usuários que possuem nome, cpf, escolaridade, um 
+    número de telefone para contato, endereço e um número máximo de exemplares que podem estar 
+    emprestados para ele. Cada funcionário da biblioteca possui um nome, salário, formação, endereço e um 
+    número de registro. Os livros possuem código de ISBN, título, editora, autor, resenha e classificação 
+    (romance, terror, .., etc), além disso, cada livro tem um certo número de dias que pode permanecer 
+    emprestado para o usuário. Os funcionários concedem os empréstimos dos exemplares do livro para os 
+    usuários. Cada livro pode ter vários exemplares, mas cada exemplar está associado a apenas um livro. 
+    Obs: O usuário empresta exemplar e não livro. 
+
+ex_7 ESCOLA JARDIM
+    A “Turminha Curumim” é uma rede de escolas infantis em tempo integral, que aceitam crianças de 
+    dois a cinco anos e está situada em mais de 20 cidades brasileiras. Todos os anos, a cada dia de aula, cada 
+    unidade da rede faz um completo gerenciamento de tudo que ocorre na unidade (nos termos da educação), 
+    a fim de registrar no servidor de dados do escritório central. Os dados dos anos anteriores são mantidos 
+    para possíveis consultas futuras, ou seja, nenhum registro é apagado. Obs. As unidades utilizam somente 
+    o banco de dados on-line. 
+    Os professores podem lecionar em qualquer uma das escolas, porém, em apenas uma a cada 
+    semestre. Para efeito de contato, a escola mantém um cadastro com endereço completo (uf, cidade, bairro, 
+    Página 3 de 3
+    rua, numero e complemento), telefones fixo, celular e voip, e-mail, sexo, data de nascimento e qualquer 
+    outro dado que possa ser relevante. 
+    Das crianças, o cadastro deve ser mais completo, incluindo informações sobre seu quadro de saúde 
+    física e mental. Algumas crianças possuem mais de uma “doença ou deficiência”. Tais crianças podem ter 
+    a necessidade de tomar alguns remédios, que serão ministrados de acordo com a sugestão médica. 
+    Também deve ser considerado que crianças sem necessidades especiais podem vir a tomar remédios ou 
+    suplementos durante algum período (todos sob receita médica). Alunos com necessidades especiais 
+    participam regularmente das atividades junto às outras crianças, mas além destas, podem participar de 
+    outras atividades no setor de fisioterapia, tais como: brincadeiras na piscina, natação, mergulho, 
+    exercícios de recuperação dos músculos das pernas, braços e até mesmo fonoaudiologia. Tais atividades 
+    são agendadas especificamente à criança portadora da necessidade. 
+    Toda criança tem um armário para o professor guardar objetos e remédios pertencentes à criança. 
+    Obs. O acesso ao armário se faz por meio do professor. Os armários seguem uma numeração seqüencial e 
+    tanto a criança pode mudar de armário, como o armário mudar de dono, mas, ainda assim, para cada 
+    armário, a escola manterá um histórico de usuários com o período de uso de cada um destes usuários. 
+    Mesmo crianças especiais não terão direito a armários extras, sendo que um armário não é utilizado por 
+    mais de uma criança ao mesmo tempo. 
+    As crianças são separadas em turminhas de atividades gerais, que devem ser formadas por no 
+    máximo vinte crianças e um mínimo de cinco, tenta-se balancear o número de crianças nas turmas. Cada 
+    turma tem um único professor responsável que regularmente a acompanha em todas as atividades, porém, 
+    esporadicamente, outros professores podem substituir um professor, assumindo sua turma, seja por um 
+    curto período (algumas horas) ou até mesmo por alguns meses. 
+    Para a criança que sai da escola fora do horário da turma, é gerado um registro com o motivo da 
+    saída, quem a buscou e hora da saída. A pessoa que busca uma criança nesta condição deve estar 
+    cadastrada e autorizada pelo responsável (caso a pessoa não o seja). Logo, além do cadastro de pessoas 
+    autorizadas, se faz necessário ter o cadastro dos pais ou responsável pela guarda da criança. 
+    Todos os dias os professores de cada turma escolhem as atividades a exercer dentro de um cadastro 
+    de atividades permitidas por lei. As atividades possuem diferentes tempos de duração e dentre essas, 
+    existem atividades que não devem ser praticadas por algumas turmas, portanto, nem toda atividade 
+    cadastrada poderá ser praticada por uma turma. 
+    As atividades podem requerer algum brinquedo ou acessório para ser praticado, quando se fizer 
+    necessário o uso, antes, deve-se verificar se há quantidade disponível suficiente para a prática de todas as 
+    crianças da turma.
+
+
+
+Aqui vou ir lendo e colocar + ou - como estou entendo pra depois montar o DER. (n sig q vai ser o DER fina, so um guia tlg)
+
+
+ex_3 
+    Clientes:
+        -   CPF (PK)
+        -   Nome
+        -   idade
+        -   estadoCivil
+        -   telefone (tem ate 3 n°, onde cada número de telefone pode estar relacionado a vários clientes diferentes )
+
+        Produto:
+            -   ID (PK)
+            -   codigoBarra
+            -   descrição
+            -   valorVenda
+            -   valorCompra (Para cada compra, que só pode ser realizada por um cliente, registra-se o número da compra, a data, valor, produtos e quantidade de cada produto.)
+            -   emEstoque
+
+
+ex_4 
+
+    Produto:
+        ID (PK)
+        nome
+        descProduto
+        valor 
+        dataFabricacao
+        dataValidade
+        status
+
+    Ingrediente em Produto
+        ID (pk)
+        IDproduto (FK)
+        IDingrediente (FK)
+        quantida (quantidade do Ingrediente no produto)
+        unidade (indicar a unidade de medida, como gramas, ml, etc.)
+        
+    Ingrediente
+        ID (PK)
+        nome
+        descrição
+        quantidade
+        IDembalagem (FK)
+
+    Embalagem   
+        ID (PK)
+        tipo
+        valor
+
+
+    fornecedores    
+        ID (PK)
+        CNPJ
+        nomeendereço
+        cidade
+        contato
+        telefone
+
+    Produto fornecedor
+        ID (PK)
+        IDfornecedor (FK)
+        nome
+        valor 
+
+
+    Emcomendas
+        ID (PK)
+        data
+        IDcliente
+    
+    Pedido
+        ID (PK)
+        IDencomenda (FK) 
+        valorFinal
+
+    Itens
+        ID (PK)
+        IDpedido (PK)
+        IDproduto (PK)
+            nome
+            valor
+        quantidade
+        
+
+    Cliente
+        ID (PK)
+        nome
+        idade
+        sexo
+        IDendereço (FK)
+        
+    Endereço
+        ID (PK)
+        cep
+        Cidade
+        Rua
+        bairro
+        NumeroCasa
+        complemento 
+
+    
+
+
