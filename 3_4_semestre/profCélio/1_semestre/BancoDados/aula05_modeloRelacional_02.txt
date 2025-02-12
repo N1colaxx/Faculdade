@@ -133,23 +133,24 @@ ex_4
         ID (PK)
         nome
         descProduto
-        valor 
+        valorVenda
         dataFabricacao
         dataValidade
+        IDingredienteEmProduto (FK)
+        quantidadeEmEstoque
         status
 
     Ingrediente em Produto
         ID (pk)
-        IDproduto (FK)
         IDingrediente (FK)
-        quantidade (quantidade do Ingrediente no produto)
-        unidade (indicar a unidade de medida, como gramas, ml, etc.)
-        
+        quantidadeUsada (quantidade do Ingrediente no produto)
+
     Ingrediente
         ID (PK)
         nome
         descrição
-        quantidade
+        quantidadeEmEstoque
+        unidade
         IDembalagem (FK)
 
     Embalagem   
@@ -162,10 +163,8 @@ ex_4
         ID (PK)
         CNPJ
         nome
-        endereço
-        cidade
-        contato
-        telefone
+        IDendereço (FK)
+        IDtelefone (FK)
 
     Produto fornecedor
         ID (PK)
@@ -173,22 +172,23 @@ ex_4
         nome
         valor 
 
+    Telefone
+        ID (PK)
+        DDD
+        numero
+        tipo (comercial, whatsapp, ...)
+        nome (isso é opcional)
 
     Emcomendas
         ID (PK)
         data
-        IDcliente
-    
-    Pedido
-        ID (PK)
-        IDencomenda (FK) 
-
+        IDcliente (FK)
+ 
     Itens
         ID (PK)
-        IDpedido (FK)
+        IDencomenda (FK)
         IDproduto (FK)
         quantidade
-        valorUnitario
         valorTotal
         
 
@@ -205,7 +205,7 @@ ex_4
         Cidade
         Rua
         bairro
-        NumeroCasa
+        Numero
         complemento 
 
     
