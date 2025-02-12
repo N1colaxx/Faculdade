@@ -142,7 +142,7 @@ ex_4
         ID (pk)
         IDproduto (FK)
         IDingrediente (FK)
-        quantida (quantidade do Ingrediente no produto)
+        quantidade (quantidade do Ingrediente no produto)
         unidade (indicar a unidade de medida, como gramas, ml, etc.)
         
     Ingrediente
@@ -161,7 +161,8 @@ ex_4
     fornecedores    
         ID (PK)
         CNPJ
-        nomeendereço
+        nome
+        endereço
         cidade
         contato
         telefone
@@ -181,15 +182,14 @@ ex_4
     Pedido
         ID (PK)
         IDencomenda (FK) 
-        valorFinal
 
     Itens
         ID (PK)
-        IDpedido (PK)
-        IDproduto (PK)
-            nome
-            valor
+        IDpedido (FK)
+        IDproduto (FK)
         quantidade
+        valorUnitario
+        valorTotal
         
 
     Cliente
@@ -197,9 +197,9 @@ ex_4
         nome
         idade
         sexo
-        IDendereço (FK)
+        IDendereco (FK)
         
-    Endereço
+    Endereco
         ID (PK)
         cep
         Cidade
