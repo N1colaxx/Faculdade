@@ -1,0 +1,35 @@
+
+Escoler um padrão:  calmelCase, snake_case, PascalCase
+Use ingles
+Evitar caracteres especiais
+
+0. Geral
+✅ Padrão de nomenclatura: Escolha um padrão (camelCase, snake_case, PascalCase) e siga-o em todo o projeto. O mais comum para SQL é snake_case.
+✅ Use inglês: Isso garante consistência e facilita a colaboração.
+✅ Evite caracteres especiais: Nada de acentos, espaços ou símbolos estranhos.
+
+1. Nome do Banco de Dados
+✅ Use snake_case ou PascalCase: O mais comum é snake_case, pois evita problemas com maiúsculas/minúsculas em alguns SGBDs.
+✅ Evite espaços e caracteres especiais: Apenas letras, números e _.
+✅ Seja curto, mas descritivo: O nome deve indicar o propósito do banco sem ser muito longo.
+✅ Use um prefixo se houver múltiplos bancos: Se você tem vários bancos para um mesmo sistema, pode usar um prefixo, como dev_, staging_, prod_.
+✅ Use inglês: Mantém o padrão para desenvolvimento global.
+
+2. Nomes de tabelas
+✅ Plural: Tabelas representam coleções de registros, então use nomes no plural (exemplo: users, orders, products).
+✅ Relacionamentos: Para tabelas de associação (many-to-many), use um nome descritivo, como users_roles em vez de user_role.
+
+3. Nomes de colunas
+✅ Singular: Colunas representam um único valor (exemplo: first_name, email).
+✅ Não repita o nome da tabela: Se a tabela já se chama users, não use user_name, apenas name.
+✅ Use _id para chaves primárias e estrangeiras: (exemplo: id como chave primária e user_id como chave estrangeira).
+
+4. Índices e Constraints
+✅ Índices: Nomeie com o prefixo idx_ seguido da tabela e coluna (idx_users_email).
+✅ Chaves estrangeiras: Prefixo fk_ seguido da tabela e referência (fk_orders_user_id).
+✅ Uniques: Prefixo uq_ seguido da tabela e coluna (uq_users_email).
+
+5. Procedures, Views e Funções
+✅ Procedures: Use sp_ no início (sp_get_users).
+✅ Views: Use vw_ (vw_active_users).
+✅ Funções: Use fn_ (fn_calculate_discount).
