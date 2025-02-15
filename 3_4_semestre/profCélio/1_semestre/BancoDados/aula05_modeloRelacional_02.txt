@@ -136,12 +136,12 @@ ex_4
         valorVenda
         dataFabricacao
         dataValidade
-        IDingredienteEmProduto (FK)
         quantidadeEmEstoque
         status
 
     Ingrediente em Produto
-        ID (pk)
+        ID (PK)
+        IDproduto   (FK)
         IDingrediente (FK)
         quantidadeUsada (quantidade do Ingrediente no produto)
 
@@ -152,6 +152,7 @@ ex_4
         quantidadeEmEstoque
         unidade
         IDembalagem (FK)
+        custoUnitario
 
     Embalagem   
         ID (PK)
@@ -159,54 +160,55 @@ ex_4
         valor
 
 
-    fornecedores    
+    fornecedor   
         ID (PK)
         CNPJ
         nome
         IDendereço (FK)
-        IDtelefone (FK)
 
-    Produto fornecedor
+    Ingrediente fornecedor
         ID (PK)
         IDfornecedor (FK)
-        nome
+        nomeIngrediente
         valor 
 
-    Telefone
-        ID (PK)
-        DDD
-        numero
-        tipo (comercial, whatsapp, ...)
-        nome (isso é opcional)
 
-    Emcomendas
+
+    Encomenda
         ID (PK)
         data
         IDcliente (FK)
  
-    Itens
+    ItensEncomenda
         ID (PK)
         IDencomenda (FK)
         IDproduto (FK)
         quantidade
-        valorTotal
-        
+        valorTotal        
+
+
 
     Cliente
         ID (PK)
         nome
         idade
-        sexo
         IDendereco (FK)
-        
-    Endereco
+
+
+
+    Telefone:
         ID (PK)
-        cep
-        Cidade
-        Rua
-        bairro
-        Numero
-        complemento 
+        DDD
+        numero
+        categoriaTelefone --  (comercial, whatsapp, etc.)
+        nome (opcional)  -- Nome opcional para identificar o telefone
+
+    TelefoneContato:
+        ID (PK)
+        IDentidade  (FK)  -- Pode ser IDcliente ou IDfornecedor
+        tipoContato (ENUM 'cliente', 'fornecedor')  -- Indica se o contato é um cliente ou fornecedor
+        IDtelefone (FK)  -- Referência à tabela Telefone
+        tipoPrioridade -- Prioridade do telefone (primário, secundário, etc.)
 
     
 

@@ -1,0 +1,22 @@
+Temos 3 siglas para o java: JVM - JRE - JDK
+
+    JVM (Java Virtual Machine):
+        A JVM é responsavel por interpretar e executar o codigo java compilado (bycode), 
+        dessa forma o aplicativo conversa com o sistema operacional. o que possibilita 
+        que aplicativos Java sejam multiplataforma.
+
+    JRE (Java Runtime Environment):
+        JRE (Ambiente de tempo de execução Java) é composto pela JVM (máquina virtual 
+        java) e pela biblioteca de classes Java, utilizadas para execução de aplicações java. 
+        Essas bibliotecas são chamadas de APIs Java. Portanto, o JRE é necessário
+        para que possamos executar uma aplicação java
+    
+    JDK (Java Development Kit):
+        JDK é o conjunto de ferramentas necessárias para realizar o desenvolvimento de 
+        aplicações java, e inclui a JRE e ferramentas de programação, como: 
+        javac – compilador 
+        jar – empacotador 
+        javadoc – ferramenta para geração de documentação 
+        jdb - depurador 
+    
+
