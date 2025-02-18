@@ -20,3 +20,51 @@ Temos 3 siglas para o java: JVM - JRE - JDK
         jdb - depurador 
     
 
+Dados Primitivos Java:
+
+    N° Inteiro:                   
+        -   byte                8    bits       
+        -   short              16    bits      
+        -   int                32    bits
+        -   long               64    bits
+
+    N° com virgula:
+        -   float              32 bits
+        -   double             64 bits
+
+    Caractere:
+        -   char               16 bits
+
+    booleano:
+        -   booleano            1 bit
+
+
+Operadores logiscos:
+    
+    Opração         Operador 
+        E               &
+        Ou              |
+      Negação           !
+      Ou Exclusivo      ^ 
+
+Operadores de Incremento:
+
+    Operador	    Descrição	        Ordem de Execução
+    ++op	     Pré-incremento	    Incrementa antes de usar
+    op++	     Pós-incremento	    Usa e depois incrementa
+    --op	     Pré-decremento	    Decrementa antes de usar
+    op--	     Pós-decremento	    Usa e depois decrementa
+
+
+
+
+
+
+
+
+
+
+
+
+
+

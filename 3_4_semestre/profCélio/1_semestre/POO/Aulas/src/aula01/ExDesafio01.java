@@ -37,26 +37,7 @@ IRRF
 **/
 
 public class ExDesafio01 {
-    public static void main(String[] args) {
-        // Solicita o salário ao usuário
-        /*
-        Scanner é uma classe Usada para capturar entradas do usuário.
-        System.in indica que os dados virão do teclado.
-        */
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("Digite seu salário: R$ ");
-            
-            /*Aguarda o usuário digitar um número (salário).*/
-            double salario = scanner.nextDouble();
-            double inss = calcularINSS(salario);
-            double irrf = calcularIRRF(salario - inss); 
-            
-            // Exibe o resultado
-            System.out.printf("O desconto do INSS será de: R$ %.2f\n", inss);
-            System.out.printf("O desconto do IRRF será de: R$ %.2f\n", irrf);
-        } 
-    }
-    
+
     public static double calcularINSS(double salario) {
         double desconto;
 
@@ -91,6 +72,25 @@ public class ExDesafio01 {
         }
 
         return desconto;
+    }
+    
+        public static void main(String[] args) {
+        // Solicita o salário ao usuário
+        /*
+        Scanner é uma classe Usada para capturar entradas do usuário.
+        System.in indica que os dados virão do teclado.
+        */
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Digite seu salário: R$ ");
+            
+            /*Aguarda o usuário digitar um número (salário).*/
+            double salario = scanner.nextDouble();
+            double inss = calcularINSS(salario);
+            double irrf = calcularIRRF(salario - inss); 
+            
+            // Exibe o resultado
+            System.out.printf("O desconto do INSS será de: R$ %.2f\n", inss);
+            System.out.printf("O desconto do IRRF será de: R$ %.2f\n", irrf);
     }
 }
 
