@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package aula01;
+import java.util.Scanner;
 
 /**
  *
@@ -34,13 +35,12 @@ IRRF
     Para calcular o IRRF, subtrai-se do salário bruto as deduções permitidas (como INSS, dependentes, entre outras), 
     aplica-se a alíquota correspondente e subtrai-se a parcela a deduzir.
 **/
-import java.util.Scanner;
 
 public class ExDesafio01 {
     public static void main(String[] args) {
         // Solicita o salário ao usuário
         /*
-        Scanner é uma classe de Java usada para capturar entradas do usuário.
+        Scanner é uma classe Usada para capturar entradas do usuário.
         System.in indica que os dados virão do teclado.
         */
         try (Scanner scanner = new Scanner(System.in)) {
@@ -49,12 +49,14 @@ public class ExDesafio01 {
             /*Aguarda o usuário digitar um número (salário).*/
             double salario = scanner.nextDouble();
             double inss = calcularINSS(salario);
+            double irrf = calcularIRRF(salario - inss); 
             
             // Exibe o resultado
             System.out.printf("O desconto do INSS será de: R$ %.2f\n", inss);
-        }
+            System.out.printf("O desconto do IRRF será de: R$ %.2f\n", irrf);
+        } 
     }
-
+    
     public static double calcularINSS(double salario) {
         double desconto;
 
@@ -67,9 +69,28 @@ public class ExDesafio01 {
         } else if (salario <= 7786.02) {
             desconto = (salario * 0.14) - 181.18;
         } else {
-            desconto = 908.86; // Teto do INSS
+            desconto = 908.86; // Teto máximo do INSS
+        }
+
+        return desconto;
+    }
+    
+    public static double calcularIRRF(double salario) {
+        double desconto;
+
+        if (salario <= 2259.20) {
+            desconto = 0; // Isento
+        } else if (salario <= 2826.65) {
+            desconto = (salario * 0.075) - 169.44;
+        } else if (salario <= 3751.05) {
+            desconto = (salario * 0.15) - 381.44;
+        } else if (salario <= 4664.68) {
+            desconto = (salario * 0.225) - 662.77;
+        } else {
+            desconto = (salario * 0.275) - 896.00;
         }
 
         return desconto;
     }
 }
+
