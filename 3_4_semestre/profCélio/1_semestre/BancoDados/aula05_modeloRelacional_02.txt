@@ -213,55 +213,79 @@ ex_4
 
 ex_5    
 
-    Times:
-        ID (PK)
-        IDtecnico (FK)
-        IDjogadores (FK)
-        IDgolsDaCasa
-        nome (unique)
+    Times: (times 1:N -> {} <- 1:1 jogadores), (times 1:1 -> {} <- 1:1 Tecnicos), (time 1:N-> {} <- 1:N jogos)
+        ID (PK)  -- FK em (Tecnicos, jogadores)
+        nome 
         simbulo
         coresPredominantes
-
+        
     Jogadores:
         ID (PK)
-        IDgols  (FK)
+        IDtimes (FK)
         nome
         apelido
         idade
         numeroCamisa
         
-
-    Tecnicos:
+    Jogos:
         ID (PK)
+        estadio
+        data
+
+    Time em Jogo:
+        ID (PK)
+        IDjogos (FK)
+        timeCasa_ID     (tc_id = id_times)
+        timeVisitante_ID    (tv = id_times)
+        golsCasa    (gc = tc_id)
+        golsVistante    (gv = tv_id)
+        
+
+    Tecnicos: 
+        ID (PK)
+        IDtimes (FK)
+        IDendereco (FK)
         nome
         dataNascimento
         numeroCref
-       
 
-    Jogos:
-        ID (PK)
-        IDtimes (FK)
-        data
-        estadio
-        gols do time da casa e 
-        gols do visitante.
-
-    Endereço:
-        ID (PK)
-        IDtecnico (FK)
+    Endereço: 
+        ID (PK) -- FK em (Tecnicos)
         cep
         numero
         complemento
 
-    Gols:
-        ID (PK)
-        data
-        hora
+ex_6
 
-    Gols da Casa:
-        ID (PK)
-        hora
-        numerog
+    Usuários:
+        nome, 
+        cpf, 
+        escolaridade,
+        telefone (so mente 1), 
+        endereço 
+        -- número máximo de exemplares que podem estar emprestados para ele.
+        -- Obs: O usuário empresta exemplar e não livro.
+
+    Funcionário:
+        nome, 
+        salário, 
+        formação, 
+        endereço 
+        um número de registro.
+        -- Os funcionários concedem os empréstimos dos exemplares do livro para os usuários.
+
+    Livros:
+        código de ISBN, 
+        título, 
+        editora, 
+        autor,
+        resenha
+        classificação (romance, terror, .., etc)
+        -- cada livro tem um certo número de dias que pode permanecer emprestado para o usuário
+        -- Cada livro pode ter vários exemplares, mas cada exemplar está associado a apenas um livro
+
+  
+  
 
 
 
