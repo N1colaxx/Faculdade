@@ -159,7 +159,6 @@ ex_4
         tipo
         valor
 
-
     fornecedor   
         ID (PK)
         CNPJ
@@ -170,8 +169,8 @@ ex_4
         ID (PK)
         IDfornecedor (FK)
         nomeIngrediente
+        unidade
         valor 
-
 
     Encomenda
         ID (PK)
@@ -185,7 +184,6 @@ ex_4
         quantidade
         valorTotal        
 
-
     Cliente
         ID (PK)
         nome
@@ -195,8 +193,6 @@ ex_4
     Endereço:
         ID (PK)
         cep
-        cidade
-        nomeRua
         numero
         complemento
 
@@ -213,6 +209,63 @@ ex_4
         tipoContato (ENUM 'cliente', 'fornecedor')  -- Indica se o contato é um cliente ou fornecedor
         IDtelefone (FK)  -- Referência à tabela Telefone
         tipoPrioridade -- Prioridade do telefone (primário, secundário, etc.)
+
+
+ex_5    
+
+    Times:
+        ID (PK)
+        IDtecnico (FK)
+        IDjogadores (FK)
+        IDgolsDaCasa
+        nome (unique)
+        simbulo
+        coresPredominantes
+
+    Jogadores:
+        ID (PK)
+        IDgols  (FK)
+        nome
+        apelido
+        idade
+        numeroCamisa
+        
+
+    Tecnicos:
+        ID (PK)
+        nome
+        dataNascimento
+        numeroCref
+       
+
+    Jogos:
+        ID (PK)
+        IDtimes (FK)
+        data
+        estadio
+        gols do time da casa e 
+        gols do visitante.
+
+    Endereço:
+        ID (PK)
+        IDtecnico (FK)
+        cep
+        numero
+        complemento
+
+    Gols:
+        ID (PK)
+        data
+        hora
+
+    Gols da Casa:
+        ID (PK)
+        hora
+        numerog
+
+
+
+
 
     
 
