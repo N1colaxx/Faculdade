@@ -173,7 +173,6 @@ ex_4
         valor 
 
 
-
     Encomenda
         ID (PK)
         data
@@ -187,14 +186,19 @@ ex_4
         valorTotal        
 
 
-
     Cliente
         ID (PK)
         nome
         idade
         IDendereco (FK)
 
-
+    Endereço:
+        ID (PK)
+        cep
+        cidade
+        nomeRua
+        numero
+        complemento
 
     Telefone:
         ID (PK)

@@ -1,3 +1,25 @@
+
+
+Composição de um Banco de Dados Relacional:
+    - Tabelas/relações
+    - o nome tabela -- usado no dia a dia nos produtos comercias
+    - o nome relações -- usado pelos matematicos na literatura original
+
+Tabelas:
+    - Conjunto não ordenado de colunas (atributos) e linhas (tuplas).
+    - Linhas: é composta por um conjunto de valores correspondentes às colunas da tabela.
+    - Campo: é identificado por um nome de campo (nome de atributo)
+
+    Observações:
+        - Cada linha representa uma tupla
+        - As linhas de uma tabela * não têm ordenação * - a ordem de recuperação é arbitrária, 
+            a menos que uma ordenação seja especificada na instrução de consulta
+        - Não existem linhas duplicadas
+        - Não é possível referenciar linhas de uma tabela por posição
+        - Os valores de campo de uma tabela são * atômicos e monovalorados *
+        - As consultas podem ser feitas por qualquer critério 
+        envolvendo os campos de uma ou mais linhas 
+
 Chave Candidata:
     São todos os atributos (ou combinações de atributos) que podem identificar unicamente, cada registro em uma tabela.
 
@@ -25,6 +47,7 @@ Atributo = uma Coluna
     atributo nulo -> quando um valor pode não existir para determinado atributo
     atributo armazenado -> contem valores que não são derivados e precisam ser explicamente armazenados
 Ocorrência = uma Linha
+
 
 Mapeamento de Entidades:
     Cada entidade deve ser criada uma tabela, onde:
@@ -100,7 +123,6 @@ Relacionamentos Binarios - Um para Muitos
 
     Departamento (codDep,Nome)
     Empregado   (codEmp,Nome,codDep,dataLota)
-
 
 Relacionamentos Binarios - Muitos para Muitos
     Ja temos 2 tabelas, uma para cada entidade.
