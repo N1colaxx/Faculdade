@@ -202,13 +202,14 @@ ex_4
         numero
         categoriaTelefone --  (comercial, whatsapp, etc.)
         nome (opcional)  -- Nome opcional para identificar o telefone
+        tipoPrioridade -- Prioridade do telefone (primário, secundário, etc.)
 
-    TelefoneContato:
+    Telefone para Contato:
         ID (PK)
         IDentidade  (FK)  -- Pode ser IDcliente ou IDfornecedor
         tipoContato (ENUM 'cliente', 'fornecedor')  -- Indica se o contato é um cliente ou fornecedor
         IDtelefone (FK)  -- Referência à tabela Telefone
-        tipoPrioridade -- Prioridade do telefone (primário, secundário, etc.)
+        
 
 
 ex_5    
@@ -257,32 +258,60 @@ ex_5
 
 ex_6
 
-    Usuários:
-        nome, 
-        cpf, 
-        escolaridade,
-        telefone (so mente 1), 
-        endereço 
+    Clientes:
+        cpf (PK) -- FK em (Emprestimo Livro)  
+        ID_endereço (FK)
+        nome  
+        escolaridade
+        DDD_celular
+        numero_celular
+        quantidade_exemplares -- limite de exemplar por cliente
+
         -- número máximo de exemplares que podem estar emprestados para ele.
         -- Obs: O usuário empresta exemplar e não livro.
-
+    
+    Endereço:
+        ID (PK) -- FK em (Usuarios, Funcionário)
+        cep
+        numero
+        complemento
+    
     Funcionário:
-        nome, 
-        salário, 
-        formação, 
-        endereço 
-        um número de registro.
-        -- Os funcionários concedem os empréstimos dos exemplares do livro para os usuários.
+        ID (PK) -- FK em (Emprestimo Livro)
+        ID_endereço (FK)
+        nome
+        salário 
+        formação  
+        -- Os funcionários concedem os empréstimos dos exemplares do livro para os Clientes.
 
     Livros:
-        código de ISBN, 
+        ID (PK) -- FK em (Exemplares)
+        código_ISBN, 
         título, 
         editora, 
         autor,
         resenha
         classificação (romance, terror, .., etc)
+
         -- cada livro tem um certo número de dias que pode permanecer emprestado para o usuário
         -- Cada livro pode ter vários exemplares, mas cada exemplar está associado a apenas um livro
+
+    Exemplares:
+        ID (PK) -- FK em (Emprestimo Livro)
+        ID_livros (FK)
+        status ENUM ('disponível', 'esgotado')
+
+    Emprestimo Livro;
+        ID (PK)
+        ID_funcionario (FK)
+        cpf_cliente (FK)
+        ID_exemplar (FK)
+        data_coleta_user
+        data_devolução_recomendada_user
+        data_devolução_maxima_user
+        
+
+
 
   
   
