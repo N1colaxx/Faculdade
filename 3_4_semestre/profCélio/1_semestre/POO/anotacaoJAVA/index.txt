@@ -47,6 +47,14 @@ Operadores logiscos:
       Negação           !
       Ou Exclusivo      ^ 
 
+        &&  (E condicional (SE x = Verdade e somente SE y = Verdade, res = true)    ) 
+        ||  (OU condicional (SE x = Verdade ou y = Verdade, res = true )    ) 
+        ^   (OU Exclusivo logico booleano ( (SE x E y = Verdade) ou (SE x E y = Verdade) res = False)   )
+        |   (OU inclusivo logico booleano) 
+        &   (E logico booleano (SE x E y for iguais, res = true)    )
+        !  (Não logico)
+
+
 Operadores de Incremento:
 
     Operador	    Descrição	        Ordem de Execução

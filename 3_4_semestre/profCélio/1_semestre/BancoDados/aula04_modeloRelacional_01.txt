@@ -92,7 +92,7 @@ Relacionamentos Binarios - Um para um
         casamento (identM,identH,data,regime,nomeM,nomeH)
 
 Implementação de Relacionamentos 1:1 
-    Nesse   relacionamento a participação opconal/obrigatoria
+    Nesse   relacionamento a participação opcional/obrigatoria
 
     codigo,nome                             codigo,dataExp
     (correntista)   1,1     {}      0,1     (Cartão magnetico)
@@ -118,20 +118,32 @@ Relacionamentos Binarios - Um para Muitos
     Ai incluimos a chave estrangeira, na tabela do muitos(N), a chave primaria do "lado um"
     Incluir tbm colunas de atributos
 
-    codigo,nome                dataLotação              codigo,nome
-    (departamento)      1,1     {lotação}       0,N     (empregado)
+    ex:
+        codigo,nome                dataLotação              codigo,nome
+        (departamento)      1,1     {lotação}       0,N     (empregado)
 
-    Departamento (codDep,Nome)
-    Empregado   (codEmp,Nome,codDep,dataLota)
+        Departamento (codDep,Nome)
+        Empregado   (codEmp,Nome,codDep,dataLota)
 
 Relacionamentos Binarios - Muitos para Muitos
     Ja temos 2 tabelas, uma para cada entidade.
     Ai cria uma nova tabela contendo, como chave estrangeira, as chaves primarias (A combinação dessas chaves estrangeiras forma a chave primaria da nova tabela) 
     Incluir tbm colunas com atributos
 
-    codigo,nome                   função                condigo,titulo
-    (engennheiro)       0,N     {atuação}      0,N      (projeto)
+    ex:
+        codigo,nome                   função                condigo,titulo
+        (engennheiro)       0,N     {atuação}      0,N      (projeto)
 
-    Engennheiro (codEng,Nome)
-    Projeto (codProj,Nome)
-    Atuação (codEng,codProj,função)
+        Engennheiro (codEng,Nome)
+        Projeto (codProj,Nome)
+        Atuação (codEng,codProj,função)
+
+
+Cardinalidade:
+
+    Minimo: 0 ou 1 =    OBRIGATORIEDADE
+    Maximo: 1 ou N =    opcional
+
+    1,1 -> n importa onde vc importa a chave
+    1,N -> o 1 vai para a tabela do N
+    N,N -> cria uma nova tabela 
