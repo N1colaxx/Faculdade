@@ -22,8 +22,39 @@ public class Ex2_mediaAluno {
     float alu_media;
     
     public void calculandoMedia() {
-         
-// tem q ser com SWITCH CASE
+        
+        alu_media = (nota1 + nota2 + nota3 + nota4 ) / 4;
+        
+        // Convertendo a média para um inteiro antes de usar switch
+        int mediaArredondada = Math.round(alu_media);
+        
+        switch (mediaArredondada) {
+            case 0 -> {
+                 System.out.println("Nota Zero    – Péssimo \n");
+                break;
+            }
+            case 1 -> {
+                System.out.println("Nota 1      -Ruim");
+                break;
+            }
+            case 2 -> {
+                System.out.println("Nota 2      -Regular");
+                break;
+            }
+            case 3 -> {
+                System.out.println("Nota 3      -Bom");
+                break;
+            }
+            case 4 -> {
+                System.out.println("Nota 4      -Otimo");
+                break;
+            }
+            case 5 -> {
+                System.out.println("Nota 5      -Exelente   ");
+                break;
+            }
+            default -> throw new AssertionError("Nota inesperada: " + alu_media);
+        }
     }   
     
     public void imprimeAluno() {
