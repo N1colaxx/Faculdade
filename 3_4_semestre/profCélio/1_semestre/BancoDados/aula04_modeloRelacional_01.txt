@@ -6,7 +6,7 @@ Composição de um Banco de Dados Relacional:
     - o nome relações -- usado pelos matematicos na literatura original
 
 Tabelas:
-    - Conjunto não ordenado de colunas (atributos) e linhas (tuplas).
+    - Conjunto não ordenado de colunas (atributos) e linhas (tuplas = dados dessa linha).
     - Linhas: é composta por um conjunto de valores correspondentes às colunas da tabela.
     - Campo: é identificado por um nome de campo (nome de atributo)
 

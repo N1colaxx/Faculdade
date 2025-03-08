@@ -110,6 +110,35 @@ ex_7 ESCOLA JARDIM
 Aqui vou ir lendo e colocar + ou - como estou entendo pra depois montar o DER. (n sig q vai ser o DER fina, so um guia tlg)
 
 
+ex_1    
+
+    empresa 0,N -> {} <- 1,1 funcionarios
+    empresa 1,N -> {} <- 1,1 funções
+    funcionarios 1,N -> {}  <- 1,N Funcões Empresa 
+
+
+    Empresa 
+        ID  (PK)
+        CNPJ   
+        nome
+        codigo_funcionarios (Fk)
+        funções (FK)
+
+    Funcões Empresa:
+        codigo (PK) -- FK em (Funcões do Funcionários)
+        nome
+
+    funcionarios:
+        codigo (PK)  -- FK em (Funcões do Funcionário, Empresa)
+        nome
+
+    Funções do funcionarios: 
+        ID (PK)
+        codigo_funcionario (FK)
+        codigo_funções_Empresa (FK)
+
+
+
 ex_3 
     Clientes:
         -   CPF (PK)
@@ -211,184 +240,297 @@ ex_4
         IDtelefone (FK)  -- Referência à tabela Telefone
         
 
-ex_5    
-
-    Times: (times 0:N -> {} <- 0:n jogadores), (times 0:1 -> {} <- 0:1 Tecnicos), (time 0:N-> {} <- 1:N jogos)
-        ID (PK)  -- FK em (Tecnicos, Contrato jogadores)
-        nome 
-        simbulo
-        coresPredominantes
-
-    Contrato jogadores:
+ex_5 – Liga de Futebol
+    Times:
         ID (PK)
-        IDtimes (FK)
-        IDjogadores (FK)
-        data_inicial_contrado
-        data_final_contrado
-    
+        nome
+        simbolo
+        coresPredominantes
+        Relacionamentos:
+
+        -- Cada time pode ter vários jogadores (através de Contrato_Jogadores).
+        -- Cada time possui, no máximo, um técnico.
+        -- Cada time participa de jogos (como mandante ou visitante).
+
     Jogadores:
         ID (PK)
         nome
         apelido
         idade
         numeroCamisa
-        
+   
+    Contrato_Jogadores:
+        ID (PK)
+        idTime (FK para Times)
+        idJogador (FK para Jogadores)
+        data_inicial_contrato
+        data_final_contrato
+
+        -- Observação: A associação via contrato permite registrar períodos de vínculo, útil para transferências. A regra de “22 jogadores por time” deverá ser controlada na aplicação ou por triggers.
+
+    Técnicos:
+        ID (PK)
+        idTime (FK para Times)
+        idEndereco (FK para Endereco)
+        nome
+        dataNascimento
+        numeroCref
+    
+    Endereco:
+        ID (PK)
+        cep
+        numero
+        complemento
+    
     Jogos:
         ID (PK)
         estadio
         data
-
+    
     Time em Jogo:
         ID (PK)
-        IDjogos (FK)
-        timeCasa_ID     (tc_id = id_times)
-        timeVisitante_ID    (tv = id_times)
-        golsCasa    (gc = tc_id)
-        golsVistante    (gv = tv_id)
-        
+        idJogo (FK para Jogos)
+        timeCasa_ID (FK para Times)
+        timeVisitante_ID (FK para Times)
+        golsCasa
+        golsVisitante
 
-    Tecnicos: 
+ex_6 – Biblioteca
+    Endereco:
         ID (PK)
-        IDtimes (FK)
-        IDendereco (FK)
-        nome
-        dataNascimento
-        numeroCref
-
-    Endereço: 
-        ID (PK) -- FK em (Tecnicos)
         cep
         numero
         complemento
-
-
-ex_6
-
+    
     Clientes:
-        cpf (PK) -- FK em (Emprestimo Livro)  
-        ID_endereço (FK)
-        nome  
-        escolaridade
-        DDD_celular
-        numero_celular
-        quantidade_exemplares -- Indica quantos exemplares esse user ja pegou
-
-        -- número máximo de exemplares que podem estar emprestados para ele.
-        -- Obs: O usuário empresta exemplar e não livro.
-    
-    Endereço:
-        ID (PK) -- FK em (Clientes, Funcionário)
-        cep
-        numero
-        complemento
-    
-    Funcionário:
-        ID (PK) -- FK em (Emprestimo Livro)
-        ID_endereço (FK)
+        cpf (PK)
+        idEndereco (FK para Endereco)
         nome
-        salário 
-        formação  
-
-        -- Os funcionários concedem os empréstimos dos exemplares do livro para os Clientes.
-
-    Livros:
-        ID (PK) -- FK em (Exemplares)
-        código_ISBN, 
-        título, 
-        editora, 
-        autor,
-        resenha
-        classificação (romance, terror, .., etc)
-        prazo_emprestimo
-
-        -- cada livro tem um certo número de dias que pode permanecer emprestado para o usuário
-        -- Cada livro pode ter vários exemplares, mas cada exemplar está associado a apenas um livro
-
-    Exemplares:
-        ID (PK) -- FK em (Emprestimo Livro)
-        ID_livros (FK)
-        status ENUM ('disponível', 'esgotado')
-
-    Emprestimo Livro;
+        escolaridade
+        ddd_celular
+        numero_celular
+        limiteEmprestimos -- (indica o número máximo de exemplares que o cliente pode ter emprestados)
+   
+    Funcionarios:
         ID (PK)
-        ID_funcionario (FK)
-        cpf_cliente (FK)
-        ID_exemplar (FK)
+        idEndereco (FK para Endereco)
+        nome
+        salario
+        formacao
+        registro -- (número de registro do funcionário)
+    
+    Livros:
+        ID (PK)
+        codigo_ISBN
+        titulo
+        editora
+        autor
+        resenha
+        classificacao
+        prazo_emprestimo -- (número de dias permitidos para o empréstimo)
+    
+    Exemplares:
+        ID (PK)
+        idLivro (FK para Livros)
+        status -- (por exemplo, 'disponivel' ou 'emprestado')
+    
+    Emprestimo_Livro:
+        ID (PK)
+        idFuncionario (FK para Funcionarios)
+        cpfCliente (FK para Clientes)
+        idExemplar (FK para Exemplares)
         data_coleta_user
-        data_devolução_recomendada_user
-        data_devolução_maxima_user
+        data_devolucao_recomendada_user
+        data_devolucao_maxima_user -- (opcionalmente, pode ser incluída a data real de devolução para controle de atrasos)
         
 ex_7
 
-    Rede_escolas:
-        --  aceita crianças de 2 a 5 anos
-        --  esta em + 20 cidades
-        -- 
-
     Escolas:
-            --  a escola mantém um cadastro com endereço completo (uf, cidade, bairro, 
-        outro dado que possa ser relevante. 
-            --  
+        id (PK)
+        nome
+        cidade
+
+        -- FK em (nenhuma)
+
+    Professores:
+        id (PK)
+        nome
+        idade
+        data_nascimento
+        sexo
+        escola_id (FK) -- lecionar em qualquer uma das escolas, porém, em apenas uma a cada semestre.
+        
+        -- FK em (Escolas)
+
+    Contato:
+        id (PK)
+        pessoa_id
+        tipo_pessoa
+        (ex: 'professor' ou 'crianca')
+        uf
+        cidade
+        bairro
+        rua
+        numero
+        complemento
+        telefones_fixo
+        celular
+        voip
+        email
+        outros_dados_relevantes
+
+        -- FK em (Professores, Crianças)
 
     Crianças:
-            --  informações sobre seu quadro de saúde 
-        física e mental. Algumas crianças possuem mais de uma “doença ou deficiência”.
-            --  tais crianças podem ter 
-        a necessidade de tomar alguns remédios, que serão ministrados de acordo com a sugestão médica.
-            --  crianças sem necessidades especiais podem vir a tomar remédios ou 
-        suplementos durante algum período (todos sob receita médica)
-            --  tem um armario proprio, guarda: objetos e remedios 
-            -- para acessar, somente com o prof
-            --  As crianças são separadas em turminhas de atividades gerais
-            --  Para a criança que sai da escola fora do horário da turma, é gerado um registro com o motivo da 
-        saída, quem a buscou e hora da saída
-            --  A pessoa que busca uma criança nesta condição deve estar 
-        cadastrada e autorizada pelo responsável (caso a pessoa não o seja)
-            --   Logo, além do cadastro de pessoas 
-        autorizadas, se faz necessário ter o cadastro dos pais ou responsável pela guarda da criança. 
+        id (PK)
+        nome
+        idade
+        data_nascimento
+        escola_id (FK)
 
-    Alunoss_especiais:
-            -- fazem atividades regulares junto das crianças, tbm no setor de fisioterapia, tais como:
-            -- brincadeiras na piscina, natação, mergulho, 
-        exercícios de recuperação dos músculos das pernas, braços e até mesmo fonoaudiologia.
-            --  Tais atividades 
-        são agendadas especificamente à criança portadora da necessidade. 
+        -- FK em (Escolas)
 
-    Turminhas de atividade gerais:
-        --   que devem ser formadas por no máximo vinte crianças e um mínimo de cinco, tenta-se balancear o número de crianças nas turmas
+    Saude:
+        id (PK)
+        crianca_id (FK)
+        descricao_fisica
+        descricao_mental
+
+        -- FK em (Crianças)
+
+    Medicamentos:
+        id (PK)
+        saude_id (FK)
+        nome
+        tipo -- remédio ou suplemento
+        receita_medica
+        posologia
+
+        -- FK em (Saude)
+
+    Armario:
+        codigo (PK)
+        crianca_id (FK)
+        professor_id (FK)
+
+        -- FK em (Crianças, Professores)
+
+        -- guardar objetos e remédios pertencentes à criança. O acesso ao armário se faz por meio do professor.
+        -- Os armários seguem uma numeração sequencial 
+        -- Tanto a criança pode mudar de armário, como o armário mudar de dono
+        -- Mesmo crianças especiais não terão direito a armários extras
+        -- Um armário não é utilizado por mais de uma criança ao mesmo tempo.
   
-    professores:
-            --  professores podem lecionar em qualquer uma das escolas, 
-            -- Mas so 1 acada semestre
-            -- Cada 
-        turma tem um único professor responsável que regularmente a acompanha em todas as atividades
-            --  porém, esporadicamente, outros professores podem substituir um professor, assumindo sua turma, seja por um 
-        curto período (algumas horas) ou até mesmo por alguns meses. 
-            --   escolhem as atividades a exercer dentro de um cadastro 
-        de atividades permitidas por lei.
-            --  As atividades possuem diferentes tempos de duração e dentre essas, 
-        existem atividades que não devem ser praticadas por algumas turmas, portanto, nem toda atividade 
-        cadastrada poderá ser praticada por uma turma.
-            --   As atividades podem requerer algum brinquedo ou acessório para ser praticado, quando se fizer 
-        necessário o uso, antes, deve-se verificar se há quantidade disponível suficiente para a prática de todas as 
-        crianças da turma.
 
-    Armarios:
-            --  Os armários seguem uma numeração seqüencial 
-            --  tanto a criança pode mudar de armário, como o armário mudar de dono, 
-            --  mas, ainda assim, para cada armário, a escola manterá um histórico de usuários com: o período de uso de cada um destes usuários.
-            -- Mesmo crianças especiais não terão direito a armários extras, sendo que um armário não é utilizado por 
-        mais de uma criança ao mesmo tempo.
+    Objetos_Armario:
+        id (PK)
+        armario_codigo (FK)
+        descricao
+        tipo
 
-    Ano_letivo:
-        --  dias de aulas
+        -- FK em (Armario)
 
-    escritório Central:
-        --  Anos ateriores (são guardados)
-        --  Obs: As unidades utilizam somente o banco de dados on-line. 
+    Historico_Armario:
+        id (PK)
+        codigo_armario (FK)
+        crianca_id (FK)
+        data_inicial
+        data_final
+        ano
+
+        -- FK em (Armario, Crianças)
+
+    Saida_Escola:
+        id (PK)
+        crianca_id (FK)
+        hora_saida
+        hora_entrada  
+        motivo
+        pessoa_autorizada_id (FK) -- deve estar cadastrada e autorizada pelo responsável
+
+        -- FK em (Crianças, Pessoas_Autorizadas)
+
+    Pessoas_Autorizadas:
+        id (PK)
+        nome
+        crianca_id (FK)
+        parentesco
+        responsavel -- boolean para indicar se é o responsável principal
+
+        -- FK em (Crianças)
+
+    Turmas:
+        id (PK)
+        nome
+        qtd_criancas
+        professor_id (FK)
+        professor_substituto_id (FK) -- Pode ser substituto, assumindo turma por horas ou meses
+
+        -- FK em (Professores)
+
+    Turma_Crianca:
+        id (PK)
+        turma_id (FK)
+        crianca_id (FK)
+
+        -- FK em (Turmas, Crianças)
+
+    Atividades:
+        id (PK)
+        nome
+        tempo_duracao
+        tipo
+
+        -- FK em (nenhuma)
+
+    Turma_Atividade:
+        id (PK)
+        turma_id (FK)
+        atividade_id (FK)
+        data
+        -- FK em (Turmas, Atividades)
+
+    Tipo_Fisioterapia:
+        id (PK)
+        nome
+        (Exemplos: “brincadeiras na piscina”, “natação”, “mergulho”, “exercícios de recuperação”, “fonoaudiologia”.)
+        descricao (Opcional; pode incluir detalhes sobre a atividade.)
+
+        -- FK para (Tipo_Fisioterapia)
+        
+    Fisioterapia:
+        id (PK)
+        crianca_id (FK)
+        tipo_fisioterapia -- brincadeiras na piscina, natação, mergulho, exercícios de recuperação, fonoaudiologia
+        data_agendamento
+        descricao
+        -- FK em (Crianças)
+
+    Brinquedos_Acessorios:
+        id (PK)
+        nome
+        quantidade_disponivel
+        -- FK em (nenhuma)
+
+    Atividade_Brinquedo:
+        id (PK)
+        atividade_id (FK)
+        brinquedo_id (FK)
+        quantidade_necessaria
+        quantidade_disponivel  -- Novo campo
+        -- FK em (Atividades, Brinquedos_Acessorios)
+
+  
+    Responsáveis:
+        id (PK)
+        nome
+        telefone
+        e-mail
+        cpf
+        parentesco
+        -- FK em (Crianças)
 
 
 
-    
 
 
