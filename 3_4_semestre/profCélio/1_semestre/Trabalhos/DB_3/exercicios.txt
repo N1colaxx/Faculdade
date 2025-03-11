@@ -1,0 +1,42 @@
+
+ Disciplina Banco de Dados
+ Entrega: 17/03/2025 (em dupla)
+ Formato: Modelagem 
+ Data 06/Março/2025
+
+Construa um D.E.R. da seguinte análise de requisitos:
+    “Uma universidade deseja controlar seus alunos e cursos. Os alunos possuem RA,
+    nome, CPF,RG e celular. Os alunos podem se matricular em vários cursos, que possuem:
+    código, nome, período e duração. Os professores possuem: código, nome, CPF e titulação. Um
+    professor pode obter várias titulações. Os professores lecionam disciplinas, que contém:
+    código, nome e carga horária. Cada disciplina pode estar relacionada a vários cursos. É
+    necessário também o controle de notas e faltas de cada aluno em cada disciplina. As notas são
+    referentes as 4(quatro) etapas do semestre, ou seja, B1, B2, SUB e EXAME. Os alunos são
+    matriculados em turmas, sendo que estas se relacionam com cursos e suas disciplinas.
+
+Construa um D.E.R. da seguinte análise de requisitos:
+    Em grandes sistemas de banco de dados é fundamental controlar a utilização dos
+        serviços que podem ser realizados pelos usuários. Por exemplo, um pesquisador da área de
+        biologia ou medicina quer ter o controle de acesso dos exames de virologia das amostras dos
+        pacientes e só divulgá-los, publicamente, quando achar plausível. Os exames de virologia
+        podem ser de dois tipos (PCR e anticorpos) e podem ser aplicados para vários tipos de vírus
+        (Influenza, H1N1, COVID-19, entre outros). Os dados de pacientes incluem nome, endereço,
+        data nascimento, entre outros. As amostras dos pacientes para a realização dos exames
+        possuem código, data da coleta, tipo de material, entre outros dados. Para cada exame
+        solicitado, o paciente disponibiliza obrigatoriamente uma única amostra. Um paciente pode
+        realizar vários exames. Por outro lado, algumas interfaces não estão disponíveis para todos os
+        usuários de forma homogênea. Assim deseja-se criar um banco de dados para o cadastro dos
+        dados de cada usuário {nome, CPF, endereço, área de pesquisa1, instituição, data de
+        nascimento, login, senha}, e seu perfil {pesquisador, aluno, funcionário, administrador, usuário
+        comum, eventuais, etc}, pacientes, amostras, exames, vírus, além dos serviços disponíveis
+        (solicita exames, insere exames, consulta exames, entre outros).
+    Os usuários podem utilizar vários serviços por meio dos seus respectivos perfis. Para cada
+        serviço deve ser cadastrado o código e a descrição do mesmo, bem como seu tipo. Os tipos de
+        serviços são classificados em: visualização, inserção, alteração e remoção. Os serviços não
+        estão acessíveis para um determinado usuário e sim para seu respectivo perfil. Cada perfil de
+        usuário está associado a um conjunto de serviços disponíveis. Um serviço pode estar
+        associado a mais de um perfil de usuário. Um usuário pode estar associado a mais de um perfil
+        e um perfil pertencer a mais de um usuário. Adicionalmente inclua também o conceito para o
+        armazenamento histórico dos serviços utilizados pelos usuários. Esse histórico armazenado
+        será utilizado para auditoria, análise e predição da utilização de serviços utilizados pelos
+        usuários.

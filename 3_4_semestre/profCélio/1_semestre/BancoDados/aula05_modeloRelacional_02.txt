@@ -261,8 +261,8 @@ ex_5 – Liga de Futebol
    
     Contrato_Jogadores:
         ID (PK)
-        idTime (FK para Times)
-        idJogador (FK para Jogadores)
+        nome_time (FK para Times)
+        nome_jogador (FK para Jogadores)
         data_inicial_contrato
         data_final_contrato
 
@@ -270,8 +270,8 @@ ex_5 – Liga de Futebol
 
     Técnicos:
         ID (PK)
-        idTime (FK para Times)
-        idEndereco (FK para Endereco)
+        time_atual (FK para Times)
+        endereco (FK para Endereco)
         nome
         dataNascimento
         numeroCref
@@ -286,14 +286,13 @@ ex_5 – Liga de Futebol
         ID (PK)
         estadio
         data
-    
-    Time em Jogo:
-        ID (PK)
-        idJogo (FK para Jogos)
+        timeVisitante_ID (FK para Jogos)
         timeCasa_ID (FK para Times)
-        timeVisitante_ID (FK para Times)
         golsCasa
         golsVisitante
+
+
+
 
 ex_6 – Biblioteca
     Endereco:

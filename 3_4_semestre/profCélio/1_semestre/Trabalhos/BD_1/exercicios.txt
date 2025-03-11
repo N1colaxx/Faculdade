@@ -1,0 +1,70 @@
+
+ Disciplina Banco de Dados
+ 1ª Trabalho - 1º Bimestre
+ Peso: 1,0(um) ponto na média das NP1.
+ Entrega: 13/03/2025 (em dupla)
+ Formato: Modelagem 
+
+ Objetivo: Fazer a modelagem do 5º, 6º e 7º exercícios da Aula 05 - Modelo Relacional - Parte II
+
+ 5) LIGA DE FUTEBOL
+    Cada time é composto por 22 jogadores e um técnico, mais um nome único de time, símbolo e
+    cores predominantes. Cada jogador tem um registro único, nome, apelido, idade e número da
+    camisa que veste no time. Os técnicos além de nome, data de nascimento e endereço,
+    possuem também um número de treinador obtido na federação esportiva. É necessário a cada
+    jogo registrar os times que jogaram, data, estádio, gols do time da casa e gols do visitante.
+
+ 6) BIBLIOTECA
+    Uma biblioteca tem um grande número de usuários que possuem nome, cpf, escolaridade, um
+    número de telefone para contato, endereço e um número máximo de exemplares que podem
+    estar emprestados para ele. Cada funcionário da biblioteca possui um nome, salário, formação,
+    endereço e um número de registro. Os livros possuem código de ISBN, título, editora, autor,
+    resenha e classificação (romance, terror, .., etc), além disso, cada livro tem um certo número
+    de dias que pode permanecer emprestado para o usuário. Os funcionários concedem os
+    empréstimos dos exemplares do livro para os usuários. Cada livro pode ter vários exemplares,
+    mas cada exemplar está associado a apenas um livro. Obs: O usuário empresta exemplar e
+    não livro.
+
+
+7) ESCOLA JARDIM
+    A “Turminha Curumim” é uma rede de escolas infantis em tempo integral, que aceitam crianças de 
+        dois a cinco anos e está situada em mais de 20 cidades brasileiras. Todos os anos, a cada dia de aula, cada 
+        unidade da rede faz um completo gerenciamento de tudo que ocorre na unidade (nos termos da educação), 
+        a fim de registrar no servidor de dados do escritório central. Os dados dos anos anteriores são mantidos 
+        para possíveis consultas futuras, ou seja, nenhum registro é apagado. Obs. As unidades utilizam somente 
+        o banco de dados on-line. 
+    Os professores podem lecionar em qualquer uma das escolas, porém, em apenas uma a cada 
+        semestre. Para efeito de contato, a escola mantém um cadastro com endereço completo (uf, cidade, bairro, 
+        rua, numero e complemento), telefones fixo, celular e voip, e-mail, sexo, data de nascimento e qualquer 
+        outro dado que possa ser relevante. 
+    Das crianças, o cadastro deve ser mais completo, incluindo informações sobre seu quadro de saúde 
+        física e mental. Algumas crianças possuem mais de uma “doença ou deficiência”. Tais crianças podem ter 
+        a necessidade de tomar alguns remédios, que serão ministrados de acordo com a sugestão médica. 
+        Também deve ser considerado que crianças sem necessidades especiais podem vir a tomar remédios ou 
+        suplementos durante algum período (todos sob receita médica). Alunos com necessidades especiais 
+        participam regularmente das atividades junto às outras crianças, mas além destas, podem participar de 
+        outras atividades no setor de fisioterapia, tais como: brincadeiras na piscina, natação, mergulho, 
+        exercícios de recuperação dos músculos das pernas, braços e até mesmo fonoaudiologia. Tais atividades 
+        são agendadas especificamente à criança portadora da necessidade. 
+    Toda criança tem um armário para o professor guardar objetos e remédios pertencentes à criança. 
+        Obs. O acesso ao armário se faz por meio do professor. Os armários seguem uma numeração seqüencial e 
+        tanto a criança pode mudar de armário, como o armário mudar de dono, mas, ainda assim, para cada 
+        armário, a escola manterá um histórico de usuários com o período de uso de cada um destes usuários. 
+        Mesmo crianças especiais não terão direito a armários extras, sendo que um armário não é utilizado por 
+        mais de uma criança ao mesmo tempo. 
+    As crianças são separadas em turminhas de atividades gerais, que devem ser formadas por no 
+        máximo vinte crianças e um mínimo de cinco, tenta-se balancear o número de crianças nas turmas. Cada 
+        turma tem um único professor responsável que regularmente a acompanha em todas as atividades, porém, 
+        esporadicamente, outros professores podem substituir um professor, assumindo sua turma, seja por um 
+        curto período (algumas horas) ou até mesmo por alguns meses. 
+    Para a criança que sai da escola fora do horário da turma, é gerado um registro com o motivo da 
+        saída, quem a buscou e hora da saída. A pessoa que busca uma criança nesta condição deve estar 
+        cadastrada e autorizada pelo responsável (caso a pessoa não o seja). Logo, além do cadastro de pessoas 
+        autorizadas, se faz necessário ter o cadastro dos pais ou responsável pela guarda da criança. 
+    Todos os dias os professores de cada turma escolhem as atividades a exercer dentro de um cadastro 
+        de atividades permitidas por lei. As atividades possuem diferentes tempos de duração e dentre essas, 
+        existem atividades que não devem ser praticadas por algumas turmas, portanto, nem toda atividade 
+        cadastrada poderá ser praticada por uma turma. 
+    As atividades podem requerer algum brinquedo ou acessório para ser praticado, quando se fizer 
+        necessário o uso, antes, deve-se verificar se há quantidade disponível suficiente para a prática de todas as 
+        crianças da turma. 

@@ -1,0 +1,3 @@
+
+Objetivo: converder esse diagrama de modelagem em Java para um diagrama de modelagem de um DB Relacinal para um sistema financeiro.
+
