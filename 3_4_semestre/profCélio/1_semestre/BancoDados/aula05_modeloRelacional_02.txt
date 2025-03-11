@@ -238,9 +238,13 @@ ex_4
         IDentidade  (FK)  -- Pode ser IDcliente ou IDfornecedor
         tipoContato (ENUM 'cliente', 'fornecedor')  -- Indica se o contato é um cliente ou fornecedor
         IDtelefone (FK)  -- Referência à tabela Telefone
-        
 
-ex_5 – Liga de Futebol
+
+obs: 
+    no ex 5 -> sobre a tab de jogos e times
+    no ex 6 -> (cliente {limit_emprestimo } emprestimo e {limite_exemplar} )   
+
+ex_5 – Liga de Futebo
     Times:
         ID (PK)
         nome
@@ -291,9 +295,6 @@ ex_5 – Liga de Futebol
         golsCasa
         golsVisitante
 
-
-
-
 ex_6 – Biblioteca
     Endereco:
         ID (PK)
@@ -340,8 +341,7 @@ ex_6 – Biblioteca
         idExemplar (FK para Exemplares)
         data_coleta_user
         data_devolucao_recomendada_user
-        data_devolucao_maxima_user -- (opcionalmente, pode ser incluída a data real de devolução para controle de atrasos)
-        
+
 ex_7
 
     Escolas:
