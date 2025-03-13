@@ -342,192 +342,174 @@ ex_6 – Biblioteca
         data_coleta_user
         data_devolucao_recomendada_user
 
-ex_7
+ex7:
 
-    Escolas:
+    Escola:
         id (PK)
         nome
-        cidade
-
-        -- FK em (nenhuma)
-
+        -- contato_id (FK)
+    
     Professores:
         id (PK)
         nome
-        idade
-        data_nascimento
+        data_nascimento 
         sexo
-        escola_id (FK) -- lecionar em qualquer uma das escolas, porém, em apenas uma a cada semestre.
+        -- contato_id (FK)
+        -- escola_id (FK)
         
-        -- FK em (Escolas)
-
-    Contato:
-        id (PK)
-        pessoa_id
-        tipo_pessoa
-        (ex: 'professor' ou 'crianca')
-        uf
-        cidade
-        bairro
-        rua
-        numero
-        complemento
-        telefones_fixo
-        celular
-        voip
-        email
-        outros_dados_relevantes
-
-        -- FK em (Professores, Crianças)
+        --- lecionar em qualquer uma das escolas, porém, em apenas uma a cada semestre
 
     Crianças:
         id (PK)
         nome
-        idade
         data_nascimento
-        escola_id (FK)
+        sexo
+        -- contato_id (FK)
+        -- Responsável_Quarda_Crianca_id (FK)
+        -- saude_id (FK)
+        -- crianca_escola_id (FK)
+        -- armário_id (FK)
+        -- fisioterapia
 
-        -- FK em (Escolas)
-
-    Saude:
+    Contatos:
         id (PK)
-        crianca_id (FK)
-        descricao_fisica
-        descricao_mental
+        tipo ENUM ('professor', 'aluno', 'Responsável')
+        -- endereços
+        -- telefones
+        e-mail, 
+        qualquer_dado_relevante
 
-        -- FK em (Crianças)
+    Enderecos:
+        id (PK)
+        contato_id (FK)
+        uf
+        cidade 
+        bairro 
+        rua 
+        numero  
+        cep
+        complemento
+
+    Telefones:
+        id (PK)
+        contato_id (FK)
+        tipo ENUM ('fixo', 'celular', 'voip')
+        ddd
+        numero
+
+
+    Info_Saude:
+        id (PK)
+        -- crianca_id (FK)
+        necessidade_especiais ENUM ('sim', 'nao') -- Se sim vai ter direito a Fisioterapia
+        desc_necessidade_especiais
+        descricao_mental
+        descricao_fisica
+        -- Medicamentos_id (FK)
 
     Medicamentos:
-        id (PK)
-        saude_id (FK)
-        nome
-        tipo -- remédio ou suplemento
-        receita_medica
-        posologia
+            id
+            nome
+            receita_medica
+            posologia
+            descricao
 
-        -- FK em (Saude)
+
+    Criança_fisioterapia:
+        id (PK)
+        crianca_id (FK)
+        setor_fisioterapia  (FK)
+        data_agendamento
+        descricao
+
+    Setor_Fisioterapia :
+            id
+            nome
+            descricao
+
+            --  setor de fisioterapia, tais como: brincadeiras na piscina, natação, mergulho, exercícios de recuperação dos músculos das pernas, braços e até mesmo fonoaudiologia.
 
     Armario:
-        codigo (PK)
-        crianca_id (FK)
-        professor_id (FK)
-
-        -- FK em (Crianças, Professores)
-
-        -- guardar objetos e remédios pertencentes à criança. O acesso ao armário se faz por meio do professor.
-        -- Os armários seguem uma numeração sequencial 
-        -- Tanto a criança pode mudar de armário, como o armário mudar de dono
-        -- Mesmo crianças especiais não terão direito a armários extras
-        -- Um armário não é utilizado por mais de uma criança ao mesmo tempo.
-  
-
-    Objetos_Armario:
         id (PK)
-        armario_codigo (FK)
-        descricao
-        tipo
+        crianca_id (FK)
+        professor_autorisado_id (FK) -- criar a tab
+        -- histórico_armario_id (FK) -- criar a tab
+        -- medicamentos_objetos
+        
 
-        -- FK em (Armario)
+        --- Obs. O acesso ao armário se faz por meio do professor.
+        --- Mesmo crianças especiais não terão direito a armários extras, sendo que um armário não é utilizado por mais de uma criança ao mesmo tempo. 
 
     Historico_Armario:
         id (PK)
-        codigo_armario (FK)
         crianca_id (FK)
+        professor_autorisado_id (FK)
         data_inicial
         data_final
-        ano
 
-        -- FK em (Armario, Crianças)
-
-    Saida_Escola:
-        id (PK)
-        crianca_id (FK)
-        hora_saida
-        hora_entrada  
-        motivo
-        pessoa_autorizada_id (FK) -- deve estar cadastrada e autorizada pelo responsável
-
-        -- FK em (Crianças, Pessoas_Autorizadas)
-
-    Pessoas_Autorizadas:
-        id (PK)
-        nome
-        crianca_id (FK)
-        parentesco
-        responsavel -- boolean para indicar se é o responsável principal
-
-        -- FK em (Crianças)
 
     Turmas:
         id (PK)
         nome
+        escola_id (FK)
         qtd_criancas
-        professor_id (FK)
-        professor_substituto_id (FK) -- Pode ser substituto, assumindo turma por horas ou meses
+        prof_responsavel 
+        prof_substituto status ('ativo', 'inativo')
 
-        -- FK em (Professores)
+        -- Cada turma tem um único professor responsável que regularmente a acompanha em todas as atividades
+        -- esporadicamente, outros professores podem substituir um professor, assumindo sua turma, seja por um curto período (algumas horas) ou até mesmo por alguns meses.
 
-    Turma_Crianca:
+
+    Saida_Escola:
         id (PK)
-        turma_id (FK)
-        crianca_id (FK)
+        motivo
+        responsavel_autorizado_id (FK)
+        hora_saida
+        hora_entrada
 
-        -- FK em (Turmas, Crianças)
+    Responsáveis_Autorizados:
+        id (PK)
+        crianca_id (FK)
+        nome
+        sexo
+        descricao
+        autorizado ENUM ('ativo', 'inativo)
+
+    Responsável_Quarda_Crianca:
+        id (PK)
+        crianca_id (FK)
+        nome
+        sexo
+        data_nascimento
+        contato_id (FK)
+        descricao
 
     Atividades:
         id (PK)
         nome
+        descricao
         tempo_duracao
-        tipo
-
-        -- FK em (nenhuma)
-
-    Turma_Atividade:
+    
+    Atividade_Turma:
         id (PK)
         turma_id (FK)
         atividade_id (FK)
-        data
-        -- FK em (Turmas, Atividades)
-
-    Tipo_Fisioterapia:
-        id (PK)
-        nome
-        (Exemplos: “brincadeiras na piscina”, “natação”, “mergulho”, “exercícios de recuperação”, “fonoaudiologia”.)
-        descricao (Opcional; pode incluir detalhes sobre a atividade.)
-
-        -- FK para (Tipo_Fisioterapia)
-        
-    Fisioterapia:
-        id (PK)
-        crianca_id (FK)
-        tipo_fisioterapia -- brincadeiras na piscina, natação, mergulho, exercícios de recuperação, fonoaudiologia
-        data_agendamento
-        descricao
-        -- FK em (Crianças)
+        brinquedos_acessorios_id (FK)
 
     Brinquedos_Acessorios:
         id (PK)
         nome
         quantidade_disponivel
-        -- FK em (nenhuma)
-
-    Atividade_Brinquedo:
+        tipo (brinquedo ou acessorio)
+    
+    Atividade_Restricao_Turma:
         id (PK)
+        turma_id (FK)
         atividade_id (FK)
-        brinquedo_id (FK)
-        quantidade_necessaria
-        quantidade_disponivel  -- Novo campo
-        -- FK em (Atividades, Brinquedos_Acessorios)
+        motivo
 
-  
-    Responsáveis:
-        id (PK)
-        nome
-        telefone
-        e-mail
-        cpf
-        parentesco
-        -- FK em (Crianças)
+
+ 
 
 
 
