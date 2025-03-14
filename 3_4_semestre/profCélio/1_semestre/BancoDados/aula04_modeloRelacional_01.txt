@@ -144,6 +144,6 @@ Cardinalidade:
     Minimo: 0 ou 1 =    OBRIGATORIEDADE
     Maximo: 1 ou N =    opcional
 
-    1,1 -> n importa onde vc importa a chave
-    1,N -> o 1 vai para a tabela do N
+    1,1 -> n importa onde vc importa a chave(FK)
+    1,N -> o 1 vai para a tabela do N 
     N,N -> cria uma nova tabela 
