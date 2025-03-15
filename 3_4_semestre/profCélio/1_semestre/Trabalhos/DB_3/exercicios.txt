@@ -40,3 +40,158 @@ Construa um D.E.R. da seguinte análise de requisitos:
         armazenamento histórico dos serviços utilizados pelos usuários. Esse histórico armazenado
         será utilizado para auditoria, análise e predição da utilização de serviços utilizados pelos
         usuários.
+
+
+ex1:
+    universidade:
+        -- alunos:
+                nome
+                ra
+                celualar
+                cpf
+                rg
+                -- notas:
+                    B1
+                    B2
+                    SUB
+                    exame
+                -- faltas:
+                    id
+                    data
+                    disciplina
+                    quantidade
+                -- turmas:
+                    -- sendo que estas se relacionam com cursos e suas disciplinas.
+
+             --- Os alunos podem se matricular em vários cursos
+        -- cursos:
+                código
+                nome
+                período
+                duração
+        -- professores:
+                código
+                nome
+                cpf
+                titulação 
+                -- disciplina:
+                    codigo
+                    nome
+                    carga_horaria
+
+                    --- Cada disciplina pode estar relacionada a vários cursos.
+
+             --- Um professor pode obter várias titulações. 
+
+
+ex2:
+
+    Exames:
+        -- tipo_exame:
+            PCR
+            anticorpos
+
+            Relacionamentos:
+                Virus:
+                    aplicados para vários tipos de vírus
+                    --- pode ter varios tipos virus  em um exame                            
+   
+    Amostras:
+        codigo
+        data_coleta
+        tipo_materia
+        --- entre outros dados
+
+    Pacientes:
+        nome 
+        endereco
+        data_nascimento
+        --- entre outros
+
+
+
+        Relacionamentos:
+            Exame: 
+                Um paciente pode realizar vários exames. 
+
+            Amostra: 
+                paciente disponibiliza obrigatoriamente (uma única amostra)
+            
+            Usuarios
+
+    Usuarios:
+        nome
+        cpf
+        endereco
+        area_pesquisa_1
+        instituição
+        data_nascimento
+        login
+        senha
+        -- perfil:
+            id
+            nome
+
+            --- Exemplo de um tipo de Perfil: {pesquisador, aluno, funcionário, administrador, usuário comum, eventuais, etc}
+
+            Relacionamentos:
+                Serviços_Disponiveis:
+                    (Cada perfil) de usuário (está associado a um conjunto) de (serviços disponíveis).
+                    --- Cada perfil de usuário está associado a um conjunto( seria = N )
+
+
+        Relacionamentos:
+            Perfil:
+                Um usuário (pode) estar associado (a mais de um perfil) e um (perfil) pertencer a (mais de um usuário.)
+
+            Histórico_de_Servisos:
+                Adicionalmente inclua também o conceito para o (armazenamento histórico) dos serviços utilizados pelos usuários.
+
+            Interfaces:   
+                algumas interfaces (não estão disponíveis para todos os usuários) de forma homogênea
+            
+            Serviços_Disponiveis:
+                 Os usuários podem utilizar (vários serviços) (por meio dos seus respectivos perfis).
+
+    secundarias:
+
+        Vírus:
+            id
+            nome
+
+        serviços_Disponiveis:
+            id
+            nome
+            codigo
+            descrição
+            -- tipo_seviço:
+                    id
+                    visualização, 
+                    inserção, 
+                    alteração 
+                    remoção
+
+                Relacionamentos:
+                    Perfil_user
+
+
+            Relacionamentos:
+                Tipo_seviço:
+                    --- pode ter N tipos
+
+                Perfil_user:
+                    Um serviço pode estar associado a mais de um perfil de usuário
+                    Os serviços (não estão) acessíveis (para) um determinado (usuário) e (sim para seu respectivo perfil).
+
+
+
+         Histórico_de_Servisos:
+            Relacionamentos:
+                 Esse histórico armazenado será utilizado para:  
+                    auditoria, 
+                    análise
+                    predição da utilização de serviços utilizados pelos usuários
+
+            
+
+
