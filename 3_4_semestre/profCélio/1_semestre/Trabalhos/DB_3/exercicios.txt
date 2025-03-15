@@ -83,7 +83,7 @@ ex1:
 
              --- Um professor pode obter várias titulações. 
 
-
+a
 ex2:
 
     Exames:
