@@ -47,8 +47,8 @@
         exercícios de recuperação dos músculos das pernas, braços e até mesmo fonoaudiologia. Tais atividades 
         são agendadas especificamente à criança portadora da necessidade. 
     Toda criança tem um armário para o professor guardar objetos e remédios pertencentes à criança. 
-        Obs. O acesso ao armário se faz por meio do professor. Os armários seguem uma numeração seqüencial e 
-        tanto a criança pode mudar de armário, como o armário mudar de dono, mas, ainda assim, para cada 
+            Obs. O acesso ao armário se faz por meio do professor. Os armários seguem uma numeração seqüencial e 
+            tanto a criança pode mudar de armário, como o armário mudar de dono, mas, ainda assim, para cada 
         armário, a escola manterá um histórico de usuários com o período de uso de cada um destes usuários. 
         Mesmo crianças especiais não terão direito a armários extras, sendo que um armário não é utilizado por 
         mais de uma criança ao mesmo tempo. 
@@ -68,3 +68,185 @@
     As atividades podem requerer algum brinquedo ou acessório para ser praticado, quando se fizer 
         necessário o uso, antes, deve-se verificar se há quantidade disponível suficiente para a prática de todas as 
         crianças da turma. 
+
+
+
+
+
+
+
+
+der_ex_7:
+
+
+Rede Escolas:
+
+	Contato:
+		-- endereço (uf, cidade, bairro, rua, numero e complemento), 
+		telefones fixo, 
+		celular e voip, 
+		e-mail,
+		qualquer outro dado que possa ser relevante.
+
+	Escolas:
+        id
+        nome
+        contao
+        responsáveis
+        
+        Relacionamentos:
+            contao
+		
+	Professores:
+        diploma
+        titulacao
+
+		Relacionamentos:
+            Escolas:
+			    -- podem lecionar em qualquer uma das escolas, porém, em apenas uma a cada semestre.
+            Turmas:
+			    --  professores podem substituir um professor, assumindo sua turma, seja por um 
+        		    curto período (algumas horas) ou até mesmo por alguns meses.
+	
+	Criancas:
+
+        Relacionamentos:
+            info_saude
+            remedios
+
+            escolas
+            armarios
+            turmas
+            fisioterapia
+            saida_escola
+
+            responsavel_guarda
+            quem_busca
+
+	Fisioterapia:
+		--tipo:
+			id
+			nome
+		data_agendamento
+		descricao_atividade
+		
+		Relacionamentos:
+            Criancas:
+			    agenda especificadamente para a criancas, e pode atender varias criancas 
+	
+	Atividades:
+		id
+		nome
+		tempo_duraca
+
+		relacionamentos:
+			Turmas
+				existem atividades que não devem ser praticadas por algumas turmas, portanto, nem toda atividade 
+        			cadastrada poderá ser praticada por uma turma. 
+			Brinquedo e Acessorio:
+				quando se fizer necessário o uso, antes, deve-se verificar se há quantidade disponível suficiente para a 
+				prática de todas as crianças da turma. 
+
+    Entidades secundarias:  
+
+    	--info_saude:
+			desc_saude_fisica
+			desc_saude_mental
+			doenca	ENUM ('sim', 'nao')
+			desc_doenca
+			defisienci ENUM ('sim', 'nao')
+			desc_deficienci
+
+            Relacionamentos:
+                Crianca
+
+		--remedios:
+			nome
+			receita_medica
+			posologia
+			descricao
+            
+            Relacionamentos:
+                Criancas
+
+        -- objetos:
+            id
+            nome
+            quantidade
+            descricao
+            foto
+
+            Relacionamentos:
+                criancas
+
+		--armarios:
+			numeracao
+
+			Relacionamentos:
+				Professores:
+					Obs. O acesso ao armário se faz por meio do professor (prof_responsavel pelo armario)
+
+				Criancas:
+				 	tanto a criança pode mudar de armário, como o armário mudar de dono
+					um armário não é utilizado por mais de uma criança ao mesmo tempo. 
+
+				Historico:
+					manterá um histórico de usuários com o período de uso de cada um destes usuários.
+                
+        --tumas:
+			codigo
+			nome
+			qtd_alunos
+
+			relacionamentos:
+				Professores:
+					Cada turma tem um único professor responsável que regularmente a acompanha em todas as atividades.
+				Criancas
+                    que devem ser formadas por no máximo vinte crianças e um mínimo de cinco
+
+				Atividades
+		
+		--saida_escola_horario:
+			hora_normal
+
+            Relacionamentos:
+                Criancas
+                Quem_Busca
+
+                hora_anormal
+
+        --hora_anormal:
+            motivo
+            hora_saida
+            
+            Relacionamentos:
+                Quem_buscol
+
+                saida_escola_horario
+      
+		--brinquedo_acessorios:
+			id
+			nome
+			quantidade
+		
+        
+
+        --quem_busca:
+    
+            autorisado ENUM ('sim', 'nao')
+            
+            Relacionamentos:
+                criancas
+      
+
+        --responsavel_guarda:
+
+			doc_guarda
+
+			Relacionametos:
+				Crianca
+                
+        
+
+
+
