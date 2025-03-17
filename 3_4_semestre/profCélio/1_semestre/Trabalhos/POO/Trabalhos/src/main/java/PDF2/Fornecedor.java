@@ -18,13 +18,15 @@ public class Fornecedor extends PessoaJuridica{
 
 //    Construtor 
     public Fornecedor(){};
-    
-    public Fornecedor(int id, String nome, double lime_compra, String data_cadastro, String site, Endereco endereco, Telefone telefone){
-        super(id, nome, endereco, telefone);
+
+    public Fornecedor(int id, String nome, Endereco endereco, Telefone telefone, String cnpj, String inscricao_estadual, String contato, double lime_compra, String data_cadastro, String site) {
+        super(id, nome, endereco, telefone, cnpj, inscricao_estadual, contato);
         this.lime_compra = lime_compra;
         this.data_cadastro = data_cadastro;
         this.site = site;
     }
+    
+
 
 //    Getters
     public double getLime_compra() {
@@ -56,13 +58,19 @@ public class Fornecedor extends PessoaJuridica{
     public void entrada(){
        Scanner scanner = new Scanner(System.in);
 
-        // Entrada de dados básicos da classe Fornecedor
+//        Entrada de dados básicos da classe Fornecedor
         System.out.print("Digite o ID: ");
         setID(scanner.nextInt());
         scanner.nextLine();  // Consome a linha extra
 
         System.out.print("Digite o nome do fornecedor: ");
         setNome(scanner.nextLine());
+        
+        System.out.println("Digite o CNPJ: ");
+        setCNPJ(scanner.nextLine());
+        
+        System.out.println("Dgite o Contato: ");
+        setContato(scanner.nextLine());
 
 
         // Entrada dos dados específicos de Fornecedor
@@ -120,12 +128,12 @@ public class Fornecedor extends PessoaJuridica{
     
     public void imprimir() {
         super.imprimir();
-
-        System.out.println("------ Dados do Fornecedor ------");
-        System.out.println("Limite de Compra: R$ " + getLime_compra());
-        System.out.println("Data de Cadastro: " + getData_cadastro());
-        System.out.println("Site: " + getSite());
-        System.out.println("---------------------------------");
+        System.out.println("|   Limite de Compra: R$ " + getLime_compra());
+        System.out.println("|   Data de Cadastro: " + getData_cadastro());
+        System.out.println("|   Site: " + getSite());
+        System.out.println("|_______________________________________________|");
+        System.out.println("|       Que é um Fornecedor                     |");
+        System.out.println("|_______________________________________________|");
     } 
    
    

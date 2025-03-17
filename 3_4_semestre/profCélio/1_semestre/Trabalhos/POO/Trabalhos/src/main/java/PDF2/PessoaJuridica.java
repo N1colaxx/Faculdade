@@ -17,18 +17,13 @@ public class PessoaJuridica extends Pessoa {
     
 //  Contrutores
     public PessoaJuridica() {};
-    
-    public PessoaJuridica(int id, String nome, Endereco endereco, Telefone telefone, String cnpj, String inscricao_estadual, String contato){
-        super(id, nome, endereco, telefone);  // Chama o construtor da classe pai (Pessoa) para inicializar 'id' e 'nome' etc...
+
+    public PessoaJuridica( int id, String nome, Endereco endereco, Telefone telefone, String cnpj, String inscricao_estadual, String contato) {
+        super(id, nome, endereco, telefone);
         this.cnpj = cnpj;
         this.inscricao_estadual = inscricao_estadual;
         this.contato = contato;
     }
-    
-    public PessoaJuridica(int id, String nome, Endereco endereco, Telefone telefone){
-        super(id, nome, endereco, telefone);
-    }
-    
 
 //  Getters e Setters Pessoa Juridica
     public String getCNPJ(){
@@ -58,17 +53,15 @@ public class PessoaJuridica extends Pessoa {
     
     @Override
     public void imprimir() {
-        super.imprimir();// Chama o método exibirInformacoes() da classe pai
-        if(cnpj != null && inscricao_estadual != null &&contato != null){
-            System.out.println("CNPJ = " + cnpj);
-            System.out.println("Inscricao Estadual = " + inscricao_estadual);
-            System.out.println("Contato = " + contato);
-            System.out.println("|___________________________________________________________|");
-            System.out.println("|       Estas Informações são de uma Pessoa Jurídica        |");
-            System.out.println("|___________________________________________________________|");
-        } else{
-            System.out.println("cnpj, inscricao estadual e contato estão nulos");
-        }
+        super.imprimir();//
+        
+        System.out.println("|   CNPJ = " + cnpj);
+        System.out.println("|   Inscricao Estadual = " + inscricao_estadual);
+        System.out.println("|   Contato = " + contato);
+        System.out.println("|_______________________________________________|");
+        System.out.println("|           Do tipo pessoa Jurídica             |");
+        System.out.println("|_______________________________________________|");
+
     }
     
     

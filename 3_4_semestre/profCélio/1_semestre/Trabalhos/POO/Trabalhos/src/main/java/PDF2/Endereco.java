@@ -9,19 +9,18 @@ package PDF2;
  * @author nicol
  */
 public class Endereco {
-//  Atributos da class
-    private String logadouro;
+    private String logradouro;
     private String numero;
     private String complemento;
     private String bairro;
     private String cidade;
     private String estado;
     private int cep;
-    
-//    criando o Construtor
 
-    public Endereco(String logadouro, String numero, String complemento, String bairro, String cidade, String estado, int cep){
-        this.logadouro = logadouro;
+//    Contrutor
+
+    public Endereco(String logradouro, String numero, String complemento, String bairro, String cidade, String estado, int cep) {
+        this.logradouro = logradouro;
         this.numero = numero;
         this.complemento = complemento;
         this.bairro = bairro;
@@ -30,45 +29,44 @@ public class Endereco {
         this.cep = cep;
     }
     
-//    Criando o GETTERS
-    public String getLogadouro(){
-        return logadouro;
-    }
     
-    public String getNumero(){
+    
+//    Getters
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public String getNumero() {
         return numero;
     }
-    
-    public String getComplemento(){
+
+    public String getComplemento() {
         return complemento;
     }
-    
-    public String getBairro(){
+
+    public String getBairro() {
         return bairro;
     }
-      
-    public String getCidade(){
+
+    public String getCidade() {
         return cidade;
     }
-    
-    public String getEstado(){
+
+    public String getEstado() {
         return estado;
     }
-    
-    public int getCep(){
+
+    public int getCep() {
         return cep;
     }
-    
 
-//    Criando os SETTER
-    public void setLogadouro(String logadouro) {
-        this.logadouro = logadouro;
+//    Setters
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
-// primeiro usar .matches que é um método da classe String em Java.
-// depois uso a epreçaõ REGEX
     public void setNumero(String numero) {
-            this.numero = numero; 
+        this.numero = numero;
     }
 
     public void setComplemento(String complemento) {
@@ -88,9 +86,11 @@ public class Endereco {
     }
 
     public void setCep(int cep) {
-            this.cep = cep;        
+        this.cep = cep;
     }
     
+    @Override
+    public String toString() {
+        return logradouro + ", " + numero + ", " + complemento + ", " + bairro + ", " + cidade + " - " + estado + ", CEP: " + cep;
+    }
 }
-
-

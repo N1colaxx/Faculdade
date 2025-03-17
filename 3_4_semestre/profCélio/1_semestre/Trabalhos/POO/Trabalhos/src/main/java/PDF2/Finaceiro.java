@@ -161,7 +161,7 @@ public class Finaceiro {
         scanner.nextLine();
         
         // Calcular o total 
-        setTotal(getValor() + getJuros() + getMulta() - getDesconto());
+        setTotal(getValor() + getJuros() - getDesconto());
 
         scanner.close();
     }

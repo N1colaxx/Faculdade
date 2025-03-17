@@ -9,7 +9,6 @@ package PDF2;
  * @author nicol
  */
 public class Pessoa {
-//    Atributos da class
     private int id;
     private String nome;
     
@@ -17,8 +16,7 @@ public class Pessoa {
     private Endereco endereco;
     private Telefone telefone;
     
-    
-    
+
 //  Construtores
     public Pessoa(){}; // construtor vazio// construtor vazio
     
@@ -59,17 +57,13 @@ public class Pessoa {
     
 
    public void imprimir() {
-            System.out.println("----------------------------------------------------------------------------");
-            System.out.println("ID = " + id);
-            System.out.println("Nome = " + nome);
-           System.out.println("Telefone = (" + telefone.getDDD() + ")" + telefone.getNumero());
-            System.out.println("Logradouro: " + endereco.getLogadouro());
-            System.out.println("Número: " + endereco.getNumero());
-            System.out.println("Complemento: " + endereco.getComplemento());
-            System.out.println("Bairro: " + endereco.getBairro());
-            System.out.println("Cidade: " + endereco.getCidade());
-            System.out.println("Estado: " + endereco.getEstado());
-            System.out.println("CEP: " + endereco.getCep());
+        System.out.println("|===============================================|");
+        System.out.println("|       Estes dados são de uma Pessoa           |");
+        System.out.println("|===============================================|");
+        System.out.println("|   ID = " + id);
+        System.out.println("|   Nome = " + nome);
+        System.out.println("|   Telefone = (" + telefone.getDDD() + ")" + telefone.getNumero());
+
    }
    
 

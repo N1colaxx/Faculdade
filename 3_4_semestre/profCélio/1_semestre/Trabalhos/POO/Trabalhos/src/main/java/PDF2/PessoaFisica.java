@@ -9,10 +9,10 @@ package PDF2;
  * @author nicol
  */
 public class PessoaFisica extends Pessoa{
-//  Atributos da class
     private String cpf;
     private String rg;
     private String emissor_rg;
+    
     
     // Construtor Pessoa Fisica
     public PessoaFisica(){};
@@ -53,15 +53,10 @@ public class PessoaFisica extends Pessoa{
     @Override
     public void imprimir(){
         super.imprimir();
-        System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=");
-        if(cpf != null && rg != null && emissor_rg != null) {
-            System.out.println("CPF: " + cpf);
-            System.out.println("Numero RG: " + rg + "Emissor RG: " + emissor_rg);
-        } else{
-            System.out.println("ERRO:  CPF, Numero do RG ou Emissor do RG, INVALIDOSS");
-        }
+        System.out.println("|    CPF: " + cpf);
+        System.out.println("|   Numero RG: " + rg + "Emissor RG: " + emissor_rg);
         System.out.println("|___________________________________________________________|");
-        System.out.println("        Estas Informações são de uma Pessoa Fisica          |");
+        System.out.println("|               Do tipo pessoa Fisica                       |");
         System.out.println("|___________________________________________________________|");
     }
     
