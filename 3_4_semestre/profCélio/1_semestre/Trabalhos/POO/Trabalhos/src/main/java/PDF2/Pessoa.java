@@ -8,7 +8,7 @@ package PDF2;
  *
  * @author nicol
  */
-public class Pessoas {
+public class Pessoa {
 //    Atributos da class
     private int id;
     private String nome;
@@ -20,9 +20,9 @@ public class Pessoas {
     
     
 //  Construtores
-    public Pessoas(){}; // construtor vazio
+    public Pessoa(){}; // construtor vazio// construtor vazio
     
-    public Pessoas(int id, String nome, Endereco endereco, Telefone telefone){
+    public Pessoa(int id, String nome, Endereco endereco, Telefone telefone){
         this.id = id;
         this.nome = nome;
         this.endereco = endereco; 
@@ -30,7 +30,7 @@ public class Pessoas {
     }
     
     
-//  Getters para Endereco e Telefone pois  estão em outra class e NÂO È HERDADO(EXTENDS)
+//  Setters para Endereco e Telefone pois  estão em outra class e NÂO È HERDADO(EXTENDS)
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
     }
@@ -58,25 +58,11 @@ public class Pessoas {
     }
     
 
-    
-   public void exibirInformacoes() {
-        
-       if (id <= 0 || nome == null){
-           throw new IllegalArgumentException("ERRO: Nome nulo ou ID <= 0(zero)!!");
-       }else{
+   public void imprimir() {
             System.out.println("----------------------------------------------------------------------------");
             System.out.println("ID = " + id);
             System.out.println("Nome = " + nome);
-       }
-       
-       if(telefone != null){
-           System.out.println("Telefone = " + telefone.getDDD() + telefone.getNumero());
-       } else {
-           System.out.println("Erro: Telefone Nulo ou Invalido");
-       }
-       
-        // Verificando se o objeto endereco não é nulo
-        if (endereco != null) {
+           System.out.println("Telefone = (" + telefone.getDDD() + ")" + telefone.getNumero());
             System.out.println("Logradouro: " + endereco.getLogadouro());
             System.out.println("Número: " + endereco.getNumero());
             System.out.println("Complemento: " + endereco.getComplemento());
@@ -84,29 +70,25 @@ public class Pessoas {
             System.out.println("Cidade: " + endereco.getCidade());
             System.out.println("Estado: " + endereco.getEstado());
             System.out.println("CEP: " + endereco.getCep());
-        } else {
-            System.out.println("ERRO: Endereço não disponível ou Invalido.");
-        }
-        
-
    }
-    
+   
+
 //    Método principal para testes
     public static void main(String[] args) {
 //      Criando um Endereco  
         Endereco endereco1 = new Endereco("Rua das Flores", "123", "Apt 101", "Centro", "Reginópolis", "SP", 17190005);
-        Endereco endereco2 = new Endereco("Rua Boa VIsta", "234", "Apt 202", "Centro", "Reginópolis", "SP", 17190006);
+//        Endereco endereco2 = new Endereco("Rua Boa VIsta", "234", "Apt 202", "Centro", "Reginópolis", "SP", 17190006);
 
 //      Criando um Telefone
-        Telefone t1 = new Telefone(14,111111111);
-        Telefone t2 = new Telefone(14,222222222);
+        Telefone t1 = new Telefone(10,111111111);
+//        Telefone t2 = new Telefone(14,222222222);
         
 //      Criando uma Pessoa
-        Pessoas p1 = new Pessoas(1, "Nicolas", endereco1, t1);
-        Pessoas p2 = new Pessoas(3, "Anto", endereco2, t2);
+        Pessoa p1 = new Pessoa(1, "Nicolas", endereco1, t1);
+//        Pessoa p2 = new Pessoa(3, "Anto", endereco2, t2);
         
         
-        p1.exibirInformacoes();
-        p2.exibirInformacoes();
+        p1.imprimir();
+//        p2.imprimir();
     }
 }

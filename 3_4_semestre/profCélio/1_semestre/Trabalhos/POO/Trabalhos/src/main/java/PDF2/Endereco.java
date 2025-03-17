@@ -65,8 +65,10 @@ public class Endereco {
         this.logadouro = logadouro;
     }
 
+// primeiro usar .matches que é um método da classe String em Java.
+// depois uso a epreçaõ REGEX
     public void setNumero(String numero) {
-        this.numero = numero;
+            this.numero = numero; 
     }
 
     public void setComplemento(String complemento) {
@@ -86,7 +88,7 @@ public class Endereco {
     }
 
     public void setCep(int cep) {
-        this.cep = cep;
+            this.cep = cep;        
     }
     
 }

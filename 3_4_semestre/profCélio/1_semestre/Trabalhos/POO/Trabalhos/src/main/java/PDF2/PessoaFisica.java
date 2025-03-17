@@ -8,7 +8,7 @@ package PDF2;
  *
  * @author nicol
  */
-public class PessoaFisica extends Pessoas{
+public class PessoaFisica extends Pessoa{
 //  Atributos da class
     private String cpf;
     private String rg;
@@ -18,7 +18,7 @@ public class PessoaFisica extends Pessoas{
     public PessoaFisica(){};
 
     public PessoaFisica(int id, String nome, Endereco endereco, Telefone telefone, String cpf, String rg, String emissor_rg) {
-        super(id, nome, endereco, telefone); // chamando os contrutores de Pessoas
+        super(id, nome, endereco, telefone); // chamando os contrutores de Pessoa
         this.cpf = cpf;
         this.rg = rg;
         this.emissor_rg = emissor_rg;
@@ -51,7 +51,8 @@ public class PessoaFisica extends Pessoas{
     }
 
     @Override
-    public void exibirInformacoes(){
+    public void imprimir(){
+        super.imprimir();
         System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=");
         if(cpf != null && rg != null && emissor_rg != null) {
             System.out.println("CPF: " + cpf);
@@ -64,6 +65,8 @@ public class PessoaFisica extends Pessoas{
         System.out.println("|___________________________________________________________|");
     }
     
+
+    
     public static void  main(String[] args){
 //        Criando Endereco
         Endereco endereco = new Endereco("Bela Vista", "666", "portão", "ceu", "terra mar", "MS", 18190022);
@@ -74,7 +77,7 @@ public class PessoaFisica extends Pessoas{
 //      Criando Pessoa Fisica
         PessoaFisica pf = new PessoaFisica(99, "João", endereco, telefone, "977060706", "12312312313", "SP");
 
-        pf.exibirInformacoes();
+        pf.imprimir();
     }
 
 }

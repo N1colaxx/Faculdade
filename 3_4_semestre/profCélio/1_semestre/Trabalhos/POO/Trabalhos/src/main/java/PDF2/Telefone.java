@@ -32,13 +32,11 @@ public class Telefone {
     
     
 //    Setters
-    public void setDDD(int ddd){
-        this.ddd = ddd;
-    }
+    public void setDDD(int ddd) {
+            this.ddd = ddd;
+        }
     
     public void setNumero(long numero){
-        this.numero = numero;
+            this.numero = numero;
+        }
     }
-
-    
-}
