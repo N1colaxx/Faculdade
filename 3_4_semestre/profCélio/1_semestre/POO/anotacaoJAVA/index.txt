@@ -1,4 +1,4 @@
-Temos 3 siglas para o java: JVM - JRE - JDK
+    Temos 3 siglas para o java: JVM - JRE - JDK
 
     JVM (Java Virtual Machine):
         A JVM é responsavel por interpretar e executar o codigo java compilado (bycode), 
@@ -49,7 +49,7 @@ Operadores logiscos:
 
         &&  (E condicional (SE x = Verdade e somente SE y = Verdade, res = true)    ) 
         ||  (OU condicional (SE x = Verdade ou y = Verdade, res = true )    ) 
-        ^   (OU Exclusivo logico booleano ( (SE x E y = Verdade) ou (SE x E y = Verdade) res = False)   )
+        ^   (OU Exclusivo logico booleano ( (SE x = False E y = False) res= False, (SE x = False E y = Verdade) res = Verdade)) se apenas um dos operandos for verdadeiro, mas não ambos.
         |   (OU inclusivo logico booleano) 
         &   (E logico booleano (SE x E y for iguais, res = true)    )
         !  (Não logico)

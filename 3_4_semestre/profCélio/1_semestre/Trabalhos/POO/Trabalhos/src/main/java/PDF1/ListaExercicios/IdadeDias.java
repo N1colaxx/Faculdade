@@ -1,4 +1,4 @@
-package lista_exercicios;
+package PDF1.ListaExercicios;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

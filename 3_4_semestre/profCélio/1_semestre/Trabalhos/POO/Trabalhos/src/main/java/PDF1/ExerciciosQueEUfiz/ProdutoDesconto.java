@@ -1,4 +1,4 @@
-package lista_exercicios.eu_fiz;
+package PDF1.ExerciciosQueEUfiz;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
