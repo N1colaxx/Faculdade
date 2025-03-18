@@ -8,7 +8,9 @@ package PDF2;
  *
  * @author nicol
  */
-public class Pessoa {
+
+
+public class Pessoa implements InterfaceCadastro{
     private int id;
     private String nome;
     
@@ -16,26 +18,14 @@ public class Pessoa {
     private Endereco endereco;
     private Telefone telefone;
     
-
-//  Construtores
-    public Pessoa(){}; // construtor vazio// construtor vazio
     
-    public Pessoa(int id, String nome, Endereco endereco, Telefone telefone){
-        this.id = id;
-        this.nome = nome;
-        this.endereco = endereco; 
-        this.telefone = telefone;
+    
+// Construtor    
+    public Pessoa(){
+        this.endereco = new Endereco(); 
+        this.telefone = new Telefone();
     }
     
-    
-//  Setters para Endereco e Telefone pois  estão em outra class e NÂO È HERDADO(EXTENDS)
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-    
-    public void setTelefone(Telefone telefone) {
-        this.telefone = telefone;
-    }
     
 //  Getters Pessoa
     public  int getID(){
@@ -46,6 +36,15 @@ public class Pessoa {
         return nome;
     }
     
+    public Endereco getEndereco(){
+        return endereco;
+    }
+    
+    public Telefone getTelefone(){
+        return telefone;
+    }
+    
+    
 //  Setters Pessoa
     public void setID(int id){
         this.id = id;
@@ -55,34 +54,42 @@ public class Pessoa {
         this.nome = nome;
     }
     
+    @Override
+    public void entrar(){
 
+        
+        System.out.print("Digite seu ID: ");
+        id = leia.nextInt();
+        leia.nextLine();
+        
+        System.out.print("Digite seu nome: ");
+        nome = leia.nextLine();
+        
+//      Chamando o metodo do Endereço
+        System.out.println("Incira os dados do seu Endereco. ");
+        endereco.entrar();
+       
+//      Chamando o metodo do Telefone
+        System.out.println("Digite seu Telefone: ");
+        telefone.entrar();
+
+    }
+    
+    @Override
    public void imprimir() {
         System.out.println("|===============================================|");
         System.out.println("|       Estes dados são de uma Pessoa           |");
         System.out.println("|===============================================|");
         System.out.println("|   ID = " + id);
         System.out.println("|   Nome = " + nome);
-        System.out.println("|   Telefone = (" + telefone.getDDD() + ")" + telefone.getNumero());
-
+        System.out.println("|   " + endereco.toString());
+        System.out.println("|   Telefone: " + telefone.toString());
    }
    
-
-//    Método principal para testes
-    public static void main(String[] args) {
-//      Criando um Endereco  
-        Endereco endereco1 = new Endereco("Rua das Flores", "123", "Apt 101", "Centro", "Reginópolis", "SP", 17190005);
-//        Endereco endereco2 = new Endereco("Rua Boa VIsta", "234", "Apt 202", "Centro", "Reginópolis", "SP", 17190006);
-
-//      Criando um Telefone
-        Telefone t1 = new Telefone(10,111111111);
-//        Telefone t2 = new Telefone(14,222222222);
-        
-//      Criando uma Pessoa
-        Pessoa p1 = new Pessoa(1, "Nicolas", endereco1, t1);
-//        Pessoa p2 = new Pessoa(3, "Anto", endereco2, t2);
-        
-        
-        p1.imprimir();
-//        p2.imprimir();
-    }
+   public static void main (String[] args){
+       Pessoa pessoa = new Pessoa();
+       
+       pessoa.entrar();
+       pessoa.imprimir();
+   }
 }

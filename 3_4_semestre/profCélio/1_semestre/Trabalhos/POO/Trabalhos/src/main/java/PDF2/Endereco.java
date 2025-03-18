@@ -4,11 +4,12 @@
  */
 package PDF2;
 
+
 /**
  *
  * @author nicol
  */
-public class Endereco {
+public class Endereco implements InterfaceCadastro{
     private String logradouro;
     private String numero;
     private String complemento;
@@ -18,17 +19,7 @@ public class Endereco {
     private int cep;
 
 //    Contrutor
-
-    public Endereco(String logradouro, String numero, String complemento, String bairro, String cidade, String estado, int cep) {
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.cep = cep;
-    }
-    
+    public Endereco(){};
     
     
 //    Getters
@@ -89,8 +80,50 @@ public class Endereco {
         this.cep = cep;
     }
     
+
+    
+    @Override
+    public void entrar(){
+
+        
+        System.out.print("Digite seu Logradouro: ");
+        logradouro = leia.nextLine();
+        
+        System.out.print("Digite seu Numero: ");
+        numero = leia.nextLine();
+        
+        System.out.print("Digite seu Complemento: ");
+        complemento = leia.nextLine();
+        
+        System.out.print("Digite seu Bairro: ");
+        bairro = leia.nextLine();
+        
+        System.out.print("Digite sua Cidade: ");
+        cidade = leia.nextLine();
+        
+        System.out.print("Digite seu Estado: ");
+        estado = leia.nextLine();
+        
+        System.out.print("Digite seu Cep: ");
+        cep = leia.nextInt();
+
+    }
+    
+    @Override
+    public void imprimir(){
+        System.out.println(this.toString());
+    }
+    
     @Override
     public String toString() {
-        return logradouro + ", " + numero + ", " + complemento + ", " + bairro + ", " + cidade + " - " + estado + ", CEP: " + cep;
+        return "Endereco: " + "Logradouro: " + logradouro + ", Numero: " + numero + ", Complemento: " + complemento + ", Bairro: " + bairro + ", Cidade:" + cidade + ", Estado: " + estado + ", CEP: " + cep;
     }
+    
+    public static void main(String[] args) {
+        Endereco endereco = new Endereco();
+
+        endereco.entrar();
+        endereco.imprimir();
+    }
+            
 }

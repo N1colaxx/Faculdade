@@ -4,21 +4,15 @@
  */
 package PDF2;
 
+
 /**
  *
  * @author nicol
  */
-public class Telefone {
+public class Telefone implements InterfaceCadastro{
 //  Atributos da Class
     private int ddd;
     private long numero;
-    
-    
-//    Construtor
-    public Telefone(int ddd, long numero){
-        this.ddd = ddd;
-        this.numero = numero;
-    }
     
     
 //    Getters
@@ -39,4 +33,33 @@ public class Telefone {
     public void setNumero(long numero){
             this.numero = numero;
         }
+    
+    @Override
+    public void entrar(){
+    
+        System.out.print("Digite seu DDD:");
+        ddd = leia.nextInt();
+        
+        System.out.print("Digite seu Numero: ");
+        numero = leia.nextLong();
+        
     }
+    
+    @Override
+    public void imprimir(){
+        System.out.println(this.toString());
+    }
+    
+    @Override
+    public String toString(){
+        return "Telefone: (" + ddd +")"+ numero;
+    }
+    
+    
+    public static void main (String[] args){
+        Telefone telefone = new Telefone();
+        
+        telefone.entrar();
+        telefone.imprimir();
+    }
+}

@@ -8,18 +8,13 @@ package PDF2;
  *
  * @author nicol
  */
-public class Receber extends Cliente{
+public class Receber {
     private Cliente cliente;
     private String nota_fiscal;
     
     
     public Receber(){};
 
-    public Receber(int id, String nome, Endereco endereco, Telefone telefone, String cnpj, String inscricao_estadual, String contato, double limite_credito, Endereco endereco_cobranca, Cliente cliente, String nota_fiscal) {
-        super(id, nome, endereco, telefone, cnpj, inscricao_estadual, contato, limite_credito, endereco_cobranca);
-        this.cliente = cliente;
-        this.nota_fiscal = nota_fiscal;
-    }
     
     
 //    Gettees
