@@ -86,37 +86,37 @@ public class Endereco implements InterfaceCadastro{
     public void entrar(){
 
         
-        System.out.print("Digite seu Logradouro: ");
+        System.out.print("| Digite seu Logradouro: ");
         logradouro = leia.nextLine();
         
-        System.out.print("Digite seu Numero: ");
+        System.out.print("| Digite seu Numero: ");
         numero = leia.nextLine();
         
-        System.out.print("Digite seu Complemento: ");
+        System.out.print("| Digite seu Complemento: ");
         complemento = leia.nextLine();
         
-        System.out.print("Digite seu Bairro: ");
+        System.out.print("| Digite seu Bairro: ");
         bairro = leia.nextLine();
         
-        System.out.print("Digite sua Cidade: ");
+        System.out.print("| Digite sua Cidade: ");
         cidade = leia.nextLine();
         
-        System.out.print("Digite seu Estado: ");
+        System.out.print("|Digite seu Estado: ");
         estado = leia.nextLine();
         
-        System.out.print("Digite seu Cep: ");
+        System.out.print("| Digite seu Cep: ");
         cep = leia.nextInt();
 
     }
     
     @Override
     public void imprimir(){
-        System.out.println(this.toString());
+        System.out.println("Endereço: " + this.toString());
     }
     
     @Override
     public String toString() {
-        return "Endereco: " + "Logradouro: " + logradouro + ", Numero: " + numero + ", Complemento: " + complemento + ", Bairro: " + bairro + ", Cidade:" + cidade + ", Estado: " + estado + ", CEP: " + cep;
+        return   "Logradouro: " + logradouro + ", Numero: " + numero + ", Complemento: " + complemento + ", Bairro: " + bairro + ", Cidade:" + cidade + ", Estado: " + estado + ", CEP: " + cep;
     }
     
     public static void main(String[] args) {

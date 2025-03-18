@@ -62,7 +62,7 @@ public class PF extends Pessoa{
     @Override
     public void imprimir(){
         System.out.println("|======================================================|");
-        System.out.println("|       Estes dados são de uma Pessoa Fisica           |");
+        System.out.println("|               Pessoa Fisica                          |");
         System.out.println("|======================================================|");
 
         // Imprime os dados herdados de Pessoa

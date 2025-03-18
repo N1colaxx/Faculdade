@@ -37,11 +37,13 @@ public class Telefone implements InterfaceCadastro{
     @Override
     public void entrar(){
     
-        System.out.print("Digite seu DDD:");
+        System.out.print("| Digite seu DDD:");
         ddd = leia.nextInt();
         
-        System.out.print("Digite seu Numero: ");
+        System.out.print("| Digite seu Numero: ");
         numero = leia.nextLong();
+        
+        System.out.println("|-------------------------------------------------|");
         
     }
     

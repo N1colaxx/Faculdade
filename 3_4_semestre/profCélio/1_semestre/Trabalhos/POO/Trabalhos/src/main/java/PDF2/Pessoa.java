@@ -58,19 +58,23 @@ public class Pessoa implements InterfaceCadastro{
     public void entrar(){
 
         
-        System.out.print("Digite seu ID: ");
+        System.out.print("| Digite seu ID: ");
         id = leia.nextInt();
         leia.nextLine();
         
-        System.out.print("Digite seu nome: ");
+        System.out.print("| Digite seu nome: ");
         nome = leia.nextLine();
         
 //      Chamando o metodo do Endereço
-        System.out.println("Incira os dados do seu Endereco. ");
+        System.out.println("|-----------------------------------------------|");
+        System.out.println("|       Incira os dados do seu Endereco.        |");
+        System.out.println("|-----------------------------------------------|");
         endereco.entrar();
        
 //      Chamando o metodo do Telefone
-        System.out.println("Digite seu Telefone: ");
+        System.out.println("|-----------------------------------------------|");
+        System.out.println("|       Digite seu Telefone:                    |");
+        System.out.println("|-----------------------------------------------|");
         telefone.entrar();
 
     }

@@ -53,14 +53,16 @@ public class PJ extends Pessoa {
         super.entrar();
         leia.nextLine();
         
-        System.out.print("Digite o CNPJ: ");
+        System.out.print("|  Digite o CNPJ: ");
         cnpj = leia.nextLine();
         
-        System.out.print("Digite a Incrição Estadual:  ");
+        System.out.print("| Digite a Incrição Estadual:  ");
         inscricao_estadual = leia.nextLine();
         
-        System.out.print("Digite um meio de Contato: ");
+        System.out.print("| Digite um meio de Contato: ");
         contato = leia.nextLine();
+        
+        System.out.println("|-------------------------------------------------|");
     }
     
     @Override
@@ -73,9 +75,9 @@ public class PJ extends Pessoa {
         System.out.println("|   Nome = " + getNome());
         System.out.println("|   " + getEndereco());
         System.out.println("|   " + getTelefone());
-        System.out.println("CNPJ: " + cnpj);
-        System.out.println("Inscrição Estadual: " + inscricao_estadual);
-        System.out.println("Meio de Contato: " + contato);
+        System.out.println("|   CNPJ: " + cnpj);
+        System.out.println("|   Inscrição Estadual: " + inscricao_estadual);
+        System.out.println("|   Meio de Contato: " + contato);
         
     }
     
