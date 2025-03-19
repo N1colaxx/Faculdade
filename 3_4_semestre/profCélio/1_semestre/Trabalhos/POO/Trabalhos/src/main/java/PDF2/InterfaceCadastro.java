@@ -11,7 +11,7 @@ import java.util.Scanner;
  * @author Nicolas
  */
 
-interface InterfaceCadastro {
+public interface InterfaceCadastro {
     Scanner leia = new Scanner(System.in);
     
     public void entrar();

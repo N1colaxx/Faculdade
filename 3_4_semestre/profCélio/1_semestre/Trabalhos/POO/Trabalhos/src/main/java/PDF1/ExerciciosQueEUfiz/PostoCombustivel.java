@@ -41,16 +41,13 @@ public class PostoCombustivel {
                     scanner.nextLine(); // limpar buffer
 
                     switch (opc) {
-                        case 1:
-                            System.out.println("Vc escolheu o E-etanol no valor de R$ " + preco_E);
-                            break;
-                        case 2:
-                            System.out.println("Vc escolheu o G-gasolina no valor de R$ " + preco_G);
-                            break;
-                        default:
+                        case 1 -> System.out.println("Vc escolheu o E-etanol no valor de R$ " + preco_E);
+                        case 2 -> System.out.println("Vc escolheu o G-gasolina no valor de R$ " + preco_G);
+                        default -> {
                             System.out.println("ERRO: Opção INVALIDA, digite novamente!");
                             System.out.println("----------------------------------------------");
                             continue; // volta pro while 
+                        }
                     }
                     break;
 

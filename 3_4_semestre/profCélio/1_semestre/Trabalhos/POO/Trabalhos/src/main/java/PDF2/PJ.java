@@ -4,13 +4,12 @@
  */
 package PDF2;
 
-import java.util.Scanner;
 
 /**
  *
  * @author nicol
  */
-public class PJ extends Pessoa {
+public abstract class PJ extends Pessoa {
 //    Atributos da class
     private String cnpj;
     private String inscricao_estadual;

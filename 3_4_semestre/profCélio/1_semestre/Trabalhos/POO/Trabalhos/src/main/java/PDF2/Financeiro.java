@@ -10,7 +10,7 @@ package PDF2;
  *
  * @author nicol
  */
-public class Financeiro implements InterfaceCadastro{
+public abstract class Financeiro implements InterfaceCadastro{
 //    Atributos da class
     private int id;
     private int numero;
@@ -170,7 +170,7 @@ public class Financeiro implements InterfaceCadastro{
         System.out.println("|-----------------------------------------------|");
     }
     public static void main (String[] args){
-        Financeiro obj = new Financeiro();
+        Receber obj = new Receber();
 //        Financeiro obj1 = new Financeiro(1, 123, "2025-03-17", "2025-04-17", "2025-03-20", 1000.0, 50.0, 10.0, 5.0, 1055.0);
 
         obj.entrar();

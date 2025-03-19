@@ -10,7 +10,7 @@ package PDF2;
  */
 
 
-public class Pessoa implements InterfaceCadastro{
+public abstract class Pessoa implements InterfaceCadastro{
     private int id;
     private String nome;
     
@@ -22,6 +22,7 @@ public class Pessoa implements InterfaceCadastro{
     
 // Construtor    
     public Pessoa(){
+        
         this.endereco = new Endereco(); 
         this.telefone = new Telefone();
     }
@@ -67,31 +68,41 @@ public class Pessoa implements InterfaceCadastro{
         
 //      Chamando o metodo do Endereço
         System.out.println("|-----------------------------------------------|");
-        System.out.println("|       Incira os dados do seu Endereco.        |");
+        System.out.println("|       Incira os dados do Endereco.            |");
         System.out.println("|-----------------------------------------------|");
         endereco.entrar();
        
 //      Chamando o metodo do Telefone
         System.out.println("|-----------------------------------------------|");
-        System.out.println("|       Digite seu Telefone:                    |");
+        System.out.println("|           Digite Telefone:                    |");
         System.out.println("|-----------------------------------------------|");
         telefone.entrar();
 
     }
     
     @Override
-   public void imprimir() {
+    public void imprimir() {
         System.out.println("|===============================================|");
         System.out.println("|       Estes dados são de uma Pessoa           |");
         System.out.println("|===============================================|");
         System.out.println("|   ID = " + id);
         System.out.println("|   Nome = " + nome);
         System.out.println("|   " + endereco.toString());
-        System.out.println("|   Telefone: " + telefone.toString());
+        System.out.println("|   " + telefone.toString());
    }
    
+    
+    @Override
+    public String toString(){
+        return
+            "|  ID = " + id +
+            "\n|    Nome = " + nome +
+            "\n|   " + endereco.toString() +
+            "\n|   " + telefone.toString();
+    }
+   
    public static void main (String[] args){
-       Pessoa pessoa = new Pessoa();
+       Funcionario pessoa = new Funcionario();
        
        pessoa.entrar();
        pessoa.imprimir();

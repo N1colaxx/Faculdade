@@ -1,16 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package PDF2;
+    /*
+     * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+     * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+     */
+    package PDF2;
 
-/**
- *
- * @author nicol
- */
-public class Receber extends Financeiro {
-    private Cliente cliente;
-    private String nota_fiscal;
+    /**
+     *
+     * @author nicol
+     */
+    public class Receber extends Financeiro {
+        private Cliente cliente;
+        private String nota_fiscal;
     
     public Receber(){
         cliente = new Cliente();
@@ -36,6 +36,7 @@ public class Receber extends Financeiro {
     public void setNota_fiscal(String nota_fiscal) {
         this.nota_fiscal = nota_fiscal;
     }
+    
     
     @Override
     public void entrar(){

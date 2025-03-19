@@ -54,6 +54,7 @@ public class Fornecedor extends PJ{
         site = leia.nextLine();
     }
     
+    @Override
     public void imprimir(){
         System.out.println("|===============================================|");
         System.out.println("|               Fornecedor                      |");
@@ -69,6 +70,23 @@ public class Fornecedor extends PJ{
         System.out.println("|   Data do Cadastro: " + data_cadastro);
         System.out.println("|   Site: " + site);
     }
+    
+    
+@Override
+// Aqui eu seto como quero q os dados do fornecedor vai aparecer quando chamado em outra class
+public String toString() {
+    return
+            "|   ID = " + getID() + "\n" +
+            "|   Nome = " + getNome() + "\n" +
+            "|   " + getEndereco() + "\n" +
+            "|   " + getTelefone() + "\n" +
+            "|   CNPJ: " + getCNPJ() + "\n" +
+            "|   Inscricao Estadual: " + getInscricaoEstadual() + "\n" +
+            "|   Meio de Contato: " + getContato() + "\n" +
+            "|   Limite da Compra: " + limite_compra + "\n" +
+            "|   Data do Cadastro: " + data_cadastro + "\n" +
+            "|   Site: " + site;
+}
     
     public static void main(String[] args){
         Fornecedor fornecedor = new Fornecedor();

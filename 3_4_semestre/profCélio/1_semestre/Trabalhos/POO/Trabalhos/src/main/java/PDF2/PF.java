@@ -8,7 +8,7 @@ package PDF2;
  *
  * @author nicol
  */
-public class PF extends Pessoa{
+public abstract class PF extends Pessoa{
     private String cpf;
     private String rg;
     private String emissor_rg;
