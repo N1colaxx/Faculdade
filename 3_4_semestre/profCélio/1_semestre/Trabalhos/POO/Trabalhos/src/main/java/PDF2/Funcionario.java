@@ -8,32 +8,31 @@ package PDF2;
  *
  * @author Nicolas
  */
-public class Funcionario extends Pessoa{
+public class Funcionario extends PF {
+
     private String data_admissao;
     private String data_demissao;
     private String ctps;
     private double salario;
 
- 
     //Getters
-    public String getDataAdmissao(){
+    public String getDataAdmissao() {
         return data_admissao;
     }
-    
-    public String getDataDemissao(){
+
+    public String getDataDemissao() {
         return data_demissao;
     }
-    
-    public String getCTPS(){
+
+    public String getCTPS() {
         return ctps;
     }
-    
-    public double getSalario(){
+
+    public double getSalario() {
         return salario;
     }
-    
-    //Setters
 
+    //Setters
     public void setData_admissao(String data_admissao) {
         this.data_admissao = data_admissao;
     }
@@ -49,43 +48,34 @@ public class Funcionario extends Pessoa{
     public void setSalario(double salario) {
         this.salario = salario;
     }
-    
+
     @Override
-    public void entrar(){
+    public void entrar() {
         super.entrar(); // chamo o metodo entrar de Pessoa
         leia.nextLine();
-        
-        System.out.println("Digite a Data Adimissao: ");
+
+        System.out.print("| Digite a Data Adimissao: ");
         data_admissao = leia.nextLine();
-        
-        System.out.print("Digite a Data Demissao: ");
+
+        System.out.print("| Digite a Data Demissao: ");
         data_demissao = leia.nextLine();
-        
-        System.out.print("Digite o CTPS: ");
+
+        System.out.print("| Digite o CTPS: ");
         ctps = leia.nextLine();
-        
-        System.out.print("Digite seu salario: ");
+
+        System.out.print("| Digite seu salario: ");
         salario = leia.nextDouble();
     }
-    
+
     @Override
-    public void imprimir(){
+    public void imprimir() {
         System.out.println("|-----------------------------------------------|");
-        System.out.println("|               Funcionario                     |");
+        System.out.println("|         Informacao Funcionario                |");
         System.out.println("|-----------------------------------------------|");
-        System.err.println(super.toString());
-        System.out.println("|   Data de Admissao: " + data_admissao );
+        super.imprimir();
+        System.out.println("|   Data de Admissao: " + data_admissao);
         System.out.println("|   Data de Demissao: " + data_demissao);
         System.out.println("|   CTPS: " + ctps);
         System.out.println("|   Salario: " + salario);
-    }
-    
-    
-    
-    public static void main(String[] args){
-        Funcionario obj = new Funcionario();
-            
-        obj.entrar();
-        obj.imprimir();
     }
 }

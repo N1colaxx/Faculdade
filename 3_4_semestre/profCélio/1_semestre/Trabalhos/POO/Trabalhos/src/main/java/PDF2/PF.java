@@ -8,7 +8,7 @@ package PDF2;
  *
  * @author nicol
  */
-public abstract class PF extends Pessoa{
+public abstract class PF extends Pessoa implements InterfaceCadastro{
     private String cpf;
     private String rg;
     private String emissor_rg;
@@ -49,40 +49,25 @@ public abstract class PF extends Pessoa{
         super.entrar();
         leia.nextLine();
         
-        System.out.print("Digite seu CPF: ");
+        System.out.print("| Digite seu CPF: ");
         cpf = leia.nextLine();
         
-        System.out.print("Digite seu Numero do RG: ");
+        System.out.print("| Digite seu Numero do RG: ");
         rg = leia.nextLine();
         
-        System.out.print("Digite o Emissor do RG: ");
+        System.out.println("| Digite o Emissor do RG: ");
+        System.out.println("|-----------------------------------------------|");
         emissor_rg = leia.nextLine();
     }
     
     @Override
     public void imprimir(){
-        System.out.println("|======================================================|");
-        System.out.println("|               Pessoa Fisica                          |");
-        System.out.println("|======================================================|");
-
         // Imprime os dados herdados de Pessoa
-        System.out.println("|   ID = " + getID());
-        System.out.println("|   Nome = " + getNome());
-        System.out.println("|   " + getEndereco());
-        System.out.println("|   " + getTelefone());
+        super.imprimir();
         System.out.println("|   CPF: " + cpf);
         System.out.println("|   Numero RG: " + rg);
         System.out.println("|   Emissor RG: " + emissor_rg);
     }
-
-    
-    public static void  main(String[] args){
-        PF pessoa_fisica = new PF();
-        
-        pessoa_fisica.entrar();
-        pessoa_fisica.imprimir();
-    }
-
 }
 
 

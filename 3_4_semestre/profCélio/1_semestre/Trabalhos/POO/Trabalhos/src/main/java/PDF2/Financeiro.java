@@ -169,13 +169,6 @@ public abstract class Financeiro implements InterfaceCadastro{
         System.out.println("|   Total = " + getTotal());
         System.out.println("|-----------------------------------------------|");
     }
-    public static void main (String[] args){
-        Receber obj = new Receber();
-//        Financeiro obj1 = new Financeiro(1, 123, "2025-03-17", "2025-04-17", "2025-03-20", 1000.0, 50.0, 10.0, 5.0, 1055.0);
-
-        obj.entrar();
-        obj.imprimir();
-    }
 }
 
 

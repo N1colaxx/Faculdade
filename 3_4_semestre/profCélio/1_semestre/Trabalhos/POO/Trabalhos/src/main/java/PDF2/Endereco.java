@@ -117,13 +117,5 @@ public class Endereco implements InterfaceCadastro{
     @Override
     public String toString() {
         return   "Endereço: " + "Logradouro: " + logradouro + ", Numero: " + numero + ", Complemento: " + complemento + ", Bairro: " + bairro + ", Cidade:" + cidade + ", Estado: " + estado + ", CEP: " + cep;
-    }
-    
-    public static void main(String[] args) {
-        Endereco endereco = new Endereco();
-
-        endereco.entrar();
-        endereco.imprimir();
-    }
-            
+    }          
 }

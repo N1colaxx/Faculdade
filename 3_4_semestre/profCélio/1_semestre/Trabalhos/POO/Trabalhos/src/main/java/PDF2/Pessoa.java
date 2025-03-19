@@ -82,9 +82,6 @@ public abstract class Pessoa implements InterfaceCadastro{
     
     @Override
     public void imprimir() {
-        System.out.println("|===============================================|");
-        System.out.println("|       Estes dados são de uma Pessoa           |");
-        System.out.println("|===============================================|");
         System.out.println("|   ID = " + id);
         System.out.println("|   Nome = " + nome);
         System.out.println("|   " + endereco.toString());
@@ -96,15 +93,8 @@ public abstract class Pessoa implements InterfaceCadastro{
     public String toString(){
         return
             "|  ID = " + id +
-            "\n|    Nome = " + nome +
+            "\n|   Nome = " + nome +
             "\n|   " + endereco.toString() +
             "\n|   " + telefone.toString();
     }
-   
-   public static void main (String[] args){
-       Funcionario pessoa = new Funcionario();
-       
-       pessoa.entrar();
-       pessoa.imprimir();
-   }
 }

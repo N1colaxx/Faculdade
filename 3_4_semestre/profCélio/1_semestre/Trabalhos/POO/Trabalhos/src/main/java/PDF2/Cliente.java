@@ -42,10 +42,8 @@ public class Cliente extends PJ{
     
     @Override
     public void entrar(){
-        System.out.print("| Digite o ID: ");
-        setID(leia.nextInt());
+        super.entrar();
         leia.nextLine();
-        
         System.out.print("| Digite o Limite de Credito: ");
         limite_credito = leia.nextDouble();
         leia.nextLine();
@@ -55,20 +53,29 @@ public class Cliente extends PJ{
         endereco_cobranca.entrar();
     }
     
+    
+    @Override
     public void imprimir(){
         System.out.println("|===============================================|");
-        System.out.println("|                  Cliente                      |");
+        System.out.println("|              Informacao Cliente               |");
         System.out.println("|===============================================|");
-        System.out.println("|   ID do cliente: " + getID());
+        super.imprimir();
         System.out.println("|   Limite de credito: " + limite_credito);
-        System.out.println("|   Endereco de comnbança: " + endereco_cobranca);
-    }
+        System.out.println("|   Endereco de combrança: " + endereco_cobranca);
+    } 
     
-    public static void main(String[] agrs){
-        Cliente cliente = new  Cliente();
-        
-        cliente.entrar();
-        cliente.imprimir();
-    }
     
+    @Override
+    public String toString(){
+        return
+                "|   ID = " + getID() + "\n"
+                + "|   Nome = " + getNome() + "\n"
+                + "|   " + getEndereco() + "\n"
+                + "|   " + getTelefone() + "\n"
+                + "|   CNPJ: " + getCNPJ() + "\n"
+                + "|   Inscricao Estadual: " + getInscricaoEstadual() + "\n"
+                + "|   Meio de Contato: " + getContato() + "\n"
+                + "|   Limite de credito: " + limite_credito + "\n"
+                +"|   Endereco de combrança: " + endereco_cobranca;
+    }
 }

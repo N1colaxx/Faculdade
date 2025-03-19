@@ -44,9 +44,7 @@ public class PostoCombustivel {
                         case 1 -> System.out.println("Vc escolheu o E-etanol no valor de R$ " + preco_E);
                         case 2 -> System.out.println("Vc escolheu o G-gasolina no valor de R$ " + preco_G);
                         default -> {
-                            System.out.println("ERRO: Opção INVALIDA, digite novamente!");
-                            System.out.println("----------------------------------------------");
-                            continue; // volta pro while 
+                            throw new IllegalArgumentException();
                         }
                     }
                     break;

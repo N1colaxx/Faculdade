@@ -43,7 +43,7 @@ public class Telefone implements InterfaceCadastro{
         System.out.print("| Digite seu Numero: ");
         numero = leia.nextLong();
         
-        System.out.println("|-------------------------------------------------|");
+        System.out.println("|-----------------------------------------------|");
         
     }
     
@@ -55,13 +55,5 @@ public class Telefone implements InterfaceCadastro{
     @Override
     public String toString(){
         return "Telefone: (" + ddd +")"+ numero;
-    }
-    
-    
-    public static void main (String[] args){
-        Telefone telefone = new Telefone();
-        
-        telefone.entrar();
-        telefone.imprimir();
     }
 }
