@@ -19,8 +19,6 @@ public abstract class PJ extends Pessoa implements InterfaceCadastro {
     public PJ() {
     }
 
-    ;
-
 
   
 //  Getters e Setters Pessoa Juridica

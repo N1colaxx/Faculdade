@@ -40,13 +40,33 @@ public class Cliente extends PJ{
         this.endereco_cobranca = endereco_cobranca;
     }
     
+    
+    private void validaLimiteCredito(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("| Digite o Limite de Credito: ");
+                limite_credito = leia.nextDouble();
+                leia.nextLine();
+                
+                if (limite_credito > 0) {
+                    valido = true;  // 
+                } else {
+                    System.out.println("\n ERRO: Limite de Credito inválido!. Tem que ser maior q 0(zero). Digite novamente...");
+                }
+            } catch (Exception e) {
+                System.out.println("\n ERRO: Limite de Credito inválido!! Digite um número. Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+    }
+    
+    
     @Override
     public void entrar(){
         super.entrar();
-        leia.nextLine();
-        System.out.print("| Digite o Limite de Credito: ");
-        limite_credito = leia.nextDouble();
-        leia.nextLine();
+
+        validaLimiteCredito();
         
         System.out.println("|_______________________________________________|");
         System.out.println("|       Insira o Endereco de Cobrança           |");
@@ -57,7 +77,7 @@ public class Cliente extends PJ{
     @Override
     public void imprimir(){
         System.out.println("|===============================================|");
-        System.out.println("|  Informacao Cliente                           |");
+        System.out.println("|       Informacao Cliente                      |");
         System.out.println("|===============================================|");
         super.imprimir();
         System.out.println("|   Limite de credito: " + limite_credito);
@@ -68,7 +88,7 @@ public class Cliente extends PJ{
     @Override
     public String toString(){
         return
-                "|   ID = " + getID() + "\n"
+                "   ID = " + getID() + "\n"
                 + "|   Nome = " + getNome() + "\n"
                 + "|   " + getEndereco() + "\n"
                 + "|   " + getTelefone() + "\n"

@@ -34,14 +34,50 @@ public class Telefone implements InterfaceCadastro{
             this.numero = numero;
         }
     
+    private void validaDDD(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("| Digite seu DDD: ");
+                ddd = leia.nextInt();
+
+                if (ddd >= 11 && ddd <= 99) {
+                    valido = true;  
+                } else {
+                    System.out.println("\n ERRO: CEP inválido! O DDD deves der entre 11 e 99 . Digite novamente...");
+                }
+            } catch (Exception e) {
+                System.out.println("\n ERRO: DDD inválido!! Digite um número inteiro.");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+    }
+    
+    private void validaNumero(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("| Digite seu Numero: ");
+                ddd = leia.nextInt();
+
+                if (ddd > 0 && ddd <= 999999999) {
+                    valido = true;  
+                } else {
+                    System.out.println("\n ERRO: Numero inválido! O Numero não inicia com 0(zero) e max 8 digitos. Digite novamente...");
+                }
+            } catch (Exception e) {
+                System.out.println("\n ERRO: Numero inválido!! Digite um número inteiro e no max 8 digitos.");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+    }
+    
     @Override
     public void entrar(){
     
-        System.out.print("| Digite seu DDD:");
-        ddd = leia.nextInt();
+        validaDDD();
         
-        System.out.print("| Digite seu Numero: ");
-        numero = leia.nextLong();
+        validaNumero();
         
         System.out.println("|-----------------------------------------------|");
         

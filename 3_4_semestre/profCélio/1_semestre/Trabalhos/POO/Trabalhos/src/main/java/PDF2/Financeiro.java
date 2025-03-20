@@ -108,55 +108,166 @@ public abstract class Financeiro implements InterfaceCadastro{
         this.total = total;
     }
     
+    
+    private void validaID(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("| Digite o ID: ");
+                id = leia.nextInt();
+                leia.nextLine();
+
+                if (id > 0) {
+                    valido = true;  
+                } else {
+                    System.out.println("\n ERRO: ID inválido! Tem q ser maior q 0(zero). Digite novamente...");
+                }
+            } 
+            catch (Exception e) {
+                System.out.println("\n ERRO: ID inválido!! Digite um número inteiro . Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+    }
+    
+    private void validaNumero(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("Digite o Numero: ");
+                numero = leia.nextInt();
+                leia.nextLine();
+                
+                if (numero > 0) {
+                    valido = true;  
+                } else {
+                    System.out.println("\n ERRO: Numero inválido! Tem q ser maior q 0(zero). Digite novamente...");
+                }
+            } 
+            catch (Exception e) {
+                System.out.println("\n ERRO: Numero inválido!!  Digite um número. Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+    }
+    
+    private void validavalor(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("Digite o Valor: ");
+                valor = leia.nextDouble();
+                leia.nextLine();
+                
+                if (valor > 0) {
+                    valido = true;  
+                } else {
+                    System.out.println("\n ERRO:  Valor inválido! Tem q ser maior q 0(zero). Digite novamente...");
+                }
+            } 
+            catch (Exception e) {
+                System.out.println("\n ERRO:  Valor inválido!!  Digite um número. Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }   
+        }
+    }
+    
+    private void validaJuros(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("Digite os Juros: ");
+                juros = leia.nextDouble();
+                leia.nextLine();
+                
+                if (juros > 0) {
+                    valido = true;  
+                } else {
+                    System.out.println("\n ERRO:  Juros inválido! Tem q ser maior q 0(zero). Digite novamente...");
+                }
+            } 
+            catch (Exception e) {
+                System.out.println("\n ERRO:  Juros inválido!!  Digite um número. Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }   
+        }
+    }
+    
+    private void validaMulta(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("Digite os multa: ");
+                multa = leia.nextDouble();
+                leia.nextLine();
+                
+                if (multa > 0) {
+                    valido = true;  
+                } else {
+                    System.out.println("\n ERRO:  Multa inválido! Tem q ser maior q 0(zero). Digite novamente...");
+                }
+            } 
+            catch (Exception e) {
+                System.out.println("\n ERRO:  Multa inválido!!  Digite um número. Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }   
+        }
+    }
+    
+    private void validaDesconto(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("Digite os Desconto: ");
+                desconto = leia.nextDouble();
+                leia.nextLine();
+                
+                if (desconto > 0) {
+                    valido = true;  
+                } else {
+                    System.out.println("\n ERRO:  Desconto inválido! Tem q ser maior q 0(zero). Digite novamente...");
+                }
+            } 
+            catch (Exception e) {
+                System.out.println("\n ERRO:  Desconto inválido!!  Digite um número. Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }   
+        }
+    }
+    
+    
     @Override
     public void entrar(){  
-        try (leia) {
-            System.out.print("Digite o ID: ");
-            id = leia.nextInt();
+            validaID();
             
-            System.out.print("Digite o Numero: ");
-            numero = leia.nextInt();
-            
-            leia.nextLine();
-            
+            validaNumero();
+ 
             System.out.print("Digite a data Emissão: ");
             emissao = leia.nextLine();
             
-            System.out.print("Digite a data de Vencimento: ");
+            System.out.print("Digite a data de Vencimento: \n");
             vencimento = leia.nextLine();
             
             System.out.print("Digite a data de Pagamento: ");
             pagamento = leia.nextLine();
             
-            System.out.print("Digite o Valor: ");
-            valor = leia.nextDouble();
-            leia.nextLine();
+            validavalor();
             
-            System.out.print("Digite os Juros: ");
-            juros = leia.nextDouble();
-            leia.nextLine();
+            validaJuros();
             
-            System.out.print("Digite a Multa: ");
-            multa = leia.nextDouble();
-            leia.nextLine();
+            validaMulta();
             
-            System.out.print("Digite o Desconto: ");
-            desconto = leia.nextDouble();
-            leia.nextLine();
+            validaDesconto();
             
             // Calcular o total
             total = (valor + juros) - desconto;
-        }
     }
           
     
     @Override
     public void imprimir() {
         // Exibe os valores de todos os atributos
-        System.out.println("|-----------------------------------------------|");
-        System.out.println("|            Informações do Financeiro          |");
-        System.out.println("|-----------------------------------------------|");
-        System.out.println("|   ID: " + id);
+        System.out.println("|   ID financeiro: " + id);
         System.out.println("|   Número: " + numero);
         System.out.println("|   Emissão: " + emissao);
         System.out.println("|   Vencimento: " + vencimento);
@@ -166,8 +277,7 @@ public abstract class Financeiro implements InterfaceCadastro{
         System.out.println("|   Multa: " + multa);
         System.out.println("|   Desconto: " + desconto);
         System.out.println("|   Total é a soma de (valor +juros) - Desconto |");
-        System.out.println("|   Total = " + getTotal());
-        System.out.println("|-----------------------------------------------|");
+        System.out.println("|   Total = " + total);
     }
 }
 

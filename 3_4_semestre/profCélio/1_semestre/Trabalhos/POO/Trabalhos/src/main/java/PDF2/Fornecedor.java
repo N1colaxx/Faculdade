@@ -39,14 +39,34 @@ public class Fornecedor extends PJ {
     public void setSite(String site) {
         this.site = site;
     }
+    
+      private void validaLimiteCompra(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("| Digite o Limite da Compra: ");
+                limite_compra = leia.nextDouble();
+                leia.nextLine();
+                
+                if (limite_compra > 0) {
+                    valido = true;  // 
+                } else {
+                    System.out.println("\n ERRO: Limite da Compra inválido!. Tem que ser maior q 0(zero). Digite novamente...");
+                }
+            } catch (Exception e) {
+                System.out.println("\n ERRO: Limite da Compra inválido!! Digite um número. Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+        
+    }
+    
 
     @Override
     public void entrar() {
         super.entrar();
 
-        System.out.print("| Digite o Limite da Compra: ");
-        limite_compra = leia.nextDouble();
-        leia.nextLine();
+        validaLimiteCompra();
 
         System.out.print("| Digite a Data do Cadastro: ");
         data_cadastro = leia.nextLine();
@@ -55,6 +75,8 @@ public class Fornecedor extends PJ {
         site = leia.nextLine();
     }
 
+ 
+    
     @Override
     public void imprimir() {
         System.out.println("|===============================================|");
@@ -69,7 +91,7 @@ public class Fornecedor extends PJ {
     @Override
     public String toString() {
         return 
-                "|   ID = " + getID() + "\n"
+                "   ID = " + getID() + "\n"
                 + "|   Nome = " + getNome() + "\n"
                 + "|   " + getEndereco() + "\n"
                 + "|   " + getTelefone() + "\n"

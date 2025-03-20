@@ -55,19 +55,37 @@ public abstract class Pessoa implements InterfaceCadastro{
         this.nome = nome;
     }
     
+    private void validaID(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("| Digite seu ID: ");
+                id = leia.nextInt();
+                leia.nextLine();
+                
+                // Verifica se o CEP tem 8 dígitos
+                if (id > 0) {
+                    valido = true;  // CEP válido
+                } else {
+                    System.out.println("\n ERRO: ID inválido! Tem q ser maior q 0(zero). Digite novamente...");
+                }
+            } // O cat capitura o erro se o user digitar algo q n seja um Numero . Usando a def (Exception e) ela captura qualquer erro.
+            catch (Exception e) {
+                System.out.println("\n ERRO: ID inválido!! Digite um número inteiro . Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+    }
+    
     @Override
-    public void entrar(){
-
-        
-        System.out.print("| Digite seu ID: ");
-        id = leia.nextInt();
-        leia.nextLine();
+    public void entrar(){    
+        validaID();
         
         System.out.print("| Digite seu nome: ");
         nome = leia.nextLine();
         
 //      Chamando o metodo do Endereço
-        System.out.println("|-----------------------------------------------|");
+        System.out.println("\n|-----------------------------------------------|");
         System.out.println("|       Incira os dados do Endereco.            |");
         System.out.println("|-----------------------------------------------|");
         endereco.entrar();
@@ -82,19 +100,9 @@ public abstract class Pessoa implements InterfaceCadastro{
     
     @Override
     public void imprimir() {
-        System.out.println("|   ID = " + id);
-        System.out.println("|   Nome = " + nome);
+        System.out.println("|   ID pessoa = " + id);
+        System.out.println("|   Nome pessoa = " + nome);
         System.out.println("|   " + endereco.toString());
         System.out.println("|   " + telefone.toString());
    }
-   
-    
-    @Override
-    public String toString(){
-        return
-            "|  ID = " + id +
-            "\n|   Nome = " + nome +
-            "\n|   " + endereco.toString() +
-            "\n|   " + telefone.toString();
-    }
 }

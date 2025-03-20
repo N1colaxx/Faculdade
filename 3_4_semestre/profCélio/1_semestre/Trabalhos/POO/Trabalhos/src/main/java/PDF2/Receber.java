@@ -39,9 +39,9 @@ public class Receber extends Financeiro {
     public void entrar() {
         cliente.entrar();
         System.out.println("|-----------------------------------------------|");
-        leia.nextLine();
-
-        System.out.print("Digite a nota fiscal: ");
+        System.out.println("|   Insira os dados do Financeiro               |");
+        super.entrar();
+        System.out.print("| Digite a nota fiscal: ");
         nota_fiscal = leia.nextLine();
     }
 
@@ -52,6 +52,10 @@ public class Receber extends Financeiro {
         System.out.println("|===============================================|");
         System.out.println("|           Dados do cliente                    \n|");
         System.out.println("|   " + cliente.toString());
+        System.out.println("|-----------------------------------------------\n|");
+        System.out.println("|          Dados Financeiro do Cliente          |");
+        super.imprimir();
         System.out.println("|   Nota fiscal: " + nota_fiscal);
+        System.out.println("|===============================================|");
     }
 }

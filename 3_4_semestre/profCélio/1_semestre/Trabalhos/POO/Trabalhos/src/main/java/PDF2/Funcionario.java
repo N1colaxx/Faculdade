@@ -48,6 +48,25 @@ public class Funcionario extends PF {
     public void setSalario(double salario) {
         this.salario = salario;
     }
+    
+    private void validaFuncionario(){
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("| Digite seu Salario: ");
+                salario = leia.nextDouble();
+                
+                if (salario > 0) {
+                    valido = true;  // 
+                } else {
+                    System.out.println("\n ERRO: Salario inválido!. Tem que ser maior q 0(zero). Digite novamente...");
+                }
+            } catch (Exception e) {
+                System.out.println("\n ERRO: Salario inválido!! Digite um número. Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+    }
 
     @Override
     public void entrar() {
@@ -63,8 +82,7 @@ public class Funcionario extends PF {
         System.out.print("| Digite o CTPS: ");
         ctps = leia.nextLine();
 
-        System.out.print("| Digite seu salario: ");
-        salario = leia.nextDouble();
+        validaFuncionario();
     }
 
     @Override

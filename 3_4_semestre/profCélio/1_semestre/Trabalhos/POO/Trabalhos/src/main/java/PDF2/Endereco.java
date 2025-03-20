@@ -80,6 +80,27 @@ public class Endereco implements InterfaceCadastro{
         this.cep = cep;
     }
     
+    // Validar e definir o CEP
+    private void validarCEP() {
+        boolean valido = false;
+        while (!valido) {
+            try {
+                System.out.print("| Digite seu Cep: ");
+                cep = leia.nextInt();
+                
+                // Verifica se o CEP tem 8 dígitos
+                if (cep > 0) {
+                    valido = true;  // CEP válido
+                } else {
+                    System.out.println("\n ERRO: CEP inválido!. Digite novamente...");
+                }
+            } catch (Exception e) {
+                System.out.println("\n ERRO: CEP inválido!! Digite um número inteiro e max 8 digitos. Digite novamente...");
+                leia.nextLine(); // Limpar o buffer do scanner
+            }
+        }
+    }
+    
 
     
     @Override
@@ -104,8 +125,8 @@ public class Endereco implements InterfaceCadastro{
         System.out.print("|Digite seu Estado: ");
         estado = leia.nextLine();
         
-        System.out.print("| Digite seu Cep: ");
-        cep = leia.nextInt();
+//      Chama o valida cep 
+        validarCEP();
 
     }
     

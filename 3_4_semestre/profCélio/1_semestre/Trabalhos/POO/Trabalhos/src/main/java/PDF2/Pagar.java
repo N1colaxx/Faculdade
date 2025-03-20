@@ -36,25 +36,13 @@ public class Pagar extends Financeiro {
     }
 
    
-    public void calcularPagar(){
-//        credito = contas a receber
-//        debito = constas a pagar 
-//        saldo = debitto - credito 
-        String vencimento = getVencimento(); 
-        double valor = getValor();
-        double juros = getJuros();
-        double desconto = getDesconto();
-        double total = getTotal();
-        
-        total = (valor + juros) - desconto;
-        setTotal(total);
-    }
     
     @Override
     public void entrar() {
         fornecedor.entrar();
         System.out.println("|-----------------------------------------------|");
-
+        System.out.println("|   Insira os dados do Financeiro               |");
+        super.entrar();
         System.out.print("| Digite o Boleto: ");
         boleto = leia.nextLine();
     }
@@ -63,9 +51,13 @@ public class Pagar extends Financeiro {
     public void imprimir() {
         System.out.println("|-----------------------------------------------|");
         System.out.println("|              Contas a Pagar                   |");
-        System.out.println("|-----------------------------------------------|");
-        System.out.println("|   " + fornecedor.toString());
+        System.out.println("|===============================================|");
+        System.out.println("|           Dados do cliente                    \n|");
+        System.out.println("|   "  + fornecedor.toString());
+        System.out.println("|-----------------------------------------------\n|");
+        System.out.println("|          Dados Financeiro do Fornecedor         |");
+        super.imprimir();
         System.out.println("|   Boleto: " + boleto);
-
+        System.out.println("|===============================================|");
     }
 }

@@ -81,13 +81,13 @@ public class MenuPrincipal {
             System.out.println("|           Menu Prinicipal                     |");
             System.out.println("|===============================================|");
             System.out.println("""
-            |   1 - Cadastro Funcionario                    |
-            |   2 - Cadastro Cliente                        |    
-            |   3 - Cadastro Fornecedores                   |    
-            |   4 - Contas a Receber                        |
-            |   5 - Contas a Pagar                          |
-            |   6 - Fluxo de caixa                          |       
-            |   7 - Sair                                    |    
+            |   1 -  Funcionario                            |
+            |   2 -  Cliente                                |
+            |   3 -  Fornecedores                           |
+            |   4 -  a Receber                              |
+            |   5 -  a Pagar                                |
+            |   6 -  de caixa                               |       
+            |   7 -                                         |    
             |===============================================|""");
             System.out.print("| Digite aqui: ");
 
@@ -421,7 +421,7 @@ public class MenuPrincipal {
                 if (funcionario != null) {
                     funcionario.imprimir(); // Exibe os dados do funcionário
                 } else {
-                    System.out.println("ERRO: Nenhum funcionário CADASTRADO!!!");
+                    System.out.println(" ERRO: Nenhum funcionário CADASTRADO!!!");
                     System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
                     if (scanner.hasNextInt()) {
                         int res = scanner.nextInt();
