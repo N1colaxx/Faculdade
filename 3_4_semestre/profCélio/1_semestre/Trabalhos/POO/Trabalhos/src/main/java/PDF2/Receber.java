@@ -48,7 +48,7 @@ public class Receber extends Financeiro {
     @Override
     public void imprimir() {
         System.out.println("|===============================================|");
-        System.out.println("|                   Receber                     |");
+        System.out.println("|               Conta a Receber                 |");
         System.out.println("|===============================================|");
         System.out.println("|           Dados do cliente                    \n|");
         System.out.println("|   " + cliente.toString());

@@ -35,6 +35,21 @@ public class Pagar extends Financeiro {
         this.boleto = boleto;
     }
 
+   
+    public void calcularPagar(){
+//        credito = contas a receber
+//        debito = constas a pagar 
+//        saldo = debitto - credito 
+        String vencimento = getVencimento(); 
+        double valor = getValor();
+        double juros = getJuros();
+        double desconto = getDesconto();
+        double total = getTotal();
+        
+        total = (valor + juros) - desconto;
+        setTotal(total);
+    }
+    
     @Override
     public void entrar() {
         fornecedor.entrar();

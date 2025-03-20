@@ -57,7 +57,7 @@ public class Cliente extends PJ{
     @Override
     public void imprimir(){
         System.out.println("|===============================================|");
-        System.out.println("|              Informacao Cliente               |");
+        System.out.println("|  Informacao Cliente                           |");
         System.out.println("|===============================================|");
         super.imprimir();
         System.out.println("|   Limite de credito: " + limite_credito);

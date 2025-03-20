@@ -25,10 +25,10 @@ public class MenuPrincipal {
     //Construtor
     public MenuPrincipal() {
         cliente = null;
-        fornecedor = new Fornecedor();
+        fornecedor = null;
         funcionario = null;
-        receber = new Receber();
-        pagar = new Pagar();
+        receber = null;
+        pagar = null;
         
         scanner = new Scanner(System.in);
     }
@@ -207,8 +207,7 @@ public class MenuPrincipal {
         }
     }
                 
-        
-
+    
     private void incluir(int opcMenu) {
         switch (opcMenu) {
             case 1 -> {
@@ -262,361 +261,422 @@ public class MenuPrincipal {
     }
 
     private void alterar(int opcMenu) {
-    int res;
+        int res;
 
-    switch (opcMenu) {
-        case 1 -> {
-            // Funcionario
-            System.out.println("| Alterando Funcionário...");
-            if (funcionario != null) {
-                funcionario.entrar(); // Chama o método entrar() para alterar os dados
-                System.out.println("| Funcionário alterado com sucesso!");
-                funcionario.imprimir();
-            } else {
-                System.out.println("ERRO: Nenhum funcionário CADASTRADO!!!");
-                System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        funcionario = new Funcionario(); // Cria um novo objeto Funcionario
-                        funcionario.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Funcionário cadastrado com sucesso!");
-                        funcionario.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+        switch (opcMenu) {
+            case 1 -> {
+                // Funcionario
+                System.out.println("| Alterando Funcionário...");
+                if (funcionario != null) {
+                    funcionario.entrar(); // Chama o método entrar() para alterar os dados
+                    System.out.println("| Funcionário alterado com sucesso!");
+                    funcionario.imprimir();
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhum funcionário CADASTRADO!!!");
+                    System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            funcionario = new Funcionario(); // Cria um novo objeto Funcionario
+                            funcionario.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Funcionário cadastrado com sucesso!");
+                            funcionario.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        case 2 -> {
-            // Cliente
-            System.out.println("\n| Alterando Cliente...");
-            if (cliente != null) {
-                cliente.entrar(); // Chama o método entrar() para alterar os dados
-                System.out.println("| Cliente alterado com sucesso!");
-                cliente.imprimir();
-            } else {
-                System.out.println("ERRO: Nenhum cliente CADASTRADO!!!");
-                System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        cliente = new Cliente(); // Cria um novo objeto Cliente
-                        cliente.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Cliente cadastrado com sucesso!");
-                        cliente.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+            case 2 -> {
+                // Cliente
+                System.out.println("\n| Alterando Cliente...");
+                if (cliente != null) {
+                    cliente.entrar(); // Chama o método entrar() para alterar os dados
+                    System.out.println("| Cliente alterado com sucesso!");
+                    cliente.imprimir();
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhum cliente CADASTRADO!!!");
+                    System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            cliente = new Cliente(); // Cria um novo objeto Cliente
+                            cliente.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Cliente cadastrado com sucesso!");
+                            cliente.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        case 3 -> {
-            // Fornecedor
-            System.out.println("\n| Alterando Fornecedor...");
-            if (fornecedor != null) {
-                fornecedor.entrar(); // Chama o método entrar() para alterar os dados
-                System.out.println("| Fornecedor alterado com sucesso!");
-                fornecedor.imprimir();
-            } else {
-                System.out.println("ERRO: Nenhum fornecedor CADASTRADO!!!");
-                System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        fornecedor = new Fornecedor(); // Cria um novo objeto Fornecedor
-                        fornecedor.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Fornecedor cadastrado com sucesso!");
-                        fornecedor.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+            case 3 -> {
+                // Fornecedor
+                System.out.println("\n| Alterando Fornecedor...");
+                if (fornecedor != null) {
+                    fornecedor.entrar(); // Chama o método entrar() para alterar os dados
+                    System.out.println("| Fornecedor alterado com sucesso!");
+                    fornecedor.imprimir();
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhum fornecedor CADASTRADO!!!");
+                    System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            fornecedor = new Fornecedor(); // Cria um novo objeto Fornecedor
+                            fornecedor.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Fornecedor cadastrado com sucesso!");
+                            fornecedor.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        case 4 -> {
-            // Contas a Receber
-            System.out.println("\n| Alterando Conta a Receber...");
-            if (receber != null) {
-                receber.entrar(); // Chama o método entrar() para alterar os dados
-                System.out.println("| Conta a receber alterada com sucesso!");
-                receber.imprimir();
-            } else {
-                System.out.println("ERRO: Nenhuma conta a receber CADASTRADA!!!");
-                System.out.print("\nQuer Cadastrá-la? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        receber = new Receber(); // Cria um novo objeto Receber
-                        receber.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Conta a receber cadastrada com sucesso!");
-                        receber.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+            case 4 -> {
+                // Contas a Receber
+                System.out.println("\n| Alterando Conta a Receber...");
+                if (receber != null) {
+                    receber.entrar(); // Chama o método entrar() para alterar os dados
+                    System.out.println("| Conta a receber alterada com sucesso!");
+                    receber.imprimir();
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhuma conta a receber CADASTRADA!!!");
+                    System.out.print("\nQuer Cadastrá-la? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            receber = new Receber(); // Cria um novo objeto Receber
+                            receber.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Conta a receber cadastrada com sucesso!");
+                            receber.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        case 5 -> {
-            // Contas a Pagar
-            System.out.println("\n| Alterando Conta a Pagar...");
-            if (pagar != null) {
-                pagar.entrar(); // Chama o método entrar() para alterar os dados
-                System.out.println("| Conta a pagar alterada com sucesso!");
-                pagar.imprimir();
-            } else {
-                System.out.println("ERRO: Nenhuma conta a pagar CADASTRADA!!!");
-                System.out.print("\nQuer Cadastrá-la? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        pagar = new Pagar(); // Cria um novo objeto Pagar
-                        pagar.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Conta a pagar cadastrada com sucesso!");
-                        pagar.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+            case 5 -> {
+                // Contas a Pagar
+                System.out.println("\n| Alterando Conta a Pagar...");
+                if (pagar != null) {
+                    pagar.entrar(); // Chama o método entrar() para alterar os dados
+                    System.out.println("| Conta a pagar alterada com sucesso!");
+                    pagar.imprimir();
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhuma conta a pagar CADASTRADA!!!");
+                    System.out.print("\nQuer Cadastrá-la? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            pagar = new Pagar(); // Cria um novo objeto Pagar
+                            pagar.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Conta a pagar cadastrada com sucesso!");
+                            pagar.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        default -> System.out.println("\n| Opção inválida para alteração!");
+            default -> System.out.println("\n| Opção inválida para alteração!");
+        }
     }
-}
     
     private void consultar(int opcMenu) {
-    switch (opcMenu) {
-        case 1 -> {
-            // Funcionario
-            System.out.println("| Consultando Funcionário...");
-            if (funcionario != null) {
-                funcionario.imprimir(); // Exibe os dados do funcionário
-            } else {
-                System.out.println("ERRO: Nenhum funcionário CADASTRADO!!!");
-                System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    int res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        funcionario = new Funcionario(); // Cria um novo objeto Funcionario
-                        funcionario.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Funcionário cadastrado com sucesso!");
-                        funcionario.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+        switch (opcMenu) {
+            case 1 -> {
+                // Funcionario
+                System.out.println("| Consultando Funcionário...");
+                if (funcionario != null) {
+                    funcionario.imprimir(); // Exibe os dados do funcionário
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhum funcionário CADASTRADO!!!");
+                    System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        int res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            funcionario = new Funcionario(); // Cria um novo objeto Funcionario
+                            funcionario.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Funcionário cadastrado com sucesso!");
+                            funcionario.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        case 2 -> {
-            // Cliente
-            System.out.println("\n| Consultando Cliente...");
-            if (cliente != null) {
-                cliente.imprimir(); // Exibe os dados do cliente
-            } else {
-                System.out.println("ERRO: Nenhum cliente CADASTRADO!!!");
-                System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    int res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        cliente = new Cliente(); // Cria um novo objeto Cliente
-                        cliente.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Cliente cadastrado com sucesso!");
-                        cliente.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+            case 2 -> {
+                // Cliente
+                System.out.println("\n| Consultando Cliente...");
+                if (cliente != null) {
+                    cliente.imprimir(); // Exibe os dados do cliente
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhum cliente CADASTRADO!!!");
+                    System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        int res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            cliente = new Cliente(); // Cria um novo objeto Cliente
+                            cliente.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Cliente cadastrado com sucesso!");
+                            cliente.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        case 3 -> {
-            // Fornecedor
-            System.out.println("\n| Consultando Fornecedor...");
-            if (fornecedor != null) {
-                fornecedor.imprimir(); // Exibe os dados do fornecedor
-            } else {
-                System.out.println("ERRO: Nenhum fornecedor CADASTRADO!!!");
-                System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    int res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        fornecedor = new Fornecedor(); // Cria um novo objeto Fornecedor
-                        fornecedor.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Fornecedor cadastrado com sucesso!");
-                        fornecedor.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+            case 3 -> {
+                // Fornecedor
+                System.out.println("\n| Consultando Fornecedor...");
+                if (fornecedor != null) {
+                    fornecedor.imprimir(); // Exibe os dados do fornecedor
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhum fornecedor CADASTRADO!!!");
+                    System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        int res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            fornecedor = new Fornecedor(); // Cria um novo objeto Fornecedor
+                            fornecedor.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Fornecedor cadastrado com sucesso!");
+                            fornecedor.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        case 4 -> {
-            // Contas a Receber
-            System.out.println("\n| Consultando Conta a Receber...");
-            if (receber != null) {
-                receber.imprimir(); // Exibe os dados da conta a receber
-            } else {
-                System.out.println("ERRO: Nenhuma conta a receber CADASTRADA!!!");
-                System.out.print("\nQuer Cadastrá-la? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    int res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        receber = new Receber(); // Cria um novo objeto Receber
-                        receber.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Conta a receber cadastrada com sucesso!");
-                        receber.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+            case 4 -> {
+                // Contas a Receber
+                System.out.println("\n| Consultando Conta a Receber...");
+                if (receber != null) {
+                    receber.imprimir(); // Exibe os dados da conta a receber
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhuma conta a receber CADASTRADA!!!");
+                    System.out.print("\nQuer Cadastrá-la? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        int res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            receber = new Receber(); // Cria um novo objeto Receber
+                            receber.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Conta a receber cadastrada com sucesso!");
+                            receber.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        case 5 -> {
-            // Contas a Pagar
-            System.out.println("\n| Consultando Conta a Pagar...");
-            if (pagar != null) {
-                pagar.imprimir(); // Exibe os dados da conta a pagar
-            } else {
-                System.out.println("ERRO: Nenhuma conta a pagar CADASTRADA!!!");
-                System.out.print("\nQuer Cadastrá-la? 1 = SIM ou 2 = NÃO: ");
-                if (scanner.hasNextInt()) {
-                    int res = scanner.nextInt();
-                    scanner.nextLine(); // Limpar o buffer
-
-                    if (res == 1) {
-                        pagar = new Pagar(); // Cria um novo objeto Pagar
-                        pagar.entrar(); // Chama o método entrar() para cadastrar
-                        System.out.println("| Conta a pagar cadastrada com sucesso!");
-                        pagar.imprimir();
-                    } else {
-                        System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                    }
+            case 5 -> {
+                // Contas a Pagar
+                System.out.println("\n| Consultando Conta a Pagar...");
+                if (pagar != null) {
+                    pagar.imprimir(); // Exibe os dados da conta a pagar
                 } else {
-                    System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                    scanner.nextLine(); // Limpar o buffer
+                    System.out.println("ERRO: Nenhuma conta a pagar CADASTRADA!!!");
+                    System.out.print("\nQuer Cadastrá-la? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        int res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            pagar = new Pagar(); // Cria um novo objeto Pagar
+                            pagar.entrar(); // Chama o método entrar() para cadastrar
+                            System.out.println("| Conta a pagar cadastrada com sucesso!");
+                            pagar.imprimir();
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
                 }
             }
-        }
 
-        default -> System.out.println("\n| Opção inválida para consulta!");
-    }
+            default -> System.out.println("\n| Opção inválida para consulta!");
+        }
 }
 
     private void excluir(int opcMenu) {
-    switch (opcMenu) {
-        case 1 -> {
-            // Funcionario
-            System.out.println("| Excluindo Funcionário...");
-            if (funcionario != null) {
-                funcionario = null; // Remove o objeto Funcionario
-                System.out.println("| Funcionário excluído com sucesso!");
-            } else {
-                System.out.println("ERRO: Nenhum funcionário CADASTRADO!!!");
+        switch (opcMenu) {
+            case 1 -> {
+                // Funcionario
+                System.out.println("| Excluindo Funcionário...");
+                if (funcionario != null) {
+                    funcionario = null; // Remove o objeto Funcionario
+                    System.out.println("| Funcionário excluído com sucesso!");
+                } else {
+                    System.out.println("ERRO: Nenhum funcionário CADASTRADO!!!");
+                }
             }
-        }
 
-        case 2 -> {
-            // Cliente
-            System.out.println("\n| Excluindo Cliente...");
-            if (cliente != null) {
-                cliente = null; // Remove o objeto Cliente
-                System.out.println("| Cliente excluído com sucesso!");
-            } else {
-                System.out.println("ERRO: Nenhum cliente CADASTRADO!!!");
+            case 2 -> {
+                // Cliente
+                System.out.println("\n| Excluindo Cliente...");
+                if (cliente != null) {
+                    cliente = null; // Remove o objeto Cliente
+                    System.out.println("| Cliente excluído com sucesso!");
+                } else {
+                    System.out.println("ERRO: Nenhum cliente CADASTRADO!!!");
+                }
             }
-        }
 
-        case 3 -> {
-            // Fornecedor
-            System.out.println("\n| Excluindo Fornecedor...");
-            if (fornecedor != null) {
-                fornecedor = null; // Remove o objeto Fornecedor
-                System.out.println("| Fornecedor excluído com sucesso!");
-            } else {
-                System.out.println("ERRO: Nenhum fornecedor CADASTRADO!!!");
+            case 3 -> {
+                // Fornecedor
+                System.out.println("\n| Excluindo Fornecedor...");
+                if (fornecedor != null) {
+                    fornecedor = null; // Remove o objeto Fornecedor
+                    System.out.println("| Fornecedor excluído com sucesso!");
+                } else {
+                    System.out.println("ERRO: Nenhum fornecedor CADASTRADO!!!");
+                }
             }
-        }
 
-        case 4 -> {
-            // Contas a Receber
-            System.out.println("\n| Excluindo Conta a Receber...");
-            if (receber != null) {
-                receber = null; // Remove o objeto Receber
-                System.out.println("| Conta a receber excluída com sucesso!");
-            } else {
-                System.out.println("ERRO: Nenhuma conta a receber CADASTRADA!!!");
+            case 4 -> {
+                // Contas a Receber
+                System.out.println("\n| Excluindo Conta a Receber...");
+                if (receber != null) {
+                    receber = null; // Remove o objeto Receber
+                    System.out.println("| Conta a receber excluída com sucesso!");
+                } else {
+                    System.out.println("ERRO: Nenhuma conta a receber CADASTRADA!!!");
+                }
             }
-        }
 
-        case 5 -> {
-            // Contas a Pagar
-            System.out.println("\n| Excluindo Conta a Pagar...");
-            if (pagar != null) {
-                pagar = null; // Remove o objeto Pagar
-                System.out.println("| Conta a pagar excluída com sucesso!");
-            } else {
-                System.out.println("ERRO: Nenhuma conta a pagar CADASTRADA!!!");
+            case 5 -> {
+                // Contas a Pagar
+                System.out.println("\n| Excluindo Conta a Pagar...");
+                if (pagar != null) {
+                    pagar = null; // Remove o objeto Pagar
+                    System.out.println("| Conta a pagar excluída com sucesso!");
+                } else {
+                    System.out.println("ERRO: Nenhuma conta a pagar CADASTRADA!!!");
+                }
             }
-        }
 
-        default -> System.out.println("\n| Opção inválida para exclusão!");
+            default -> System.out.println("\n| Opção inválida para exclusão!");
+        }
     }
-}
-    
-    public void fluxoCaixa() {
+
+  
+    private void fluxoCaixa(){
+        if(pagar != null && receber != null){
+            // Calcular valores
+            double credito = receber.getTotal();  // Contas a receber
+            double debito = pagar.getTotal();    // Contas a pagar
+            double saldo = credito - debito;     // Saldo final
+
+            // Exibir a tabela formatada
+            System.out.println("-------------------------------------------------");
+            System.out.println("|                  Fluxo de Caixa               |");
+            System.out.println("-------------------------------------------------");
+            System.out.printf("| %-12s | %-9s | %-9s | %-9s |\n", "Vencimento", "Crédito", "Débito", "Saldo");
+            System.out.println("-------------------------------------------------");
+
+            // Exibir as transações individuais
+//            Quebra da formatação
+//            Cada "%-Xs" dentro da string formatada indica um espaço reservado para exibir um valor, onde:
+//            % → Indica o início de um especificador de formato.
+//            - → Alinha o texto à esquerda dentro do espaço reservado (se não houver, o alinhamento é à direita).
+//            X → Define o número mínimo de caracteres para aquela coluna.
+//            s → Define que aquele espaço será preenchido com uma String.
+            System.out.printf("| %-12s | %-9.2f | %-9.2f | %-9.2f |\n", receber.getVencimento(), credito, 0.0, credito);
+            System.out.printf("| %-12s | %-9.2f | %-9.2f | %-9.2f |\n", pagar.getVencimento(), 0.0, debito, saldo);
+
+            // Exibir totais
+            System.out.println("-------------------------------------------------");
+            System.out.printf("| %-12s | %-9.2f | %-9.2f | %-9.2f |\n", "Totais", credito, debito, saldo);
+            System.out.println("-------------------------------------------------");
+
+        }else{
+            System.out.println("-----------------------------------------------");
+            System.out.println("             Não há dados no fluxo de caixa.   ");
+            System.out.println("-----------------------------------------------");
+            System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
+                    if (scanner.hasNextInt()) {
+                        int res = scanner.nextInt();
+                        scanner.nextLine(); // Limpar o buffer
+
+                        if (res == 1) {
+                            System.out.println("|\n==================================================|");
+                            System.out.println("|       Cadastrando Conta a Receber                  |");
+                            receber = new Receber();
+                            receber.entrar();
+                            System.out.println("|   Conta a Receber cadastrada com sucesso!          |");
+                            receber.imprimir();
+                            
+                            System.out.println("|\n==================================================|");
+                            System.out.println("|       Cadastrando Conta a Pagar                    |");
+                            pagar = new Pagar(); 
+                            pagar.entrar(); 
+                            System.out.println("|  Conta a Pagar cadastradoa com sucesso!            |");
+                            pagar.imprimir();
+
+                        } else {
+                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                        }
+                    } else {
+                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                        scanner.nextLine(); // Limpar o buffer
+                    }
+        }
     }
     
     
