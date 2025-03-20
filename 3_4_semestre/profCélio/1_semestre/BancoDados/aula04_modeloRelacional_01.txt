@@ -4,6 +4,9 @@ Composição de um Banco de Dados Relacional:
     - Tabelas/relações
     - o nome tabela -- usado no dia a dia nos produtos comercias
     - o nome relações -- usado pelos matematicos na literatura original
+     cada Entidade = uma Tabela
+     cada Atributo = uma Coluna
+     cada Ocorrência = uma Linha
 
 Tabelas:
     - Conjunto não ordenado de colunas (atributos) e linhas (tuplas = dados dessa linha).
@@ -16,7 +19,7 @@ Tabelas:
             a menos que uma ordenação seja especificada na instrução de consulta
         - Não existem linhas duplicadas
         - Não é possível referenciar linhas de uma tabela por posição
-        - Os valores de campo de uma tabela são * atômicos e monovalorados *
+        - Os valores de campo de uma tabela são * atômicos e monovalorados * não aceita multiplos valores no vemos campo
         - As consultas podem ser feitas por qualquer critério 
         envolvendo os campos de uma ou mais linhas 
 

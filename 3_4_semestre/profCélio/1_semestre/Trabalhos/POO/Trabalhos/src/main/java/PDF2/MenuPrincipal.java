@@ -11,7 +11,6 @@ import java.util.Scanner;
  * @author Nicolas
  */
 public class MenuPrincipal {
-
     private Cliente cliente;
     private Fornecedor fornecedor;
     private Funcionario funcionario;
@@ -84,10 +83,10 @@ public class MenuPrincipal {
             |   1 -  Funcionario                            |
             |   2 -  Cliente                                |
             |   3 -  Fornecedores                           |
-            |   4 -  a Receber                              |
-            |   5 -  a Pagar                                |
-            |   6 -  de caixa                               |       
-            |   7 -                                         |    
+            |   4 -  Contas a Receber                       |
+            |   5 -  Contas a Pagar                         |
+            |   6 -  Fluxo de caixa                         |       
+            |   7 -  seir                                   |    
             |===============================================|""");
             System.out.print("| Digite aqui: ");
 
