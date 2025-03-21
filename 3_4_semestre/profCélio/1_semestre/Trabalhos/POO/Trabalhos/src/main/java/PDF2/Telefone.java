@@ -58,7 +58,7 @@ public class Telefone implements InterfaceCadastro{
         while (!valido) {
             try {
                 System.out.print("| Digite seu Numero: ");
-                ddd = leia.nextInt();
+                numero = leia.nextInt();
 
                 if (ddd > 0 && ddd <= 999999999) {
                     valido = true;  

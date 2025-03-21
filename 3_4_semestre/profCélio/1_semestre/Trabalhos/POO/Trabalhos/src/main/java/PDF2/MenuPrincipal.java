@@ -73,7 +73,7 @@ public class MenuPrincipal {
         this.pagar = pagar;
     }
 
-    public void menu() {
+    public void menu()  {
         do {
             System.out.println("\n \n \n");
             System.out.println("|===============================================|");
@@ -620,7 +620,7 @@ public class MenuPrincipal {
             // Calcular valores
             double credito = receber.getTotal();  // Contas a receber
             double debito = pagar.getTotal();    // Contas a pagar
-            double saldo = credito - debito;     // Saldo final
+            double saldo = debito - credito;     // Saldo final
 
             // Exibir a tabela formatada
             System.out.println("-------------------------------------------------");

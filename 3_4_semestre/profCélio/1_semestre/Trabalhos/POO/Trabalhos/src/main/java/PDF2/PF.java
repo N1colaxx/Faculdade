@@ -56,8 +56,9 @@ public abstract class PF extends Pessoa implements InterfaceCadastro{
         rg = leia.nextLine();
         
         System.out.println("| Digite o Emissor do RG: ");
-        System.out.println("|-----------------------------------------------|");
         emissor_rg = leia.nextLine();
+        System.out.println("|-----------------------------------------------|");
+
     }
     
     @Override
