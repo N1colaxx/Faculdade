@@ -64,15 +64,59 @@ Operadores de Incremento:
     op--	     Pós-decremento	    Usa e depois decrementa
 
 
+Conversão de String
+    • É possível converter String para qualquer 
+    tipo primitivo
+    o int – Integer.parseInt( string )
+    o Float – Float.parseFloat( string )
+    o Double - Double.parseFloat( string )
+
+
+Instrução de seleção:
+    if(condicao){
+        //executa se a CONDIÇÂO for verdae
+    }
+
+    if (condicao) {
+        // Executa este bloco se a condição for verdadeira.
+    } else {
+        // Executa este bloco se a condição for falsa.
+    }
+
+    switch(condicao){
+        case,
+        case,
+        defalt}
+
+
+    Operador condicional ( ? : ):
+    Único operador ternário do Java (recebe três operandos);
+        variavel = (condicao) ? valor_se_true : valor_se_false;
+
+
+Laços de Repetição:
+    for()
+
+    while();
+
+    do while();
 
 
 
+Array:
 
-
-
-
-
-
+    Para declarar um array ->
+        tipo [] nome;  OU   tipo nome[];
+        
+        Existe uma classe que auxilia a utilização de array, que está localizada no pacote  java.util, tem o nome de 
+        Arrays, e possui os seguintes métodos: 
+            • binarySearch – permite uma pesquisa nos elementos de um determinado array ordenado, 
+            retornando um atributo inteiro com a posição deste elemento;  
+            • equal – permite a comparação entre dois arrays, retornando um booleao verdadeiro(true), caso os 
+            array sejam iguais;  
+            • fill – realiza o preenchimento de todos os elementos de um determinado array;  
+            • sort – faz uma ordenação nos elementos de um determinado array;  
+            • toString – mostra os elementos de um determinado array.
 
 
 
