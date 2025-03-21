@@ -103,6 +103,20 @@ Laços de Repetição:
 
 
 
+Array:
+
+    Para declarar um array ->
+        tipo [] nome;  OU   tipo nome[];
+        
+        Existe uma classe que auxilia a utilização de array, que está localizada no pacote  java.util, tem o nome de 
+        Arrays, e possui os seguintes métodos: 
+            • binarySearch – permite uma pesquisa nos elementos de um determinado array ordenado, 
+            retornando um atributo inteiro com a posição deste elemento;  
+            • equal – permite a comparação entre dois arrays, retornando um booleao verdadeiro(true), caso os 
+            array sejam iguais;  
+            • fill – realiza o preenchimento de todos os elementos de um determinado array;  
+            • sort – faz uma ordenação nos elementos de um determinado array;  
+            • toString – mostra os elementos de um determinado array.
 
 
 
