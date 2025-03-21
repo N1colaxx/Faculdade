@@ -1,4 +1,4 @@
-package PDF1.ExerciciosQueEUfiz;
+package PDF1;
 
 import java.util.Scanner;
 
