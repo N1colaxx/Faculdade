@@ -11,6 +11,7 @@ import java.util.Scanner;
  * @author Nicolas
  */
 public class MenuPrincipal {
+
     private Cliente cliente;
     private Fornecedor fornecedor;
     private Funcionario funcionario;
@@ -18,8 +19,8 @@ public class MenuPrincipal {
     private Pagar pagar;
 
     private Scanner scanner;
-    int opc_menu; // Menu Principal
-    int opc_sub;
+    private int opc_menu; // Menu Principal
+    private int opc_sub;
 
     //Construtor
     public MenuPrincipal() {
@@ -28,7 +29,7 @@ public class MenuPrincipal {
         funcionario = null;
         receber = null;
         pagar = null;
-        
+
         scanner = new Scanner(System.in);
     }
 
@@ -73,7 +74,7 @@ public class MenuPrincipal {
         this.pagar = pagar;
     }
 
-    public void menu()  {
+    public void menu() {
         do {
             System.out.println("\n \n \n");
             System.out.println("|===============================================|");
@@ -95,37 +96,37 @@ public class MenuPrincipal {
                 scanner.nextLine();
 
                 switch (opc_menu) {
-                    case 1:
+                    case 1 -> {
                         System.out.println("\n| Vc escolheu Opcao 1 - Funcionario");
                         subMenu();
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         System.out.println("\n\n| Vc escolheu Opcao 2 - Cliente");
                         subMenu();
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         System.out.println("\n\n| Vc escolheu Opcao 3 - Fornecedores");
                         subMenu();
-                        break;
-                    case 4:
+                    }
+                    case 4 -> {
                         System.out.println("\n\n| Vc escolhu Opcao  4 - Contas a Receber");
                         subMenu();
-                        break;
-                    case 5:
+                    }
+                    case 5 -> {
                         System.out.println("\n\n| Vc escolheu Opcao 5 - Contas a Pagar");
                         subMenu();
-                        break;
-                    case 6:
+                    }
+                    case 6 -> {
                         System.out.println("\n\n| Vc escolheu Opcao 6 - Fluxo de caixa");
                         System.out.println("| Mostrando fluxo.....\n \n");
                         fluxoCaixa();
-                        break;
-                    case 7:                    
+                    }
+                    case 7 -> {
                         System.out.println("\n\n| Vc escolheu Opcao 7 - Sair");
                         System.out.println("| Sa11indo do progama........");
                         scanner.nextLine();
-                        break;
-                    default:
+                    }
+                    default ->
                         System.out.println("\nERRO: Opção INVALIDA!!! Digigite novamente\n");
                 }
             } else {
@@ -149,19 +150,25 @@ public class MenuPrincipal {
 
     public void subMenu() {
         boolean sair = true;
-        
-        while(sair != false){
+
+        while (sair != false) {
             System.out.println("|===============================================|");
             System.out.println("|                 Sub Menu                      |");
             System.out.println("|===============================================|");
             switch (opc_menu) {
 
-                case 1 -> textoSub(); // Funcionario
-                case 2 -> textoSub(); // Cliente
-                case 3 -> textoSub(); // Fornecedor
-                case 4 -> textoSub(); // Contas a Receber
-                case 5 -> textoSub(); // Contas a Pagar
-                default -> System.out.println("OPC INVALIDA!! digite novamente");
+                case 1 ->
+                    textoSub(); // Funcionario
+                case 2 ->
+                    textoSub(); // Cliente
+                case 3 ->
+                    textoSub(); // Fornecedor
+                case 4 ->
+                    textoSub(); // Contas a Receber
+                case 5 ->
+                    textoSub(); // Contas a Pagar
+                default ->
+                    System.out.println("OPC INVALIDA!! digite novamente");
             }
 
             System.out.print("| Digite aqui oque quer fazer: ");
@@ -171,32 +178,32 @@ public class MenuPrincipal {
                 scanner.nextLine(); // Limpar o buffer
 
                 switch (opc_sub) {
-                    case 1:
+                    case 1 -> {
                         System.out.println("\n| Você escolheu 1 - Incluir");
                         incluir(opc_menu);
                         sair = false;
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         System.out.println("\n| Você escolheu 2 - Alterar");
                         alterar(opc_menu);
                         sair = false;
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         System.out.println("\n| Você escolheu 3 - Consultar");
                         consultar(opc_menu);
                         sair = false;
-                        break;
-                    case 4:
+                    }
+                    case 4 -> {
                         System.out.println("\n| Você escolheu 4 - Excluir");
                         excluir(opc_menu);
                         sair = false;
-                        break;
-                    case 0:
+                    }
+                    case 0 -> {
                         System.out.println("\n| Você escolheu 0 - Voltar");
                         sair = false;
                         // Apenas volta para o menu principal
-                        break;
-                    default:
+                    }
+                    default ->
                         System.out.println("\n| Opção INVÁLIDA!! Digite novamente");
                 }
             } else {
@@ -205,8 +212,7 @@ public class MenuPrincipal {
             }
         }
     }
-                
-    
+
     private void incluir(int opcMenu) {
         switch (opcMenu) {
             case 1 -> {
@@ -408,10 +414,11 @@ public class MenuPrincipal {
                 }
             }
 
-            default -> System.out.println("\n| Opção inválida para alteração!");
+            default ->
+                System.out.println("\n| Opção inválida para alteração!");
         }
     }
-    
+
     private void consultar(int opcMenu) {
         switch (opcMenu) {
             case 1 -> {
@@ -549,9 +556,10 @@ public class MenuPrincipal {
                 }
             }
 
-            default -> System.out.println("\n| Opção inválida para consulta!");
+            default ->
+                System.out.println("\n| Opção inválida para consulta!");
         }
-}
+    }
 
     private void excluir(int opcMenu) {
         switch (opcMenu) {
@@ -610,13 +618,13 @@ public class MenuPrincipal {
                 }
             }
 
-            default -> System.out.println("\n| Opção inválida para exclusão!");
+            default ->
+                System.out.println("\n| Opção inválida para exclusão!");
         }
     }
 
-  
-    private void fluxoCaixa(){
-        if(pagar != null && receber != null){
+    private void fluxoCaixa() {
+        if (pagar != null && receber != null) {
             // Calcular valores
             double credito = receber.getTotal();  // Contas a receber
             double debito = pagar.getTotal();    // Contas a pagar
@@ -644,42 +652,41 @@ public class MenuPrincipal {
             System.out.printf("| %-12s | %-9.2f | %-9.2f | %-9.2f |\n", "Totais", credito, debito, saldo);
             System.out.println("-------------------------------------------------");
 
-        }else{
+        } else {
             System.out.println("-----------------------------------------------");
             System.out.println("             Não há dados no fluxo de caixa.   ");
             System.out.println("-----------------------------------------------");
             System.out.print("\nQuer Cadastrá-lo? 1 = SIM ou 2 = NÃO: ");
-                    if (scanner.hasNextInt()) {
-                        int res = scanner.nextInt();
-                        scanner.nextLine(); // Limpar o buffer
+            if (scanner.hasNextInt()) {
+                int res = scanner.nextInt();
+                scanner.nextLine(); // Limpar o buffer
 
-                        if (res == 1) {
-                            System.out.println("|\n==================================================|");
-                            System.out.println("|       Cadastrando Conta a Receber                  |");
-                            receber = new Receber();
-                            receber.entrar();
-                            System.out.println("|   Conta a Receber cadastrada com sucesso!          |");
-                            receber.imprimir();
-                            
-                            System.out.println("|\n==================================================|");
-                            System.out.println("|       Cadastrando Conta a Pagar                    |");
-                            pagar = new Pagar(); 
-                            pagar.entrar(); 
-                            System.out.println("|  Conta a Pagar cadastradoa com sucesso!            |");
-                            pagar.imprimir();
+                if (res == 1) {
+                    System.out.println("|\n==================================================|");
+                    System.out.println("|       Cadastrando Conta a Receber                  |");
+                    receber = new Receber();
+                    receber.entrar();
+                    System.out.println("|   Conta a Receber cadastrada com sucesso!          |");
+                    receber.imprimir();
 
-                        } else {
-                            System.out.println("| Operação cancelada. Voltando ao menu principal...");
-                        }
-                    } else {
-                        System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
-                        scanner.nextLine(); // Limpar o buffer
-                    }
+                    System.out.println("|\n==================================================|");
+                    System.out.println("|       Cadastrando Conta a Pagar                    |");
+                    pagar = new Pagar();
+                    pagar.entrar();
+                    System.out.println("|  Conta a Pagar cadastradoa com sucesso!            |");
+                    pagar.imprimir();
+
+                } else {
+                    System.out.println("| Operação cancelada. Voltando ao menu principal...");
+                }
+            } else {
+                System.out.println("\nERRO: Entrada inválida! Voltando ao menu principal...");
+                scanner.nextLine(); // Limpar o buffer
+            }
         }
     }
-    
-    
-    public static void main(String[] args) {        
+
+    public static void main(String[] args) {
         MenuPrincipal obj = new MenuPrincipal();
 
         obj.menu();

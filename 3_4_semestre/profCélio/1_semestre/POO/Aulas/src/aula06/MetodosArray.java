@@ -1,15 +1,10 @@
 package aula06;
 
-import java.util.Scanner;
+
 import java.util.Arrays;
 
 
 public class MetodosArray {
-    
-    
-    public MetodosArray(){
-        Scanner scanner = new Scanner(System.in);
-    }
     
     private void ex1(){
         String[][] nomes = {{"Mr. ", "Mrs. ", "Ms. "},{"Smith", "Jones"}}; 
@@ -32,7 +27,7 @@ public class MetodosArray {
     
     private void ex2(){
         int[] meuArray;
-        
+         
 //      Por padrão quando n colocamos valores nas posições o JAVA coloca o valor: 0(zero).
         meuArray = new int[10];
         meuArray[0] = 2;
