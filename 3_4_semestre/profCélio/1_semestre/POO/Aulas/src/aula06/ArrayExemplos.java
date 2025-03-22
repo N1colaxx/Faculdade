@@ -30,16 +30,16 @@ public class ArrayExemplos {
     public void menu(){
         do{
             System.out.println("\n \n \n ");
-            System.out.println("|====================================================|");
-            System.out.println("|                Caixa Eletronico                    |");
-            System.out.println("|====================================================|");
+            System.out.println("|===================================================|");
+            System.out.println("|                Caixa Eletronico                   |");
+            System.out.println("|===================================================|");
             System.out.println("""                                              
-            |   Escolha uma Opcao:                               |
+            |   Escolha uma Opcao:                              |
             |   [1] Caixa Eletrônico com Valor Fixo             |
             |   [2] Caixa Eletrônico com Entrada do Valor       |
             |   [3} Caixa Eletrônico com Saldo                  |
-            |   [9] Sair                                         |
-            |====================================================|""");
+            |   [9] Sair                                        |
+            |===================================================|""");
             System.out.print("Digite sua Opcao: ");
             if(scanner.hasNextInt()){
                 opc_menu = scanner.nextInt();
@@ -49,7 +49,7 @@ public class ArrayExemplos {
                     case 1 ->{
                         System.out.println("\n  Vc escolheu OPC [1] Caixa Eletrônico com Valor Fixo");
                         System.out.println("  Carregando...");
-                        caixaFixo.entrada();                        
+                        caixaFixo.entrada();                      
                     }
                     case 2 ->{
                         System.out.println("\n  Vc escolheu OPC [2] Caixa Eletrônico com Entrada do Valor");

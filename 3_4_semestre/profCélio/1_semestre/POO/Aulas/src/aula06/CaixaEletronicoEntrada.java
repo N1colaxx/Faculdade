@@ -3,25 +3,28 @@ package aula06;
 import java.util.Scanner;
 
 public class CaixaEletronicoEntrada {
-//    Guarda o total de cédulas usadas na operação.
-    int qtd_total_cedula;
-//    Array com os valores das notas disponíveis.
-    int[] cedulaCaixa = {100, 50, 20, 10, 5, 2, 1}; // Notas disponíveis
-//    Array que armazena quantas cédulas de cada tipo foram usadas.
-    int[] qtd_cedula; // Armazena a distribuição de cédulas
+    private final Scanner scanner;
+    private final int[] cedulaCaixa = {100, 50, 20, 10, 5, 2, 1}; //    Array com os valores das notas disponíveis.
+    private final int[] qtd_cedula = new int[cedulaCaixa.length]; //    Array que armazena quantas cédulas de cada tipo foram usadas.
+    private int total_cedula_usada; //    Guarda o total de cédulas usadas na operação.    
+    private int valor;
 
+ 
+//    Construtor
+    public CaixaEletronicoEntrada(){
+        scanner = new Scanner(System.in);
+    }
+    
     public void entrada() {
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println("\n  Carregado com Sucesso!!!");
 
-        int valor = obterValor(scanner);
-        int[] qtd_total = {0}; // Array para armazenar o total de cada cédula
-        qtd_cedula = calcularCedula(valor, qtd_total);
-
-        qtd_total_cedula = qtd_total[0];
+        obterValor();// valor recebe o metodo para obter o valor do user 
+        
+//       int[] qtd_total = {0}; // Array para armazenar o total de cada cédula
+        calcularCedula();
     }
 
+    
     public void imprimir() {
         System.out.println("\nDistribuicao de cedulas:");
 
@@ -31,13 +34,12 @@ public class CaixaEletronicoEntrada {
             }
         }
 
-        System.out.println("Total de cesdulas entregues: " + qtd_total_cedula);
+        System.out.println("Total de cesdulas entregues: " + total_cedula_usada);
     }
 
-    private static int obterValor(Scanner scanner) {
+    
+    private void obterValor() {
         boolean sair = false;
-        int valor = 0;
-
         do {
             System.out.print("\n  Digite um valor: ");
             if (scanner.hasNextInt()) {
@@ -49,18 +51,14 @@ public class CaixaEletronicoEntrada {
                 scanner.nextLine(); // Limpa entrada inválida
             }
         } while (!sair);
-
-        return valor;
     }
-
-    private int[] calcularCedula(int valor, int[] qtd_total) {
-        int[] qtd_cedula = new int[cedulaCaixa.length];
-
+    
+    
+    private void calcularCedula() {
         for (int i = 0; i < cedulaCaixa.length; i++) {
             qtd_cedula[i] = valor / cedulaCaixa[i];
-            valor = valor % cedulaCaixa[i];
-            qtd_total[0] += qtd_cedula[i]; // Soma a quantidade total de cédulas usadas
+            valor = valor % cedulaCaixa[i]; // para eu conseguir fazer o valor zerar, tenho q ficar dividindo ele então tenho q atribuir seu resto a ele mesmo para conseguir fgazer isso.
+            total_cedula_usada += qtd_cedula[i];
         }
-        return qtd_cedula;
     }
 }
