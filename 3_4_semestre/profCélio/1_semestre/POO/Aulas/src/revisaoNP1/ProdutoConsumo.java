@@ -11,11 +11,6 @@ public class ProdutoConsumo extends Produto {
         this.dataValidade = dataValidade;
     }
 
-    // Implementação do método abstrato da classe pai
-    @Override
-    public void exibirDetalhes() {
-        System.out.println("ID: " + getId() + ", Produto de Consumo: " + getNome() + ", Preço: R$" + getPreco() + ", Validade: " + dataValidade);
-    }
 
     // Getter e setter para dataValidade
     public String getDataValidade() {
@@ -24,5 +19,12 @@ public class ProdutoConsumo extends Produto {
 
     public void setDataValidade(String dataValidade) {
         this.dataValidade = dataValidade;
+    }
+    
+
+        // Implementação do método abstrato da classe pai
+    @Override
+    public void exibirDetalhes() {
+        System.out.println("ID: " + getId() + ", Produto de Consumo: " + getNome() + ", Preço: R$" + getPreco() + ", Validade: " + dataValidade);
     }
 }

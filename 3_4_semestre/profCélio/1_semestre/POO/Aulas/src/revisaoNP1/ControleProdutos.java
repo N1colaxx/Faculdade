@@ -3,19 +3,32 @@ package revisaoNP1;
 // Classe principal para testar o sistema
 import java.util.Scanner;
 
+
 public class ControleProdutos {
-    
-    private IncluirProConsumo IPC;
-    private ProdutoVenda produtoVenda = null;
-    private Loja loja = null;
+//    private Loja loja = null;
+    private final Scanner scanner = new Scanner(System.in);
     private int proximoId = 1;
-    Scanner scanner = new Scanner(System.in);
+    private ProdutoConsumo produtoConsumo;
+    
+    private  IncluirProConsumo IPC;
+    private  AlterarProConsumo APC;
+    private  ConsultarProConsumo CPC;
+
+//    private  ExcluirProConcumo XPC;
+
+//    private  IncluirProVenda IPV;
+//    private  AlterarProVenda APV;
+//    private  ConsultarProVenda CPV;
+//    private  ExcluirProVenda XPV;
+//    private  VenderProVenda VPV;
 
     public ControleProdutos() {
-        this.IPC = new IncluirProConsumo(proximoId, scanner);
+        produtoConsumo = null;
         this.menu();
     }
-    public void menu() {
+    
+    
+    public final void menu() {
         int opcao;
 
         do {
@@ -67,61 +80,38 @@ public class ControleProdutos {
             scanner.nextLine(); // Limpar buffer
 
             switch (opcao) {
-                case 'a':
-                    IPC.incluirProduto();
-                    break;
-                case 'b':
-//                    alterarProdutoConsumo();
-                    break;
-                case 'c':
-//                     consultarProdutoConsumo();
-                    break;
-                case 'd':
-//                    excluirProdutoConsumo();
-                    break;
-                case 'e':
-                    System.out.println("Voltando ao menu principal...");
-                    break;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
+                case 'a' ->{
+                    if(produtoConsumo != null){
+                        System.out.println("ERRO: Produto ja cadastrado!... ");
+                        System.out.println("Altere ele ou Exclua ...\n");
+                    } else{
+                        IPC = new IncluirProConsumo();
+                        produtoConsumo = IPC.incluirProduto(proximoId); // o id ta qui pra atualizar sozim sem a ajuda o User digitar para evitar id iguais.
+                    }
+                }
+                case 'b' ->{
+                    if(produtoConsumo  == null){
+                        System.out.println("ERRO: Produto NULL Inclua um antes de alterar...");
+                    }else{
+                        APC = new AlterarProConsumo();
+                        produtoConsumo = APC.alterarProduto(produtoConsumo);
+                    }
+                }
+                case 'c' -> {
+                    CPC = new ConsultarProConsumo();
+                    CPC.consultarProduto(produtoConsumo);
+                }
+                case 'd' -> { 
+//                    XPC.excluirProduto();
+                }
+                case 'e' -> System.out.println("Voltando ao menu principal...");
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
-        } while (opcao != 'e');
+//                     consultarProdutoConsumo();
+//                    excluirProdutoConsumo();
+                    } while (opcao != 'e');
     }
 
-//
-//    private void alterarProdutoConsumo() {
-//        if (produtoConsumo == null) {
-//            System.out.println("Nenhum produto de consumo cadastrado.");
-//            return;
-//        }
-//
-//        System.out.print("Digite o novo nome: ");
-//        produtoConsumo.setNome(scanner.nextLine());
-//        System.out.print("Digite o novo preço: ");
-//        produtoConsumo.setPreco(scanner.nextDouble());
-//        scanner.nextLine(); // Limpar buffer
-//        System.out.print("Digite a nova data de validade: ");
-//        produtoConsumo.setDataValidade(scanner.nextLine());
-//
-//        System.out.println("Produto de consumo alterado com sucesso!");
-//    }
-//
-//    private void consultarProdutoConsumo() {
-//        if (produtoConsumo == null) {
-//            System.out.println("Nenhum produto de consumo cadastrado.");
-//        } else {
-//            produtoConsumo.exibirDetalhes();
-//        }
-//    }
-//
-//    private void excluirProdutoConsumo() {
-//        if (produtoConsumo == null) {
-//            System.out.println("Nenhum produto de consumo cadastrado.");
-//        } else {
-//            produtoConsumo = null;
-//            System.out.println("Produto de consumo excluído com sucesso!");
-//        }
-//    }
 //
 //    private void menuProdutosVenda() {
 //        int opcao;
@@ -138,91 +128,36 @@ public class ControleProdutos {
 //            scanner.nextLine(); // Limpar buffer
 //
 //            switch (opcao) {
-//                case 'a':
-//                    incluirProdutoVenda();
-//                    break;
-//                case 'b':
-//                    alterarProdutoVenda();
-//                    break;
-//                case 'c':
-//                    consultarProdutoVenda();
-//                    break;
-//                case 'd':
-//                    excluirProdutoVenda();
-//                    break;
-//                case 'e':
-//                    venderProdutoVenda();
-//                    break;
-//                case 'f':
-//                    System.out.println("Voltando ao menu principal...");
-//                    break;
-//                default:
-//                    System.out.println("Opção inválida. Tente novamente.");
+//                case 'a' -> {
+//                    
+//                    IPV.incluirProduto();
+//                }
+//                case 'b' -> { 
+//                    
+//                    APV.alterarProduto();
+//                }
+//                case 'c' -> {
+//                    
+//                    CPV.consultarProduto();
+//                }
+//                case 'd' -> {
+//                    
+//                    XPV.excluirProduto();
+//                }
+//                case 'e' -> {
+//                    
+//                    VPV.venderProduto();
+//                }
+//                case 'f' -> System.out.println("Voltando ao menu principal...");
+//                default -> System.out.println("Opção inválida. Tente novamente.");
 //            }
 //        } while (opcao != 'f');
 //    }
-//
-//    private void incluirProdutoVenda() {
-//        if (produtoVenda != null) {
-//            System.out.println("Já existe um produto de venda cadastrado. Exclua ou altere o existente.");
-//            return;
-//        }
-//
-//        System.out.print("Digite o nome do produto: ");
-//        String nome = scanner.nextLine();
-//        System.out.print("Digite o preço do produto: ");
-//        double preco = scanner.nextDouble();
-//        scanner.nextLine(); // Limpar buffer
-//        System.out.print("Digite a quantidade em estoque: ");
-//        int quantidadeEstoque = scanner.nextInt();
-//        scanner.nextLine(); // Limpar buffer
-//
-//        produtoVenda = new ProdutoVenda(proximoId++, nome, preco, quantidadeEstoque);
-//        System.out.println("Produto de venda incluído com sucesso!");
-//    }
-//
-//    private void alterarProdutoVenda() {
-//        if (produtoVenda == null) {
-//            System.out.println("Nenhum produto de venda cadastrado.");
-//            return;
-//        }
-//
-//        System.out.print("Digite o novo nome: ");
-//        produtoVenda.setNome(scanner.nextLine());
-//        System.out.print("Digite o novo preço: ");
-//        produtoVenda.setPreco(scanner.nextDouble());
-//        scanner.nextLine(); // Limpar buffer
-//        System.out.print("Digite a nova quantidade em estoque: ");
-//        produtoVenda.setQuantidadeEstoque(scanner.nextInt());
-//        scanner.nextLine(); // Limpar buffer
-//
-//        System.out.println("Produto de venda alterado com sucesso!");
-//    }
-//
-//    private void consultarProdutoVenda() {
-//        if (produtoVenda == null) {
-//            System.out.println("Nenhum produto de venda cadastrado.");
-//        } else {
-//            produtoVenda.exibirDetalhes();
-//        }
-//    }
-//
-//    private void excluirProdutoVenda() {
-//        if (produtoVenda == null) {
-//            System.out.println("Nenhum produto de venda cadastrado.");
-//        } else {
-//            produtoVenda = null;
-//            System.out.println("Produto de venda excluído com sucesso!");
-//        }
-//    }
-//
-//    private void venderProdutoVenda() {
-//        if (produtoVenda == null) {
-//            System.out.println("Nenhum produto de venda cadastrado.");
-//        } else {
-//            produtoVenda.vender();
-//        }
-//    }
+// 
+
+
+
+
 //
 //    private void menuLojas() {
 //        int opcao;
