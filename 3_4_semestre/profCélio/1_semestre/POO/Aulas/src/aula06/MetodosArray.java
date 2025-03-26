@@ -81,14 +81,19 @@ public class MetodosArray {
     
     
     private void ex3(){
+        System.out.println("Arrays mult dimencionais \n");
         
+        String[][] arrayMult = {{"Sr. ", "Mrs. ", "Ms. "},{"Borges", "Jones"}};
+
+        System.out.println(arrayMult[0][0] + arrayMult[1][0]); // Sr Borges
+        System.out.println(arrayMult[0][1] + arrayMult[1][1]); // Mrs jones
     }
     
     public static void main(String[] args) {
         MetodosArray obj = new MetodosArray();
         
 //        obj.ex1();
-        obj.ex2();
-//        obj.ex3();
+//        obj.ex2();
+        obj.ex3();
     }
 } 

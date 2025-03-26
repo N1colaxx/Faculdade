@@ -120,3 +120,33 @@ Array:
 
 
 
+NP1 anotação:
+
+    POO tilares:
+        Abstração -> Repartir o problema em partes e ir mostrando/trabalhando somente com o necessario
+
+        Emcapsulamento -> É o  controle de acesso do obj usando os modificadores de acesso.
+            ✔ private → Restringe o acesso apenas à própria classe.
+            ✔ protected → Permite o acesso dentro da classe e de suas subclasses.
+            ✔ public → Permite o acesso de qualquer classe.
+
+        Herança -> Pertmite uma class herdar dados de outra class, Pai para Filho. 
+            comando: extends
+
+        Polimorfismo -> Capacidade de um metodo possuir diferentes comportamentos dependendo da implementação. 
+            sobrecarga: Mesmo nome, diferentes atributos.
+            sobrescrita: Redefinição en subclasses.
+
+        Construtores -> Inicializa os obj com ou sem valores.   
+            - publico
+            - mesmo nome da class
+            - com ou sem parametros 
+
+        Interface -> Deficição de metodos 
+
+        Getters e Setters 
+
+        this e super
+            this -> Refere-se ao próprio objeto
+            super -> Refere-se a superclasse(Pai)
+        
