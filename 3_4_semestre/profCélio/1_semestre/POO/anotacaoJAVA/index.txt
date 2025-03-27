@@ -20,7 +20,7 @@
         jdb - depurador 
     
 
-Dados Primitivos Java:
+Tipo Primitivos Java:
 
     N° Inteiro:                   
         -   byte                8    bits       
@@ -121,6 +121,41 @@ Array:
 
 
 NP1 anotação:
+    Java:
+        tipos Primitivos:
+            byte	8 bits	0
+            short	16 bits	0
+            int	32 bits	0
+            long	64 bits	0L
+            float	32 bits	0.0f
+            double	64 bits	0.0d
+            char	16 bits	'\u0000'
+            boolean	1 bit	false
+
+        Operadores:
+            Aritméticos: + - * / %
+
+            Relacionais: == != > < >= <=
+
+            Lógicos: && || !
+
+            Atribuição: = += -= *= /= %=
+
+            Incremento/Decremento: ++ --
+
+            Ternário: condição ? verdadeiro : falso
+
+        static      -> Permite criar métodos e atributos pertencentes à classe e não ao objeto.
+        void        -> Indica que um método não retorna nada.
+        Construtor  -> Método especial chamado automaticamente ao criar um objeto.
+        Sobrecarga de Construtores -> Criar múltiplos construtores com diferentes parâmetros.
+        this        -> Referência ao próprio objeto.
+        super       -> Chama o construtor da classe pai.
+
+        Tipo de Sobrecarga	Exemplo
+            Mudança no número de parâmetros	-> somar(int, int), somar(int, int, int)
+            Mudança no tipo dos parâmetros	-> multiplicar(int, int), multiplicar(double, double)
+            Mudança na ordem dos parâmetros -> imprimir(String, int), imprimir(int, String)
 
     POO Pilares:
         Abstração -> Repartir o problema em partes e ir mostrando/trabalhando somente com o necessario
