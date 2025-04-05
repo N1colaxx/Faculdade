@@ -21,14 +21,7 @@
     
 
 Tipo Primitivos Java:
-
-    N° Inteiro:                   
-        -   byte                8    bits       
-        -   short              16    bits      
-        -   int                32    bits
-        -   long               64    bits
-
-    N° com virgula:
+a    N° com virgula:
         -   float              32 bits
         -   double             64 bits
 
@@ -122,50 +115,121 @@ Array:
 
 NP1 anotação:
     Java:
-        tipos Primitivos:
-            byte	8 bits	0
-            short	16 bits	0
-            int	32 bits	0
-            long	64 bits	0L
-            float	32 bits	0.0f
-            double	64 bits	0.0d
-            char	16 bits	'\u0000'
-            boolean	1 bit	false
+    ✅ JVM (Java Virtual Machine) – Executa o código Java compilado (bytecode), permitindo que o Java rode em qualquer sistema operacional.
 
-        Operadores:
-            Aritméticos: + - * / %
+    ✅ JRE (Java Runtime Environment) – Contém a JVM + bibliotecas essenciais para rodar aplicações Java.
 
-            Relacionais: == != > < >= <=
+    ✅ JDK (Java Development Kit) – Inclui a JRE + ferramentas para desenvolvimento Java:
 
-            Lógicos: && || !
+        javac (compilador)
 
-            Atribuição: = += -= *= /= %=
+        jar (empacotador)
 
-            Incremento/Decremento: ++ --
+        javadoc (geração de documentação)
 
-            Ternário: condição ? verdadeiro : falso
+        jdb (depurador)
 
-        static      -> Permite criar métodos e atributos pertencentes à classe e não ao objeto.
-        void        -> Indica que um método não retorna nada.
-        Construtor  -> Método especial chamado automaticamente ao criar um objeto.
-        Sobrecarga de Construtores -> Criar múltiplos construtores com diferentes parâmetros.
-        this        -> Referência ao próprio objeto.
-        super       -> Chama o construtor da classe pai.
+    Tipos por Referência (Apontam para Objetos na Memória)
+    String → String nome = "Java";
 
-        Tipo de Sobrecarga	Exemplo
-            Mudança no número de parâmetros	-> somar(int, int), somar(int, int, int)
-            Mudança no tipo dos parâmetros	-> multiplicar(int, int), multiplicar(double, double)
-            Mudança na ordem dos parâmetros -> imprimir(String, int), imprimir(int, String)
+    Arrays → int[] numeros = {1, 2, 3};
+
+    Objetos → Pessoa p = new Pessoa();
+
+    ✅ Primitivos armazenam valores diretamente
+    ✅ Referências armazenam um endereço de memória
+    ✅ Modificar um objeto afeta todas as referências a ele
+    
+    tipos Primitivos:
+            byte	    8 bits	    0
+            short	    16 bits	    0
+            int	        32 bits	    0
+            long	    64 bits 	0L
+            float	    32 bits	    0.0f
+            double	    64 bits	    0.0d
+            char	    16 bits	    '\u0000'
+            boolean	     1 bit	    false
+
+    Operadores:
+        Aritméticos: + - * / %
+
+        Relacionais: == != > < >= <=
+
+        Lógicos: && || !
+
+        Atribuição: = += -= *= /= %=
+
+        Incremento/Decremento: ++ --
+
+        Ternário: condição ? verdadeiro : falso
+    
+    🔹 static → Método/atributo pertence à classe, não ao objeto.
+    🔹 void → Indica que um método não retorna valor.
+    🔹 Construtor → Método especial que inicializa objetos, quandp a class é instanciada 
+    🔹 Sobrecarga de Construtores → Vários construtores na mesma classe, com parâmetros diferentes.
+    🔹 this → Referência ao próprio objeto.
+    🔹 super → Chama um método ou construtor da superclasse (classe pai).
+
+    Tipo de Sobrecarga	Exemplo
+        Mudança no número de parâmetros	-> somar(int, int), somar(int, int, int)
+        Mudança no tipo dos parâmetros	-> multiplicar(int, int), multiplicar(double, double)
+        Mudança na ordem dos parâmetros -> imprimir(String, int), imprimir(int, String)
+
+Pilares da POO
+1️⃣ Abstração → 
+2️⃣ Encapsulamento → Controle de acesso usando modificadores de acesso:
+
+private → Apenas dentro da classe.
+
+protected → Acesso na própria classe e subclasses.
+
+public → Acesso de qualquer classe.
+3️⃣ Herança → Uma classe pode herdar características de outra (classe pai → classe filha).
+
+Usa extends:
+
+
+4️⃣ Polimorfismo → Um método pode ter diferentes comportamentos:
+
+Sobrecarga (Overloading) → Mesmo nome, diferentes parâmetros.
+
+Sobrescrita (Overriding) → Substitui o método da classe pai.
+
+✔ Exemplo de So
+Outros Conceitos Importantes
+Construtores
+✅ Inicializam objetos quando a classe é instanciada.
+✅ Possuem o mesmo nome da classe.
+✅ Podem ter ou não parâmetros.
+
+✔ Exemplo
+
+
+Interfaces e Classes Abstratas
+✅ Interface → Define métodos que devem ser implementados.
+✅ Classe Abstrata → Pode ter métodos concretos e abstratos.
+
+✔ Diferença
+
+Característica	Interface	Classe Abstrata
+Métodos	Apenas abstratos	Pode ter concretos e abstratos
+Implementação	implements	extends
+Herança múltipla	Sim	Não
+
+
+
+
 
     POO Pilares:
-        Abstração -> Repartir o problema em partes e ir mostrando/trabalhando somente com o necessario
+        Abstração -> Repartir o problema em partes, esconder detalhes internos e expor apenas o necessário.
 
-        Emcapsulamento -> É o  controle de acesso do obj usando os modificadores de acesso.
+        Emcapsulamento -> É o  controle de acesso usando os modificadores de acesso.
             ✔ private → Restringe o acesso apenas à própria classe.
             ✔ protected → Permite o acesso dentro da classe e de suas subclasses.
             ✔ public → Permite o acesso de qualquer classe.
+               default -> somente class dentro do mesmo pacote 
 
-        Herança -> Pertmite uma class herdar dados de outra class, Pai para Filho. 
+        Herança -> Pertmite uma class herdar caracteristicas de outra class, Pai para Filho. 
             comando: extends
 
         Polimorfismo -> Capacidade de um metodo possuir diferentes comportamentos dependendo da implementação. 
@@ -176,12 +240,30 @@ NP1 anotação:
             - publico
             - mesmo nome da class
             - com ou sem parametros 
+            
+        Class Abstratas:
+            🔹 O que é uma Classe Abstrata em Java?
+                Uma classe abstrata é uma classe que não pode ser instanciada diretamente e pode conter métodos abstratos (sem implementação) e métodos concretos (com implementação).
 
-        Interface -> Deficição de metodos 
+            📌 Principais Características:
+                ✅ Pode ter métodos abstratos (que devem ser implementados pelas subclasses).
+                ✅ Pode ter métodos concretos (com implementação).
+                ✅ Não pode ser instanciada diretamente.
+                ✅ Usa a palavra-chave abstract.
+                ✅ É usada para definir um modelo base para outras classes.
+
+
+                Quando usar classe abstrata? → Quando há uma relação de herança natural entre as classes.
+                ✔ Quando usar interface? → Quando diferentes classes precisam seguir o mesmo comportamento sem herança direta.
+
+
+        Interface -> Deficição de metodos que devem ser usados, quando implementada.
 
         Getters e Setters 
+                getterts -> retorna o valor do atributo que esta "pegando" 
+                setters -> devine um novo valor para o atributo 
 
-        this, super, Overrade
+        this, super, Overrede
             this -> Refere-se ao próprio objeto
             super -> Refere-se a superclasse(Pai)
             Overrade -> Indica q um metodo foi sobrecarregado.
