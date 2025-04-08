@@ -9,8 +9,7 @@ public class CaixaEletronicoEntrada {
     private int total_cedula_usada; //    Guarda o total de cédulas usadas na operação.    
     private int valor;
 
- 
-//    Construtor
+//  Construtor
     public CaixaEletronicoEntrada(){
         scanner = new Scanner(System.in);
     }
@@ -20,7 +19,6 @@ public class CaixaEletronicoEntrada {
 
         obterValor();// valor recebe o metodo para obter o valor do user 
         
-//       int[] qtd_total = {0}; // Array para armazenar o total de cada cédula
         calcularCedula();
     }
 

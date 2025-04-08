@@ -31,7 +31,7 @@ public class ArrayExemplos {
         do{
             System.out.println("\n \n \n ");
             System.out.println("|===================================================|");
-            System.out.println("|                Caixa Eletronico                   |");
+            System.out.println("|                Menu Caixa Eletronico              |");
             System.out.println("|===================================================|");
             System.out.println("""                                              
             |   Escolha uma Opcao:                              |
@@ -61,7 +61,6 @@ public class ArrayExemplos {
                         System.out.println("\n  Vc escolheu OPC [3] Caixa Eletrônico com Saldo");
                         System.out.println("    Carregando...");
                         caixaSaldo.menu();
-                        caixaEntrada.imprimir();
                     }
                     case 9 ->{
                         System.out.println("\n Vc escolheu OPC [9] Sair");

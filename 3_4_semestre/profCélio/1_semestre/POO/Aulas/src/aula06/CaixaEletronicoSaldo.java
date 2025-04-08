@@ -16,7 +16,6 @@ public class CaixaEletronicoSaldo {
     private final int[] cedulas_caixa = {100, 50, 20, 10, 5, 2, 1};
     private double saldo_caixa; // quanto o caixa tem guadado
     
-    private final int[] qtd_cedulas_usadas = new int[] {cedulas_caixa.length}; //  Aqui falo q qtd_cedula recebe um novo array de int do mesmo tamanho de cedulasCaixa, podendo ter somente 7 tipos de cedula com N quantidade.
     private final Scanner scanner;
     
 //    Armazena a quantidade de cada cedula usada 
@@ -31,14 +30,14 @@ public class CaixaEletronicoSaldo {
         do{
             System.out.println("\n \n");
             System.out.println("|===============================================|");
-            System.out.println("|           Menu Caixa Eletronico               |");
+            System.out.println("|          Sub-Menu Caixa Eletronico            |");
             System.out.println("|===============================================|");
             System.out.println("""
             |   Escolha uma Opcao:                          |
             |   [1] Alimentar Caixa                         |       
             |   [2] Mostrar Saldo e Cedulas                 |
             |   [3] Saque                                   |
-            |   [5] Voltar                                  |                           
+            |   [9] Voltar ao Menu principal                |                           
             |===============================================|""");
             System.out.print("| Digite sua Opcao: ");
             if(scanner.hasNextInt()){
@@ -61,8 +60,10 @@ public class CaixaEletronicoSaldo {
                         System.out.println(" Carregando...");
                         saque();
                     }
-                    case 5 ->{
-                        
+                    case 9 ->{
+                        System.out.println("\n Vc escolheu a Opcao [9] Voltar ao Menu principal");
+                        System.out.println(" Voltando... ");
+                        opc_menu = 9;
                     }
                     default ->{
                         System.out.println("\n ERRO: Digite um Numero!!! Digite novamente...");   
@@ -70,7 +71,7 @@ public class CaixaEletronicoSaldo {
                     }
                 }
             }
-        }while(opc_menu != 5);
+        }while(opc_menu != 9);
     }
     
     
@@ -154,7 +155,5 @@ public class CaixaEletronicoSaldo {
             scanner.nextLine();
         }
     }
-
-
 
 }
