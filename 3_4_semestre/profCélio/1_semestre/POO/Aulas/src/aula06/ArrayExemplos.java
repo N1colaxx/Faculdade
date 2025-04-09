@@ -14,6 +14,7 @@ public class ArrayExemplos {
     private CaixaEletronicoFixo caixaFixo;
     private CaixaEletronicoSaldo caixaSaldo;
     private CaixaEletronicoEntrada caixaEntrada;
+    private CaixaEletronicoCedula caixaCedula;
     
     private final Scanner scanner;
     private int opc_menu;
@@ -22,6 +23,7 @@ public class ArrayExemplos {
         caixaFixo = new CaixaEletronicoFixo();
         caixaSaldo = new CaixaEletronicoSaldo();
         caixaEntrada = new CaixaEletronicoEntrada();
+        caixaCedula = new CaixaEletronicoCedula();
         
         scanner = new Scanner(System.in);
     }
@@ -37,7 +39,8 @@ public class ArrayExemplos {
             |   Escolha uma Opcao:                              |
             |   [1] Caixa Eletrônico com Valor Fixo             |
             |   [2] Caixa Eletrônico com Entrada do Valor       |
-            |   [3} Caixa Eletrônico com Saldo                  |
+            |   [3] Caixa Eletrônico com Saldo                  |
+            |   [4] Caixa Eletronico por Cedula                 |
             |   [9] Sair                                        |
             |===================================================|""");
             System.out.print("Digite sua Opcao: ");
@@ -61,6 +64,12 @@ public class ArrayExemplos {
                         System.out.println("\n  Vc escolheu OPC [3] Caixa Eletrônico com Saldo");
                         System.out.println("    Carregando...");
                         caixaSaldo.menu();
+                    }
+                    case 4 ->{
+                        System.out.println("\n  Vc escolheu a OPC [4] caixa Eletronico por Cedula");
+                        System.out.println("    Carregando...");
+                        caixaCedula.entrar();
+                        caixaCedula.imprimir();
                     }
                     case 9 ->{
                         System.out.println("\n Vc escolheu OPC [9] Sair");
