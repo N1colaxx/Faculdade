@@ -42,7 +42,6 @@ public class CaixaEletronicoEntrada {
             System.out.print("\n  Digite um valor: ");
             if (scanner.hasNextInt()) {
                 valor = scanner.nextInt();
-                scanner.nextLine();
                 sair = true;
             } else {
                 System.out.println("\n ERRO: Valor INVALIDO!!! Digite novamente...");

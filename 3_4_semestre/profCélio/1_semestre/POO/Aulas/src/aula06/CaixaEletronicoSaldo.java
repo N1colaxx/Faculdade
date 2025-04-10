@@ -11,10 +11,11 @@ import java.util.Scanner;
  * @author Nicolas
  */
 public class CaixaEletronicoSaldo {
-
-    private CaixaEletronicoCedula caixaCedula;
+    private AlimentandoCaixa alimentado_caixa;
     private int opc_menu;
-    private final int[] cedulas_caixa = {100, 50, 20, 10, 5, 2, 1};
+    private final double[] tipo_cedulas_caixa = {100.0, 50.0, 20.0, 10.0, 5.0, 2.0, 1.0};
+    private double[] cedulas_caixa = new double[tipo_cedulas_caixa.length];
+    
     private double saldo_caixa; // quanto o caixa tem guadado
 
     private final Scanner scanner;
@@ -22,7 +23,6 @@ public class CaixaEletronicoSaldo {
 //    Armazena a quantidade de cada cedula usada 
     public CaixaEletronicoSaldo() {
         scanner = new Scanner(System.in);
-        caixaCedula = new CaixaEletronicoCedula();
     }
 
     public void menu() {
@@ -48,7 +48,8 @@ public class CaixaEletronicoSaldo {
                     case 1 -> {
                         System.out.println("\n Vc escolheu a Opcao [1] Alimentar Caixa");
                         System.out.println(" Carregando...");
-                        ali_caixa();
+                        alimentado_caixa = new AlimentandoCaixa();
+                        alimentado_caixa.entrada(saldo_caixa, double cedulas_caixa);
                     }
                     case 2 -> {
                         System.out.println("\n Vc escolheu a Opcao [2] Mostrar Saldo e Cedulas");
@@ -67,51 +68,12 @@ public class CaixaEletronicoSaldo {
                     }
                     default -> {
                         System.out.println("\n ERRO: Digite um Numero!!! Digite novamente...");
-                        scanner.nextLine();
                     }
                 }
             }
         } while (opc_menu != 9);
     }
 
-    private void ali_caixa() {
-        System.out.println(" Carregado com Sucesso!!!\n");
-        boolean sair = false;
-        int res;
-        do {
-            System.out.println("Como quer alimetar o caixa, por Cedula[1] ou informando um valor[2] ?");
-            if (scanner.hasNextInt()) {
-                res = scanner.nextInt();
-           
-                switch (res) {
-                    case 1 -> caixaCedula.entrar();
-                    case 2 -> {
-                        System.out.print(" Digite quanto quer Alimentar o Caixa: ");
-                        if (scanner.hasNextDouble()) {
-                            double alimentandoCaixa = scanner.nextDouble();
-                            scanner.nextLine();
-                            if (alimentandoCaixa > 0) {
-                                saldo_caixa += alimentandoCaixa;
-                                System.out.print("\n SUCESSO: Caixa alimentado com: R$" + alimentandoCaixa + "\n \n");
-                                sair = true;
-                            } else {
-                                System.out.println("\n ERRO: Numeros abaixo de 0(zero) NAO SAO PERMITIDOS!!! Digite novamente...");
-                                scanner.nextLine();
-                            }
-                        } else {
-                            System.out.println("\n ERRO: Digite um Numero!!! digite novamente...");
-                            scanner.nextLine();
-                        }
-                    }
-                    default -> System.out.println("\n ERRO: OPC invalida... ");
-                }
-            }else{
-                System.out.println("\n ERRO: texto invalido....");
-                continue;
-            }
-
-        } while (!sair);
-    }
 
     private void mostra_saldo() {
         System.out.println(" Carregado com Sucesso!!! \n");
@@ -122,10 +84,10 @@ public class CaixaEletronicoSaldo {
 //      Monta a string com as cédulas disponíveis separadas por vírgula
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < cedulas_caixa.length; i++) {
-            sb.append("R$").append(cedulas_caixa[i]);
+        for (int i = 0; i < tipo_cedulas_caixa.length; i++) {
+            sb.append("R$").append(tipo_cedulas_caixa[i]);
 //          O -1 é usado para evitar colocar uma vírgula após o último elemento do array.
-            if (i < cedulas_caixa.length - 1) {
+            if (i < tipo_cedulas_caixa.length - 1) {
                 sb.append(", ");
             }
         }
