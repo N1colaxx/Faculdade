@@ -49,7 +49,8 @@ public class CaixaEletronicoSaldo {
                         System.out.println("\n Vc escolheu a Opcao [1] Alimentar Caixa");
                         System.out.println(" Carregando...");
                         alimentado_caixa = new AlimentandoCaixa();
-                        alimentado_caixa.entrada(saldo_caixa, double cedulas_caixa);
+//                        alimentado_caixa.entrada(saldo_caixa, double cedulas_caixa);;
+                        
                     }
                     case 2 -> {
                         System.out.println("\n Vc escolheu a Opcao [2] Mostrar Saldo e Cedulas");
