@@ -58,6 +58,7 @@ Mapeamento de Entidades:
         - No atributo COMPOSTO, são divididos em suas partes, ex:
         "Endereço" pode virar "Rua", "Número", "Cidade", etc.
 
+
 Mapeamento de Atributos Multivalorados:
     Para atributos que podem te multiplos valores:
         - criamos uma nova tabela contendo:

@@ -17,6 +17,7 @@ public class CaixaEletronicoFixo {
     public void entrada(){
         System.out.println("\n  Carregado com Sucesso!!!");
         System.out.println("\nQunatidade de notas necessarias para chegar em " + VALOR_FIXO);
+       
         for (int cedula : cedulaArray) {
             qtd_cedula = resto / cedula; // Calcula quantas cédulas desse valor são necessárias
             resto = resto % cedula; // Atualiza o valor restante
