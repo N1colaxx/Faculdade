@@ -8,6 +8,7 @@ der:
 
 DER de uma NF:
 
+Entidade principais:
     NotaFiscal:
         id_nf (PK)
         numero_nf
@@ -23,32 +24,13 @@ DER de uma NF:
         id_destinatario (FK → Pessoa)         (NotaFiscal: {1,1} ←→ {0,N} Pessoa)
         id_transportador (FK → Transportador) (NotaFiscal: {0,1} ←→ {0,N} Transportador)
 
-    Emitente:
+    Destinatario/Emitente:
         id_emitente (PK)
         razao_social
         cnpj
         inscricao_estadual
         inscricao_estadual_sub_tributaria
-        id_endereco (FK → Endereco)           (Emitente: {1,1} ←→ {0,N} Endereco)
-
-    Pessoa (destinatario/remetente):
-        id_pessoa (PK)
-        tipo_pessoa (destinatario/remetente)
-        nome_razao_social
-        cnpj_cpf
-        fone_fax
-        inscricao_estadual
-        id_endereco (FK → Endereco)           (Pessoa: {1,1} ←→ {0,N} Endereco)
-
-    Endereco:
-        id_endereco (PK)
-        logradouro
-        numero
-        complemento
-        bairro
-        cep
-        municipio
-        uf
+                       (Emitente: {1,1} ←→ {0,N} Endereco)
 
     Fatura:
         id_fatura (PK)
@@ -73,6 +55,15 @@ DER de uma NF:
         valor_total_impostos
         valor_total_nota
 
+    Pessoa (destinatario/remetente):
+        id_pessoa (PK)
+        tipo_pessoa (destinatario/remetente)
+        nome_razao_social
+        cnpj_cpf
+        fone_fax
+        inscricao_estadual
+        id_endereco (FK → Endereco)           (Pessoa: {1,1} ←→ {0,N} Endereco)
+
     Transportador:
         id_transportador (PK)
         razao_social
@@ -94,7 +85,7 @@ DER de uma NF:
         peso_bruto
         peso_liquido
 
-    Produto:
+    Produto/Servico:
         id_produto (PK)
         codigo
         descricao
@@ -137,3 +128,14 @@ DER de uma NF:
         observacoes_fisco
         reservado_ao_fisco
 
+Entidades resultante da cardinalidade:
+
+    Endereco:
+        id_endereco (PK)
+        logradouro
+        numero
+        complemento
+        bairro
+        cep
+        municipio
+        uf
