@@ -12,6 +12,7 @@ Melhorias sugeridas (sem impacto na SEFAZ):
     Unificar data_saida_entrada + hora_saida em um campo único dh_saida_entrada (padrão XML)
 
     Remover remetente (redundante - usar emitente ou destinatário)
+
 NotaFiscal:
     id_nf (PK)
     chave_acesso
@@ -54,7 +55,8 @@ Destinatario:
    id_destinatario (PK)
    nome
    razao_social
-   cpf_cnpj
+   cpf
+   cnpj
    inscricao_estadual
    telefone
    email
@@ -73,7 +75,7 @@ ProdutoServico:
    id_produto (PK)
    codigo
    descricao
-   ncm (8 dígitos)
+   ncm 
    cest
    cEAN (GTIN)
    unidade_medida
@@ -89,7 +91,7 @@ ItemNotaFiscal:
    valor_total
    cfop
    ncm
-   origem (0-8)
+   origem 
 
 Imposto:
    id_imposto (PK)
@@ -138,6 +140,7 @@ DadosAdicionais:
    id_nf (FK)
    informacoes_complementares
    observacoes
+
 
 Endereco:
    id_endereco (PK)
