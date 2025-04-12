@@ -1,0 +1,154 @@
+perguntar ao professor:
+    Os campos obrigatórios faltantes (ex: codigo_uf_emitente, tipo_ambiente) devem ser adicionados?
+
+    Como tratar pagamentos (especialmente para NFCe)?
+
+    Precisamos incluir eventos (cancelamento/correção) no DER?
+
+    O campo remetente é realmente necessário ou pode ser removido?
+
+
+Melhorias sugeridas (sem impacto na SEFAZ):
+    Unificar data_saida_entrada + hora_saida em um campo único dh_saida_entrada (padrão XML)
+
+    Remover remetente (redundante - usar emitente ou destinatário)
+NotaFiscal:
+    id_nf (PK)
+    chave_acesso
+    tipo_operacao
+    numero 
+    serie 
+    dh_emissao
+    dh_saida_entrada
+    cfop 
+    valor_total 
+    protocolo_autorizacao
+    natureza_da_operacao
+    status 
+    codigo_uf_emitente 
+    tipo_ambiente 
+    tipo_documento 
+    finalidade_emissao 
+    consumidor_final 
+    presenca_comprador 
+    modalidade_frete 
+    id_emitente (FK)
+    id_destinatario (FK)
+    id_transportador (FK)
+
+Emitente:
+   id_emitente (PK)
+   nome
+   razao_social
+   cnpj
+   inscricao_estadual
+   inscricao_estadual_subtributaria
+   inscricao_municipal
+   regime_tributario
+   telefone
+   fax
+   email
+   id_endereco (FK)
+
+Destinatario:
+   id_destinatario (PK)
+   nome
+   razao_social
+   cpf_cnpj
+   inscricao_estadual
+   telefone
+   email
+   id_endereco (FK)
+
+Transportador:
+   id_transportador (PK)
+   razao_social
+   cnpj
+   inscricao_estadual
+   placa_veiculo
+   uf_veiculo
+   id_endereco (FK)
+
+ProdutoServico:
+   id_produto (PK)
+   codigo
+   descricao
+   ncm (8 dígitos)
+   cest
+   cEAN (GTIN)
+   unidade_medida
+   valor_unitario
+   cBenef (código benefício fiscal)
+
+ItemNotaFiscal:
+   id_item (PK)
+   id_nf (FK)
+   id_produto (FK)
+   quantidade
+   valor_unitario
+   valor_total
+   cfop
+   ncm
+   origem (0-8)
+
+Imposto:
+   id_imposto (PK)
+   id_item (FK)
+   tipo_imposto (ICMS, IPI, PIS, COFINS)
+   cst
+   base_calculo
+   aliquota
+   valor
+   valor_fcp
+
+Fatura:
+   id_fatura (PK)
+   id_nf (FK)
+   numero
+   valor
+   data_vencimento
+
+VolumeTransportado:
+   id_volume (PK)
+   id_nf (FK)
+   quantidade
+   especie
+   marca
+   numeracao
+   peso_bruto
+   peso_liquido
+
+Pagamento:
+   id_pagamento (PK)
+   id_nf (FK)
+   tipo_pagamento (01=dinheiro, 02=cheque...)
+   valor_pagamento
+   troco
+
+EventoNFe:
+   id_evento (PK)
+   id_nf (FK)
+   tipo_evento (cancelamento, carta correção)
+   protocolo
+   data_evento
+   justificativa
+
+DadosAdicionais:
+   id_dados (PK)
+   id_nf (FK)
+   informacoes_complementares
+   observacoes
+
+Endereco:
+   id_endereco (PK)
+   logradouro
+   numero
+   complemento
+   bairro
+   municipio
+   uf
+   cep
+   codigo_pais 
+
+
+
