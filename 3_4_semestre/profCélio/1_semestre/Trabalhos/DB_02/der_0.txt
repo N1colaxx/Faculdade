@@ -1,157 +1,212 @@
+Anotção:
+   lembra q os nomes grandes q esta na NF é ilustrativoi, 
+   ali so mostra os dados mas as CADINALIDAES PK e FK n deve ficar ali
+
 perguntar ao professor:
-    Os campos obrigatórios faltantes (ex: codigo_uf_emitente, tipo_ambiente) devem ser adicionados?
 
-    Como tratar pagamentos (especialmente para NFCe)?
+   Como tratar pagamentos ?
 
-    Precisamos incluir eventos (cancelamento/correção) no DER?
+   Precisamos incluir eventos (cancelamento/correção)
 
-    O campo remetente é realmente necessário ou pode ser removido?
+   necessidade de histórico/auditoria ? 
 
+NotaFiscal
+   chave_acesso
+   tipo_operacao  (entrada/saída)
+   modelo
+   serie
+   numero  
+   data_emissao
+   data_saida_entrada
+   hora_saida_entrada
+   natureza_da_operacao
+   protocolo_autorizacao
+   status(em digitação, validada, autorizada, cancelada, denegada)
+   data_autorizacao
 
-Melhorias sugeridas (sem impacto na SEFAZ):
-    Unificar data_saida_entrada + hora_saida em um campo único dh_saida_entrada (padrão XML)
-
-    Remover remetente (redundante - usar emitente ou destinatário)
-
-NotaFiscal:
-    id_nf (PK)
-    chave_acesso
-    tipo_operacao
-    numero 
-    serie 
-    dh_emissao
-    dh_saida_entrada
-    cfop 
-    valor_total 
-    protocolo_autorizacao
-    natureza_da_operacao
-    status 
-    codigo_uf_emitente 
-    tipo_ambiente 
-    tipo_documento 
-    finalidade_emissao 
-    consumidor_final 
-    presenca_comprador 
-    modalidade_frete 
-    id_emitente (FK)
-    id_destinatario (FK)
-    id_transportador (FK)
-
-Emitente:
-   id_emitente (PK)
-   nome
-   razao_social
-   cnpj
-   inscricao_estadual
-   inscricao_estadual_subtributaria
-   inscricao_municipal
-   regime_tributario
-   telefone
-   fax
-   email
-   id_endereco (FK)
-
-Destinatario:
-   id_destinatario (PK)
-   nome
-   razao_social
-   cpf
-   cnpj
-   inscricao_estadual
-   telefone
-   email
-   id_endereco (FK)
-
-Transportador:
-   id_transportador (PK)
-   razao_social
-   cnpj
-   inscricao_estadual
-   placa_veiculo
-   uf_veiculo
-   id_endereco (FK)
-
-ProdutoServico:
-   id_produto (PK)
-   codigo
-   descricao
-   ncm 
-   cest
-   cEAN (GTIN)
-   unidade_medida
-   valor_unitario
-   cBenef (código benefício fiscal)
-
-ItemNotaFiscal:
-   id_item (PK)
-   id_nf (FK)
+   id_emitente (FK)
+   id_destinatario (FK)
+   id_remetente (FK)
+   id_fatura (FK)
    id_produto (FK)
-   quantidade
-   valor_unitario
-   valor_total
-   cfop
-   ncm
-   origem 
-
-Imposto:
-   id_imposto (PK)
-   id_item (FK)
-   tipo_imposto (ICMS, IPI, PIS, COFINS)
-   cst
-   base_calculo
-   aliquota
-   valor
-   valor_fcp
-
-Fatura:
-   id_fatura (PK)
-   id_nf (FK)
-   numero
-   valor
-   data_vencimento
-
-VolumeTransportado:
-   id_volume (PK)
-   id_nf (FK)
-   quantidade
-   especie
-   marca
-   numeracao
-   peso_bruto
-   peso_liquido
-
-Pagamento:
-   id_pagamento (PK)
-   id_nf (FK)
-   tipo_pagamento (01=dinheiro, 02=cheque...)
-   valor_pagamento
-   troco
-
-EventoNFe:
-   id_evento (PK)
-   id_nf (FK)
-   tipo_evento (cancelamento, carta correção)
-   protocolo
-   data_evento
-   justificativa
-
-DadosAdicionais:
-   id_dados (PK)
-   id_nf (FK)
-   informacoes_complementares
-   observacoes
+   id_servico (FK)
+   id_calImp (FK)
+   
+   PERGUNTAR AO PROF SOBRE isso:
+      CalculoISSQN
+         id_issqn (PK)
+         id_nf
+         inscricao_estadual
+         valor_total_servicos
+         base_calculo_issqn
+         valor_issqn
+   
+   DadosAdicionais:
+      id_daadi (PK)
+      id_nf (FK)
+      informacoes_complementares
+      observacoes
 
 
-Endereco:
-   id_endereco (PK)
-   logradouro
-   numero
-   complemento
-   bairro
-   municipio
-   uf
-   cep
-   codigo_pais 
 
+ENTIDADES relacionadas:
 
+   Emitentes:
+      id_emitente (PK)
+      id_pessoa (FK)
+      regime_tributario
+      cnae_fiscal
+      inscricao_estadual
+      inscricao_suframa
+      nome_razao_social
+      nome_fantasia
+      id_enderecos (FK)
+      id_telefones (FK)
+      id_email (FK)
+
+   Fatura:
+      id_fatura (PK)
+         numero
+         valor
+         data_vencimento
+
+   Destinatario:
+      id_destinatario (PK)
+      id_pessoa (FK)
+      is_contribuinte_icms,  
+      indicador_destinatario 
+      inscricao_estadual
+      inscricao_suframa
+      nome_razao_social
+      nome_fantasia
+      id_enderecos (FK)
+      id_telefones (FK)
+      id_email (FK)
+
+   Remetente
+      id_remetente (PK)
+      inscricao_estadual
+      inscricao_suframa (quando aplicável)
+      nome_razao_social
+      nome_fantasia
+      id_enderecos (FK)
+      id_telefones (FK)
+      id_email (FK)
+
+   ImpostosNF:
+      id_imposto_nf (PK)
+      id_imposto (FK)
+      valor_total_impostos_nf
+
+   Transportadora:
+      id_transportadora (PK)
+      razao_social
+      cnpj
+      valor_frete
+      cod_antt
+      inscricao_estadual
+      placa_veiculo
+      uf_veiculo
+      id_endereco (FK)
+
+   VolumeTransportado:
+      id_volume (PK)
+      id_nf (FK)
+      quantidade
+      especie
+      marca
+      numeracao
+      peso_bruto
+      peso_liquido
+
+   Produtos:
+      id_produto (PK)
+      id_item (FK)
+      valor_total_impostos_produto
+      valor_total_produto (do produto em especifico)
+      valor_total_produtos (soma de todos os produtos, que é chamda em CalculoImposto e so fica aparente lá)
+
+   Itens:
+      id_item (PK)
+      id_imposto (FK)
+      nome
+      codigo_item
+      descricao
+      ncm
+      cest
+      cfop
+      unidade_comercial
+      valor_unitario
+      alicotas:
+         ICMS
+         IPI
+
+   Servicos:
+      id_servicos (PK)
+      nome 
+      codigo
+      tipo
+      descricao
+      valor
+
+   CalculoImposto:
+      id_calImp (PK)
+      id_nf (FK)
+      id_imposto_nf (FK)
+      id_produto (FK)
+      id_servico (FK)
+      id_transportadora (FK)
+      valor_total_impostos
+      valor_desconto
+      valor_outras_despesas
+      valor_total_nf
+
+   SUB entidades:
+
+      Pessoas:
+         id_pessoa PK,
+         nome
+         sobre_nome
+         tipo_pessoa (Emitente, Destinatario, Remetente),
+         tipo_documento (CPF/CNPJ)
+         numero_documento
+
+      Endereco:
+         id_endereco (PK)
+         logradouro
+         numero
+         complemento
+         bairro
+         municipio
+         uf
+         cep
+         codigo_pais 
+
+      email:
+         id_email (PK)
+         escopo_email
+      
+      TelefonesFax:
+         id_telefone (PK)
+         tipo
+         ddd
+         numero
+      
+      Imposto:
+         id_imposto (PK)
+         nome
+         base_calculo
+         base_calculo_st
+
+         impostos q um NF tem:
+            valor_ipi
+            valor_icms
+            valor_icms_st
+            valor_pis
+            valor_cofins
+            valor_ii (imposto importação, quando aplicável)
+            valor_total_nota
+            base_calculo_icms
+            base_calculo_icms_st
+            valor_fcp (Fundo de Combate à Pobreza)
 
