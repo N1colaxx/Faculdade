@@ -11,6 +11,7 @@ perguntar ao professor:
    necessidade de histórico/auditoria ? 
 
 NotaFiscal
+   id_nf (pk)
    chave_acesso
    tipo_operacao  (entrada/saída)
    modelo
@@ -26,10 +27,14 @@ NotaFiscal
 
    id_emitente (FK)
    id_destinatario (FK)
+   id_endereco_destinatario (FK)
    id_remetente (FK)
+   id_endereco_remetente (FK)
    id_fatura (FK)
+   id_frete (FK)
    id_produto (FK)
    id_servico (FK)
+   id_imposto_nf (FK)
    id_calImp (FK)
    
    PERGUNTAR AO PROF SOBRE isso:
@@ -64,12 +69,6 @@ ENTIDADES relacionadas:
       id_telefones (FK)
       id_email (FK)
 
-   Fatura:
-      id_fatura (PK)
-         numero
-         valor
-         data_vencimento
-
    Destinatario:
       id_destinatario (PK)
       id_pessoa (FK)
@@ -93,53 +92,26 @@ ENTIDADES relacionadas:
       id_telefones (FK)
       id_email (FK)
 
-   ImpostosNF:
-      id_imposto_nf (PK)
-      id_imposto (FK)
-      valor_total_impostos_nf
+   Fatura:
+      id_fatura (PK)
+         numero
+         valor
+         data_vencimento
 
-   Transportadora:
-      id_transportadora (PK)
-      razao_social
-      cnpj
+   Fretes:
+      id_frete (PK)
+      tipo_frete
+      id_transportadora (FK)
+      id_volume_transportado (FK)
       valor_frete
-      cod_antt
-      inscricao_estadual
-      placa_veiculo
-      uf_veiculo
-      id_endereco (FK)
-
-   VolumeTransportado:
-      id_volume (PK)
-      id_nf (FK)
-      quantidade
-      especie
-      marca
-      numeracao
-      peso_bruto
-      peso_liquido
 
    Produtos:
       id_produto (PK)
       id_item (FK)
+      qtd_item
       valor_total_impostos_produto
       valor_total_produto (do produto em especifico)
-      valor_total_produtos (soma de todos os produtos, que é chamda em CalculoImposto e so fica aparente lá)
-
-   Itens:
-      id_item (PK)
-      id_imposto (FK)
-      nome
-      codigo_item
-      descricao
-      ncm
-      cest
-      cfop
-      unidade_comercial
-      valor_unitario
-      alicotas:
-         ICMS
-         IPI
+      valor_total_produtos
 
    Servicos:
       id_servicos (PK)
@@ -148,6 +120,11 @@ ENTIDADES relacionadas:
       tipo
       descricao
       valor
+
+   ImpostosNF:
+      id_imposto_nf (PK)
+      id_imposto (FK)
+      valor_total_impostos_nf
 
    CalculoImposto:
       id_calImp (PK)
@@ -170,6 +147,26 @@ ENTIDADES relacionadas:
          tipo_pessoa (Emitente, Destinatario, Remetente),
          tipo_documento (CPF/CNPJ)
          numero_documento
+         
+      Transportadora:
+         id_transportadora (PK)
+         razao_social
+         cnpj
+         cod_antt
+         inscricao_estadual
+         placa_veiculo
+         uf_veiculo
+         id_endereco (FK)
+
+      VolumeTransportado:
+         id_volume_transportado (PK)
+         id_nf (FK)
+         quantidade
+         especie
+         marca
+         numeracao
+         peso_bruto
+         peso_liquido
 
       Endereco:
          id_endereco (PK)
@@ -191,6 +188,21 @@ ENTIDADES relacionadas:
          tipo
          ddd
          numero
+
+      Itens:
+         id_item (PK)
+         id_imposto (FK)
+         nome
+         codigo_item
+         descricao
+         ncm
+         cest
+         cfop
+         unidade_comercial
+         valor_unitario
+         alicotas:
+            ICMS
+            IPI
       
       Imposto:
          id_imposto (PK)
@@ -210,3 +222,7 @@ ENTIDADES relacionadas:
             base_calculo_icms_st
             valor_fcp (Fundo de Combate à Pobreza)
 
+
+
+mas esta faltando alguma entidade no der ? para poder realisar essa consultas ? 
+monde o der completo com as mudanças que fique de acordo com uma Nf-e(DANF) e atenda a dodas essas consultas.
