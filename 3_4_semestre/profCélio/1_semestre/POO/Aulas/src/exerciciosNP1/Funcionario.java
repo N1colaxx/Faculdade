@@ -20,6 +20,14 @@ public class Funcionario extends Pessoa {
         this.fun_funcao = fun_funcao;
         this.fun_salario = fun_salario;
     }
+    
+      public Funcionario(int pes_id, int pes_tipo, String pes_nome, double fun_salario, String fun_funcao){
+        super(pes_id, pes_tipo, pes_nome);
+        this.fun_funcao = fun_funcao;
+        this.fun_salario = fun_salario;
+    }
+    
+    
 
     public double getFun_salario() {
         return fun_salario;
@@ -60,5 +68,10 @@ public class Funcionario extends Pessoa {
         
         System.out.println("Salario: " + fun_salario);
         System.out.println("Funcao: " + fun_funcao);
+    }
+    
+    @Override
+    public String toString() {
+        return super.toString() + " | Funcionario [Função=" + fun_funcao + ", Salário=" + fun_salario + "]";
     }
 }

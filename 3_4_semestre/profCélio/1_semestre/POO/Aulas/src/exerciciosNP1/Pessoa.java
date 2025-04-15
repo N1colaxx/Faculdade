@@ -68,4 +68,10 @@ public abstract class Pessoa {
         System.out.println("ID: " + pes_id);
         System.out.println("Tipo: " + pes_tipo);
     }
+    
+    
+    @Override
+    public String toString() {
+        return "Pessoa [ID=" + pes_id + ", Tipo=" + pes_tipo + ", Nome=" + pes_nome + "]";
+    }
 }

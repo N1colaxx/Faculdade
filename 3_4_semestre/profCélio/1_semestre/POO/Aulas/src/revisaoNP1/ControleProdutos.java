@@ -1,15 +1,23 @@
 package revisaoNP1;
 
 // Classe principal para testar o sistema
+import com.github.javafaker.Faker;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class ControleProdutos {
-
     private ProdutoConsumo produtoConsumo = null;
     private ProdutoVenda produtoVenda = null;
     private Loja loja = null;
     private int proximoId = 1;
     Scanner scanner = new Scanner(System.in);
+    
+    private List<ProdutoConsumo> produtos = new ArrayList<>();
 
     public ControleProdutos() {
         this.menu();
@@ -52,6 +60,10 @@ public class ControleProdutos {
         System.out.print("Escolha uma opção: ");
     }
 
+    
+//    Produtos de Consumo ------------------------------------------------------------------
+    
+    
     private void menuProdutosConsumo() {
         int opcao;
         do {
@@ -60,7 +72,8 @@ public class ControleProdutos {
             System.out.println("b) Alterar");
             System.out.println("c) Consultar");
             System.out.println("d) Excluir");
-            System.out.println("e) Voltar ao menu principal");
+            System.out.println("e) Criar Faker Produtos Consumo");
+            System.out.println("g) Voltar ao menu principal");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.next().charAt(0);
             scanner.nextLine(); // Limpar buffer
@@ -79,20 +92,18 @@ public class ControleProdutos {
                     excluirProdutoConsumo();
                     break;
                 case 'e':
+                    incluirFakerProdutoConsumo();
+                    break;
+                case 'g':
                     System.out.println("Voltando ao menu principal...");
                     break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
-        } while (opcao != 'e');
+        } while (opcao != 'g');
     }
 
     private void incluirProdutoConsumo() {
-        if (produtoConsumo != null) {
-            System.out.println("Já existe um produto de consumo cadastrado. Exclua ou altere o existente.");
-            return;
-        }
-
         System.out.print("Digite o nome do produto: ");
         String nome = scanner.nextLine();
         System.out.print("Digite o preço do produto: ");
@@ -102,43 +113,113 @@ public class ControleProdutos {
         String dataValidade = scanner.nextLine();
 
         produtoConsumo = new ProdutoConsumo(proximoId++, nome, preco, dataValidade);
+        produtos.add(produtoConsumo);
         System.out.println("Produto de consumo incluído com sucesso!");
     }
 
     private void alterarProdutoConsumo() {
-        if (produtoConsumo == null) {
-            System.out.println("Nenhum produto de consumo cadastrado.");
-            return;
+        if (produtos.isEmpty()) {
+        System.out.println("Nenhum produto de consumo cadastrado.");
+        }else{
+            System.out.print("Digite o ID do produto que deseja alterar: ");
+            int idDigitado = scanner.nextInt();
+            scanner.nextLine(); // limpar buffer
+
+            ProdutoConsumo produtoEncontrado = null;
+            for (ProdutoConsumo p : produtos) {
+                if (p.getId() == idDigitado) { // assumindo que há um getter getId() na classe Produto ou ProdutoConsumo
+                    produtoEncontrado = p;
+                    break;
+                }
+            }
+
+            if (produtoEncontrado == null) {
+                System.out.println("Produto de consumo não encontrado.");
+                return;
+            }
+
+            System.out.print("Digite o novo nome: ");
+            produtoEncontrado.setNome(scanner.nextLine());
+            System.out.print("Digite o novo preço: ");
+            produtoEncontrado.setPreco(scanner.nextDouble());
+            scanner.nextLine(); // Limpar buffer
+            System.out.print("Digite a nova data de validade: ");
+            produtoEncontrado.setDataValidade(scanner.nextLine());
+
+            System.out.println("Produto de consumo alterado com sucesso!");
         }
-
-        System.out.print("Digite o novo nome: ");
-        produtoConsumo.setNome(scanner.nextLine());
-        System.out.print("Digite o novo preço: ");
-        produtoConsumo.setPreco(scanner.nextDouble());
-        scanner.nextLine(); // Limpar buffer
-        System.out.print("Digite a nova data de validade: ");
-        produtoConsumo.setDataValidade(scanner.nextLine());
-
-        System.out.println("Produto de consumo alterado com sucesso!");
-    }
+}
 
     private void consultarProdutoConsumo() {
-        if (produtoConsumo == null) {
+        if (produtos.isEmpty()) {
             System.out.println("Nenhum produto de consumo cadastrado.");
         } else {
-            produtoConsumo.exibirDetalhes();
+            System.out.println("\n exibindo consulta.... \n");
+            for (ProdutoConsumo p : produtos) {
+                p.exibirDetalhes();
+            }
         }
     }
 
     private void excluirProdutoConsumo() {
-        if (produtoConsumo == null) {
+        if (produtos.isEmpty()) {
             System.out.println("Nenhum produto de consumo cadastrado.");
-        } else {
-            produtoConsumo = null;
+            return;
+        }
+
+        System.out.print("Digite o ID do produto que deseja excluir: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpar buffer
+
+        ProdutoConsumo produtoParaRemover = null;
+        for (ProdutoConsumo p : produtos) {
+            if (p.getId() == id) {
+                produtoParaRemover = p;
+                break;
+            }
+        }
+
+        if (produtoParaRemover != null) {
+            produtos.remove(produtoParaRemover);
             System.out.println("Produto de consumo excluído com sucesso!");
+        } else {
+            System.out.println("Produto com ID " + id + " não encontrado.");
         }
     }
 
+    private void incluirFakerProdutoConsumo() {
+        Faker faker = new Faker(new Locale("pt-BR")); // Configura o Faker para pt-BR (ajuste conforme necessário)
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy"); // Formata a data para o formato desejado
+
+        // Gerando 5 produtos fake
+        for (int i = 1; i <= 5; i++) {
+            // Gerando um nome fake usando o módulo food do Faker
+            String nomeProduto = faker.food().ingredient(); 
+            // Gerando um preço com 2 casas decimais, entre 1 e 50
+            double preco = faker.number().randomDouble(2, 1, 50);
+            // Gerando uma data de validade aleatória no futuro (até 365 dias)
+            Date fakeDate = faker.date().future(365, TimeUnit.DAYS);
+            String dataValidade = sdf.format(fakeDate);
+
+            // Adicionando o novo ProdutoConsumo à lista
+            produtos.add(new ProdutoConsumo(i, nomeProduto, preco, dataValidade));
+        }
+
+        System.out.println("\nCriado com Sucesso!!!");
+        System.out.println("Exibindo produtos... \n");
+        exibirFakerProdutosConsumo();
+    }
+    
+    public void exibirFakerProdutosConsumo() {
+        for (ProdutoConsumo p : produtos) {
+            p.exibirDetalhes();
+        }
+        
+        System.out.println("");
+    }
+    //    Produtos de Venda ------------------------------------------------------------------
+    
+    
     private void menuProdutosVenda() {
         int opcao;
         do {
@@ -240,6 +321,9 @@ public class ControleProdutos {
         }
     }
 
+    
+    //    Menu Loja ------------------------------------------------------------------
+    
     private void menuLojas() {
         int opcao;
         do {
