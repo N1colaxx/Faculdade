@@ -1,19 +1,7 @@
-Anotção:
-   lembra q os nomes grandes q esta na NF é ilustrativoi, 
-   ali so mostra os dados mas as CADINALIDAES PK e FK n deve ficar ali
-
-perguntar ao professor:
-
-   Como tratar pagamentos ?
-
-   Precisamos incluir eventos (cancelamento/correção)
-
-   necessidade de histórico/auditoria ? 
-
 NotaFiscal
    id_nf (pk)
    chave_acesso
-   tipo_operacao  (entrada/saída)
+   tipo_operacao (entrada/saída)
    modelo
    serie
    numero  
@@ -22,207 +10,193 @@ NotaFiscal
    hora_saida_entrada
    natureza_da_operacao
    protocolo_autorizacao
-   status(em digitação, validada, autorizada, cancelada, denegada)
+   status (em digitação, validada, autorizada, cancelada, denegada)
    data_autorizacao
+   valor_total_nf
+   valor_total_produtos
+   valor_total_servicos
+   valor_desconto
+   valor_outras_despesas
+   valor_frete
+   valor_total_impostos
 
    id_emitente (FK)
    id_destinatario (FK)
-   id_endereco_destinatario (FK)
-   id_remetente (FK)
-   id_endereco_remetente (FK)
-   id_fatura (FK)
+   id_transportadora (FK)
+
+DadosAdicionais
+   id_dados_adicionais (PK)
+   id_nf (FK)
+   informacoes_complementares
+   observacoes
+
+ItemNotaFiscal
+   id_item_nf (PK)
+   id_nf (FK)
+   id_produto (FK) (opcional)
+   id_servico (FK) (opcional)
+   cfop
+   quantidade
+   valor_unitario
+   valor_desconto
+   valor_total_item
+   valor_total_impostos_item
+
+Pessoa
+   id_pessoa (PK)
+   tipo_pessoa (Emitente, Destinatário, Transportadora)
+   tipo_documento (CPF/CNPJ)
+   numero_documento
+   nome_razao_social
+   nome_fantasia
+   regime_tributario
+   inscricao_estadual
+   inscricao_suframa
+   is_contribuinte_icms
+   cnae_fiscal
+   codigo_antt (para transportadoras)
+
+DocumentoFiscal
+   id_documento_fiscal (PK)
+   id_pessoa (FK)
+   tipo_documento
+   numero_documento
+
+Endereco
+   id_endereco (PK)
+   id_pessoa (FK)
+   tipo (comercial, entrega, cobrança, etc.)
+   logradouro
+   numero
+   complemento
+   bairro
+   municipio
+   uf
+   cep
+   codigo_pais
+
+Contato
+   id_contato (PK)
+   id_pessoa (FK)
+   tipo (telefone, email, fax)
+   ddd
+   numero
+   email
+
+Produto
+   id_produto (PK)
+   codigo
+   nome
+   descricao
+   ncm
+   cest
+   unidade_comercial
+   valor_unitario
+
+Servico
+   id_servico (PK)
+   codigo
+   nome
+   descricao
+   valor_unitario
+
+Imposto
+   id_imposto (PK)
+   codigo
+   nome
+   descricao
+
+TipoImposto
+   id_tipo_imposto (PK)
+   id_imposto (FK)
+   codigo_tipo (ICMS, IPI, PIS, COFINS, etc.)
+   descricao_tipo
+
+ImpostoItem
+   id_imposto_item (PK)
+   id_item_nf (FK)
+   id_tipo_imposto (FK)
+   situacao_tributaria (CST/CSOSN)
+   base_calculo
+   aliquota
+   valor
+   base_calculo_st (quando aplicável)
+   aliquota_st (quando aplicável)
+   valor_st (quando aplicável)
+   valor_fcp (quando aplicável)
+
+Frete
+   id_frete (PK)
+   id_nf (FK)
+   id_transportadora (FK)
+   tipo_frete (CIF, FOB, etc.)
+   placa_veiculo
+   uf_veiculo
+   valor_frete
+
+VolumeTransportado
+   id_volume (PK)
    id_frete (FK)
-   id_produto (FK)
-   id_servico (FK)
-   id_imposto_nf (FK)
-   id_calImp (FK)
-   
-   PERGUNTAR AO PROF SOBRE isso:
-      CalculoISSQN
-         id_issqn (PK)
-         id_nf
-         inscricao_estadual
-         valor_total_servicos
-         base_calculo_issqn
-         valor_issqn
-   
-   DadosAdicionais:
-      id_daadi (PK)
-      id_nf (FK)
-      informacoes_complementares
-      observacoes
+   quantidade
+   especie
+   marca
+   numeracao
+   peso_bruto
+   peso_liquido
+
+EventoNF
+   id_evento (PK)
+   id_nf (FK)
+   tipo_evento (emissão, cancelamento, correção, etc.)
+   motivo
+   data_hora
+   usuario
+   xml_referencia (quando aplicável)
+
+Fatura
+   id_fatura (PK)
+   id_nf (FK)
+   numero
+   valor
+   data_vencimento
+
+Pagamento
+   id_pagamento (PK)
+   id_nf (FK)
+   id_forma_pagamento (FK)
+   valor
+   data_pagamento
+   status
+
+FormaPagamento
+   id_forma_pagamento (PK)
+   codigo
+   descricao (dinheiro, cartão, etc.)
 
 
 
-ENTIDADES relacionadas:
-
-   Emitentes:
-      id_emitente (PK)
-      id_pessoa (FK)
-      regime_tributario
-      cnae_fiscal
-      inscricao_estadual
-      inscricao_suframa
-      nome_razao_social
-      nome_fantasia
-      id_enderecos (FK)
-      id_telefones (FK)
-      id_email (FK)
-
-   Destinatario:
-      id_destinatario (PK)
-      id_pessoa (FK)
-      is_contribuinte_icms,  
-      indicador_destinatario 
-      inscricao_estadual
-      inscricao_suframa
-      nome_razao_social
-      nome_fantasia
-      id_enderecos (FK)
-      id_telefones (FK)
-      id_email (FK)
-
-   Remetente
-      id_remetente (PK)
-      inscricao_estadual
-      inscricao_suframa (quando aplicável)
-      nome_razao_social
-      nome_fantasia
-      id_enderecos (FK)
-      id_telefones (FK)
-      id_email (FK)
-
-   Fatura:
-      id_fatura (PK)
-         numero
-         valor
-         data_vencimento
-
-   Fretes:
-      id_frete (PK)
-      tipo_frete
-      id_transportadora (FK)
-      id_volume_transportado (FK)
-      valor_frete
-
-   Produtos:
-      id_produto (PK)
-      id_item (FK)
-      qtd_item
-      valor_total_impostos_produto
-      valor_total_produto (do produto em especifico)
-      valor_total_produtos
-
-   Servicos:
-      id_servicos (PK)
-      nome 
-      codigo
-      tipo
-      descricao
-      valor
-
-   ImpostosNF:
-      id_imposto_nf (PK)
-      id_imposto (FK)
-      valor_total_impostos_nf
-
-   CalculoImposto:
-      id_calImp (PK)
-      id_nf (FK)
-      id_imposto_nf (FK)
-      id_produto (FK)
-      id_servico (FK)
-      id_transportadora (FK)
-      valor_total_impostos
-      valor_desconto
-      valor_outras_despesas
-      valor_total_nf
-
-   SUB entidades:
-
-      Pessoas:
-         id_pessoa PK,
-         nome
-         sobre_nome
-         tipo_pessoa (Emitente, Destinatario, Remetente),
-         tipo_documento (CPF/CNPJ)
-         numero_documento
-         
-      Transportadora:
-         id_transportadora (PK)
-         razao_social
-         cnpj
-         cod_antt
-         inscricao_estadual
-         placa_veiculo
-         uf_veiculo
-         id_endereco (FK)
-
-      VolumeTransportado:
-         id_volume_transportado (PK)
-         id_nf (FK)
-         quantidade
-         especie
-         marca
-         numeracao
-         peso_bruto
-         peso_liquido
-
-      Endereco:
-         id_endereco (PK)
-         logradouro
-         numero
-         complemento
-         bairro
-         municipio
-         uf
-         cep
-         codigo_pais 
-
-      email:
-         id_email (PK)
-         escopo_email
-      
-      TelefonesFax:
-         id_telefone (PK)
-         tipo
-         ddd
-         numero
-
-      Itens:
-         id_item (PK)
-         id_imposto (FK)
-         nome
-         codigo_item
-         descricao
-         ncm
-         cest
-         cfop
-         unidade_comercial
-         valor_unitario
-         alicotas:
-            ICMS
-            IPI
-      
-      Imposto:
-         id_imposto (PK)
-         nome
-         base_calculo
-         base_calculo_st
-
-         impostos q um NF tem:
-            valor_ipi
-            valor_icms
-            valor_icms_st
-            valor_pis
-            valor_cofins
-            valor_ii (imposto importação, quando aplicável)
-            valor_total_nota
-            base_calculo_icms
-            base_calculo_icms_st
-            valor_fcp (Fundo de Combate à Pobreza)
-
-
-
-mas esta faltando alguma entidade no der ? para poder realisar essa consultas ? 
-monde o der completo com as mudanças que fique de acordo com uma Nf-e(DANF) e atenda a dodas essas consultas.
+   DerDiagram
+    NotaFiscal ||--o{ ItemNotaFiscal : "1:N (Uma nota contém vários itens)"
+    NotaFiscal ||--|| DadosAdicionais : "1:1 (Uma nota possui um dado adicional)"
+    NotaFiscal }|--|| Pessoa : "N:1 (Uma nota é emitida por uma pessoa)"
+    NotaFiscal }|--|| Pessoa : "N:1 (Uma nota é destinada a uma pessoa)"
+    NotaFiscal ||--o{ EventoNF : "1:N (Uma nota possui vários eventos)"
+    NotaFiscal ||--o{ Pagamento : "1:N (Uma nota possui vários pagamentos)"
+    NotaFiscal ||--o| Frete : "1:0..1 (Uma nota pode ter um frete)"
+    NotaFiscal ||--o{ Fatura : "1:N (Uma nota pode ter várias faturas)"
+    
+    Pessoa ||--o{ Endereco : "1:N (Uma pessoa possui vários endereços)"
+    Pessoa ||--o{ Contato : "1:N (Uma pessoa possui vários contatos)"
+    Pessoa ||--o{ DocumentoFiscal : "1:N (Uma pessoa possui vários documentos)"
+    
+    ItemNotaFiscal }|--|| Produto : "N:1 (Um item referencia um produto)"
+    ItemNotaFiscal }|--|| Servico : "N:1 (Um item referencia um serviço)"
+    ItemNotaFiscal ||--o{ ImpostoItem : "1:N (Um item tem vários impostos)"
+    
+    ImpostoItem }|--|| TipoImposto : "N:1 (Um imposto de item é de um tipo específico)"
+    TipoImposto }|--|| Imposto : "N:1 (Um tipo de imposto pertence a um imposto)"
+    
+    Frete }|--|| Pessoa : "N:1 (Um frete é transportado por uma pessoa)"
+    Frete ||--|| VolumeTransportado : "1:1 (Um frete possui um volume)"
+    
+    Pagamento }|--|| FormaPagamento : "N:1 (Um pagamento utiliza uma forma)"
