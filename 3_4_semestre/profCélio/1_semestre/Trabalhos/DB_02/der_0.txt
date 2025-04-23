@@ -43,18 +43,24 @@ ItemNotaFiscal
    valor_total_impostos_item
 
 Pessoa
-   id_pessoa (PK)
-   tipo_pessoa (Emitente, Destinatário, Transportadora)
-   tipo_documento (CPF/CNPJ)
-   numero_documento
-   nome_razao_social
-   nome_fantasia
-   regime_tributario
-   inscricao_estadual
-   inscricao_suframa
-   is_contribuinte_icms
-   cnae_fiscal
-   codigo_antt (para transportadoras)
+   id_pessoa (PK)              
+   tipo_pessoa                 
+   tipo_documento              
+   numero_documento            
+   nome_razao_social 
+
+PessoaFisica
+   id_pessoa (PK) 
+   cod
+
+PessoaJuridica
+   id_pessoa (PK)              
+   nome_fantasia               
+   regime_tributario           
+   inscricao_estadual          
+   inscricao_suframa           
+   is_contribuinte_icms        
+│  cnae_fiscal                 
 
 DocumentoFiscal
    id_documento_fiscal (PK)
