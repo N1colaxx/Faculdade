@@ -22,7 +22,8 @@ NotaFiscal
 
    id_emitente (FK)
    id_destinatario (FK)
-   id_transportadora (FK)
+   id_remetente (FK)
+
 
 DadosAdicionais
    id_dados_adicionais (PK)
@@ -50,17 +51,31 @@ Pessoa
    nome_razao_social 
 
 PessoaFisica
-   id_pessoa (PK) 
+   id_pf (PK)
+   id_pessoa (FK) 
    cod
 
 PessoaJuridica
-   id_pessoa (PK)              
+   id_pj (PK)
+   id_pessoa (FK)              
    nome_fantasia               
    regime_tributario           
    inscricao_estadual          
    inscricao_suframa           
    is_contribuinte_icms        
-│  cnae_fiscal                 
+│  cnae_fiscal            
+
+Emitente
+   id_emitente (PK)
+   id_pessoa(FK)
+
+Destinatario
+   id_destinatario (PK)
+   id_pessoa (FK) 
+
+Remetente
+   id_remetente (PK)
+   id_pessoa (FK)
 
 DocumentoFiscal
    id_documento_fiscal (PK)
@@ -71,6 +86,7 @@ DocumentoFiscal
 Endereco
    id_endereco (PK)
    id_pessoa (FK)
+   id_transportadora (FK)
    tipo (comercial, entrega, cobrança, etc.)
    logradouro
    numero
@@ -149,6 +165,11 @@ VolumeTransportado
    numeracao
    peso_bruto
    peso_liquido
+
+Transportadora
+   id_transportadora (PK)
+   nome
+   cnpj
 
 EventoNF
    id_evento (PK)
