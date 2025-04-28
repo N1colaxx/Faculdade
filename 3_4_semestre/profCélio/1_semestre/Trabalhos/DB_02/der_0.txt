@@ -25,6 +25,10 @@ NotaFiscal
    id_remetente (FK)
 
 
+TbStatus:
+   id_status PK
+   cod
+
 DadosAdicionais
    id_dados_adicionais (PK)
    id_nf (FK)
