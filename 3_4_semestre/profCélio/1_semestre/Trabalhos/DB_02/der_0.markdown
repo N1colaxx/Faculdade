@@ -22,20 +22,22 @@
       - NotaFiscal 1:1 TbStatus
       - NotaFiscal 1:1 DadosAdicionais
       - NotaFiscal 1:N ItemNotaFiscal
-      - NotaFiscal 1:N EventoNF
+      - NotaFiscal 1:N EventoNF  
       - NotaFiscal 1:N Pagamento
       - NotaFiscal 1:0..1 Frete
       - NotaFiscal 1:N Fatura
+      - NotaFiscal N:1 TbStatus
+      - NotaFiscal N:1 TipoOperaçao
 
 ### TbStatus
     - id_status (PK)
-    - id_nf (FK)
     - cod
+    - nome
 
 ### TipoOperacao
     - id_tipop (PK)
-    - id_nf (FK)
     - cod
+    - nome
 
 
 ### DadosAdicionais
@@ -75,7 +77,7 @@
       - Pessoa 1:1 Emitente (opcional)
       - Pessoa 1:1 Destinatario (opcional)
       - Pessoa 1:1 Remetente (opcional)
-      - Pessoa 1:1 Transportadora (opcional)
+
 
 ### PessoaFisica
    - id_pf (PK)
@@ -178,10 +180,15 @@
    - id_frete (PK)
    - id_nf (FK)
    - id_transportadora (FK)
-   - tipo_frete
+   - id_tipo_frete (FK)
    - placa_veiculo
    - uf_veiculo
    - valor_frete
+
+### TipoFrete
+   id_tipfrete (PK)
+   cod
+   nome
 
 ### VolumeTransportado
    - id_volume (PK)
@@ -223,7 +230,7 @@
    - data_pagamento
    - status
 
-   FormaPagamento
+### FormaPagamento
    - id_forma_pagamento (PK)
    - codigo
    - descricao
