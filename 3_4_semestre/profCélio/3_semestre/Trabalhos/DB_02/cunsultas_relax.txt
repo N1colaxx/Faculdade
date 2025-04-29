@@ -1,0 +1,100 @@
+Pessoa = {
+  id_pessoa:number, tipo_pessoa:string, tipo_documento:string, numero_documento:string, nome_razao_social:string
+	1, 'cliente', 'CNPJ', '12345678000100', 'Empresa SC: Ok'
+	2, 'cliente', 'CPF', '12345678900', 'Fulano MG: ERRO'
+	3, 'cliente', 'CNPJ', '12345678000900', 'Empresa MS: ERRO'
+}
+
+PessoaJuridica = {
+  id_pj:number, id_pessoa:number, nome_fantasia:string, regime_tributario:string, inscricao_estadual:string, inscricao_suframa:string, is_contribuinte_icms:boolean, cnae_fiscal:string
+  1, 1, 'Emp SC', 'Simples', '123456789', '1111111', true, '6201-5/01'
+  2, 3, 'Emp MS', 'Lucro Real', '987654321', '2222222', false, '6201-5/02'
+}
+
+Endereco = {
+  id_endereco:number, id_pessoa:number, tipo:string, logradouro:string, numero:string, complemento:string, bairro:string, municipio:string, uf:string, cep:string, codigo_pais:string
+  1, 1, 'comercial', 'Rua SC', '123', '', 'Centro', 'Florianópolis', 'SC', '88000000', '1058'
+  2, 2, 'residencial', 'Rua MG', '456', '', 'Bairro MG', 'Belo Horizonte', 'MG', '30000000', '1058'
+  3, 3, 'comercial', 'Rua MS', '789', '', 'Bairro MS', 'Campo Grande', 'MS', '79000000', '1058'
+}
+
+
+TipoOperacao = {
+  id_tipop:number, cod:string, nome:string
+  1, '1', 'Entrada'
+  2, '2', 'Saída'
+}
+
+
+Produto = {
+  id_produto:number, codigo:string, nome:string, descricao:string, ncm:string, cest:string, unidade_comercial:string, valor_unitario:number
+  1, 'P001', 'Produto A', 'Descrição A', '1234.56.78', '01.001.00', 'UN', 100.00
+  2, 'P002', 'Produto B', 'Descrição B', '2345.67.89', '02.002.00', 'UN', 200.00
+  3, 'P003', 'Produto C', 'Descrição C', '3456.78.90', '03.003.00', 'UN', 5000.00
+}
+
+
+NotaFiscal = {
+  id_nf:number, chave_acesso:string, modelo:string, serie:string, numero:number, data_autorizacao:date, data_emissao:date, data_saida_entrada:date, hora_saida_entrada:string, natureza_da_operacao:string, protocolo_autorizacao:string, valor_total_nf:number, valor_total_produtos:number, valor_total_servicos:number, valor_desconto:number, valor_outras_despesas:number, valor_frete:number, valor_total_impostos:number, id_tipop:number
+  1, '12345678900000000000000000000000000000000000', '55', '1', 320, 2024-01-10, 2024-01-10, 2024-01-10, '10:00', 'Venda', 'PROT123', 4500.00, 4400.00, 0.00, 0.00, 0.00, 100.00, 200.00, 1
+  2, '22345678900000000000000000000000000000000000', '55', '1', 800, 2024-02-15, 2024-02-15, 2024-02-15, '11:00', 'Entrada', 'PROT456', 3000.00, 2800.00, 0.00, 0.00, 0.00, 200.00, 150.00, 1
+  3, '32345678900000000000000000000000000000000000', '55', '1', 150, 2023-12-10, 2023-12-10, 2023-12-10, '09:00', 'Venda', 'PROT789', 15000.00, 14800.00, 0.00, 0.00, 0.00, 200.00, 500.00, 2
+}
+
+
+Destinatario = {
+  id_destinatario:number, id_pessoa:number
+  1, 1
+  2, 2
+  3, 3
+}
+
+DocumentoFiscal = {
+  id_documento_fiscal:number, id_pessoa:number, tipo_documento:string, numero_documento:string
+  1, 1, 'CNPJ', '12345678000100'
+  2, 2, 'CPF', '12345678900'
+  3, 3, 'CNPJ', '12345678000900'
+}
+
+
+
+ItemNotaFiscal = {
+  id_item_nf:number, id_nf:number, id_produto:number, cfop:string, quantidade:number, valor_unitario:number, valor_desconto:number, valor_total_item:number, valor_total_impostos_item:number
+  1, 1, 1, '5102', 10, 100.00, 0.00, 1000.00, 100.00
+  2, 2, 2, '5102', 5, 200.00, 0.00, 1000.00, 200.00
+  3, 3, 3, '6101', 2, 5000.00, 0.00, 10000.00, 300.00
+}
+
+
+Fatura = {
+  id_fatura:number, id_nf:number, numero:string, valor:number, data_vencimento:date
+  1, 1, 'FAT001', 500.00, 2024-02-10
+  2, 2, 'FAT002', 800.00, 2024-05-10
+  3, 3, 'FAT003', 900.00, 2024-03-01
+}
+
+
+TipoImposto = {
+  id_tipo_imposto:number, id_imposto:number, codigo_tipo:string, descricao_tipo:string
+  1, 1, 'ICMS', 'ICMS'
+  2, 2, 'IPI', 'IPI'
+}
+
+
+ImpostoItem = {
+  id_imposto_item:number, id_item_nf:number, id_tipo_imposto:number, situacao_tributaria:string, base_calculo:number, aliquota:number, valor:number, base_calculo_st:number, aliquota_st:number, valor_st:number, valor_fcp:number
+  1, 1, 1, '010', 1000.00, 10.00, 100.00, 0.00, 0.00, 0.00, 0.00
+  2, 2, 2, '040', 1000.00, 20.00, 200.00, 0.00, 0.00, 0.00, 0.00
+  3, 3, 1, '060', 10000.00, 5.00, 500.00, 0.00, 0.00, 0.00, 0.00
+}
+
+
+-- --------------------- Consultas --------------------------
+
+/*
+1. . Mostre a razão social, cpnj, município e UF de todos os clientes do estado “SC”. 
+*/
+
+π nome_razao_social, numero_documento, municipio, uf
+(σ uf = 'SC' ∧ tipo_pessoa = 'cliente' (Pessoa ⋈ Endereco))
+ 
