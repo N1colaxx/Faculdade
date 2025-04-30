@@ -1,12 +1,16 @@
 package view;
+import faker.ClienteFaker;
 
 import controller.FuncionarioController;
 import controller.ClienteController;
 import controller.FornecedorController;
+import faker.FornecedorFaker;
+import faker.FuncionarioFaker;
 //import controller.ContasReceberController;
 //import controller.ContasPagarController;
 //import controller.FluxoCaixaController;
 import java.util.Scanner;
+import model.ClienteModel;
 
 public class Menu {
 
@@ -18,7 +22,13 @@ public class Menu {
 //    private final ContasPagarController contasPagar = new ContasPagarController();
 //    private final FluxoCaixaController fluxoCaixa = new FluxoCaixaController();
 
+    private boolean clientesFakeJaGerados = false;
+    private boolean funcionariosFakeJaGerados = false;
+    private boolean fornecedoresFakeJaGerados = false;
+
     public void exibirMenuPrincipal() {
+        gerarDadosFakerAutomaticamente();
+        
         int opcao;
         do {
             System.out.println("\n====== MENU PRINCIPAL ======");
@@ -60,6 +70,37 @@ public class Menu {
         } while (opcao != 7);
     }
 
+    public void gerarDadosFakerAutomaticamente() {
+        int qtdPadrao = 5;
+
+        if (!clientesFakeJaGerados) {
+            ClienteFaker faker = new ClienteFaker();
+            for (int i = 0; i < qtdPadrao; i++) {
+                cliente.adicionarFake(faker.gerarClienteFalso());
+            }
+            clientesFakeJaGerados = true;
+            System.out.println(qtdPadrao + " clientes fake gerados automaticamente.");
+        }
+
+        if (!funcionariosFakeJaGerados) {
+            FuncionarioFaker faker = new FuncionarioFaker();
+            for (int i = 0; i < qtdPadrao; i++) {
+                funcionario.adicionarFake(faker.gerarFuncionario(i));
+            }
+            funcionariosFakeJaGerados = true;
+            System.out.println(qtdPadrao + " funcionários fake gerados automaticamente.");
+        }
+
+        if (!fornecedoresFakeJaGerados) {
+            FornecedorFaker faker = new FornecedorFaker();
+            for (int i = 0; i < qtdPadrao; i++) {
+                fornecedor.adicionarFake(faker.gerarFornecedorFake());
+            }
+            fornecedoresFakeJaGerados = true;
+            System.out.println(qtdPadrao + " fornecedores fake gerados automaticamente.");
+        }
+    }
+
     private void menuCliente() {
         int opcao;
         do {
@@ -81,7 +122,7 @@ public class Menu {
                     cliente.alterarID();
                     break;
                 case 3:
-                    cliente.consultarPosicaoLista();
+                    cliente.ConsultarPosicaoLista();
                     break;
                 case 4:
                     cliente.consultarPorId();
@@ -278,6 +319,7 @@ public class Menu {
 //        System.out.println("\nPressione ENTER para voltar ao menu principal");
 //        scanner.nextLine();
 //    }
+
 
     public static void main(String[] args) {
         Menu menu = new Menu();

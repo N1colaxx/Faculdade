@@ -1,7 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+
 import model.EnderecoModel;
 import model.TelefoneModel;
 import model.FornecedorModel;
@@ -9,7 +9,6 @@ import model.FornecedorModel;
 public class FornecedorController implements InterfaceCadastro {
 
     private ArrayList<FornecedorModel> fornecedores = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
 
     @Override
     public void incluir() {
@@ -178,24 +177,6 @@ public class FornecedorController implements InterfaceCadastro {
         }
     }
     
-    @Override
-    public void consultarPorId() {
-        if (fornecedores.isEmpty()) {
-            System.out.println("\nEsta lista está VAZIA!!");
-            return;
-        }
-
-        System.out.print("Informe o ID do fornecedor para consultar: ");
-        int id = Integer.parseInt(scanner.nextLine());
-
-        for (FornecedorModel fornecedor : fornecedores) {
-            if (fornecedor.getId() == id) {
-                System.out.println(fornecedor);
-                return;
-            }
-        }
-        System.out.println("Fornecedor com ID não encontrado.");
-    }
     
     @Override
     public void excluir() {
@@ -217,6 +198,25 @@ public class FornecedorController implements InterfaceCadastro {
         System.out.println("Fornecedor com ID não encontrado.");
     }
 
+    
+    public void consultarPorId() {
+        if (fornecedores.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
+            return;
+        }
+
+        System.out.print("Informe o ID do fornecedor para consultar: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        for (FornecedorModel fornecedor : fornecedores) {
+            if (fornecedor.getId() == id) {
+                System.out.println(fornecedor);
+                return;
+            }
+        }
+        System.out.println("Fornecedor com ID não encontrado.");
+    }
+    
     
     public void consultarCNPJ() {
         if (fornecedores.isEmpty()) {
@@ -246,5 +246,9 @@ public class FornecedorController implements InterfaceCadastro {
 
     public ArrayList<FornecedorModel> getFornecedores() {
         return fornecedores;
+    }
+    
+    public void adicionarFake(FornecedorModel fornecedor) {
+        fornecedores.add(fornecedor);
     }
 }

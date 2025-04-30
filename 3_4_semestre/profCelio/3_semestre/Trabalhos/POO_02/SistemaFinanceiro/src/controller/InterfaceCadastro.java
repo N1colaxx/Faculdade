@@ -7,7 +7,6 @@ public abstract interface InterfaceCadastro {
     public void incluir();
     public void alterarID();
     public void ConsultarPosicaoLista();
-    public void consultarPorId();
     public void excluir();
 }
 

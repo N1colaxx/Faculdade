@@ -29,7 +29,7 @@ public class FuncionarioFaker {
 
         String nome = faker.name().fullName();
         String email = faker.internet().emailAddress();
-        String cpf = faker.idNumber().valid();
+        String cpf = faker.numerify("###.###.###-##");
         String rg = String.valueOf(faker.number().numberBetween(10000000, 99999999));
         String emissor = "SSP";
 

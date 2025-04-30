@@ -1,15 +1,13 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import model.ClienteModel;
 import model.EnderecoModel;
 import model.TelefoneModel;
 
-public class ClienteController {
+public class ClienteController implements InterfaceCadastro {
 
     private ArrayList<ClienteModel> clientes = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
 
     // Método para incluir um novo cliente
     public void incluir() {
@@ -135,7 +133,7 @@ public class ClienteController {
     }
 
     // Método para consultar cliente pela posição na lista
-    public void consultarPosicaoLista() {
+    public void ConsultarPosicaoLista() {
         if (clientes.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
         } else {
@@ -234,4 +232,10 @@ public class ClienteController {
     public ArrayList<ClienteModel> getClientes() {
         return clientes;
     }
+    
+    // add os fakers a lista 
+    public void adicionarFake(ClienteModel cliente) {
+        clientes.add(cliente);
+    }
+
 }

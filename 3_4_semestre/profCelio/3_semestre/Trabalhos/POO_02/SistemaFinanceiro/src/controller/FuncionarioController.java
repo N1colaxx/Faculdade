@@ -192,9 +192,6 @@ public class FuncionarioController implements InterfaceCadastro {
         }
     }
     
-    @Override
-    public void consultarPorId() {
-    }
 
     @Override
     public void excluir() {
@@ -274,5 +271,9 @@ public class FuncionarioController implements InterfaceCadastro {
 
     public ArrayList<FuncionarioModel> getFuncionarios() {
         return funcionarios;
+    }
+    
+    public void adicionarFake(FuncionarioModel funcionario) {
+        funcionarios.add(funcionario);
     }
 }
