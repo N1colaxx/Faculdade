@@ -60,4 +60,15 @@ public abstract class PessoaModel {
         this.telefone = telefone;
     }
     
+    @Override
+    public String toString() {
+        return "PessoaModel{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", endereco=" + endereco +
+                ", telefone=" + telefone +
+                '}';
+    }
+    
 }

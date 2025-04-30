@@ -39,4 +39,18 @@ public abstract class PessoaFisicaModel extends PessoaModel {
     public void setEmissor(String emissor) {
         this.emissor = emissor;
     }
+    
+    @Override
+    public String toString() {
+        return "PessoaFisicaModel{" +
+                "cpf='" + cpf + '\'' +
+                ", rg='" + rg + '\'' +
+                ", emissor='" + emissor + '\'' +
+                ", id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", endereco=" + endereco +
+                ", telefone=" + telefone +
+                '}';
+    }
 }

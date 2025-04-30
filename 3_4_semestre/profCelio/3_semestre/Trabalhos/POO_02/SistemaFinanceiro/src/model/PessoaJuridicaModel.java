@@ -38,5 +38,15 @@ public abstract class PessoaJuridicaModel extends PessoaModel{
     public void setContato(String contato) {
         this.contato = contato;
     }
+    
+    @Override
+    public String toString() {
+        return "PessoaJuridicaModel{" +
+                super.toString() +
+                ", cnpj='" + cnpj + '\'' +
+                ", inscricaoEstadual='" + inscricaoEstadual + '\'' +
+                ", contato='" + contato + '\'' +
+                '}';
+    }
  
 }

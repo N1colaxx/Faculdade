@@ -32,4 +32,16 @@ public class ClienteModel extends PessoaJuridicaModel {
         this.enderecoCobranca = enderecoCobranca;
     }
  
+    @Override
+    public String toString() {
+        return "Cliente ID: " + getId() +
+               "\nNome: " + getNome() +
+               "\nEmail: " + getEmail() +
+               "\nCNPJ: " + getCnpj() +
+               "\nInscrição Estadual: " + getInscricaoEstadual() +
+               "\nContato: " + getContato() +
+               "\nLimite de Crédito: R$ " + limiteCredito +
+               "\nEndereço de Cobrança: " + enderecoCobranca;
+    }
+
 }

@@ -74,5 +74,12 @@ public class EnderecoModel {
         this.cep = cep;
     }
     
+    @Override
+    public String toString() {
+        return logradouro + ", " + numero + 
+               (complemento != null && !complemento.isEmpty() ? " (" + complemento + ")" : "") + 
+               ", " + bairro + ", " + cidade + " - " + estado + ", CEP: " + cep;
+    }
+
     
 }

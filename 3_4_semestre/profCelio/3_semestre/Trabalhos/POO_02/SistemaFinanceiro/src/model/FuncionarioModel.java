@@ -49,4 +49,21 @@ public class FuncionarioModel extends PessoaFisicaModel {
         this.salario = salario;
     }
     
+    @Override
+    public String toString() {
+        return "FuncionarioModel{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", endereco=" + endereco +
+                ", telefone=" + telefone +
+                ", cpf='" + cpf + '\'' +
+                ", rg='" + rg + '\'' +
+                ", emissor='" + emissor + '\'' +
+                ", dataAdmissao='" + dataAdmissao + '\'' +
+                ", dataDemissao='" + dataDemissao + '\'' +
+                ", ctps='" + ctps + '\'' +
+                ", salario=" + salario +
+                '}';
+    }
 }

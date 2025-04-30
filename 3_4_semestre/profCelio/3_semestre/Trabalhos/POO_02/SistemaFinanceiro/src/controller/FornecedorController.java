@@ -6,7 +6,7 @@ import model.EnderecoModel;
 import model.TelefoneModel;
 import model.FornecedorModel;
 
-public class FornecedorController implements InterfaceController {
+public class FornecedorController implements InterfaceCadastro {
 
     private ArrayList<FornecedorModel> fornecedores = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
@@ -82,7 +82,12 @@ public class FornecedorController implements InterfaceController {
     }
 
     @Override
-    public void alterar() {
+    public void alterarID() {
+        if (fornecedores.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
+            return;
+        }
+
         System.out.print("Informe o ID do fornecedor para alterar: ");
         int id = Integer.parseInt(scanner.nextLine());
 
@@ -155,30 +160,50 @@ public class FornecedorController implements InterfaceController {
     }
 
     @Override
-    public void ConsultarPosicao() {
+    public void ConsultarPosicaoLista() {
+        if (fornecedores.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
+            return;
+        }
+        
+        System.out.println("\nEssa lista contem: " + fornecedores.size() + " porzições.");;
         System.out.print("Digite a posição que deseja consultar: ");
         int pos = Integer.parseInt(scanner.nextLine());
 
         if (pos >= 0 && pos < fornecedores.size()) {
             FornecedorModel fornecedor = fornecedores.get(pos);
-            System.out.println("ID: " + fornecedor.getId());
-            System.out.println("Nome: " + fornecedor.getNome());
-            System.out.println("Email: " + fornecedor.getEmail());
-            System.out.println("Endereço: " + fornecedor.getEndereco().getLogradouro() + ", " + fornecedor.getEndereco().getNumero());
-            System.out.println("Telefone: (" + fornecedor.getTelefone().getDdd() + ") " + fornecedor.getTelefone().getNumero());
-            System.out.println("CNPJ: " + fornecedor.getCnpj());
-            System.out.println("Inscrição Estadual: " + fornecedor.getInscricaoEstadual());
-            System.out.println("Contato: " + fornecedor.getContato());
-            System.out.println("Limite de Compra: R$" + fornecedor.getLimiteCompra());
-            System.out.println("Data de Cadastro: " + fornecedor.getDataCadastro());
-            System.out.println("Site: " + fornecedor.getSite());
+            System.out.println(fornecedor);
         } else {
             System.out.println("Posição inválida!");
         }
     }
+    
+    @Override
+    public void consultarPorId() {
+        if (fornecedores.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
+            return;
+        }
 
+        System.out.print("Informe o ID do fornecedor para consultar: ");
+        int id = Integer.parseInt(scanner.nextLine());
+
+        for (FornecedorModel fornecedor : fornecedores) {
+            if (fornecedor.getId() == id) {
+                System.out.println(fornecedor);
+                return;
+            }
+        }
+        System.out.println("Fornecedor com ID não encontrado.");
+    }
+    
     @Override
     public void excluir() {
+        if (fornecedores.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
+            return;
+        }
+
         System.out.print("Informe o ID do fornecedor para excluir: ");
         int id = Integer.parseInt(scanner.nextLine());
 
@@ -191,6 +216,28 @@ public class FornecedorController implements InterfaceController {
         }
         System.out.println("Fornecedor com ID não encontrado.");
     }
+
+    
+    public void consultarCNPJ() {
+        if (fornecedores.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
+            return;
+        }
+
+        System.out.print("\nDigite o CNPJ do Fornecedor: ");
+        String cnpj = scanner.nextLine();
+
+        for (FornecedorModel fornecedor : fornecedores) {
+            if (fornecedor.getCnpj().equals(cnpj)) {
+                System.out.println("Fornecedor encontrado!");
+                System.out.println(fornecedor);
+                return;
+            }
+        }
+
+        System.out.println("Fornecedor com CNPJ " + cnpj + " não encontrado.");
+    }
+
 
     // Métodos auxiliares
     public void adicionarFornecedor(FornecedorModel fornecedor) {

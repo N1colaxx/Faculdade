@@ -30,4 +30,10 @@ public class TelefoneModel {
         this.numero = numero;
     }
     
+    
+    @Override
+    public String toString() {
+        return "(" + ddd + ") " + numero;
+    }
+
 }
