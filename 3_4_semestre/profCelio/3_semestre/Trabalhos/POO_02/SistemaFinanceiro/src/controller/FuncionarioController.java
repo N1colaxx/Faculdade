@@ -236,7 +236,7 @@ public class FuncionarioController implements InterfaceCadastro {
     public int lerIdValido() {
         while (true) {
             try {
-                System.out.print("Informe o ID do cliente: ");
+                System.out.print("Informe o ID do Funcionario: ");
                 int id = Integer.parseInt(scanner.nextLine());
                 if (id <= 0) {
                     System.out.println("❌ O ID deve ser maior que zero.");

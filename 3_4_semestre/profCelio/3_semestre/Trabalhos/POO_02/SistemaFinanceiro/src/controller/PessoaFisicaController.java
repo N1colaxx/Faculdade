@@ -1,8 +1,10 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import model.PessoaFisicaModel;
 import model.EnderecoModel;
+import model.FuncionarioModel;
 import model.TelefoneModel;
 
 public class PessoaFisicaController implements InterfaceCadastro{
@@ -17,8 +19,7 @@ public class PessoaFisicaController implements InterfaceCadastro{
     @Override
     public void alterarID() {
         System.out.print("Informe o ID da pessoa física para alterar: ");
-        int id = Integer.parseInt(scanner.nextLine());
-
+        int id = lerIdValido();
         for (PessoaFisicaModel pf : pessoasFisicas) {
             if (pf.getId() == id) {
                 System.out.print("Novo nome: ");
@@ -27,41 +28,20 @@ public class PessoaFisicaController implements InterfaceCadastro{
                 System.out.print("Novo e-mail: ");
                 pf.setEmail(scanner.nextLine());
 
-                System.out.println("Alterar endereço:");
-                EnderecoModel endereco = new EnderecoModel();
-                System.out.print("Logradouro: ");
-                endereco.setLogradouro(scanner.nextLine());
+                System.out.println("\n--- ENDEREÇO DE ENTREGA ---");
+                EnderecoController enderecoController = new EnderecoController();
+                EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+                pf.setEndereco(enderecoEntrega);
 
-                System.out.print("Número: ");
-                endereco.setNumero(scanner.nextLine());
-
-                System.out.print("Complemento: ");
-                endereco.setComplemento(scanner.nextLine());
-
-                System.out.print("Bairro: ");
-                endereco.setBairro(scanner.nextLine());
-
-                System.out.print("Cidade: ");
-                endereco.setCidade(scanner.nextLine());
-
-                System.out.print("Estado: ");
-                endereco.setEstado(scanner.nextLine());
-
-                System.out.print("CEP: ");
-                endereco.setCep(Integer.parseInt(scanner.nextLine()));
-
-                pf.setEndereco(endereco);
-
-                System.out.println("Alterar telefone:");
+                System.out.println("Alterar telefone: ");
                 TelefoneModel telefone = new TelefoneModel();
                 System.out.print("DDD: ");
                 telefone.setDdd(Integer.parseInt(scanner.nextLine()));
-
                 System.out.print("Número: ");
                 telefone.setNumero(Long.parseLong(scanner.nextLine()));
-
                 pf.setTelefone(telefone);
-
+                
+                
                 System.out.print("Novo CPF: ");
                 pf.setCpf(scanner.nextLine());
 
@@ -80,29 +60,21 @@ public class PessoaFisicaController implements InterfaceCadastro{
 
     @Override
     public void ConsultarPosicaoLista() {
-        System.out.print("Digite a posição que deseja consultar: ");
-        int pos = Integer.parseInt(scanner.nextLine());
-
-        if (pos >= 0 && pos < pessoasFisicas.size()) {
-            PessoaFisicaModel pf = pessoasFisicas.get(pos);
-            System.out.println("ID: " + pf.getId());
-            System.out.println("Nome: " + pf.getNome());
-            System.out.println("Email: " + pf.getEmail());
-            System.out.println("Endereço: " + pf.getEndereco().getLogradouro() + ", " + pf.getEndereco().getNumero());
-            System.out.println("Telefone: (" + pf.getTelefone().getDdd() + ") " + pf.getTelefone().getNumero());
-            System.out.println("CPF: " + pf.getCpf());
-            System.out.println("RG: " + pf.getRg());
-            System.out.println("Emissor: " + pf.getEmissor());
+        if(pessoasFisicas.isEmpty()){
+            System.out.println("\nEsta lista está VAZIA!!");
         } else {
-            System.out.println("Posição inválida!");
+            System.out.println("\nEssa lista contém: " + (pessoasFisicas.size() - 1) + " posições.");
+            int pos = lerPosicaoValida(pessoasFisicas, "Pessoas Fisicas");
+            PessoaFisicaModel pf = pessoasFisicas.get(pos);
+            System.out.println(pf);
         }
+
     }
 
     @Override
     public void excluir() {
         System.out.print("Informe o ID da pessoa física para excluir: ");
         int id = Integer.parseInt(scanner.nextLine());
-
         for (PessoaFisicaModel pf : pessoasFisicas) {
             if (pf.getId() == id) {
                 pessoasFisicas.remove(pf);
@@ -111,6 +83,43 @@ public class PessoaFisicaController implements InterfaceCadastro{
             }
         }
         System.out.println("Pessoa física com ID não encontrado.");
+    }
+    
+    
+    
+    
+        // 🔁 Método reutilizável para validar posições de lista
+    public int lerPosicaoValida(List<?> lista, String nomeLista) {
+        while (true) {
+            try {
+                System.out.print("Digite a posição que deseja consultar na lista de " + nomeLista + ": ");
+                int pos = Integer.parseInt(scanner.nextLine());
+                if (pos < 0 || pos >= lista.size()) {
+                    System.out.println("❌ Posição inválida! Digite entre 0 e " + (lista.size() - 1));
+                } else {
+                    return pos;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Digite apenas números inteiros.");
+            }
+        }
+    }
+
+    // 🔁 Método reutilizável para validar ID (positivo)
+    public int lerIdValido() {
+        while (true) {
+            try {
+                System.out.print("Informe o ID do cliente: ");
+                int id = Integer.parseInt(scanner.nextLine());
+                if (id <= 0) {
+                    System.out.println("❌ O ID deve ser maior que zero.");
+                } else {
+                    return id;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Digite apenas números inteiros.");
+            }
+        }
     }
 
 

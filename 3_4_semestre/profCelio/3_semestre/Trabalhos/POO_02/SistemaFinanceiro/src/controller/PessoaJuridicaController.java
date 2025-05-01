@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import model.PessoaJuridicaModel;
 import model.EnderecoModel;
 import model.TelefoneModel;
@@ -16,51 +17,29 @@ public class PessoaJuridicaController implements InterfaceCadastro {
 
     @Override
     public void alterarID() {
-        System.out.print("Informe o ID da pessoa jurídica para alterar: ");
-        int id = Integer.parseInt(scanner.nextLine());
-
+        int id = lerIdValido();
         for (PessoaJuridicaModel pj : pessoasJuridicas) {
             if (pj.getId() == id) {
                 System.out.print("Novo nome: ");
                 pj.setNome(scanner.nextLine());
+                
+                System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
+                EnderecoController enderecoController = new EnderecoController();
+                EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+                pj.setEndereco(enderecoEntrega);
 
-                System.out.print("Novo e-mail: ");
-                pj.setEmail(scanner.nextLine());
-
-                System.out.println("Alterar endereço:");
-                EnderecoModel endereco = new EnderecoModel();
-                System.out.print("Logradouro: ");
-                endereco.setLogradouro(scanner.nextLine());
-
-                System.out.print("Número: ");
-                endereco.setNumero(scanner.nextLine());
-
-                System.out.print("Complemento: ");
-                endereco.setComplemento(scanner.nextLine());
-
-                System.out.print("Bairro: ");
-                endereco.setBairro(scanner.nextLine());
-
-                System.out.print("Cidade: ");
-                endereco.setCidade(scanner.nextLine());
-
-                System.out.print("Estado: ");
-                endereco.setEstado(scanner.nextLine());
-
-                System.out.print("CEP: ");
-                endereco.setCep(Integer.parseInt(scanner.nextLine()));
-
-                pj.setEndereco(endereco);
-
-                System.out.println("Alterar telefone:");
+                System.out.println("Alterar telefone: ");
                 TelefoneModel telefone = new TelefoneModel();
                 System.out.print("DDD: ");
                 telefone.setDdd(Integer.parseInt(scanner.nextLine()));
-
                 System.out.print("Número: ");
                 telefone.setNumero(Long.parseLong(scanner.nextLine()));
-
                 pj.setTelefone(telefone);
+                
+                
+                System.out.print("Novo e-mail: ");
+                pj.setEmail(scanner.nextLine());
+                
 
                 System.out.print("Novo CNPJ: ");
                 pj.setCnpj(scanner.nextLine());
@@ -78,31 +57,21 @@ public class PessoaJuridicaController implements InterfaceCadastro {
         System.out.println("Pessoa jurídica com ID não encontrado.");
     }
 
-    @Override
+     @Override
     public void ConsultarPosicaoLista() {
-        System.out.print("Digite a posição que deseja consultar: ");
-        int pos = Integer.parseInt(scanner.nextLine());
-
-        if (pos >= 0 && pos < pessoasJuridicas.size()) {
-            PessoaJuridicaModel pj = pessoasJuridicas.get(pos);
-            System.out.println("ID: " + pj.getId());
-            System.out.println("Nome: " + pj.getNome());
-            System.out.println("Email: " + pj.getEmail());
-            System.out.println("Endereço: " + pj.getEndereco().getLogradouro() + ", " + pj.getEndereco().getNumero());
-            System.out.println("Telefone: (" + pj.getTelefone().getDdd() + ") " + pj.getTelefone().getNumero());
-            System.out.println("CNPJ: " + pj.getCnpj());
-            System.out.println("Inscrição Estadual: " + pj.getInscricaoEstadual());
-            System.out.println("Contato: " + pj.getContato());
+        if (pessoasJuridicas.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
         } else {
-            System.out.println("Posição inválida!");
+            System.out.println("\nEssa lista contém: " + (pessoasJuridicas.size() - 1) + " posições.");
+            int pos = lerPosicaoValida(pessoasJuridicas, "PJ");
+            PessoaJuridicaModel pj = pessoasJuridicas.get(pos);
+            System.out.println(pj);
         }
     }
 
     @Override
     public void excluir() {
-        System.out.print("Informe o ID da pessoa jurídica para excluir: ");
-        int id = Integer.parseInt(scanner.nextLine());
-
+        int id = lerIdValido();
         for (PessoaJuridicaModel pj : pessoasJuridicas) {
             if (pj.getId() == id) {
                 pessoasJuridicas.remove(pj);
@@ -113,6 +82,42 @@ public class PessoaJuridicaController implements InterfaceCadastro {
         System.out.println("Pessoa jurídica com ID não encontrado.");
     }
 
+    
+    // 🔁 Método reutilizável para validar posições de lista
+    public int lerPosicaoValida(List<?> lista, String nomeLista) {
+        while (true) {
+            try {
+                System.out.print("Digite a posição que deseja consultar na lista de " + nomeLista + ": ");
+                int pos = Integer.parseInt(scanner.nextLine());
+                if (pos < 0 || pos >= lista.size()) {
+                    System.out.println("❌ Posição inválida! Digite entre 0 e " + (lista.size() - 1));
+                } else {
+                    return pos;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Digite apenas números inteiros.");
+            }
+        }
+    }
+
+    // 🔁 Método reutilizável para validar ID (positivo)
+    public int lerIdValido() {
+        while (true) {
+            try {
+                System.out.print("Informe o ID da pessoa jurídica para excluir: ");
+                int id = Integer.parseInt(scanner.nextLine());
+                if (id <= 0) {
+                    System.out.println("❌ O ID deve ser maior que zero.");
+                } else {
+                    return id;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Digite apenas números inteiros.");
+            }
+        }
+    }
+    
+    
     public void adicionarPessoaJuridica(PessoaJuridicaModel pessoaJuridica) {
         pessoasJuridicas.add(pessoaJuridica);
     }
