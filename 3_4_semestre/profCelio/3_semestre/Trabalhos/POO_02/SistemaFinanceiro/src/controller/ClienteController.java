@@ -1,6 +1,8 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 import model.ClienteModel;
 import model.EnderecoModel;
 import model.TelefoneModel;
@@ -8,119 +10,90 @@ import model.TelefoneModel;
 public class ClienteController implements InterfaceCadastro {
 
     private ArrayList<ClienteModel> clientes = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
 
-    // Método para incluir um novo cliente
+    @Override
     public void incluir() {
         ClienteModel cliente = new ClienteModel();
-
+        
         System.out.print("Nome: ");
         cliente.setNome(scanner.nextLine());
 
-        System.out.print("Email: ");
-        cliente.setEmail(scanner.nextLine());
+        
+        System.out.println("\n--- ENDEREÇO DE ENTREGA ---");
+        EnderecoController enderecoController = new EnderecoController();
+        EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+        cliente.setEndereco(enderecoEntrega);
+        
+        // Cadastro do Endereço de Cobrança
+        System.out.println("\n--- ENDEREÇO DE COBRANÇA ---");
+        System.out.println("Deseja usar o mesmo endereço de entrega para cobrança? (S/N)");
+        String opcao = scanner.nextLine();
 
-        System.out.println("Endereço:");
-        EnderecoModel endereco = new EnderecoModel();
-        System.out.print("Logradouro: ");
-        endereco.setLogradouro(scanner.nextLine());
-
-        System.out.print("Número: ");
-        endereco.setNumero(scanner.nextLine());
-
-        System.out.print("Complemento: ");
-        endereco.setComplemento(scanner.nextLine());
-
-        System.out.print("Bairro: ");
-        endereco.setBairro(scanner.nextLine());
-
-        System.out.print("Cidade: ");
-        endereco.setCidade(scanner.nextLine());
-
-        System.out.print("Estado: ");
-        endereco.setEstado(scanner.nextLine());
-
-        System.out.print("CEP: ");
-        endereco.setCep(Integer.parseInt(scanner.nextLine()));
-
-        cliente.setEndereco(endereco);
-
+        if (opcao.equalsIgnoreCase("S")) {
+            cliente.setEnderecoCobranca(enderecoEntrega); // Usa o mesmo endereço
+        } else {
+            System.out.println("\nCadastro do Endereço de Cobrança:");
+            EnderecoModel enderecoCobranca = enderecoController.entrar();
+            cliente.setEnderecoCobranca(enderecoCobranca);
+        }
+        
         System.out.println("Telefone:");
         TelefoneModel telefone = new TelefoneModel();
         System.out.print("DDD: ");
         telefone.setDdd(Integer.parseInt(scanner.nextLine()));
-
         System.out.print("Número: ");
         telefone.setNumero(Long.parseLong(scanner.nextLine()));
-
         cliente.setTelefone(telefone);
+        
+        
+        System.out.print("Email: ");
+        cliente.setEmail(scanner.nextLine());
 
+        
         System.out.print("CNPJ: ");
         cliente.setCnpj(scanner.nextLine());
-
         System.out.print("Inscrição Estadual: ");
         cliente.setInscricaoEstadual(scanner.nextLine());
 
         cliente.setId(clientes.size() + 1);
-
         clientes.add(cliente);
-
         System.out.println("Cliente cadastrado com sucesso!");
     }
 
-    // Método para alterar um cliente pelo ID
+    @Override
     public void alterarID() {
         if (clientes.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
         } else {
-            System.out.print("Informe o ID do cliente para alterar: ");
-            int id = Integer.parseInt(scanner.nextLine());
-
+            int id = lerIdValido();
             for (ClienteModel cliente : clientes) {
                 if (cliente.getId() == id) {
                     System.out.print("Novo nome: ");
                     cliente.setNome(scanner.nextLine());
-
                     System.out.print("Novo e-mail: ");
                     cliente.setEmail(scanner.nextLine());
 
-                    System.out.println("Alterar endereço:");
-                    EnderecoModel endereco = new EnderecoModel();
-                    System.out.print("Logradouro: ");
-                    endereco.setLogradouro(scanner.nextLine());
+                    System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
+                    EnderecoController enderecoController = new EnderecoController();
+                    EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+                    cliente.setEndereco(enderecoEntrega);
 
-                    System.out.print("Número: ");
-                    endereco.setNumero(scanner.nextLine());
-
-                    System.out.print("Complemento: ");
-                    endereco.setComplemento(scanner.nextLine());
-
-                    System.out.print("Bairro: ");
-                    endereco.setBairro(scanner.nextLine());
-
-                    System.out.print("Cidade: ");
-                    endereco.setCidade(scanner.nextLine());
-
-                    System.out.print("Estado: ");
-                    endereco.setEstado(scanner.nextLine());
-
-                    System.out.print("CEP: ");
-                    endereco.setCep(Integer.parseInt(scanner.nextLine()));
-
-                    cliente.setEndereco(endereco);
+                    // Cadastro do Endereço de Cobrança
+                    System.out.println("\n--- ALTERAR ENDEREÇO DE COBRANÇA ---");
+                    System.out.println("Deseja usar o mesmo endereço de entrega para cobrança? (S/N)");
+                    String opcao = scanner.nextLine();
 
                     System.out.println("Alterar telefone:");
                     TelefoneModel telefone = new TelefoneModel();
                     System.out.print("DDD: ");
                     telefone.setDdd(Integer.parseInt(scanner.nextLine()));
-
                     System.out.print("Número: ");
                     telefone.setNumero(Long.parseLong(scanner.nextLine()));
-
                     cliente.setTelefone(telefone);
 
                     System.out.print("Novo CNPJ: ");
                     cliente.setCnpj(scanner.nextLine());
-
                     System.out.print("Nova Inscrição Estadual: ");
                     cliente.setInscricaoEstadual(scanner.nextLine());
 
@@ -132,32 +105,23 @@ public class ClienteController implements InterfaceCadastro {
         }
     }
 
-    // Método para consultar cliente pela posição na lista
+    @Override
     public void ConsultarPosicaoLista() {
         if (clientes.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
         } else {
-            System.out.println("\nEssa lista contém: " + clientes.size() + " posições.");
-            System.out.print("Digite a posição que deseja consultar: ");
-            int pos = Integer.parseInt(scanner.nextLine());
-
-            if (pos >= 0 && pos < clientes.size()) {
-                ClienteModel cliente = clientes.get(pos);
-                exibirDadosCliente(cliente);
-            } else {
-                System.out.println("Posição inválida!");
-            }
+            System.out.println("\nEssa lista contém: " + (clientes.size() - 1) + " posições.");
+            int pos = lerPosicaoValida(clientes, "cliente");
+            ClienteModel cliente = clientes.get(pos);
+            System.out.println(cliente);
         }
     }
 
-    // Método para consultar cliente pelo ID
     public void consultarPorId() {
         if (clientes.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
         } else {
-            System.out.print("Informe o ID do cliente para consultar: ");
-            int id = Integer.parseInt(scanner.nextLine());
-
+            int id = lerIdValido();
             for (ClienteModel cliente : clientes) {
                 if (cliente.getId() == id) {
                     exibirDadosCliente(cliente);
@@ -168,7 +132,6 @@ public class ClienteController implements InterfaceCadastro {
         }
     }
 
-    // Método para consultar cliente pelo CNPJ
     public void consultarCNPJ() {
         if (clientes.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
@@ -177,11 +140,10 @@ public class ClienteController implements InterfaceCadastro {
             String cnpj = scanner.nextLine();
 
             boolean encontrado = false;
-
             for (ClienteModel cliente : clientes) {
                 if (cliente.getCnpj().equals(cnpj)) {
                     System.out.println("Cliente encontrado!");
-                    exibirDadosCliente(cliente);
+                    System.out.println(cliente);
                     encontrado = true;
                     break;
                 }
@@ -193,14 +155,12 @@ public class ClienteController implements InterfaceCadastro {
         }
     }
 
-    // Método para excluir cliente pelo ID
+    @Override
     public void excluir() {
         if (clientes.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
         } else {
-            System.out.print("Informe o ID do cliente para excluir: ");
-            int id = Integer.parseInt(scanner.nextLine());
-
+            int id = lerIdValido();
             for (ClienteModel cliente : clientes) {
                 if (cliente.getId() == id) {
                     clientes.remove(cliente);
@@ -212,30 +172,60 @@ public class ClienteController implements InterfaceCadastro {
         }
     }
 
-    // Método auxiliar para exibir os dados de um cliente
-    private void exibirDadosCliente(ClienteModel cliente) {
-        System.out.println("ID: " + cliente.getId());
-        System.out.println("Nome: " + cliente.getNome());
-        System.out.println("Email: " + cliente.getEmail());
-        System.out.println("Endereço: " + cliente.getEndereco().getLogradouro() + ", " + cliente.getEndereco().getNumero());
-        System.out.println("Telefone: (" + cliente.getTelefone().getDdd() + ") " + cliente.getTelefone().getNumero());
-        System.out.println("CNPJ: " + cliente.getCnpj());
-        System.out.println("Inscrição Estadual: " + cliente.getInscricaoEstadual());
-    }
-
-    // Método para adicionar um cliente à lista
+    
+    
+    
     public void adicionarCliente(ClienteModel cliente) {
         clientes.add(cliente);
     }
 
-    // Método para obter a lista de clientes
     public ArrayList<ClienteModel> getClientes() {
         return clientes;
     }
-    
-    // add os fakers a lista 
+
     public void adicionarFake(ClienteModel cliente) {
         clientes.add(cliente);
     }
+
+    // 🔁 Método reutilizável para validar posições de lista
+    public int lerPosicaoValida(List<?> lista, String nomeLista) {
+        while (true) {
+            try {
+                System.out.print("Digite a posição que deseja consultar na lista de " + nomeLista + ": ");
+                int pos = Integer.parseInt(scanner.nextLine());
+                if (pos < 0 || pos >= lista.size()) {
+                    System.out.println("❌ Posição inválida! Digite entre 0 e " + (lista.size() - 1));
+                } else {
+                    return pos;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Digite apenas números inteiros.");
+            }
+        }
+    }
+
+    // 🔁 Método reutilizável para validar ID (positivo)
+    public int lerIdValido() {
+        while (true) {
+            try {
+                System.out.print("Informe o ID do cliente: ");
+                int id = Integer.parseInt(scanner.nextLine());
+                if (id <= 0) {
+                    System.out.println("❌ O ID deve ser maior que zero.");
+                } else {
+                    return id;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Digite apenas números inteiros.");
+            }
+        }
+    }
+
+    // (Opcional) mostrar dados bonitinhos
+    public void exibirDadosCliente(ClienteModel cliente) {
+        System.out.println("----- DADOS DO CLIENTE -----");
+        System.out.println(cliente);  // Chama o toString() da classe ClienteModel
+        System.out.println("----------------------------");
+        }
 
 }

@@ -30,4 +30,11 @@ public class PagarModel extends FinanceiroModel {
         this.boleto = boleto;
     }
     
+    @Override
+    public String toString() {
+        return super.toString() +
+               ", Fornecedor: " + (fornecedor != null ? fornecedor.toString() : "Nenhum") +
+               ", Boleto: " + boleto;
+    }
+
 }

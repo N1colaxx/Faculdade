@@ -32,4 +32,13 @@ public class ReceberModel extends FinanceiroModel {
         this.notaFiscal = notaFiscal;
     }
     
+    @Override
+    public String toString() {
+        return super.toString() +
+               ", Cliente: " + (cliente != null ? cliente.toString() : "Nenhum") +
+               ", Nota Fiscal: " + notaFiscal;
+    }
+
+    
+    
 }

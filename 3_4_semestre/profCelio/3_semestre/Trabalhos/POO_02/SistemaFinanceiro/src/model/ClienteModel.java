@@ -31,17 +31,22 @@ public class ClienteModel extends PessoaJuridicaModel {
     public void setEnderecoCobranca(EnderecoModel enderecoCobranca) {
         this.enderecoCobranca = enderecoCobranca;
     }
- 
+
     @Override
     public String toString() {
-        return "Cliente ID: " + getId() +
-               "\nNome: " + getNome() +
-               "\nEmail: " + getEmail() +
-               "\nCNPJ: " + getCnpj() +
-               "\nInscrição Estadual: " + getInscricaoEstadual() +
-               "\nContato: " + getContato() +
-               "\nLimite de Crédito: R$ " + limiteCredito +
-               "\nEndereço de Cobrança: " + enderecoCobranca;
+        String enderecoEntrega = endereco != null ? endereco.toString() : "Endereço de entrega não cadastrado";
+        String enderecoCobranca = this.enderecoCobranca != null ? this.enderecoCobranca.toString() : "Endereço de cobrança não cadastrado"; // Usando "this" para evitar conflito de nome
+
+        return "ID: " + id + "\n" +
+               "Nome: " + nome + "\n" +
+               "Email: " + email + "\n" +
+               "CNPJ: " + cnpj + "\n" +
+               "Inscrição Estadual: " + inscricaoEstadual + "\n" +
+               "Telefone: (" + telefone.getDdd() + ") " + telefone.getNumero() + "\n" +
+               "Endereço de Entrega: " + enderecoEntrega + "\n" +
+               "Endereço de Cobrança: " + enderecoCobranca;
     }
+
+
 
 }

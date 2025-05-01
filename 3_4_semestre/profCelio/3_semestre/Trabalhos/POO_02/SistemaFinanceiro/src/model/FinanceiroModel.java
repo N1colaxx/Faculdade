@@ -111,6 +111,19 @@ public abstract class FinanceiroModel {
         this.total = total;
     }
     
-    
+    @Override
+    public String toString() {
+        return "ID: " + id +
+               "\nNúmero: " + numero +
+               "\nEmissão: " + emissao +
+               "\nVencimento: " + vencimento +
+               "\nPagamento: " + pagamento +
+               "\nValor: " + valor +
+               "\nJuros: " + juros +
+               "\nMulta: " + multa +
+               "\nDesconto: " + desconto +
+               "\nTotal: " + total;
+    }
+
     
 }

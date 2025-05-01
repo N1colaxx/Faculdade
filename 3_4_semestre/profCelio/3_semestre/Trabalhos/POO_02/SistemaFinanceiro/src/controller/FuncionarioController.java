@@ -17,44 +17,25 @@ public class FuncionarioController implements InterfaceCadastro {
         System.out.print("Nome: ");
         funcionario.setNome(scanner.nextLine());
 
-        System.out.print("Email: ");
-        funcionario.setEmail(scanner.nextLine());
-
-        System.out.println("Endereço:");
-        EnderecoModel endereco = new EnderecoModel();
-        System.out.print("Logradouro: ");
-        endereco.setLogradouro(scanner.nextLine());
-
-        System.out.print("Número: ");
-        endereco.setNumero(scanner.nextLine());
-
-        System.out.print("Complemento: ");
-        endereco.setComplemento(scanner.nextLine());
-
-        System.out.print("Bairro: ");
-        endereco.setBairro(scanner.nextLine());
-
-        System.out.print("Cidade: ");
-        endereco.setCidade(scanner.nextLine());
-
-        System.out.print("Estado: ");
-        endereco.setEstado(scanner.nextLine());
-
-        System.out.print("CEP: ");
-        endereco.setCep(Integer.parseInt(scanner.nextLine()));
-
-        funcionario.setEndereco(endereco);
+        
+        System.out.println("\n--- ENDEREÇO DE ENTREGA ---");
+        EnderecoController enderecoController = new EnderecoController();
+        EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+        funcionario.setEndereco(enderecoEntrega);
 
         System.out.println("Telefone:");
         TelefoneModel telefone = new TelefoneModel();
         System.out.print("DDD: ");
         telefone.setDdd(Integer.parseInt(scanner.nextLine()));
-
         System.out.print("Número: ");
         telefone.setNumero(Long.parseLong(scanner.nextLine()));
-
         funcionario.setTelefone(telefone);
 
+        
+        System.out.print("Email: ");
+        funcionario.setEmail(scanner.nextLine());
+        
+        
         System.out.print("CPF: ");
         funcionario.setCpf(scanner.nextLine());
 
@@ -64,6 +45,8 @@ public class FuncionarioController implements InterfaceCadastro {
         System.out.print("Emissor do RG: ");
         funcionario.setEmissor(scanner.nextLine());
 
+        
+        
         System.out.print("Data de Admissão: ");
         funcionario.setDataAdmissao(scanner.nextLine());
 
@@ -80,7 +63,7 @@ public class FuncionarioController implements InterfaceCadastro {
 
         funcionarios.add(funcionario);
 
-        System.out.println("Funcionário cadastrado com sucesso!");
+        System.out.println("\n Funcionário cadastrado com sucesso !!! \n");
     }
 
     @Override
@@ -88,51 +71,30 @@ public class FuncionarioController implements InterfaceCadastro {
         if(funcionarios.size() == 0 ) {
             System.out.println("\nEsta lista esta VAZIA!!");
         } else {
-            System.out.print("Informe o ID do funcionário para alterar: ");
-            int id = Integer.parseInt(scanner.nextLine());
-
+            int id = lerIdValido();
             for (FuncionarioModel funcionario : funcionarios) {
                 if (funcionario.getId() == id) {
                     System.out.print("Novo nome: ");
                     funcionario.setNome(scanner.nextLine());
 
+                    
+                    System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
+                    EnderecoController enderecoController = new EnderecoController();
+                    EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+                    funcionario.setEndereco(enderecoEntrega);
+
+                    System.out.println("----- ALTERAR TELEFONE ----- ");
+                    TelefoneModel telefone = new TelefoneModel();
+                    System.out.print("Novo DDD: ");
+                    telefone.setDdd(Integer.parseInt(scanner.nextLine()));
+                    System.out.print("novo Número: ");
+                    telefone.setNumero(Long.parseLong(scanner.nextLine()));
+                    funcionario.setTelefone(telefone);
+                    
+                    
                     System.out.print("Novo e-mail: ");
                     funcionario.setEmail(scanner.nextLine());
-
-                    System.out.println("Alterar endereço:");
-                    EnderecoModel endereco = new EnderecoModel();
-                    System.out.print("Logradouro: ");
-                    endereco.setLogradouro(scanner.nextLine());
-
-                    System.out.print("Número: ");
-                    endereco.setNumero(scanner.nextLine());
-
-                    System.out.print("Complemento: ");
-                    endereco.setComplemento(scanner.nextLine());
-
-                    System.out.print("Bairro: ");
-                    endereco.setBairro(scanner.nextLine());
-
-                    System.out.print("Cidade: ");
-                    endereco.setCidade(scanner.nextLine());
-
-                    System.out.print("Estado: ");
-                    endereco.setEstado(scanner.nextLine());
-
-                    System.out.print("CEP: ");
-                    endereco.setCep(Integer.parseInt(scanner.nextLine()));
-
-                    funcionario.setEndereco(endereco);
-
-                    System.out.println("Alterar telefone:");
-                    TelefoneModel telefone = new TelefoneModel();
-                    System.out.print("DDD: ");
-                    telefone.setDdd(Integer.parseInt(scanner.nextLine()));
-
-                    System.out.print("Número: ");
-                    telefone.setNumero(Long.parseLong(scanner.nextLine()));
-
-                    funcionario.setTelefone(telefone);
+                    
 
                     System.out.print("Novo CPF: ");
                     funcionario.setCpf(scanner.nextLine());
@@ -143,6 +105,8 @@ public class FuncionarioController implements InterfaceCadastro {
                     System.out.print("Novo emissor do RG: ");
                     funcionario.setEmissor(scanner.nextLine());
 
+                    
+                    
                     System.out.print("Nova data de admissão: ");
                     funcionario.setDataAdmissao(scanner.nextLine());
 
@@ -155,7 +119,7 @@ public class FuncionarioController implements InterfaceCadastro {
                     System.out.print("Novo salário: ");
                     funcionario.setSalario(Double.parseDouble(scanner.nextLine()));
 
-                    System.out.println("Funcionário alterado com sucesso!");
+                    System.out.println("\n Funcionário alterado com sucesso !!! \n");
                     return;
                 }
             }
@@ -163,54 +127,38 @@ public class FuncionarioController implements InterfaceCadastro {
         }
     }
 
+    
     @Override
     public void ConsultarPosicaoLista() {
-        if(funcionarios.size() == 0 ) {
-            System.out.println("\nEsta lista esta VAZIA!!");
+        if (funcionarios.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
         } else {
-            System.out.println("\nEssa lista contem: " + funcionarios.size() + " porzições.");;
-            System.out.print("Digite a posição que deseja consultar: ");
-            int pos = Integer.parseInt(scanner.nextLine());
-
-            if (pos >= 0 && pos < funcionarios.size()) {
-                FuncionarioModel funcionario = funcionarios.get(pos);
-                System.out.println("ID: " + funcionario.getId());
-                System.out.println("Nome: " + funcionario.getNome());
-                System.out.println("Email: " + funcionario.getEmail());
-                System.out.println("Endereço: " + funcionario.getEndereco().getLogradouro() + ", " + funcionario.getEndereco().getNumero());
-                System.out.println("Telefone: (" + funcionario.getTelefone().getDdd() + ") " + funcionario.getTelefone().getNumero());
-                System.out.println("CPF: " + funcionario.getCpf());
-                System.out.println("RG: " + funcionario.getRg());
-                System.out.println("Emissor: " + funcionario.getEmissor());
-                System.out.println("Data de Admissão: " + funcionario.getDataAdmissao());
-                System.out.println("Data de Demissão: " + funcionario.getDataDemissao());
-                System.out.println("CTPS: " + funcionario.getCtps());
-                System.out.println("Salário: R$" + funcionario.getSalario());
-            } else {
-                System.out.println("Posição inválida!");
-            }
+            System.out.println("\nEssa lista contém: " + (funcionarios.size() - 1) + " posições.");
+            int pos = lerPosicaoValida(funcionarios, "cliente");
+            FuncionarioModel funcionario = funcionarios.get(pos);
+            System.out.println(funcionario);
         }
     }
     
 
+
     @Override
     public void excluir() {
-        if(funcionarios.size() == 0 ) {
-            System.out.println("\nEsta lista esta VAZIA!!");
+        if (funcionarios.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
         } else {
-            System.out.print("Informe o ID do funcionário para excluir: ");
-            int id = Integer.parseInt(scanner.nextLine());
-
-            for (FuncionarioModel funcionario : funcionarios) {
+            int id = lerIdValido();
+            for ( FuncionarioModel funcionario : funcionarios) {
                 if (funcionario.getId() == id) {
                     funcionarios.remove(funcionario);
-                    System.out.println("Funcionário removido com sucesso!");
+                    System.out.println("Cliente removido com sucesso!");
                     return;
                 }
             }
-            System.out.println("Funcionário com ID não encontrado.");
+            System.out.println("Cliente com ID não encontrado.");
         }
     }
+
 
     
     // método  para interação com o usuário
@@ -239,7 +187,7 @@ public class FuncionarioController implements InterfaceCadastro {
         }
     }
 
-
+    
     public void consultarPorNome() {
         if (funcionarios.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
@@ -264,7 +212,46 @@ public class FuncionarioController implements InterfaceCadastro {
             }
         }
     }
+    
+    
+    
+    // 🔁 Método reutilizável para validar posições de lista
+    public int lerPosicaoValida(List<?> lista, String nomeLista) {
+        while (true) {
+            try {
+                System.out.print("Digite a posição que deseja consultar na lista de " + nomeLista + ": ");
+                int pos = Integer.parseInt(scanner.nextLine());
+                if (pos < 0 || pos >= lista.size()) {
+                    System.out.println("❌ Posição inválida! Digite entre 0 e " + (lista.size() - 1));
+                } else {
+                    return pos;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Digite apenas números inteiros.");
+            }
+        }
+    }
 
+    // 🔁 Método reutilizável para validar ID (positivo)
+    public int lerIdValido() {
+        while (true) {
+            try {
+                System.out.print("Informe o ID do cliente: ");
+                int id = Integer.parseInt(scanner.nextLine());
+                if (id <= 0) {
+                    System.out.println("❌ O ID deve ser maior que zero.");
+                } else {
+                    return id;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("❌ Entrada inválida. Digite apenas números inteiros.");
+            }
+        }
+    }
+
+    
+    
+    
     public void adicionarFuncionario(FuncionarioModel funcionario) {
         funcionarios.add(funcionario);
     }

@@ -10,8 +10,6 @@ public class EnderecoController {
     public EnderecoModel entrar() {
         EnderecoModel endereco = new EnderecoModel();
 
-        System.out.println("=== Cadastro de Endereço ===");
-
         System.out.print("Logradouro: ");
         endereco.setLogradouro(scanner.nextLine());
 
@@ -36,14 +34,4 @@ public class EnderecoController {
         return endereco;
     }
 
-    public void imprimir(EnderecoModel endereco) {
-        System.out.println("=== Endereço ===");
-        System.out.println("Logradouro: " + endereco.getLogradouro());
-        System.out.println("Número: " + endereco.getNumero());
-        System.out.println("Complemento: " + endereco.getComplemento());
-        System.out.println("Bairro: " + endereco.getBairro());
-        System.out.println("Cidade: " + endereco.getCidade());
-        System.out.println("Estado: " + endereco.getEstado());
-        System.out.println("CEP: " + endereco.getCep());
-    }
 }
