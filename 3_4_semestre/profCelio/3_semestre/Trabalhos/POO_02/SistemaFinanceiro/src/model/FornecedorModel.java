@@ -45,7 +45,8 @@ public class FornecedorModel extends PessoaJuridicaModel {
     
     @Override
     public String toString() {
-        return "ID: " + id + "\n" +
+        return "--- INFO Fornecedor ---" + "\n" +
+                "ID: " + id + "\n" +
                "Nome: " + nome + "\n" +
                "Email: " + email + "\n" +
                "Endereço: " + endereco + "\n" +
@@ -55,6 +56,7 @@ public class FornecedorModel extends PessoaJuridicaModel {
                "Contato: " + contato + "\n" +
                "Limite de Compra: R$ " + limiteCompra + "\n" +
                "Data de Cadastro: " + dataCadastro + "\n" +
-               "Site: " + site;
+               "Site: " + site + 
+               "---------------------------------------------------------------";
     }
 }

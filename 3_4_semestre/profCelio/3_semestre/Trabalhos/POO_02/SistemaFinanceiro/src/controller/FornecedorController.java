@@ -226,4 +226,11 @@ public class FornecedorController implements InterfaceCadastro {
     public void adicionarFake(FornecedorModel fornecedor) {
         fornecedores.add(fornecedor);
     }
+    
+    
+    public void exibirDadosCliente(FornecedorModel cliente) {
+        System.out.println("----- DADOS DO FORNECEDOR -----");
+        System.out.println(cliente);  // Chama o toString() da classe ClienteModel
+        System.out.println("----------------------------");
+        }
 }

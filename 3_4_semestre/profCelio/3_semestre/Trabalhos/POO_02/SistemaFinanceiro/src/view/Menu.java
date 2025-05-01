@@ -10,7 +10,7 @@ import faker.FuncionarioFaker;
 //import controller.ContasPagarController;
 //import controller.FluxoCaixaController;
 import java.util.Scanner;
-import model.ClienteModel;
+
 
 public class Menu {
 

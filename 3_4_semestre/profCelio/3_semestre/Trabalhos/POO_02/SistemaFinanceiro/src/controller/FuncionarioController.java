@@ -110,7 +110,7 @@ public class FuncionarioController implements InterfaceCadastro {
                     System.out.print("Nova data de admissão: ");
                     funcionario.setDataAdmissao(scanner.nextLine());
 
-                    System.out.print("Nova data de demissão (ou deixe vazio): ");
+                    System.out.print("Nova data de demissão: ");
                     funcionario.setDataDemissao(scanner.nextLine());
 
                     System.out.print("Nova CTPS: ");
@@ -140,28 +140,8 @@ public class FuncionarioController implements InterfaceCadastro {
         }
     }
     
-
-
-    @Override
-    public void excluir() {
-        if (funcionarios.isEmpty()) {
-            System.out.println("\nEsta lista está VAZIA!!");
-        } else {
-            int id = lerIdValido();
-            for ( FuncionarioModel funcionario : funcionarios) {
-                if (funcionario.getId() == id) {
-                    funcionarios.remove(funcionario);
-                    System.out.println("Cliente removido com sucesso!");
-                    return;
-                }
-            }
-            System.out.println("Cliente com ID não encontrado.");
-        }
-    }
-
-
     
-    // método  para interação com o usuário
+        // método  para interação com o usuário
     public void consultarCPF() {
         if (funcionarios.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
@@ -214,6 +194,28 @@ public class FuncionarioController implements InterfaceCadastro {
     }
     
     
+
+
+    @Override
+    public void excluir() {
+        if (funcionarios.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
+        } else {
+            int id = lerIdValido();
+            for ( FuncionarioModel funcionario : funcionarios) {
+                if (funcionario.getId() == id) {
+                    funcionarios.remove(funcionario);
+                    System.out.println("Cliente removido com sucesso!");
+                    return;
+                }
+            }
+            System.out.println("Cliente com ID não encontrado.");
+        }
+    }
+
+
+    
+
     
     // 🔁 Método reutilizável para validar posições de lista
     public int lerPosicaoValida(List<?> lista, String nomeLista) {
@@ -263,4 +265,13 @@ public class FuncionarioController implements InterfaceCadastro {
     public void adicionarFake(FuncionarioModel funcionario) {
         funcionarios.add(funcionario);
     }
+    
+    
+    
+        // (Opcional) mostrar dados bonitinhos
+    public void exibirDadosCliente(FuncionarioModel cliente) {
+        System.out.println("----- DADOS DO FUNCIONARIO -----");
+        System.out.println(cliente);  // Chama o toString() da classe ClienteModel
+        System.out.println("----------------------------");
+        }
 }

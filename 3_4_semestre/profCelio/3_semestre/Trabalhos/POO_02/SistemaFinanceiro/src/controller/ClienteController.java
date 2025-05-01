@@ -221,7 +221,7 @@ public class ClienteController implements InterfaceCadastro {
         }
     }
 
-    // (Opcional) mostrar dados bonitinhos
+
     public void exibirDadosCliente(ClienteModel cliente) {
         System.out.println("----- DADOS DO CLIENTE -----");
         System.out.println(cliente);  // Chama o toString() da classe ClienteModel

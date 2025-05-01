@@ -51,19 +51,18 @@ public class FuncionarioModel extends PessoaFisicaModel {
     
     @Override
     public String toString() {
-        return "FuncionarioModel{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", endereco=" + endereco +
-                ", telefone=" + telefone +
-                ", cpf='" + cpf + '\'' +
-                ", rg='" + rg + '\'' +
-                ", emissor='" + emissor + '\'' +
-                ", dataAdmissao='" + dataAdmissao + '\'' +
-                ", dataDemissao='" + dataDemissao + '\'' +
-                ", ctps='" + ctps + '\'' +
-                ", salario=" + salario +
-                '}';
+        return "\n--- Info de Funcionario --- \n" +
+                "id = " + id + "\n" +
+                "Nome = " + nome + "\n" +
+                "Email = " + email + "\n" +
+                " -- Endereco -- \n" + endereco + "\n" +
+                "Telefone = " + telefone + "\n" +
+                "CPF = " + cpf + "\n"  +
+                "RG = " + rg + "\n"  +
+                "Emissor = " + emissor + "\n"  +
+                "DataAdmissao = " + dataAdmissao + "\n"  +
+                "DataDemissao = " + dataDemissao + "\n"  +
+                "CTPS = " + ctps + "\n"  +
+                "Salario = " + salario;
     }
 }

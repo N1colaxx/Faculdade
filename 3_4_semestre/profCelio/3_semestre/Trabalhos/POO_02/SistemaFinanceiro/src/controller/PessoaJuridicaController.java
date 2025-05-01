@@ -125,4 +125,12 @@ public class PessoaJuridicaController implements InterfaceCadastro {
     public ArrayList<PessoaJuridicaModel> getPessoasJuridicas() {
         return pessoasJuridicas;
     }
+    
+    
+ 
+    public void exibirDadosCliente(PessoaJuridicaModel cliente) {
+        System.out.println("----- DADOS DO PESSOA JURIDICA -----");
+        System.out.println(cliente);  // Chama o toString() da classe ClienteModel
+        System.out.println("----------------------------");
+        }
 }
