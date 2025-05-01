@@ -29,7 +29,6 @@ public class ClienteController implements InterfaceCadastro {
         System.out.println("\n--- ENDEREÇO DE COBRANÇA ---");
         System.out.println("Deseja usar o mesmo endereço de entrega para cobrança? (S/N)");
         String opcao = scanner.nextLine();
-
         if (opcao.equalsIgnoreCase("S")) {
             cliente.setEnderecoCobranca(enderecoEntrega); // Usa o mesmo endereço
         } else {
@@ -220,6 +219,98 @@ public class ClienteController implements InterfaceCadastro {
             }
         }
     }
+    
+    public ClienteModel criarClienteCompleto() {
+        ClienteModel cliente = new ClienteModel();
+
+        System.out.print("Nome: ");
+        cliente.setNome(scanner.nextLine());
+
+        System.out.println("\n--- ENDEREÇO DE ENTREGA ---");
+        EnderecoController enderecoController = new EnderecoController();
+        EnderecoModel enderecoEntrega = enderecoController.entrar();
+        cliente.setEndereco(enderecoEntrega);
+
+        System.out.println("\n--- ENDEREÇO DE COBRANÇA ---");
+        System.out.println("Usar mesmo endereço de entrega? (S/N)");
+        String opcao = scanner.nextLine();
+        if (opcao.equalsIgnoreCase("S")) {
+            cliente.setEnderecoCobranca(enderecoEntrega);
+        } else {
+            cliente.setEnderecoCobranca(enderecoController.entrar());
+        }
+
+        System.out.println("\n--- TELEFONE ---");
+        TelefoneModel telefone = new TelefoneModel();
+        System.out.print("DDD: ");
+        telefone.setDdd(Integer.parseInt(scanner.nextLine()));
+        System.out.print("Número: ");
+        telefone.setNumero(Long.parseLong(scanner.nextLine()));
+        cliente.setTelefone(telefone);
+
+        System.out.print("Email: ");
+        cliente.setEmail(scanner.nextLine());
+        System.out.print("CNPJ: ");
+        cliente.setCnpj(scanner.nextLine());
+        System.out.print("Inscrição Estadual: ");
+        cliente.setInscricaoEstadual(scanner.nextLine());
+
+        return cliente;
+    }
+
+     
+    public ClienteModel alterarCliente() {
+        if (clientes.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
+            return null;  // Retorna null caso a lista esteja vazia
+        } else {
+            int id = lerIdValido();
+            for (ClienteModel cliente : clientes) {
+                if (cliente.getId() == id) {
+                    System.out.print("Novo nome: ");
+                    cliente.setNome(scanner.nextLine());
+                    System.out.print("Novo e-mail: ");
+                    cliente.setEmail(scanner.nextLine());
+
+                    System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
+                    EnderecoController enderecoController = new EnderecoController();
+                    EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+                    cliente.setEndereco(enderecoEntrega);
+
+                    // Cadastro do Endereço de Cobrança
+                    System.out.println("\n--- ALTERAR ENDEREÇO DE COBRANÇA ---");
+                    System.out.println("Deseja usar o mesmo endereço de entrega para cobrança? (S/N)");
+                    String opcao = scanner.nextLine();
+                    if (opcao.equalsIgnoreCase("S")) {
+                        cliente.setEnderecoCobranca(enderecoEntrega); // Usa o mesmo endereço
+                    } else {
+                        System.out.println("\nCadastro do Endereço de Cobrança:");
+                        EnderecoModel enderecoCobranca = enderecoController.entrar();
+                        cliente.setEnderecoCobranca(enderecoCobranca);
+                    }
+
+                    System.out.println("Alterar telefone:");
+                    TelefoneModel telefone = new TelefoneModel();
+                    System.out.print("DDD: ");
+                    telefone.setDdd(Integer.parseInt(scanner.nextLine()));
+                    System.out.print("Número: ");
+                    telefone.setNumero(Long.parseLong(scanner.nextLine()));
+                    cliente.setTelefone(telefone);
+
+                    System.out.print("Novo CNPJ: ");
+                    cliente.setCnpj(scanner.nextLine());
+                    System.out.print("Nova Inscrição Estadual: ");
+                    cliente.setInscricaoEstadual(scanner.nextLine());
+
+                    System.out.println("Cliente alterado com sucesso!");
+                    return cliente;  // Retorna o cliente alterado
+                }
+            }
+            System.out.println("Cliente com ID não encontrado.");
+            return null;  // Retorna null caso o cliente não seja encontrado
+        }
+    }
+
 
 
     public void exibirDadosCliente(ClienteModel cliente) {

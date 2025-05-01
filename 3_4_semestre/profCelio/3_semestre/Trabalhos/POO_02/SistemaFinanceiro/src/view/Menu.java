@@ -1,12 +1,12 @@
 package view;
 import faker.ClienteFaker;
+import faker.FornecedorFaker;
+import faker.FuncionarioFaker;
 
 import controller.FuncionarioController;
 import controller.ClienteController;
 import controller.FornecedorController;
-import faker.FornecedorFaker;
-import faker.FuncionarioFaker;
-//import controller.ContasReceberController;
+import controller.ReceberController;
 //import controller.ContasPagarController;
 //import controller.FluxoCaixaController;
 import java.util.Scanner;
@@ -18,7 +18,7 @@ public class Menu {
     private final FuncionarioController funcionario = new FuncionarioController();
     private final ClienteController cliente = new ClienteController();
     private final FornecedorController fornecedor = new FornecedorController();
-//    private final ContasReceberController contasReceber = new ContasReceberController();
+    private final ReceberController contasReceber = new ReceberController();
 //    private final ContasPagarController contasPagar = new ContasPagarController();
 //    private final FluxoCaixaController fluxoCaixa = new FluxoCaixaController();
 
@@ -53,7 +53,7 @@ public class Menu {
                     menuFornecedor();
                     break;
                 case 4:
-//                    menuContasReceber();
+                    menuContasReceber();
                     break;
                 case 5:
 //                    menuContasPagar();
@@ -222,49 +222,49 @@ public class Menu {
         } while (opcao != 7);
     }
 
-//    private void menuContasReceber() {
-//        int opcao;
-//        do {
-//            System.out.println("\n--- Contas a Receber ---");
-//            System.out.println("1) Incluir");
-//            System.out.println("2) Alterar pelo número");
-//            System.out.println("3) Consultar pelo Nome do Cliente");
-//            System.out.println("4) Consultar pelo Número");
-//            System.out.println("5) Consultar pelo Valor");
-//            System.out.println("6) Consultar pela Nota Fiscal");
-//            System.out.println("7) Excluir pelo ID");
-//            System.out.println("8) Voltar ao menu principal");
-//            System.out.print("Escolha uma opção: ");
-//            opcao = Integer.parseInt(scanner.nextLine());
-//            switch (opcao) {
-//                case 1:
-//                    contasReceber.incluir();
-//                    break;
-//                case 2:
-//                    contasReceber.alterarPorNumero();
-//                    break;
-//                case 3:
-//                    contasReceber.consultarPorNomeCliente();
-//                    break;
-//                case 4:
-//                    contasReceber.consultarPorNumero();
-//                    break;
-//                case 5:
-//                    contasReceber.consultarPorValor();
-//                    break;
-//                case 6:
-//                    contasReceber.consultarPorNotaFiscal();
-//                    break;
-//                case 7:
-//                    contasReceber.excluir();
-//                    break;
-//                case 8:
-//                    break;
-//                default:
-//                    System.out.println("Opção inválida.");
-//            }
-//        } while (opcao != 8);
-//    }
+    private void menuContasReceber() {
+        int opcao;
+        do {
+            System.out.println("\n--- Contas a Receber ---");
+            System.out.println("1) Incluir");
+            System.out.println("2) Alterar pelo número");
+            System.out.println("3) Consultar pelo Nome do Cliente");
+            System.out.println("4) Consultar pelo Número");
+            System.out.println("5) Consultar pelo Valor");
+            System.out.println("6) Consultar pela Nota Fiscal");
+            System.out.println("7) Excluir pelo ID");
+            System.out.println("8) Voltar ao menu principal");
+            System.out.print("Escolha uma opção: ");
+            opcao = Integer.parseInt(scanner.nextLine());
+            switch (opcao) {
+                case 1:
+                    contasReceber.Incluir();
+                    break;
+                case 2:
+                    contasReceber.AlterarPorNumero();
+                    break;
+                case 3:
+                    contasReceber.ConsultarPorNomeCliente();
+                    break;
+                case 4:
+                    contasReceber.ConsultarPorNumero();
+                    break;
+                case 5:
+                    contasReceber.ConsultarPorValor();
+                    break;
+                case 6:
+                    contasReceber.ConsultarPorNotaFiscal();
+                    break;
+                case 7:
+                    contasReceber.ExcluirPorID();
+                    break;
+                case 8:
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+            }
+        } while (opcao != 8);
+    }
 //
 //    private void menuContasPagar() {
 //        int opcao;
