@@ -62,13 +62,12 @@ public abstract class PessoaModel {
     
     @Override
     public String toString() {
-        return "PessoaModel{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", endereco=" + endereco +
-                ", telefone=" + telefone +
-                '}';
+        return 
+                " id = " + id +
+                " Nome = " + nome + '\'' +
+                " Email = " + email + '\'' +
+                " Endereco = " + endereco +
+                " Telefone = " + telefone;
     }
     
 }

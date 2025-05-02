@@ -19,7 +19,7 @@ public class FuncionarioController implements InterfaceCadastro {
 
         
         System.out.println("\n--- ENDEREÇO DE ENTREGA ---");
-        EnderecoController enderecoController = new EnderecoController();
+        EnderecoController enderecoController = EnderecoController.getInstancia();
         EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
         funcionario.setEndereco(enderecoEntrega);
 
@@ -79,7 +79,7 @@ public class FuncionarioController implements InterfaceCadastro {
 
                     
                     System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
-                    EnderecoController enderecoController = new EnderecoController();
+                    EnderecoController enderecoController = EnderecoController.getInstancia();
                     EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
                     funcionario.setEndereco(enderecoEntrega);
 

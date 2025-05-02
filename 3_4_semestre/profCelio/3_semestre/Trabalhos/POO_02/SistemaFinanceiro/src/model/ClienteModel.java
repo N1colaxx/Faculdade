@@ -43,8 +43,8 @@ public class ClienteModel extends PessoaJuridicaModel {
                "CNPJ: " + cnpj + "\n" +
                "Inscrição Estadual: " + inscricaoEstadual + "\n" +
                "Telefone: (" + telefone.getDdd() + ") " + telefone.getNumero() + "\n" +
-               "Endereço de Entrega: " + enderecoEntrega + "\n" +
-               "Endereço de Cobrança: " + enderecoCobranca;
+               " --- Endereço de Entrega --- \n" + enderecoEntrega + "\n" +
+               " --- Endereço de Cobrança --- \n" + enderecoCobranca;
     }
 
 

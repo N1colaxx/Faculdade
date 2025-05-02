@@ -24,7 +24,7 @@ public class PessoaJuridicaController implements InterfaceCadastro {
                 pj.setNome(scanner.nextLine());
                 
                 System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
-                EnderecoController enderecoController = new EnderecoController();
+                EnderecoController enderecoController = EnderecoController.getInstancia();
                 EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
                 pj.setEndereco(enderecoEntrega);
 

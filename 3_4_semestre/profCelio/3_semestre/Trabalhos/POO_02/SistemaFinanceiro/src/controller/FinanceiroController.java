@@ -25,10 +25,10 @@ public class FinanceiroController implements InterfaceFinanceiro {
                 if (financeiro.getNumero() == num) {
                     System.out.println("\n--- ALTERAR DADOS FINANCEIROS ---");
 
-                    System.out.print("Novo número da conta: ");
+                    System.out.print("Novo numero da conta: ");
                     financeiro.setNumero(Integer.parseInt(scanner.nextLine()));
 
-                    System.out.print("Nova data de emissão: ");
+                    System.out.print("Nova data de emissao: ");
                     financeiro.setEmissao(scanner.nextLine());
 
                     System.out.print("Nova data de vencimento: ");

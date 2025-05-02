@@ -1,164 +1,205 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import model.ClienteModel;
 import model.ReceberModel;
 
 public class ReceberController implements InterfaceFinanceiro {
 
+    // Implementação correta do padrão Singleton
+    private static ReceberController instancia;
+    
     private ArrayList<ReceberModel> recebimentos = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
 
+    // Construtor privado para evitar instanciação externa
+    private ReceberController() {}
+
+    // Método Singleton para obter a única instância
+    public static ReceberController getInstancia() {
+        if (instancia == null) {
+            instancia = new ReceberController();
+        }
+        return instancia;
+    }
+
+    // ===== IMPLEMENTAÇÃO DOS MÉTODOS DA INTERFACE =====
 
     @Override
     public void Incluir() {
-        ReceberModel novoRecebimento = new ReceberModel();
-        
-        System.out.println("🔽 INCLUSÃO CONTA A RECEBER:");
+        ReceberModel novo = new ReceberModel();
 
-        novoRecebimento.setId(lerInteiro("ID: "));
-        novoRecebimento.setNumero(lerInteiro("Número: "));
-        novoRecebimento.setEmissao(lerTexto("Data de Emissão: "));
-        novoRecebimento.setVencimento(lerTexto("Data de Vencimento: "));
-        novoRecebimento.setPagamento(lerTexto("Data de Pagamento: "));
-        novoRecebimento.setValor(lerDouble("Valor: "));
-        novoRecebimento.setJuros(lerDouble("Juros: "));
-        novoRecebimento.setMulta(lerDouble("Multa: "));
-        novoRecebimento.setDesconto(lerDouble("Desconto: "));
-        novoRecebimento.setTotal(lerDouble("Total: "));
+        System.out.println("🔽 Cadastrar CONTA A RECEBER:");
 
-        ClienteController clienteController = new ClienteController();
-        ClienteModel cliente = clienteController.criarClienteCompleto();
+        novo.setId(lerInteiro("ID: "));
+        novo.setNumero(lerInteiro("Número: "));
+        novo.setEmissao(lerTexto("Data de Emissão: "));
+        novo.setVencimento(lerTexto("Data de Vencimento: "));
+        novo.setPagamento(lerTexto("Data de Pagamento: "));
+        novo.setValor(lerDouble("Valor: "));
+        novo.setJuros(lerDouble("Juros: "));
+        novo.setMulta(lerDouble("Multa: "));
+        novo.setDesconto(lerDouble("Desconto: "));
+        novo.setTotal(calcularTotal(novo.getValor(), novo.getJuros(), novo.getMulta(), novo.getDesconto()));
 
-        novoRecebimento.setNotaFiscal(lerTexto("Nota Fiscal: "));
+        // Usando o singleton do ClienteController
+        ClienteModel cliente = ClienteController.getInstancia().criarClienteCompleto();
+        novo.setCliente(cliente);
 
-        recebimentos.add(novoRecebimento);
-        System.out.println("✅ CONTA A RECEBER incluído com sucesso!");
+        novo.setNotaFiscal(lerTexto("Nota Fiscal: "));
+
+        recebimentos.add(novo);
+        System.out.println("✅ Conta a receber cadastrada com sucesso!");
     }
 
     @Override
     public void AlterarPorNumero() {
-        if(recebimentos.isEmpty()){
-            System.out.println("\nERRO: Essa Lista esta VEZIA !!!");
-        } else {
-            int numero = lerInteiro("Informe o número do título a ser alterado: ");
-            for (ReceberModel r : recebimentos) {
-                if (r.getNumero() == numero) {
-                    System.out.println("🔄 Alterando título: " + numero);
-
-                    r.setNumero(lerInteiro("Novo número: "));
-                    r.setEmissao(lerTexto("Nova emissão: "));
-                    r.setVencimento(lerTexto("Novo vencimento: "));
-                    r.setPagamento(lerTexto("Novo pagamento: "));
-                    r.setValor(lerDouble("Novo valor: "));
-                    r.setJuros(lerDouble("Novo juros: "));
-                    r.setMulta(lerDouble("Novo multa: "));
-                    r.setDesconto(lerDouble("Novo desconto: "));
-                    r.setTotal(lerDouble("Novo total: "));
-
-                    // Adicionando alteração de cliente
-                    ClienteController clienteController = new ClienteController();
-                    ClienteModel clienteAlterado = clienteController.alterarCliente();  
-                    r.setCliente(clienteAlterado);
-
-                    r.setNotaFiscal(lerTexto("Nova Nota Fiscal: "));
-
-                    System.out.println("✅ Título alterado com sucesso!");
-                    return;
-                }
-            }
-            System.out.println("❌ Título não encontrado.");
+        if (recebimentos.isEmpty()) {
+            System.out.println("❌ Lista de contas a receber está vazia.");
+            return;
         }
+
+        int numero = lerInteiro("Informe o número da conta a receber para alterar: ");
+
+        for (ReceberModel r : recebimentos) {
+            if (r.getNumero() == numero) {
+                System.out.println("🔄 Alterando Conta a Receber Nº " + numero);
+
+                r.setNumero(lerInteiro("Novo número: "));
+                r.setEmissao(lerTexto("Nova emissão: "));
+                r.setVencimento(lerTexto("Novo vencimento: "));
+                r.setPagamento(lerTexto("Novo pagamento: "));
+                r.setValor(lerDouble("Novo valor: "));
+                r.setJuros(lerDouble("Novo juros: "));
+                r.setMulta(lerDouble("Novo multa: "));
+                r.setDesconto(lerDouble("Novo desconto: "));
+                r.setTotal(calcularTotal(r.getValor(), r.getJuros(), r.getMulta(), r.getDesconto()));
+
+                // Usando o singleton do ClienteController
+                ClienteModel clienteAlterado = ClienteController.getInstancia().alterarCliente();
+                if (clienteAlterado != null) {
+                    r.setCliente(clienteAlterado);
+                } else {
+                    System.out.println("❌ Cliente não foi alterado.");
+                }
+
+                r.setNotaFiscal(lerTexto("Nova Nota Fiscal: "));
+
+                System.out.println("✅ Conta a receber alterada com sucesso!");
+                return;
+            }
+        }
+
+        System.out.println("❌ Conta a receber não encontrada.");
     }
 
     @Override
     public void ConsultarPorNumero() {
-        if(recebimentos.isEmpty()){
-            System.out.println("\nERRO: Essa Lista esta VEZIA !!!");
-        } else {
-            int numero = lerInteiro("Informe o número do título: ");
-            for (ReceberModel r : recebimentos) {
-                if (r.getNumero() == numero) {
-                    exibirDadosCliente(r);
-                    return;
-                }
-            }
-            System.out.println("❌ Nenhum título encontrado com esse número.");
+        if (recebimentos.isEmpty()) {
+            System.out.println("❌ Lista de contas a receber está vazia.");
+            return;
         }
+
+        int numero = lerInteiro("Informe o número da conta: ");
+
+        for (ReceberModel r : recebimentos) {
+            if (r.getNumero() == numero) {
+                exibirDadosRecebimento(r);
+                return;
+            }
+        }
+
+        System.out.println("❌ Nenhuma conta encontrada com esse número.");
     }
 
     @Override
     public void ConsultarPorValor() {
-        if(recebimentos.isEmpty()){
-            System.out.println("\nERRO: Essa Lista esta VEZIA !!!");
-        } else {
-            double valor = lerDouble("Informe o valor a buscar: ");
-            boolean encontrado = false;
-            for (ReceberModel r : recebimentos) {
-                if (r.getValor() == valor) {
-                    exibirDadosCliente(r);
-                    encontrado = true;
-                }
-            }
-            if (!encontrado)
-                System.out.println("❌ Nenhum título com esse valor.");
+        if (recebimentos.isEmpty()) {
+            System.out.println("❌ Lista de contas a receber está vazia.");
+            return;
         }
-    }
 
-    public void ConsultarPorNomeCliente() {
-        if(recebimentos.isEmpty()){
-            System.out.println("\nERRO: Essa Lista esta VEZIA !!!");
-        } else {
-            String nome = lerTexto("Informe o nome do cliente: ").toLowerCase();
-            boolean encontrado = false;
-            for (ReceberModel r : recebimentos) {
-                if (r.getCliente().getNome().toLowerCase().contains(nome)) {
-                    exibirDadosCliente(r);
-                    encontrado = true;
-                }
-            }
-            if (!encontrado)
-                System.out.println("❌ Nenhum título encontrado para esse cliente.");
-        }
-    }
+        double valor = lerDouble("Informe o valor a buscar: ");
+        boolean encontrado = false;
 
-    public void ConsultarPorNotaFiscal() {
-        if(recebimentos.isEmpty()){
-            System.out.println("\nERRO: Essa Lista esta VEZIA !!!");
-        } else {
-            String nf = lerTexto("Informe a nota fiscal: ");
-            boolean encontrado = false;
-            for (ReceberModel r : recebimentos) {
-                if (r.getNotaFiscal().equalsIgnoreCase(nf)) {
-                    exibirDadosCliente(r);
-                    encontrado = true;
-                }
+        for (ReceberModel r : recebimentos) {
+            if (r.getValor() == valor) {
+                exibirDadosRecebimento(r);
+                encontrado = true;
             }
-            if (!encontrado)
-                System.out.println("❌ Nenhum título com essa nota fiscal.");
         }
+
+        if (!encontrado)
+            System.out.println("❌ Nenhuma conta encontrada com esse valor.");
     }
 
     @Override
     public void ExcluirPorID() {
-        if(recebimentos.isEmpty()){
-            System.out.println("\nERRO: Essa Lista esta VEZIA !!!");
-        } else {
-            int id = lerInteiro("Informe o ID do título a excluir: ");
-            for (int i = 0; i < recebimentos.size(); i++) {
-                if (recebimentos.get(i).getId() == id) {
-                    recebimentos.remove(i);
-                    System.out.println("✅ Título removido com sucesso.");
-                    return;
-                }
-            }
-            System.out.println("❌ Nenhum título com esse ID.");
+        if (recebimentos.isEmpty()) {
+            System.out.println("❌ Lista de contas a receber está vazia.");
+            return;
         }
+
+        int id = lerInteiro("Informe o ID da conta a excluir: ");
+
+        for (int i = 0; i < recebimentos.size(); i++) {
+            if (recebimentos.get(i).getId() == id) {
+                recebimentos.remove(i);
+                System.out.println("✅ Conta removida com sucesso.");
+                return;
+            }
+        }
+
+        System.out.println("❌ Nenhuma conta com esse ID.");
     }
 
     
-    // =============================
-    // MÉTODOS AUXILIARES
-    // =============================
+    public void ConsultarPorNomeCliente() {
+        if (recebimentos.isEmpty()) {
+            System.out.println("❌ Lista de contas a receber está vazia.");
+            return;
+        }
+
+        String nome = lerTexto("Informe o nome do cliente: ").toLowerCase();
+        boolean encontrado = false;
+
+        for (ReceberModel r : recebimentos) {
+            if (r.getCliente() != null && r.getCliente().getNome() != null &&
+                r.getCliente().getNome().toLowerCase().contains(nome)) {
+
+                exibirDadosRecebimento(r);
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado)
+            System.out.println("❌ Nenhuma conta encontrada para esse cliente.");
+    }
+
+    
+    public void ConsultarPorNotaFiscal() {
+        if (recebimentos.isEmpty()) {
+            System.out.println("❌ Lista de contas a receber está vazia.");
+            return;
+        }
+
+        String nf = lerTexto("Informe a nota fiscal: ");
+        boolean encontrado = false;
+
+        for (ReceberModel r : recebimentos) {
+            if (r.getNotaFiscal().equalsIgnoreCase(nf)) {
+                exibirDadosRecebimento(r);
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado)
+            System.out.println("❌ Nenhuma conta encontrada com essa nota fiscal.");
+    }
+
+    
+    // ===== MÉTODOS AUXILIARES =====
 
     private int lerInteiro(String mensagem) {
         while (true) {
@@ -183,26 +224,34 @@ public class ReceberController implements InterfaceFinanceiro {
     }
 
     private String lerTexto(String mensagem) {
-        System.out.print(mensagem);
-        return scanner.nextLine();
+        String entrada;
+        do {
+            System.out.print(mensagem);
+            entrada = scanner.nextLine().trim();
+
+            if (entrada.isEmpty())
+                System.out.println("❌ Entrada vazia. Tente novamente.");
+        } while (entrada.isEmpty());
+
+        return entrada;
+    }
+
+    private double calcularTotal(double valor, double juros, double multa, double desconto) {
+        return valor + juros + multa - desconto;
+    }
+
+    private void exibirDadosRecebimento(ReceberModel r) {
+        System.out.println("----- DADOS DA CONTA A RECEBER -----");
+        System.out.println(r);
+    }
+
+    // ===== MÉTODOS EXTRAS =====
+
+    public void adicionarFake(ReceberModel receber) {
+        recebimentos.add(receber);
     }
 
     public ArrayList<ReceberModel> getRecebimentos() {
         return recebimentos;
-    }
-    
-    
-    public void exibirDadosCliente(ReceberModel receber) {
-    System.out.println("----- DADOS DO CONTA A RECEBER -----");
-    System.out.println(receber);
-    ClienteModel cliente = receber.getCliente();
-    if (cliente != null) {
-        System.out.println("----- DADOS DO CLIENTE -----");
-        System.out.println("Nome: " + cliente.getNome());
-        System.out.println("E-mail: " + cliente.getEmail());
-        System.out.println("CNPJ: " + cliente.getCnpj());
-        // e mais campos se desejar
-    }
-    System.out.println("----------------------------");
     }
 }

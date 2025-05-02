@@ -2,6 +2,7 @@ package view;
 import faker.ClienteFaker;
 import faker.FornecedorFaker;
 import faker.FuncionarioFaker;
+//import faker.ReceberFaker;
 
 import controller.FuncionarioController;
 import controller.ClienteController;
@@ -16,15 +17,16 @@ public class Menu {
 
     private final Scanner scanner = new Scanner(System.in);
     private final FuncionarioController funcionario = new FuncionarioController();
-    private final ClienteController cliente = new ClienteController();
+    private final ClienteController cliente =  ClienteController.getInstancia();
     private final FornecedorController fornecedor = new FornecedorController();
-    private final ReceberController contasReceber = new ReceberController();
+    private final ReceberController contasReceber = ReceberController.getInstancia();
 //    private final ContasPagarController contasPagar = new ContasPagarController();
 //    private final FluxoCaixaController fluxoCaixa = new FluxoCaixaController();
 
     private boolean clientesFakeJaGerados = false;
     private boolean funcionariosFakeJaGerados = false;
     private boolean fornecedoresFakeJaGerados = false;
+//    private boolean receberFakeJaGerados = false;
 
     public void exibirMenuPrincipal() {
         gerarDadosFakerAutomaticamente();
@@ -99,6 +101,15 @@ public class Menu {
             fornecedoresFakeJaGerados = true;
             System.out.println(qtdPadrao + " fornecedores fake gerados automaticamente.");
         }
+        
+//        if(!receberFakeJaGerados){
+//            ReceberFaker faker = new ReceberFaker();
+//            for (int i = 0; i < qtdPadrao; i++){
+//                contasReceber.adicionarFake(faker.gerarRecebimentoFalso());
+//            }
+//            receberFakeJaGerados = true;
+//            System.out.println(qtdPadrao + " contas a receber FAKE gerados automaticamente ");
+//        }
     }
 
     private void menuCliente() {
@@ -225,7 +236,7 @@ public class Menu {
     private void menuContasReceber() {
         int opcao;
         do {
-            System.out.println("\n--- Contas a Receber ---");
+            System.out.println("\n\n--- Cadastro de Contas a Receber ---");
             System.out.println("1) Incluir");
             System.out.println("2) Alterar pelo número");
             System.out.println("3) Consultar pelo Nome do Cliente");

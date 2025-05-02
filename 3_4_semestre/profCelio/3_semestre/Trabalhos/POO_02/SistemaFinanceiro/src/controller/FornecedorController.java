@@ -20,7 +20,7 @@ public class FornecedorController implements InterfaceCadastro {
 
         
         System.out.println(" --- Cadastro Endereço ---");
-        EnderecoController enderecoController = new EnderecoController();
+        EnderecoController enderecoController = EnderecoController.getInstancia();
         EnderecoModel endereco = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
         fornecedor.setEndereco(endereco);
 
@@ -83,7 +83,7 @@ public class FornecedorController implements InterfaceCadastro {
                     fornecedor.setEmail(scanner.nextLine());
 
                     System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
-                    EnderecoController enderecoController = new EnderecoController();
+                    EnderecoController enderecoController = EnderecoController.getInstancia();
                     EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
                     fornecedor.setEndereco(enderecoEntrega);
                     

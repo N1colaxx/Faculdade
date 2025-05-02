@@ -9,6 +9,20 @@ import model.TelefoneModel;
 
 public class ClienteController implements InterfaceCadastro {
 
+    // estático para manter uma única instância da classe
+    private static ClienteController instancia;  // garante que só exista um objeto da classe
+
+    //  Método para obter a instância única do (Singleton)
+    public static ClienteController getInstancia() {  
+        if (instancia == null) {  
+            instancia = new ClienteController();
+        }
+        return instancia;
+    }
+    
+    private ClienteController() {}  // impede que outras classes criem instâncias diretamente
+
+    // Atributos
     private ArrayList<ClienteModel> clientes = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
 
@@ -19,24 +33,22 @@ public class ClienteController implements InterfaceCadastro {
         System.out.print("Nome: ");
         cliente.setNome(scanner.nextLine());
 
-        
         System.out.println("\n--- ENDEREÇO DE ENTREGA ---");
-        EnderecoController enderecoController = new EnderecoController();
-        EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+        // Usando o singleton do EnderecoController
+        EnderecoController enderecoController = EnderecoController.getInstancia();
+        EnderecoModel enderecoEntrega = enderecoController.entrar();
         cliente.setEndereco(enderecoEntrega);
-        
-        // Cadastro do Endereço de Cobrança
+
         System.out.println("\n--- ENDEREÇO DE COBRANÇA ---");
         System.out.println("Deseja usar o mesmo endereço de entrega para cobrança? (S/N)");
         String opcao = scanner.nextLine();
         if (opcao.equalsIgnoreCase("S")) {
-            cliente.setEnderecoCobranca(enderecoEntrega); // Usa o mesmo endereço
+            cliente.setEnderecoCobranca(enderecoEntrega);
         } else {
-            System.out.println("\nCadastro do Endereço de Cobrança:");
             EnderecoModel enderecoCobranca = enderecoController.entrar();
             cliente.setEnderecoCobranca(enderecoCobranca);
         }
-        
+
         System.out.println("Telefone:");
         TelefoneModel telefone = new TelefoneModel();
         System.out.print("DDD: ");
@@ -44,12 +56,10 @@ public class ClienteController implements InterfaceCadastro {
         System.out.print("Número: ");
         telefone.setNumero(Long.parseLong(scanner.nextLine()));
         cliente.setTelefone(telefone);
-        
-        
+
         System.out.print("Email: ");
         cliente.setEmail(scanner.nextLine());
 
-        
         System.out.print("CNPJ: ");
         cliente.setCnpj(scanner.nextLine());
         System.out.print("Inscrição Estadual: ");
@@ -74,14 +84,20 @@ public class ClienteController implements InterfaceCadastro {
                     cliente.setEmail(scanner.nextLine());
 
                     System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
-                    EnderecoController enderecoController = new EnderecoController();
-                    EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+                    // Usando o singleton do EnderecoController
+                    EnderecoController enderecoController = EnderecoController.getInstancia();
+                    EnderecoModel enderecoEntrega = enderecoController.entrar();
                     cliente.setEndereco(enderecoEntrega);
 
-                    // Cadastro do Endereço de Cobrança
                     System.out.println("\n--- ALTERAR ENDEREÇO DE COBRANÇA ---");
                     System.out.println("Deseja usar o mesmo endereço de entrega para cobrança? (S/N)");
                     String opcao = scanner.nextLine();
+                    if (opcao.equalsIgnoreCase("S")) {
+                        cliente.setEnderecoCobranca(enderecoEntrega);
+                    } else {
+                        EnderecoModel enderecoCobranca = enderecoController.entrar();
+                        cliente.setEnderecoCobranca(enderecoCobranca);
+                    }
 
                     System.out.println("Alterar telefone:");
                     TelefoneModel telefone = new TelefoneModel();
@@ -171,9 +187,6 @@ public class ClienteController implements InterfaceCadastro {
         }
     }
 
-    
-    
-    
     public void adicionarCliente(ClienteModel cliente) {
         clientes.add(cliente);
     }
@@ -186,7 +199,6 @@ public class ClienteController implements InterfaceCadastro {
         clientes.add(cliente);
     }
 
-    // 🔁 Método reutilizável para validar posições de lista
     public int lerPosicaoValida(List<?> lista, String nomeLista) {
         while (true) {
             try {
@@ -203,7 +215,6 @@ public class ClienteController implements InterfaceCadastro {
         }
     }
 
-    // 🔁 Método reutilizável para validar ID (positivo)
     public int lerIdValido() {
         while (true) {
             try {
@@ -219,7 +230,7 @@ public class ClienteController implements InterfaceCadastro {
             }
         }
     }
-    
+
     public ClienteModel criarClienteCompleto() {
         ClienteModel cliente = new ClienteModel();
 
@@ -227,7 +238,8 @@ public class ClienteController implements InterfaceCadastro {
         cliente.setNome(scanner.nextLine());
 
         System.out.println("\n--- ENDEREÇO DE ENTREGA ---");
-        EnderecoController enderecoController = new EnderecoController();
+        // Usando o singleton do EnderecoController
+        EnderecoController enderecoController = EnderecoController.getInstancia();
         EnderecoModel enderecoEntrega = enderecoController.entrar();
         cliente.setEndereco(enderecoEntrega);
 
@@ -248,21 +260,27 @@ public class ClienteController implements InterfaceCadastro {
         telefone.setNumero(Long.parseLong(scanner.nextLine()));
         cliente.setTelefone(telefone);
 
-        System.out.print("Email: ");
+        System.out.print("\nEmail: ");
         cliente.setEmail(scanner.nextLine());
         System.out.print("CNPJ: ");
         cliente.setCnpj(scanner.nextLine());
         System.out.print("Inscrição Estadual: ");
         cliente.setInscricaoEstadual(scanner.nextLine());
 
+        // Gerar ID único para o cliente (caso seja um cliente novo)
+        if (cliente.getId() == 0) {
+            cliente.setId(clientes.size() + 1);
+        }
+        
+        clientes.add(cliente);
+
         return cliente;
     }
 
-     
     public ClienteModel alterarCliente() {
         if (clientes.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
-            return null;  // Retorna null caso a lista esteja vazia
+            return null;
         } else {
             int id = lerIdValido();
             for (ClienteModel cliente : clientes) {
@@ -273,18 +291,17 @@ public class ClienteController implements InterfaceCadastro {
                     cliente.setEmail(scanner.nextLine());
 
                     System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
-                    EnderecoController enderecoController = new EnderecoController();
-                    EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
+                    // Usando o singleton do EnderecoController
+                    EnderecoController enderecoController = EnderecoController.getInstancia();
+                    EnderecoModel enderecoEntrega = enderecoController.entrar();
                     cliente.setEndereco(enderecoEntrega);
 
-                    // Cadastro do Endereço de Cobrança
                     System.out.println("\n--- ALTERAR ENDEREÇO DE COBRANÇA ---");
                     System.out.println("Deseja usar o mesmo endereço de entrega para cobrança? (S/N)");
                     String opcao = scanner.nextLine();
                     if (opcao.equalsIgnoreCase("S")) {
-                        cliente.setEnderecoCobranca(enderecoEntrega); // Usa o mesmo endereço
+                        cliente.setEnderecoCobranca(enderecoEntrega);
                     } else {
-                        System.out.println("\nCadastro do Endereço de Cobrança:");
                         EnderecoModel enderecoCobranca = enderecoController.entrar();
                         cliente.setEnderecoCobranca(enderecoCobranca);
                     }
@@ -303,20 +320,17 @@ public class ClienteController implements InterfaceCadastro {
                     cliente.setInscricaoEstadual(scanner.nextLine());
 
                     System.out.println("Cliente alterado com sucesso!");
-                    return cliente;  // Retorna o cliente alterado
+                    return cliente;
                 }
             }
             System.out.println("Cliente com ID não encontrado.");
-            return null;  // Retorna null caso o cliente não seja encontrado
+            return null;
         }
     }
 
-
-
     public void exibirDadosCliente(ClienteModel cliente) {
         System.out.println("----- DADOS DO CLIENTE -----");
-        System.out.println(cliente);  // Chama o toString() da classe ClienteModel
+        System.out.println(cliente);
         System.out.println("----------------------------");
-        }
-
+    }
 }

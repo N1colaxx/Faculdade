@@ -114,15 +114,15 @@ public abstract class FinanceiroModel {
     @Override
     public String toString() {
         return "ID: " + id +
-               "\nNúmero: " + numero +
-               "\nEmissão: " + emissao +
+               "\nNumero: " + numero +
+               "\nEmissao: " + emissao +
                "\nVencimento: " + vencimento +
                "\nPagamento: " + pagamento +
                "\nValor: " + valor +
                "\nJuros: " + juros +
                "\nMulta: " + multa +
                "\nDesconto: " + desconto +
-               "\nTotal: " + total;
+               "\nTotal: " + total ;
     }
 
     

@@ -29,7 +29,7 @@ public class PessoaFisicaController implements InterfaceCadastro{
                 pf.setEmail(scanner.nextLine());
 
                 System.out.println("\n--- ENDEREÇO DE ENTREGA ---");
-                EnderecoController enderecoController = new EnderecoController();
+                EnderecoController enderecoController = EnderecoController.getInstancia();
                 EnderecoModel enderecoEntrega = enderecoController.entrar();  // Chama o método entrar() da EnderecoController
                 pf.setEndereco(enderecoEntrega);
 

@@ -41,12 +41,11 @@ public abstract class PessoaJuridicaModel extends PessoaModel{
     
     @Override
     public String toString() {
-        return "PessoaJuridicaModel{" +
-                super.toString() +
-                ", cnpj='" + cnpj + '\'' +
-                ", inscricaoEstadual='" + inscricaoEstadual + '\'' +
-                ", contato='" + contato + '\'' +
-                '}';
+        return
+                super.toString() + "\n" +
+                " CNPJ = " + cnpj + "\n" +
+                " Inscricao Estadual = " + inscricaoEstadual + "\n" +
+                " Contato = " + contato + "\n";
     }
  
 }
