@@ -45,9 +45,7 @@ public class FluxoCaixaController {
             // Adiciona mais informações do fornecedor na descrição
             if (pagar.getFornecedor() != null) {
                 FornecedorModel fornecedor = pagar.getFornecedor();
-                item.setDescricaoDetalhada("Pag a " + fornecedor.getNome() + 
-                    " (CNPJ: " + fornecedor.getCnpj() + 
-                    ", ID: " + fornecedor.getId() + ")");
+                item.setDescricaoDetalhada("Pag a " + fornecedor.getNome());
             }
             
             fluxoCaixa.add(item);
@@ -60,9 +58,7 @@ public class FluxoCaixaController {
             // Adiciona mais informações do cliente na descrição
             if (receber.getCliente() != null) {
                 ClienteModel cliente = receber.getCliente();
-                item.setDescricaoDetalhada("Rec de " + cliente.getNome() + 
-                    " (CNPJ: " + cliente.getCnpj()+ 
-                    ", ID: " + cliente.getId() + ")");
+                item.setDescricaoDetalhada("Rec de " + cliente.getNome());
             }
             
             fluxoCaixa.add(item);
@@ -75,41 +71,55 @@ public class FluxoCaixaController {
         exibirTabela(fluxoCaixa);
     }
     
-    private void exibirTabela(ArrayList<FluxoCaixaModel> fluxoCaixa) {
-        if (fluxoCaixa.isEmpty()) {
-            System.out.println("❌ Nenhum registro encontrado.");
-            return;
-        }
-        
-        System.out.println("\n" + "=".repeat(110));
-        System.out.printf("%-12s | %-12s | %-50s | %10s | %-15s | %5s\n",
-                "DATA", "TIPO", "DESCRIÇÃO DETALHADA", "VALOR", "ORIGEM", "ID");
-        System.out.println("-".repeat(110));
-        
-        double saldoFinal = 0.00;
-        
-        for (FluxoCaixaModel item : fluxoCaixa) {
-            // Verifica se existe descrição detalhada, senão usa a descrição normal
-            String descricaoExibir = (item.getDescricaoDetalhada() != null) ? 
-                    item.getDescricaoDetalhada() : item.getDescricao();
-            
-            System.out.printf("%-12s | %-12s | %-50s | %10.2f | %-15s | %5d\n",
-                    item.getData(),
+private void exibirTabela(ArrayList<FluxoCaixaModel> fluxoCaixa) {
+    if (fluxoCaixa.isEmpty()) {
+        System.out.println("❌ Nenhum registro encontrado.");
+        return;
+    }
+
+    System.out.println("\n" + "=".repeat(110));
+    System.out.printf("%-12s | %-12s | %-30s | %10s | %-15s | %-5s\n",
+            "DATA", "TIPO", "DESCRIÇÃO", "VALOR", "ORIGEM", "CNPJ");
+    System.out.println("-".repeat(110));
+
+    double saldoFinal = 0.00;
+
+    for (FluxoCaixaModel item : fluxoCaixa) {
+        String descricao = item.getDescricaoDetalhada() != null ? 
+                         item.getDescricaoDetalhada() : item.getDescricao();
+
+        // Evitar divisão da descrição por vírgula
+        if (!descricao.contains(",")) {
+            // Exibe a descrição completa sem divisão
+            System.out.printf("%-12s | %-12s | %-50s | %10.2f | %-15s | %-14s\n",
+                    item.getDataFormatada(),
                     item.getTipo(),
-                    encurtarDescricao(descricaoExibir, 50),
+                    encurtarDescricao(descricao, 50),
                     item.getValor(),
                     item.getOrigem(),
-                    item.getIdOrigem());
-                    
-            saldoFinal += item.getValor();
+                    item.getCnpjOrigem());  // Alteração aqui: substituímos ID por CNPJ
+        } else {
+            // Exibe a descrição completa
+            System.out.printf("%-12s | %-12s | %-50s | %10.2f | %-15s | %-14s\n",
+                    item.getDataFormatada(),
+                    item.getTipo(),
+                    descricao,  // Mantemos a descrição inteira
+                    item.getValor(),
+                    item.getOrigem(),
+                    item.getCnpjOrigem());  // Alteração aqui: substituímos ID por CNPJ
         }
-        
-        System.out.println("-".repeat(110));
-        System.out.printf("%-78s | %10.2f | %-15s | %5s\n",
-                "SALDO FINAL", saldoFinal, "", "");
-        System.out.println("=".repeat(110) + "\n");
+
+        saldoFinal += item.getValor();
     }
-    
+
+    System.out.println("-".repeat(110));
+    System.out.printf("%-78s | %10.2f | %-15s | %5s\n",
+            "SALDO FINAL", saldoFinal, "", "");
+    System.out.println("=".repeat(110) + "\n");
+}
+
+
+
     private String encurtarDescricao(String descricao, int limite) {
         if (descricao == null) return "";
         if (descricao.length() <= limite) return descricao;

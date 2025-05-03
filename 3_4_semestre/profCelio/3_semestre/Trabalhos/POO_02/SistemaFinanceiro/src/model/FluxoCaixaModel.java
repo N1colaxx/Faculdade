@@ -16,7 +16,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
     private String descricaoDetalhada; // Descrição que inclui IDs e outros detalhes
     private double valor;              // Valor: positivo para receitas, negativo para despesas
     private String origem;             // Origem: "Conta a Pagar" ou "Conta a Receber"
-    private int idOrigem;              // ID da conta de origem
+    private String cnpjOrigem;              // cnpj da conta de origem
     
     // Construtor padrão
     public FluxoCaixaModel() {}
@@ -29,7 +29,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
         this.descricao = descricao;
         this.valor = valor;
         this.origem = origem;
-        this.idOrigem = idOrigem;
+        this.cnpjOrigem = cnpjOrigem;
     }
     
     // Construtor baseado em PagarModel (despesa)
@@ -45,7 +45,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
             }
         }
         
-        this.tipo = "Despesa";
+        this.tipo = "Credito";
         
         // Guarda informações detalhadas sobre o fornecedor
         if (pagar.getFornecedor() != null) {
@@ -57,7 +57,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
         
         this.valor = -pagar.getTotal(); // Valor negativo para despesas
         this.origem = "Conta a Pagar";
-        this.idOrigem = pagar.getId();
+        this.cnpjOrigem = pagar.getCnpj();
     }
     
     // Construtor baseado em ReceberModel (receita)
@@ -73,7 +73,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
             }
         }
         
-        this.tipo = "Receita";
+        this.tipo = "Debito";
         
         // Guarda informações detalhadas sobre o cliente
         if (receber.getCliente() != null) {
@@ -85,7 +85,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
         
         this.valor = receber.getTotal(); // Valor positivo para receitas
         this.origem = "Conta a Receber";
-        this.idOrigem = receber.getId();
+        this.cnpjOrigem= receber.getCnpj();
     }
     
     // Método para converter string de data em LocalDate
@@ -115,7 +115,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
         String dataFormatada = data != null ? data.format(formatter) : "Data inválida";
         
         return String.format("%-12s | %-12s | %-30s | %10.2f | %-15s | %5d",
-                dataFormatada, tipo, descricao, valor, origem, idOrigem);
+                dataFormatada, tipo, descricao, valor, origem, cnpjOrigem);
     }
     
     // Implementação do método compareTo para ordenação por data
@@ -173,11 +173,16 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
         this.origem = origem;
     }
     
-    public int getIdOrigem() {
-        return idOrigem;
+    public String getCnpjOrigem() {
+        return cnpjOrigem;
     }
     
-    public void setIdOrigem(int idOrigem) {
-        this.idOrigem = idOrigem;
+    public void setCnpjOrigem(String cnpjOrigem) {
+        this.cnpjOrigem = cnpjOrigem;
+    }
+    
+    // Adicione este método ao FluxoCaixaModel
+    public String getDataFormatada() {
+        return this.data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 }

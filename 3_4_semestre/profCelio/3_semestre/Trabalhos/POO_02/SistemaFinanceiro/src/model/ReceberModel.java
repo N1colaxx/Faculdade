@@ -32,6 +32,17 @@ public class ReceberModel extends FinanceiroModel {
         this.notaFiscal = notaFiscal;
     }
     
+    public String getCnpj() {
+        // Verifica se o fornecedor é uma instância de PessoaJuridicaModel
+        if (cliente instanceof PessoaJuridicaModel) {
+            // Cast para PessoaJuridicaModel e acessa o CNPJ
+            PessoaJuridicaModel pf = (PessoaJuridicaModel) cliente; // Declare a variável 'pj' aqui
+            return pf.getCnpj();
+        }
+        // Se não for PJ, retorna um valor padrão ou vazio
+        return "CNPJ não disponível";
+    }
+    
     @Override
     public String toString() {
         return 
