@@ -50,7 +50,8 @@ public class ReceberController implements InterfaceFinanceiro {
         novo.setNotaFiscal(lerTexto("Nota Fiscal: "));
 
         recebimentos.add(novo);
-        System.out.println("✅ Conta a receber cadastrada com sucesso!");
+        
+        System.out.println("✅ Conta a receber cadastrada com sucesso!" + "\n \n");
     }
 
     @Override
@@ -86,7 +87,7 @@ public class ReceberController implements InterfaceFinanceiro {
 
                 r.setNotaFiscal(lerTexto("Nova Nota Fiscal: "));
 
-                System.out.println("✅ Conta a receber alterada com sucesso!");
+                System.out.println("✅ Conta a receber alterada com sucesso!" + "\n \n");
                 return;
             }
         }
@@ -105,6 +106,7 @@ public class ReceberController implements InterfaceFinanceiro {
 
         for (ReceberModel r : recebimentos) {
             if (r.getNumero() == numero) {
+                
                 exibirDadosRecebimento(r);
                 return;
             }
@@ -241,8 +243,9 @@ public class ReceberController implements InterfaceFinanceiro {
     }
 
     private void exibirDadosRecebimento(ReceberModel r) {
-        System.out.println("----- DADOS DA CONTA A RECEBER -----");
         System.out.println(r);
+        System.out.println("----------------------------\n \n");
+
     }
 
     // ===== MÉTODOS EXTRAS =====

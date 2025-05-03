@@ -32,9 +32,12 @@ public class PagarModel extends FinanceiroModel {
     
     @Override
     public String toString() {
-        return super.toString() +
-               ", Fornecedor: " + (fornecedor != null ? fornecedor.toString() : "Nenhum") +
-               ", Boleto: " + boleto;
+        return 
+                " ----- INFO CONTAS A PAGAR ----- " + "\n" +
+                super.toString() + "\n" +
+                "Boleto: " + boleto + "\n" +
+                " -- INFO FORNECEDOR --" + "\n" +
+               (fornecedor != null ? fornecedor.toString() : "Nenhum");
     }
 
 }

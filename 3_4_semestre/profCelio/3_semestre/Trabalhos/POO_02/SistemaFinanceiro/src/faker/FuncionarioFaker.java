@@ -36,9 +36,8 @@ public class FuncionarioFaker {
         String ctps = String.valueOf(faker.number().numberBetween(100000, 999999));
         double salario = ThreadLocalRandom.current().nextDouble(1200.0, 9000.0);
 
-        String dataAdmissao = faker.date().past(1000, java.util.concurrent.TimeUnit.DAYS)
-                                    .toInstant().toString().substring(0, 10);
-        String dataDemissao = ""; 
+        String dataAdmissao = faker.date().past(1000, java.util.concurrent.TimeUnit.DAYS).toInstant().toString().substring(0, 10);
+        String dataDemissao = faker.date().past(1000, java.util.concurrent.TimeUnit.DAYS).toInstant().toString().substring(0, 10);
 
         return new FuncionarioModel(
             dataAdmissao,

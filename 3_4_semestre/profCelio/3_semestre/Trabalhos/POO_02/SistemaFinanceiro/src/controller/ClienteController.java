@@ -329,8 +329,8 @@ public class ClienteController implements InterfaceCadastro {
     }
 
     public void exibirDadosCliente(ClienteModel cliente) {
-        System.out.println("----- DADOS DO CLIENTE -----");
+        System.out.println("\n \n----- DADOS DO CLIENTE -----");
         System.out.println(cliente);
-        System.out.println("----------------------------");
+        System.out.println("----------------------------\n \n");
     }
 }

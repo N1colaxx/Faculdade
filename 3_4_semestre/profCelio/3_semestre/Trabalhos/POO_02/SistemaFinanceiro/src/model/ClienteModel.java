@@ -37,14 +37,18 @@ public class ClienteModel extends PessoaJuridicaModel {
         String enderecoEntrega = endereco != null ? endereco.toString() : "Endereço de entrega não cadastrado";
         String enderecoCobranca = this.enderecoCobranca != null ? this.enderecoCobranca.toString() : "Endereço de cobrança não cadastrado"; // Usando "this" para evitar conflito de nome
 
-        return "ID: " + id + "\n" +
+        return 
+               " --- INFO CLIENTE --- " + "\n" +
+               "ID: " + id + "\n" +
                "Nome: " + nome + "\n" +
                "Email: " + email + "\n" +
                "CNPJ: " + cnpj + "\n" +
                "Inscrição Estadual: " + inscricaoEstadual + "\n" +
-               "Telefone: (" + telefone.getDdd() + ") " + telefone.getNumero() + "\n" +
-               " --- Endereço de Entrega --- \n" + enderecoEntrega + "\n" +
-               " --- Endereço de Cobrança --- \n" + enderecoCobranca;
+               "Telefone: " + telefone + "\n" +
+               " --- Endereço de Entrega --- " + "\n" +
+               enderecoEntrega + "\n" +
+               " --- Endereço de Cobrança --- " + "\n" + 
+               enderecoCobranca;
     }
 
 

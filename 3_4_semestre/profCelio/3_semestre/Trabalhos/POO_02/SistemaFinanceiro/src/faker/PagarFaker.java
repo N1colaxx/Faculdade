@@ -2,15 +2,15 @@ package faker;
 
 import com.github.javafaker.Faker;
 import java.util.Locale;
-import model.ClienteModel;
-import model.ReceberModel;
+import model.FornecedorModel;
+import model.PagarModel;
 
-public class ReceberFaker {
+public class PagarFaker {
     
     private final Faker faker = new Faker(new Locale("pt-BR"));
-    private final ClienteFaker clienteFaker = new ClienteFaker();
+    private final FornecedorFaker fornecedorFaker = new FornecedorFaker();
 
-    public ReceberModel gerarRecebimentoFalso() {
+    public PagarModel gerarPagamentoFalso() {
         
         int id = faker.number().numberBetween(1, 10000);
         int numero = faker.number().numberBetween(1000, 9999);
@@ -25,12 +25,12 @@ public class ReceberFaker {
         
         double total = valor + juros + multa - desconto;
 
-        ClienteModel cliente = clienteFaker.gerarClienteFalso();
-        String notaFiscal = faker.number().digits(8);
+        FornecedorModel fornecedor = fornecedorFaker.gerarFornecedorFake();
+        String boleto = "34191." + faker.number().digits(5) + " " + faker.number().digits(5) + " " + faker.number().digits(5) + " " + faker.number().digits(1);
 
-        return new ReceberModel(
-            cliente,
-            notaFiscal,
+        return new PagarModel(
+            fornecedor,
+            boleto,
             id,
             numero,
             emissao,

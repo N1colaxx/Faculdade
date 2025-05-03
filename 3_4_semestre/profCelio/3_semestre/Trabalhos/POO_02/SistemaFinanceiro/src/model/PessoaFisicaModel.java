@@ -42,15 +42,14 @@ public abstract class PessoaFisicaModel extends PessoaModel {
     
     @Override
     public String toString() {
-        return "PessoaFisicaModel{" +
-                "cpf='" + cpf + '\'' +
-                ", rg='" + rg + '\'' +
-                ", emissor='" + emissor + '\'' +
-                ", id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", endereco=" + endereco +
-                ", telefone=" + telefone +
-                '}';
+        return
+                "CPF = " + cpf + "\n" +
+                "RG = " + rg + "\n" +
+                "Emissor = " + emissor + "\n" +
+                "ID = " + id + "\n" +
+                "Nome = " + nome + "\n" +
+                "Email = " + email + "\n" +
+                "Endereco = " + endereco + "\n" +
+                "Telefone = " + telefone;
     }
 }

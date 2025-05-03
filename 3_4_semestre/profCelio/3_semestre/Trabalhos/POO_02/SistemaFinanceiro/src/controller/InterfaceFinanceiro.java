@@ -9,11 +9,5 @@ public void Incluir();
 public void AlterarPorNumero(); 
 public void ConsultarPorNumero();
 public void ConsultarPorValor();
-public void ExcluirPorID(); 
+public void ExcluirPorID();     
 }
-
-
-//
-//5) Contas a Pagar; 
-//c. Consultar pelo CNPJ do Fornecedor 
-//f. Consultar pelo Boleto 

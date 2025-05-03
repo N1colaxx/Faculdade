@@ -76,14 +76,14 @@ public class EnderecoModel {
     
     @Override
     public String toString() {
-        return "Logradouro: " + logradouro + "\n" +
-                "Numero:1"
-                + " " + numero + "\n" +
-//          Se o complemento não for nulo nem vazio, adiciona ele entre parênteses.Caso contrário, não adiciona nada.
-            "Complemento: " + (complemento != null && !complemento.isEmpty() ? " (" + complemento + ")" : " Nenhum") + "\n" + 
-            "Bairro: " + bairro + "\n"  + 
-            "Cidade: " + cidade + " - " + estado + "\n" + 
-            "CEP: " + cep;
+        return
+               "Logradouro: " + logradouro + "\n" +
+               "Numero: "+ numero + "\n" +
+    //         Se o complemento não for nulo nem vazio, adiciona ele entre parênteses.Caso contrário, não adiciona nada.
+               "Complemento: " + (complemento != null && !complemento.isEmpty() ? " (" + complemento + ")" : " Nenhum") + "\n" + 
+               "Bairro: " + bairro + "\n"  + 
+               "Cidade: " + cidade + " - " + estado + "\n" + 
+               "CEP: " + cep;
     }
 
 

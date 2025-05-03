@@ -2,19 +2,22 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import model.FinanceiroModel;
 
 public class FinanceiroController implements InterfaceFinanceiro {
 
     private ArrayList<FinanceiroModel> financeiroList = new ArrayList<>();
     private Scanner scanner = new Scanner(System.in);
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Override
     public void Incluir() {
         System.out.println("");
     }
 
- 
     @Override
     public void AlterarPorNumero() {
         if (financeiroList.isEmpty()) {
@@ -28,14 +31,9 @@ public class FinanceiroController implements InterfaceFinanceiro {
                     System.out.print("Novo numero da conta: ");
                     financeiro.setNumero(Integer.parseInt(scanner.nextLine()));
 
-                    System.out.print("Nova data de emissao: ");
-                    financeiro.setEmissao(scanner.nextLine());
-
-                    System.out.print("Nova data de vencimento: ");
-                    financeiro.setVencimento(scanner.nextLine());
-
-                    System.out.print("Nova data de pagamento: ");
-                    financeiro.setPagamento(scanner.nextLine());
+                    financeiro.setEmissao(lerDataValida("Nova data de emissao (dd/MM/yyyy): "));
+                    financeiro.setVencimento(lerDataValida("Nova data de vencimento (dd/MM/yyyy): "));
+                    financeiro.setPagamento(lerDataValida("Nova data de pagamento (dd/MM/yyyy): "));
 
                     System.out.print("Novo valor: ");
                     financeiro.setValor(Double.parseDouble(scanner.nextLine()));
@@ -60,6 +58,20 @@ public class FinanceiroController implements InterfaceFinanceiro {
         }
     }
 
+    // Método para ler e validar datas
+    private String lerDataValida(String mensagem) {
+        while (true) {
+            try {
+                System.out.print(mensagem);
+                String dataStr = scanner.nextLine();
+                LocalDate.parse(dataStr, DATE_FORMATTER); // Valida o formato
+                return dataStr;
+            } catch (DateTimeParseException e) {
+                System.out.println("❌ Formato de data inválido. Use dd/MM/yyyy (ex: 31/12/2023)");
+            }
+        }
+    }
+    
     @Override
     public void ConsultarPorNumero() {
         if (financeiroList.isEmpty()) {

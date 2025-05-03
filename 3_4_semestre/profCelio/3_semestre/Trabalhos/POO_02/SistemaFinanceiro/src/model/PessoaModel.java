@@ -66,7 +66,7 @@ public abstract class PessoaModel {
                 " id = " + id +
                 " Nome = " + nome + '\'' +
                 " Email = " + email + '\'' +
-                " Endereco = " + endereco +
+                " Endereco " + endereco + "\n" +
                 " Telefone = " + telefone;
     }
     

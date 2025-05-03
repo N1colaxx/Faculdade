@@ -50,7 +50,7 @@ public class FuncionarioController implements InterfaceCadastro {
         System.out.print("Data de Admissão: ");
         funcionario.setDataAdmissao(scanner.nextLine());
 
-        System.out.print("Data de Demissão (ou deixe vazio se ainda ativo): ");
+        System.out.print("Data de Demissão: ");
         funcionario.setDataDemissao(scanner.nextLine());
 
         System.out.print("CTPS: ");
@@ -173,12 +173,12 @@ public class FuncionarioController implements InterfaceCadastro {
             System.out.println("\nEsta lista está VAZIA!!");
         } else {
             System.out.print("\nDigite o nome do funcionário que deseja buscar: ");
-            String nomeBusca = scanner.nextLine().toLowerCase(); // converte para minúsculas para busca flexível
+            String nomeBusca = scanner.nextLine().toLowerCase();
 
             boolean encontrado = false;
 
             for (FuncionarioModel funcionario : funcionarios) {
-                if (funcionario.getNome().toLowerCase().contains(nomeBusca)) {
+                if (funcionario.getNome().toLowerCase().equals(nomeBusca)) {
                     System.out.println("\nFuncionário encontrado:");
                     System.out.println("ID: " + funcionario.getId());
                     System.out.println("Nome: " + funcionario.getNome());
@@ -250,8 +250,6 @@ public class FuncionarioController implements InterfaceCadastro {
             }
         }
     }
-
-    
     
     
     public void adicionarFuncionario(FuncionarioModel funcionario) {
@@ -270,7 +268,7 @@ public class FuncionarioController implements InterfaceCadastro {
     
         // (Opcional) mostrar dados bonitinhos
     public void exibirDadosCliente(FuncionarioModel cliente) {
-        System.out.println("----- DADOS DO FUNCIONARIO -----");
+        System.out.println("\\n \\n----- DADOS DO FUNCIONARIO -----");
         System.out.println(cliente);  // Chama o toString() da classe ClienteModel
         System.out.println("----------------------------");
         }

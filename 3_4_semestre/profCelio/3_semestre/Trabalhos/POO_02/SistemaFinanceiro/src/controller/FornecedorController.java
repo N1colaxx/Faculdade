@@ -2,14 +2,29 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import model.EnderecoModel;
 import model.TelefoneModel;
 import model.FornecedorModel;
 
 public class FornecedorController implements InterfaceCadastro {
-
+    // Implementação do padrão Singleton
+    private static FornecedorController instancia;
+    
     private ArrayList<FornecedorModel> fornecedores = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
+
+    // Construtor privado
+    private FornecedorController() {}
+    
+    // Método para obter instância única
+    public static FornecedorController getInstancia() {
+        if (instancia == null) {
+            instancia = new FornecedorController();
+        }
+        return instancia;
+    }
 
     @Override
     public void incluir() {
@@ -68,7 +83,7 @@ public class FornecedorController implements InterfaceCadastro {
 
         System.out.println("Fornecedor cadastrado com sucesso!");
     }
-
+    
     @Override
     public void alterarID() {
         if (fornecedores.isEmpty()) {
@@ -101,11 +116,11 @@ public class FornecedorController implements InterfaceCadastro {
                     System.out.print("Nova Inscrição Estadual: ");
                     fornecedor.setInscricaoEstadual(scanner.nextLine());
 
-                    System.out.println("Cliente alterado com sucesso!");
+                    System.out.println("Fornecedor alterado com sucesso!");
                     return;
                 }
             }
-            System.out.println("Cliente com ID não encontrado.");
+            System.out.println("Fornecedor com ID não encontrado.");
         }
     }
 
@@ -122,6 +137,24 @@ public class FornecedorController implements InterfaceCadastro {
     }
     
     
+    @Override
+    public void excluir() {
+        if (fornecedores.isEmpty()) {
+            System.out.println("\nEsta lista está VAZIA!!");
+        } else {
+            int id = lerIdValido();
+            for (FornecedorModel fornecedor : fornecedores) {
+                if (fornecedor.getId() == id) {
+                    fornecedores.remove(fornecedor);
+                    System.out.println("Fornecedor removido com sucesso!");
+                    return;
+                }
+            }
+            System.out.println("Fornecedor com ID não encontrado.");
+        }
+    }
+    
+   
     public void consultarPorId() {
         if (fornecedores.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
@@ -133,10 +166,11 @@ public class FornecedorController implements InterfaceCadastro {
                     return;
                 }
             }
-            System.out.println("Cliente com ID não encontrado.");
+            System.out.println("Fornecedor com ID não encontrado.");
         }
     }
-
+   
+   
     public void consultarCNPJ() {
         if (fornecedores.isEmpty()) {
             System.out.println("\nEsta lista está VAZIA!!");
@@ -158,24 +192,109 @@ public class FornecedorController implements InterfaceCadastro {
     }
 
     
-    
-   @Override
-   public void excluir() {
-        if (fornecedores.isEmpty()) {
-            System.out.println("\nEsta lista está VAZIA!!");
-        } else {
-            int id = lerIdValido();
-            for (FornecedorModel fornecedor : fornecedores) {
-                if (fornecedor.getId() == id) {
-                    fornecedores.remove(fornecedor);
-                    System.out.println("Cliente removido com sucesso!");
-                    return;
-                }
-            }
-            System.out.println("Cliente com ID não encontrado.");
-        }
-    }
+    public FornecedorModel criarFornecedorCompleto() {
+        FornecedorModel fornecedor = new FornecedorModel();
 
+        System.out.print("Nome: ");
+        fornecedor.setNome(scanner.nextLine());
+        
+        System.out.println("Incluindo Endereço: ");
+        EnderecoController enderecoController = EnderecoController.getInstancia();
+        EnderecoModel endereco = enderecoController.entrar();
+        fornecedor.setEndereco(endereco);
+        
+        System.out.println("Telefone:");
+        TelefoneModel telefone = new TelefoneModel();
+        System.out.print("DDD: ");
+        telefone.setDdd(Integer.parseInt(scanner.nextLine()));
+        System.out.print("Número: ");
+        telefone.setNumero(Long.parseLong(scanner.nextLine()));
+        fornecedor.setTelefone(telefone);
+        
+        System.out.print("Email: ");
+        fornecedor.setEmail(scanner.nextLine());
+        
+        System.out.print("CNPJ: ");
+        fornecedor.setCnpj(scanner.nextLine());
+
+        System.out.print("Inscrição Estadual: ");
+        fornecedor.setInscricaoEstadual(scanner.nextLine());
+
+        System.out.print("Contato: ");
+        fornecedor.setContato(scanner.nextLine());
+        
+        System.out.print("Limite de Compra: ");
+        fornecedor.setLimiteCompra(Double.parseDouble(scanner.nextLine()));
+
+        System.out.print("Data de Cadastro: ");
+        fornecedor.setDataCadastro(scanner.nextLine());
+
+        System.out.print("Site: ");
+        fornecedor.setSite(scanner.nextLine());
+
+        fornecedor.setId(fornecedores.size() + 1);
+        
+        fornecedores.add(fornecedor);
+        System.out.println("✅ Fornecedor cadastrado com sucesso!");
+        
+        return fornecedor;
+    }
+    
+    
+    public FornecedorModel alterarFornecedor() {
+        if (fornecedores.isEmpty()) {
+            System.out.println("❌ Lista de fornecedores está vazia.");
+            return null;
+        }
+
+        int id = lerIdValido();
+        
+        for (FornecedorModel fornecedor : fornecedores) {
+            if (fornecedor.getId() == id) {
+                System.out.println("🔄 Alterando Fornecedor ID: " + id);
+                
+                System.out.print("Novo nome: ");
+                fornecedor.setNome(scanner.nextLine());
+                
+                System.out.print("Novo e-mail: ");
+                fornecedor.setEmail(scanner.nextLine());
+
+                System.out.println("\n--- ALTERAR ENDEREÇO DE ENTREGA ---");
+                EnderecoController enderecoController = EnderecoController.getInstancia();
+                EnderecoModel enderecoEntrega = enderecoController.entrar();
+                fornecedor.setEndereco(enderecoEntrega);
+                
+                System.out.println("Alterar telefone:");
+                TelefoneModel telefone = new TelefoneModel();
+                System.out.print("DDD: ");
+                telefone.setDdd(Integer.parseInt(scanner.nextLine()));
+                System.out.print("Número: ");
+                telefone.setNumero(Long.parseLong(scanner.nextLine()));
+                fornecedor.setTelefone(telefone);
+
+                System.out.print("Novo CNPJ: ");
+                fornecedor.setCnpj(scanner.nextLine());
+                
+                System.out.print("Nova Inscrição Estadual: ");
+                fornecedor.setInscricaoEstadual(scanner.nextLine());
+                
+                System.out.print("Novo Contato: ");
+                fornecedor.setContato(scanner.nextLine());
+                
+                System.out.print("Novo Limite de Compra: ");
+                fornecedor.setLimiteCompra(Double.parseDouble(scanner.nextLine()));
+                
+                System.out.print("Novo Site: ");
+                fornecedor.setSite(scanner.nextLine());
+
+                System.out.println("✅ Fornecedor alterado com sucesso!");
+                return fornecedor;
+            }
+        }
+        
+        System.out.println("❌ Fornecedor com ID não encontrado.");
+        return null;
+    }
 
     
 
@@ -228,9 +347,9 @@ public class FornecedorController implements InterfaceCadastro {
     }
     
     
-    public void exibirDadosCliente(FornecedorModel cliente) {
-        System.out.println("----- DADOS DO FORNECEDOR -----");
-        System.out.println(cliente);  // Chama o toString() da classe ClienteModel
-        System.out.println("----------------------------");
-        }
+    public void exibirDadosFornecedor(FornecedorModel fornecedor) {
+        System.out.println("\n \n----- DADOS DO FORNECEDOR -----");
+        System.out.println(fornecedor);  
+        System.out.println("----------------------------\n \n");
+    }
 }

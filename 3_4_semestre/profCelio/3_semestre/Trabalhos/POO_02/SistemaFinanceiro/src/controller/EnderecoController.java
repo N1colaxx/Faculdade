@@ -42,7 +42,7 @@ public class EnderecoController {
         System.out.print("Estado: ");
         endereco.setEstado(scanner.nextLine());
         
-        System.out.println("CEP: ");
+        System.out.print("CEP: ");
         endereco.setCep(scanner.nextInt());
         
         return endereco;

@@ -2,74 +2,79 @@ package view;
 import faker.ClienteFaker;
 import faker.FornecedorFaker;
 import faker.FuncionarioFaker;
-//import faker.ReceberFaker;
+import faker.ReceberFaker;
+import faker.PagarFaker;
 
 import controller.FuncionarioController;
 import controller.ClienteController;
 import controller.FornecedorController;
 import controller.ReceberController;
-//import controller.ContasPagarController;
-//import controller.FluxoCaixaController;
+import controller.PagarController;
+import controller.FluxoCaixaController;
 import java.util.Scanner;
-
 
 public class Menu {
 
     private final Scanner scanner = new Scanner(System.in);
     private final FuncionarioController funcionario = new FuncionarioController();
     private final ClienteController cliente =  ClienteController.getInstancia();
-    private final FornecedorController fornecedor = new FornecedorController();
+    private final FornecedorController fornecedor =  FornecedorController.getInstancia();
     private final ReceberController contasReceber = ReceberController.getInstancia();
-//    private final ContasPagarController contasPagar = new ContasPagarController();
-//    private final FluxoCaixaController fluxoCaixa = new FluxoCaixaController();
+    private final PagarController contasPagar = PagarController.getInstancia();
 
     private boolean clientesFakeJaGerados = false;
     private boolean funcionariosFakeJaGerados = false;
     private boolean fornecedoresFakeJaGerados = false;
-//    private boolean receberFakeJaGerados = false;
+    private boolean receberFakeJaGerados = false;
+    private boolean pagarFakerGerados = false;
+    
 
     public void exibirMenuPrincipal() {
         gerarDadosFakerAutomaticamente();
         
-        int opcao;
+        String opcao;
+        boolean sair = false;
         do {
             System.out.println("\n====== MENU PRINCIPAL ======");
-            System.out.println("1) Cadastro de Funcionários");
-            System.out.println("2) Cadastro de Clientes");
-            System.out.println("3) Cadastro de Fornecedores");
-            System.out.println("4) Contas a Receber");
-            System.out.println("5) Contas a Pagar");
-            System.out.println("6) Fluxo de Caixa");
-            System.out.println("7) Sair");
+            System.out.println("1. Cadastro de Funcionários");
+            System.out.println("2. Cadastro de Clientes");
+            System.out.println("3. Cadastro de Fornecedores");
+            System.out.println("4. Contas a Receber");
+            System.out.println("5. Contas a Pagar");
+            System.out.println("6. Fluxo de Caixa");
+            System.out.println("7. Sair");
             System.out.print("Escolha uma opção: ");
-            opcao = Integer.parseInt(scanner.nextLine());
+            opcao = scanner.nextLine().trim();
 
-            switch (opcao) {
-                case 1:
-                    menuFuncionario();
-                    break;
-                case 2:
-                    menuCliente();
-                    break;
-                case 3:
-                    menuFornecedor();
-                    break;
-                case 4:
-                    menuContasReceber();
-                    break;
-                case 5:
-//                    menuContasPagar();
-                    break;
-                case 6:
-//                    menuFluxoCaixa();
-                    break;
-                case 7:
-                    System.out.println("Encerrando o sistema.");
-                    break;
-                default:
-                    System.out.println("Opção inválida!");
+            if (validarOpcaoNumerica(opcao, 1, 7)) {
+                switch (Integer.parseInt(opcao)) {
+                    case 1:
+                        menuFuncionario();
+                        break;
+                    case 2:
+                        menuCliente();
+                        break;
+                    case 3:
+                        menuFornecedor();
+                        break;
+                    case 4:
+                        menuContasReceber();
+                        break;
+                    case 5:
+                        menuContasPagar();
+                        break;
+                    case 6:
+                        FluxoCaixaController.getInstancia().mostrarFluxoCaixa();
+                        break;
+                    case 7:
+                        System.out.println("Encerrando o sistema.");
+                        sair = true;
+                        break;
+                }
+            } else {
+                System.out.println("ERRO: Opção inválida! Por favor, digite um número entre 1 e 7.");
             }
-        } while (opcao != 7);
+        } while (!sair);
     }
 
     public void gerarDadosFakerAutomaticamente() {
@@ -100,237 +105,295 @@ public class Menu {
             }
             fornecedoresFakeJaGerados = true;
             System.out.println(qtdPadrao + " fornecedores fake gerados automaticamente.");
+            
+            
         }
         
-//        if(!receberFakeJaGerados){
-//            ReceberFaker faker = new ReceberFaker();
-//            for (int i = 0; i < qtdPadrao; i++){
-//                contasReceber.adicionarFake(faker.gerarRecebimentoFalso());
-//            }
-//            receberFakeJaGerados = true;
-//            System.out.println(qtdPadrao + " contas a receber FAKE gerados automaticamente ");
-//        }
+        if(!receberFakeJaGerados){
+            ReceberFaker faker = new ReceberFaker();
+            for (int i = 0; i < qtdPadrao; i++){
+                contasReceber.adicionarFake(faker.gerarRecebimentoFalso());
+            }
+            receberFakeJaGerados = true;
+            System.out.println(qtdPadrao + " contas a receber FAKE gerados automaticamente ");
+        }
+        
+        if(!pagarFakerGerados){
+            PagarFaker Faker = new PagarFaker();
+            for (int i = 0; i < qtdPadrao; i++){
+                contasPagar.adicionarFake(Faker.gerarPagamentoFalso());
+            }
+            pagarFakerGerados = true;
+            System.out.println(qtdPadrao + " contas a pagar FAKE gerados automaticamente ");
+        }
     }
 
     private void menuCliente() {
-        int opcao;
+        String opcao;
+        boolean voltar = false;
         do {
             System.out.println("\n--- Cadastro de Clientes ---");
-            System.out.println("1) Incluir");
-            System.out.println("2) Alterar pelo ID");
-            System.out.println("3) Consultar pela posição na Lista");
-            System.out.println("4) Consultar pelo ID");
-            System.out.println("5) Consultar pelo CNPJ");
-            System.out.println("6) Excluir pelo ID");
-            System.out.println("7) Voltar ao menu principal");
+            System.out.println("a. Incluir");
+            System.out.println("b. Alterar pelo ID");
+            System.out.println("c. Consultar pela posição na Lista");
+            System.out.println("d. Consultar pelo ID");
+            System.out.println("e. Consultar pelo CNPJ");
+            System.out.println("f. Excluir pelo ID");
+            System.out.println("g. Voltar ao menu principal");
             System.out.print("Escolha uma opção: ");
-            opcao = Integer.parseInt(scanner.nextLine());
-            switch (opcao) {
-                case 1:
-                    cliente.incluir();
-                    break;
-                case 2:
-                    cliente.alterarID();
-                    break;
-                case 3:
-                    cliente.ConsultarPosicaoLista();
-                    break;
-                case 4:
-                    cliente.consultarPorId();
-                    break;
-                case 5:
-                    cliente.consultarCNPJ();
-                    break;
-                case 6:
-                    cliente.excluir();
-                    break;
-                case 7:
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
+            opcao = scanner.nextLine().trim().toLowerCase();
+
+            if (validarOpcaoAlfabetica(opcao, 'a', 'g')) {
+                switch (opcao) {
+                    case "a":
+                        cliente.incluir();
+                        break;
+                    case "b":
+                        cliente.alterarID();
+                        break;
+                    case "c":
+                        cliente.ConsultarPosicaoLista();
+                        break;
+                    case "d":
+                        cliente.consultarPorId();
+                        break;
+                    case "e":
+                        cliente.consultarCNPJ();
+                        break;
+                    case "f":
+                        cliente.excluir();
+                        break;
+                    case "g":
+                        voltar = true;
+                        break;
+                }
+            } else {
+                System.out.println("ERRO: Opção inválida! Por favor, digite uma letra entre 'a' e 'g'.");
             }
-        } while (opcao != 7);
+        } while (!voltar);
     }
 
     private void menuFuncionario() {
-        int opcao;
+        String opcao;
+        boolean voltar = false;
         do {
             System.out.println("\n--- Cadastro de Funcionarios ---");
-            System.out.println("1) Incluir");
-            System.out.println("2) Alterar pelo ID");
-            System.out.println("3) Consultar pela posição na Lista");
-            System.out.println("4) Consultar por CPF");
-            System.out.println("5) Consultar por Nome");
-            System.out.println("6) Excluir pelo ID");
-            System.out.println("7) Voltar ao menu principal");
+            System.out.println("a. Incluir");
+            System.out.println("b. Alterar pelo ID");
+            System.out.println("c. Consultar pela posição na Lista");
+            System.out.println("d. Consultar por CPF");
+            System.out.println("e. Consultar por Nome");
+            System.out.println("f. Excluir pelo ID");
+            System.out.println("g. Voltar ao menu principal");
             System.out.print("Escolha uma opção: ");
-            opcao = Integer.parseInt(scanner.nextLine());
+            opcao = scanner.nextLine().trim().toLowerCase();
 
-            switch (opcao) {
-                case 1:
-                    funcionario.incluir();
-                    break;
-                case 2:
-                    funcionario.alterarID();
-                    break;
-                case 3:
-                    funcionario.ConsultarPosicaoLista();
-                    break;
-                case 4:
-                    funcionario.consultarCPF();
-                    break;
-                case 5:
-                    funcionario.consultarPorNome();
-                    break;
-                case 6:
-                    funcionario.excluir();
-                    break;
-                case 7:
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
+            if (validarOpcaoAlfabetica(opcao, 'a', 'g')) {
+                switch (opcao) {
+                    case "a":
+                        funcionario.incluir();
+                        break;
+                    case "b":
+                        funcionario.alterarID();
+                        break;
+                    case "c":
+                        funcionario.ConsultarPosicaoLista();
+                        break;
+                    case "d":
+                        funcionario.consultarCPF();
+                        break;
+                    case "e":
+                        funcionario.consultarPorNome();
+                        break;
+                    case "f":
+                        funcionario.excluir();
+                        break;
+                    case "g":
+                        voltar = true;
+                        break;
+                }
+            } else {
+                System.out.println("ERRO: Opção inválida! Por favor, digite uma letra entre 'a' e 'g'.");
             }
-        } while (opcao != 7);
+        } while (!voltar);
     }
 
     private void menuFornecedor() {
-        int opcao;
+        String opcao;
+        boolean voltar = false;
         do {
             System.out.println("\n--- Cadastro de Fornecedores ---");
-            System.out.println("1) Incluir");
-            System.out.println("2) Alterar pelo ID");
-            System.out.println("3) Consultar pela posição na Lista");
-            System.out.println("4) Consultar pelo ID");
-            System.out.println("5) Consultar pelo CNPJ");
-            System.out.println("6) Excluir pelo ID");
-            System.out.println("7) Voltar ao menu principal");
+            System.out.println("a. Incluir");
+            System.out.println("b. Alterar pelo ID");
+            System.out.println("c. Consultar pela posição na Lista");
+            System.out.println("d. Consultar pelo ID");
+            System.out.println("e. Consultar pelo CNPJ");
+            System.out.println("f. Excluir pelo ID");
+            System.out.println("g. Voltar ao menu principal");
             System.out.print("Escolha uma opção: ");
-            opcao = Integer.parseInt(scanner.nextLine());
-            switch (opcao) {
-                case 1:
-                    fornecedor.incluir();
-                    break;
-                case 2:
-                    fornecedor.alterarID();
-                    break;
-                case 3:
-                    fornecedor.ConsultarPosicaoLista();
-                    break;
-                case 4:
-                    fornecedor.consultarPorId();
-                    break;
-                case 5:
-                    fornecedor.consultarCNPJ();
-                    break;
-                case 6:
-                    fornecedor.excluir();
-                    break;
-                case 7:
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
+            opcao = scanner.nextLine().trim().toLowerCase();
+
+            if (validarOpcaoAlfabetica(opcao, 'a', 'g')) {
+                switch (opcao) {
+                    case "a":
+                        fornecedor.incluir();
+                        break;
+                    case "b":
+                        fornecedor.alterarID();
+                        break;
+                    case "c":
+                        fornecedor.ConsultarPosicaoLista();
+                        break;
+                    case "d":
+                        fornecedor.consultarPorId();
+                        break;
+                    case "e":
+                        fornecedor.consultarCNPJ();
+                        break;
+                    case "f":
+                        fornecedor.excluir();
+                        break;
+                    case "g":
+                        voltar = true;
+                        break;
+                }
+            } else {
+                System.out.println("ERRO: Opção inválida! Por favor, digite uma letra entre 'a' e 'g'.");
             }
-        } while (opcao != 7);
+        } while (!voltar);
     }
 
     private void menuContasReceber() {
-        int opcao;
+        String opcao;
+        boolean voltar = false;
         do {
             System.out.println("\n\n--- Cadastro de Contas a Receber ---");
-            System.out.println("1) Incluir");
-            System.out.println("2) Alterar pelo número");
-            System.out.println("3) Consultar pelo Nome do Cliente");
-            System.out.println("4) Consultar pelo Número");
-            System.out.println("5) Consultar pelo Valor");
-            System.out.println("6) Consultar pela Nota Fiscal");
-            System.out.println("7) Excluir pelo ID");
-            System.out.println("8) Voltar ao menu principal");
+            System.out.println("a. Incluir");
+            System.out.println("b. Alterar pelo número");
+            System.out.println("c. Consultar pelo Nome do Cliente");
+            System.out.println("d. Consultar pelo Número");
+            System.out.println("e. Consultar pelo Valor");
+            System.out.println("f. Consultar pela Nota Fiscal");
+            System.out.println("g. Excluir pelo ID");
+            System.out.println("h. Voltar ao menu principal");
             System.out.print("Escolha uma opção: ");
-            opcao = Integer.parseInt(scanner.nextLine());
-            switch (opcao) {
-                case 1:
-                    contasReceber.Incluir();
-                    break;
-                case 2:
-                    contasReceber.AlterarPorNumero();
-                    break;
-                case 3:
-                    contasReceber.ConsultarPorNomeCliente();
-                    break;
-                case 4:
-                    contasReceber.ConsultarPorNumero();
-                    break;
-                case 5:
-                    contasReceber.ConsultarPorValor();
-                    break;
-                case 6:
-                    contasReceber.ConsultarPorNotaFiscal();
-                    break;
-                case 7:
-                    contasReceber.ExcluirPorID();
-                    break;
-                case 8:
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 8);
-    }
-//
-//    private void menuContasPagar() {
-//        int opcao;
-//        do {
-//            System.out.println("\n--- Contas a Pagar ---");
-//            System.out.println("1) Incluir");
-//            System.out.println("2) Alterar pelo número");
-//            System.out.println("3) Consultar pelo CNPJ do Fornecedor");
-//            System.out.println("4) Consultar pelo Número");
-//            System.out.println("5) Consultar pelo Valor");
-//            System.out.println("6) Consultar pelo Boleto");
-//            System.out.println("7) Excluir pelo ID");
-//            System.out.println("8) Voltar ao menu principal");
-//            System.out.print("Escolha uma opção: ");
-//            opcao = Integer.parseInt(scanner.nextLine());
-//            switch (opcao) {
-//                case 1:
-//                    contasPagar.incluir();
-//                    break;
-//                case 2:
-//                    contasPagar.alterarPorNumero();
-//                    break;
-//                case 3:
-//                    contasPagar.consultarPorCNPJFornecedor();
-//                    break;
-//                case 4:
-//                    contasPagar.consultarPorNumero();
-//                    break;
-//                case 5:
-//                    contasPagar.consultarPorValor();
-//                    break;
-//                case 6:
-//                    contasPagar.consultarPorBoleto();
-//                    break;
-//                case 7:
-//                    contasPagar.excluir();
-//                    break;
-//                case 8:
-//                    break;
-//                default:
-//                    System.out.println("Opção inválida.");
-//            }
-//        } while (opcao != 8);
-//    }
-//
-//    private void menuFluxoCaixa() {
-//        System.out.println("\n--- Fluxo de Caixa ---");
-//        System.out.println("Gerando relatório de fluxo de caixa...");
-//        
-//        fluxoCaixa.gerarRelatorio();
-//        
-//        System.out.println("\nPressione ENTER para voltar ao menu principal");
-//        scanner.nextLine();
-//    }
+            opcao = scanner.nextLine().trim().toLowerCase();
 
+            if (validarOpcaoAlfabetica(opcao, 'a', 'h')) {
+                switch (opcao) {
+                    case "a":
+                        contasReceber.Incluir();
+                        break;
+                    case "b":
+                        contasReceber.AlterarPorNumero();
+                        break;
+                    case "c":
+                        contasReceber.ConsultarPorNomeCliente();
+                        break;
+                    case "d":
+                        contasReceber.ConsultarPorNumero();
+                        break;
+                    case "e":
+                        contasReceber.ConsultarPorValor();
+                        break;
+                    case "f":
+                        contasReceber.ConsultarPorNotaFiscal();
+                        break;
+                    case "g":
+                        contasReceber.ExcluirPorID();
+                        break;
+                    case "h":
+                        voltar = true;
+                        break;
+                }
+            } else {
+                System.out.println("ERRO: Opção inválida! Por favor, digite uma letra entre 'a' e 'h'.");
+            }
+        } while (!voltar);
+    }
+
+    private void menuContasPagar() {
+        String opcao;
+        boolean voltar = false;
+        do {
+            System.out.println("\n--- Contas a Pagar ---");
+            System.out.println("a. Incluir");
+            System.out.println("b. Alterar pelo número");
+            System.out.println("c. Consultar pelo CNPJ do Fornecedor");
+            System.out.println("d. Consultar pelo Número");
+            System.out.println("e. Consultar pelo Valor");
+            System.out.println("f. Consultar pelo Boleto");
+            System.out.println("g. Excluir pelo ID");
+            System.out.println("h. Voltar ao menu principal");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextLine().trim().toLowerCase();
+
+            if (validarOpcaoAlfabetica(opcao, 'a', 'h')) {
+                switch (opcao) {
+                    case "a":
+                        contasPagar.Incluir();
+                        break;
+                    case "b":
+                        contasPagar.AlterarPorNumero();
+                        break;
+                    case "c":
+                        contasPagar.ConsultarPorCNPJ();
+                        break;
+                    case "d":
+                        contasPagar.ConsultarPorNumero();
+                        break;
+                    case "e":
+                        contasPagar.ConsultarPorValor();
+                        break;
+                    case "f":
+                        contasPagar.ConsultarPorBoleto();
+                        break;
+                    case "g":
+                        contasPagar.ExcluirPorID();
+                        break;
+                    case "h":
+                        voltar = true;
+                        break;
+                }
+            } else {
+                System.out.println("ERRO: Opção inválida! Por favor, digite uma letra entre 'a' e 'h'.");
+            }
+        } while (!voltar);
+    }
+
+   
+
+    /**
+     * Valida se a entrada é um número dentro do intervalo especificado
+     * @param opcao A string a ser validada
+     * @param min O valor mínimo aceitável
+     * @param max O valor máximo aceitável
+     * @return true se for um número válido dentro do intervalo, false caso contrário
+     */
+    private boolean validarOpcaoNumerica(String opcao, int min, int max) {
+        try {
+            int valor = Integer.parseInt(opcao);
+            return valor >= min && valor <= max;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Valida se a entrada é uma letra dentro do intervalo especificado
+     * @param opcao A string a ser validada
+     * @param min A letra mínima aceitável
+     * @param max A letra máxima aceitável
+     * @return true se for uma letra válida dentro do intervalo, false caso contrário
+     */
+    private boolean validarOpcaoAlfabetica(String opcao, char min, char max) {
+        if (opcao.length() != 1) {
+            return false;
+        }
+        
+        char letra = opcao.charAt(0);
+        return letra >= min && letra <= max;
+    }
 
     public static void main(String[] args) {
         Menu menu = new Menu();
