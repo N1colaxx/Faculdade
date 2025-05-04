@@ -37,7 +37,7 @@ public class ClienteModel extends PessoaJuridicaModel {
         String enderecoEntrega = endereco != null ? endereco.toString() : "Endereço de entrega não cadastrado";
         String enderecoCobranca = this.enderecoCobranca != null ? this.enderecoCobranca.toString() : "Endereço de cobrança não cadastrado"; // Usando "this" para evitar conflito de nome
 
-        return 
+        return "\n" + "\n" +
                " --- INFO CLIENTE --- " + "\n" +
                "ID: " + id + "\n" +
                "Nome: " + nome + "\n" +

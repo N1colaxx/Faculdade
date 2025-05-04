@@ -41,7 +41,7 @@ public class ReceberController implements InterfaceFinanceiro {
         novo.setJuros(lerDouble("Juros: "));
         novo.setMulta(lerDouble("Multa: "));
         novo.setDesconto(lerDouble("Desconto: "));
-        novo.setTotal(calcularTotal(novo.getValor(), novo.getJuros(), novo.getMulta(), novo.getDesconto()));
+        novo.setTotal(calcularTotal(novo.getValor(), novo.getJuros(), novo.getDesconto()));
 
         // Usando o singleton do ClienteController
         ClienteModel cliente = ClienteController.getInstancia().criarClienteCompleto();
@@ -75,7 +75,7 @@ public class ReceberController implements InterfaceFinanceiro {
                 r.setJuros(lerDouble("Novo juros: "));
                 r.setMulta(lerDouble("Novo multa: "));
                 r.setDesconto(lerDouble("Novo desconto: "));
-                r.setTotal(calcularTotal(r.getValor(), r.getJuros(), r.getMulta(), r.getDesconto()));
+                r.setTotal(calcularTotal(r.getValor(), r.getJuros(), r.getDesconto()));
 
                 // Usando o singleton do ClienteController
                 ClienteModel clienteAlterado = ClienteController.getInstancia().alterarCliente();
@@ -238,8 +238,8 @@ public class ReceberController implements InterfaceFinanceiro {
         return entrada;
     }
 
-    private double calcularTotal(double valor, double juros, double multa, double desconto) {
-        return valor + juros + multa - desconto;
+    private double calcularTotal(double valor, double juros, double desconto) {
+        return (valor + juros)  - desconto;
     }
 
     private void exibirDadosRecebimento(ReceberModel r) {

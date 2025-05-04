@@ -45,7 +45,7 @@ public class ReceberModel extends FinanceiroModel {
     
     @Override
     public String toString() {
-        return 
+        return "\n" + "\n" +
                " ----- INFO CONTAS A RECEBER  ----- " + "\n" +
                super.toString() + "\n" +
                "Nota Fiscal: " + notaFiscal +

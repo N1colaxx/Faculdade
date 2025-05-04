@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
     
     private LocalDate data;            // Data da movimentação
-    private String tipo;               // Tipo: "Receita" ou "Despesa"
+    private String tipo;               // Tipo: "Debito" ou "Credito"
     private String descricao;          // Descrição básica da movimentação
     private String descricaoDetalhada; // Descrição que inclui IDs e outros detalhes
     private double valor;              // Valor: positivo para receitas, negativo para despesas
@@ -32,14 +32,15 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
         this.cnpjOrigem = cnpjOrigem;
     }
     
-    // Construtor baseado em PagarModel (despesa)
+    
+    // Construtor baseado em PagarModel (Credito)
     public FluxoCaixaModel(PagarModel pagar) {
         try {
-            this.data = parseData(pagar.getPagamento());
+            this.data = parseData(pagar.getVencimento());
         } catch (DateTimeParseException e) {
-            // Se a data de pagamento não for válida, usar a data de vencimento
+            // Se a data de Vencimento não for válida, retorna data Pagamento
             try {
-                this.data = parseData(pagar.getVencimento());
+                this.data = parseData(pagar.getPagamento());
             } catch (DateTimeParseException ex) {
                 this.data = LocalDate.now(); // Falha segura
             }
@@ -55,19 +56,19 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
             this.descricao = "Pagamento de conta #" + pagar.getNumero();
         }
         
-        this.valor = -pagar.getTotal(); // Valor negativo para despesas
+        this.valor = -pagar.getValor(); // Valor negativo para despesas
         this.origem = "Conta a Pagar";
         this.cnpjOrigem = pagar.getCnpj();
     }
     
-    // Construtor baseado em ReceberModel (receita)
+    // Construtor baseado em ReceberModel (Debito)
     public FluxoCaixaModel(ReceberModel receber) {
         try {
-            this.data = parseData(receber.getPagamento());
+            this.data = parseData(receber.getVencimento());
         } catch (DateTimeParseException e) {
-            // Se a data de pagamento não for válida, usar a data de vencimento
+            // Se a data de Vencimento não for válida, retorna data Pagamento
             try {
-                this.data = parseData(receber.getVencimento());
+                this.data = parseData(receber.getPagamento());
             } catch (DateTimeParseException ex) {
                 this.data = LocalDate.now(); // Falha segura
             }
@@ -83,7 +84,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
             this.descricao = "Recebimento de conta #" + receber.getNumero();
         }
         
-        this.valor = receber.getTotal(); // Valor positivo para receitas
+        this.valor = receber.getValor(); // Valor positivo para receitas
         this.origem = "Conta a Receber";
         this.cnpjOrigem= receber.getCnpj();
     }
@@ -155,7 +156,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
     
     public void setDescricaoDetalhada(String descricaoDetalhada) {
         this.descricaoDetalhada = descricaoDetalhada;
-    }
+    }    
     
     public double getValor() {
         return valor;
@@ -181,7 +182,7 @@ public class FluxoCaixaModel implements Comparable<FluxoCaixaModel> {
         this.cnpjOrigem = cnpjOrigem;
     }
     
-    // Adicione este método ao FluxoCaixaModel
+    
     public String getDataFormatada() {
         return this.data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }

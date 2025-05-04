@@ -71,52 +71,41 @@ public class FluxoCaixaController {
         exibirTabela(fluxoCaixa);
     }
     
-private void exibirTabela(ArrayList<FluxoCaixaModel> fluxoCaixa) {
-    if (fluxoCaixa.isEmpty()) {
-        System.out.println("❌ Nenhum registro encontrado.");
-        return;
-    }
-
-    System.out.println("\n" + "=".repeat(110));
-    System.out.printf("%-12s | %-12s | %-30s | %10s | %-15s | %-5s\n",
-            "DATA", "TIPO", "DESCRIÇÃO", "VALOR", "ORIGEM", "CNPJ");
-    System.out.println("-".repeat(110));
-
-    double saldoFinal = 0.00;
-
-    for (FluxoCaixaModel item : fluxoCaixa) {
-        String descricao = item.getDescricaoDetalhada() != null ? 
-                         item.getDescricaoDetalhada() : item.getDescricao();
-
-        // Evitar divisão da descrição por vírgula
-        if (!descricao.contains(",")) {
-            // Exibe a descrição completa sem divisão
-            System.out.printf("%-12s | %-12s | %-50s | %10.2f | %-15s | %-14s\n",
-                    item.getDataFormatada(),
-                    item.getTipo(),
-                    encurtarDescricao(descricao, 50),
-                    item.getValor(),
-                    item.getOrigem(),
-                    item.getCnpjOrigem());  // Alteração aqui: substituímos ID por CNPJ
-        } else {
-            // Exibe a descrição completa
-            System.out.printf("%-12s | %-12s | %-50s | %10.2f | %-15s | %-14s\n",
-                    item.getDataFormatada(),
-                    item.getTipo(),
-                    descricao,  // Mantemos a descrição inteira
-                    item.getValor(),
-                    item.getOrigem(),
-                    item.getCnpjOrigem());  // Alteração aqui: substituímos ID por CNPJ
+    private void exibirTabela(ArrayList<FluxoCaixaModel> fluxoCaixa) {
+        if (fluxoCaixa.isEmpty()) {
+            System.out.println("❌ Nenhum registro encontrado.");
+            return;
         }
 
-        saldoFinal += item.getValor();
-    }
+        System.out.println("\n" + "=".repeat(110));
+        System.out.printf("%-12s | %-12s | %-30s | %10s | %-15s | %-5s\n",
+                "DATA", "TIPO", "DESCRIÇÃO", "Valor", "ORIGEM", "CNPJ");
+        System.out.println("-".repeat(110));
 
-    System.out.println("-".repeat(110));
-    System.out.printf("%-78s | %10.2f | %-15s | %5s\n",
-            "SALDO FINAL", saldoFinal, "", "");
-    System.out.println("=".repeat(110) + "\n");
-}
+        double saldoFinal = 0.00;
+
+        for (FluxoCaixaModel item : fluxoCaixa) {
+            String descricao = item.getDescricaoDetalhada() != null ? 
+                             item.getDescricaoDetalhada() : item.getDescricao();
+
+                // Exibe a descrição completa
+                System.out.printf("%-12s | %-12s | %-50s | %10.2f | %-15s | %-14s\n",
+                        item.getDataFormatada(),
+                        item.getTipo(),
+                        descricao,  // Mantemos a descrição inteira
+                        item.getValor(),
+                        item.getOrigem(),
+                        item.getCnpjOrigem());  // Alteração aqui: substituímos ID por CNPJ
+
+
+            saldoFinal += item.getValor();
+        }
+
+        System.out.println("-".repeat(110));
+        System.out.printf("%-78s | %10.2f | %-15s | %5s\n",
+                "SALDO FINAL", saldoFinal, "", "");
+        System.out.println("=".repeat(110) + "\n");
+    }
 
 
 

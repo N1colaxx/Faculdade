@@ -44,11 +44,10 @@ public class PagarModel extends FinanceiroModel {
     
     @Override
     public String toString() {
-        return 
+        return  "\n" + "\n" +
                 " ----- INFO CONTAS A PAGAR ----- " + "\n" +
                 super.toString() + "\n" +
                 "Boleto: " + boleto + "\n" +
-                " -- INFO FORNECEDOR --" + "\n" +
                (fornecedor != null ? fornecedor.toString() : "Nenhum");
     }
 

@@ -42,7 +42,7 @@ public class PagarController implements InterfaceFinanceiro {
         novo.setJuros(lerDouble("Juros: "));
         novo.setMulta(lerDouble("Multa: "));
         novo.setDesconto(lerDouble("Desconto: "));
-        novo.setTotal(calcularTotal(novo.getValor(), novo.getJuros(), novo.getMulta(), novo.getDesconto()));
+        novo.setTotal(calcularTotal(novo.getValor(), novo.getJuros(), novo.getDesconto()));
 
         // Usando o FornecedorController para criar um fornecedor
         System.out.println("Incluindo Fornecedor: ");
@@ -77,7 +77,7 @@ public class PagarController implements InterfaceFinanceiro {
                 p.setJuros(lerDouble("Novo juros: "));
                 p.setMulta(lerDouble("Nova multa: "));
                 p.setDesconto(lerDouble("Novo desconto: "));
-                p.setTotal(calcularTotal(p.getValor(), p.getJuros(), p.getMulta(), p.getDesconto()));
+                p.setTotal(calcularTotal(p.getValor(), p.getJuros(), p.getDesconto()));
 
                 // Alterando o fornecedor usando FornecedorController
                 System.out.println("Alteração dos dados do Fornecedor:");
@@ -250,12 +250,11 @@ public class PagarController implements InterfaceFinanceiro {
         return entrada;
     }
 
-    private double calcularTotal(double valor, double juros, double multa, double desconto) {
-        return valor + juros + multa - desconto;
+    private double calcularTotal(double valor, double juros, double desconto) {
+        return (valor + juros) - desconto;
     }
 
     private void exibirDadosPagamento(PagarModel p) {
-        System.out.println("\n \n----- DADOS DA CONTA A PAGAR -----");
         System.out.println(p);
         System.out.println("----------------------------\n \n");
 
