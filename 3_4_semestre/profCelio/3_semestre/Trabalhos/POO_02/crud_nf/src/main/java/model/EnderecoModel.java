@@ -2,7 +2,12 @@ package model;
 
 public class EnderecoModel {
 
-    private String logradouro, numero, bairro, cidade, estado, cep;
+    private String logradouro, numero, bairro, cidade, estado;
+    private String cep;
+
+    public EnderecoModel() {
+
+    }
 
     public EnderecoModel(String logradouro, String numero, String bairro, String cidade, String estado, String cep) {
         this.logradouro = logradouro;
@@ -62,18 +67,15 @@ public class EnderecoModel {
     public void setCep(String cep) {
         this.cep = cep;
     }
-    
-    
+
     @Override
     public String toString() {
-        return 
-               "logradouro = " + logradouro + "\n" +
-               "| numero = " + numero + "\n" +
-               "| bairro = " + bairro + "\n" +
-               "| cidade = " + cidade + "\n" +
-               "| estado = " + estado + "\n" +
-               "| cep = " + cep;
+        return "logradouro = " + logradouro + "\n"
+                + "| numero = " + numero + "\n"
+                + "| bairro = " + bairro + "\n"
+                + "| cidade = " + cidade + "\n"
+                + "| estado = " + estado + "\n"
+                + "| cep = " + cep;
     }
-
 
 }

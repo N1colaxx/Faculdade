@@ -18,13 +18,13 @@ public class NotaFiscalFaker {
             gerarEnderecoFake()
         );
 
-        Remetente remetente = new Remetente(
+        RemetenteModel remetente = new RemetenteModel(
             faker.company().name(),
             faker.number().digits(14),
             gerarEnderecoFake()
         );
 
-        Destinatario destinatario = new Destinatario(
+        DestinatarioModel destinatario = new DestinatarioModel(
             faker.name().fullName(),
             faker.number().digits(11),
             gerarEnderecoFake()

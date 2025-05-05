@@ -8,9 +8,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class NotaFiscalDAO {
-
+    
+    private static NotaFiscalDAO instancia;
     private final List<NotaFiscalModel> notas = new ArrayList<>();
 
+    private NotaFiscalDAO(){
+    // Construtor privado para garantir o padrão Singleton
+    }
+
+    public static NotaFiscalDAO getInstancia(){
+        if (instancia == null) {
+            instancia = new NotaFiscalDAO();
+        }
+        return instancia;
+    }
+    
     public void adicionar(NotaFiscalModel nota) {
         notas.add(nota);
     }
@@ -55,6 +67,17 @@ public class NotaFiscalDAO {
     public List<NotaFiscalModel> listarTodas() {
         return new ArrayList<>(notas);
     }
+    
+    public boolean atualizar(NotaFiscalModel novaNF) {
+    for (int i = 0; i < notas.size(); i++) {
+        if (notas.get(i).getNumero() == novaNF.getNumero()) {
+            notas.set(i, novaNF);
+            return true;
+        }
+    }
+    return false;
+}
+
 
     public void adicionarFaker(NotaFiscalModel nf) {
         notas.add(nf);

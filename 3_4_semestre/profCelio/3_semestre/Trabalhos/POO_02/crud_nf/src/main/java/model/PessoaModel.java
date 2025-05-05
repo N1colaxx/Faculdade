@@ -23,5 +23,16 @@ public abstract class PessoaModel {
     public EnderecoModel getEndereco() {
         return endereco;
     }
+
+    public void setRazaoSocial(String razaoSocial) {
+        this.razaoSocial = razaoSocial;
+    }
+
+    public void setCpfCnpj(String cpfCnpj) {
+        this.cpfCnpj = cpfCnpj;
+    }
+
+    public void setEndereco(EnderecoModel endereco) {
+        this.endereco = endereco;
+    }
 }
- 

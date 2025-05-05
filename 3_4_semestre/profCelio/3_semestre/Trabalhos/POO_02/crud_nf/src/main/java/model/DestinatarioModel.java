@@ -1,8 +1,8 @@
 package model;
 
-public class EmitenteModel extends PessoaModel {
-        
-    public EmitenteModel(String razaoSocial, String cpfCnpj, EnderecoModel endereco) {
+public class DestinatarioModel extends PessoaModel {
+
+    public DestinatarioModel(String razaoSocial, String cpfCnpj, EnderecoModel endereco) {
         super(razaoSocial, cpfCnpj, endereco);
     }
 
@@ -29,17 +29,15 @@ public class EmitenteModel extends PessoaModel {
     public void setEndereco(EnderecoModel endereco) {
         this.endereco = endereco;
     }
-    
+
     @Override
     public String toString() {
-        return 
-               "|==============================================" + "\n" +
-               "| =============== EMITENTE ===============" + "\n" +  
-               "| Razao Social = " + getRazaoSocial() + "\n" +
-               "| CNPJ = " + getCpfCnpj() + "\n" +
-               "|           -- ENDERECO -- " + "\n" + 
-               "| " +getEndereco() + "\n" + 
-               "|==============================================";
+        return "| =============== DESTINATARIO ===============" + "\n"
+                + "| Razao Social = " + getRazaoSocial() + "\n"
+                + "| CNPJ = " + getCpfCnpj() + "\n"
+                + "|       -- ENDERECO -- " + "\n"
+                + "| " + getEndereco() + "\n"
+                + "|==============================================";
     }
 
 }

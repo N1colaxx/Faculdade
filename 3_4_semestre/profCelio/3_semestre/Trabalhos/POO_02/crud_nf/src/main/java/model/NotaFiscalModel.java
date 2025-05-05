@@ -22,8 +22,8 @@ public class NotaFiscalModel {
             valorOutrasDespesas,
             valorFrete;
     private EmitenteModel emitente;
-    private Remetente remetente;
-    private Destinatario destinatario;
+    private RemetenteModel remetente;
+    private DestinatarioModel destinatario;
     private TransportadoraModel transportadora;
     private FaturaModel fatura;
     private CalculoImpostoModel calculoImposto;
@@ -37,7 +37,7 @@ public class NotaFiscalModel {
     public NotaFiscalModel(String chaveAcesso, int modelo, int serie, int numero, Date dataAutorizacao, Date dataEmissao,
             Date dataSaidaEntrada, String horaSaidaEntrada, String naturezaDaOperacao, String protocoloAutorizacao, 
             double valorTotalNf, double valorProdutos, double valorServicos, double valorDesconto, double valorOutrasDespesas, 
-            double valorFrete, EmitenteModel emitente, Remetente remetente, Destinatario destinatario, TransportadoraModel transportadora, 
+            double valorFrete, EmitenteModel emitente, RemetenteModel remetente, DestinatarioModel destinatario, TransportadoraModel transportadora, 
             FaturaModel fatura, CalculoImpostoModel calculoImposto, StatusModel.StatusNFE status, TipoNfModel.TipoNFE tipo) {
         this.chaveAcesso = chaveAcesso;
         this.modelo = modelo;
@@ -135,11 +135,11 @@ public class NotaFiscalModel {
         return emitente;
     }
 
-    public Remetente getRemetente() {
+    public RemetenteModel getRemetente() {
         return remetente;
     }
 
-    public Destinatario getDestinatario() {
+    public DestinatarioModel getDestinatario() {
         return destinatario;
     }
 
@@ -232,11 +232,11 @@ public class NotaFiscalModel {
         this.emitente = emitente;
     }
 
-    public void setRemetente(Remetente remetente) {
+    public void setRemetente(RemetenteModel remetente) {
         this.remetente = remetente;
     }
 
-    public void setDestinatario(Destinatario destinatario) {
+    public void setDestinatario(DestinatarioModel destinatario) {
         this.destinatario = destinatario;
     }
 

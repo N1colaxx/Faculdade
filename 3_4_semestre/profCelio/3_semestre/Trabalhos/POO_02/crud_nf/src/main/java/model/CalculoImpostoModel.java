@@ -4,6 +4,7 @@ package model;
  * Modelo que representa os principais impostos de uma Nota Fiscal Eletrônica.
  */
 public class CalculoImpostoModel {
+
     private double icms;
     private double ipi;
     private double pis;
@@ -44,17 +45,36 @@ public class CalculoImpostoModel {
     public double getValorTotalImpostos() {
         return icms + ipi + pis + cofins + iss;
     }
-    
+
+    public void setIcms(double icms) {
+        this.icms = icms;
+    }
+
+    public void setIpi(double ipi) {
+        this.ipi = ipi;
+    }
+
+    public void setPis(double pis) {
+        this.pis = pis;
+    }
+
+    public void setCofins(double cofins) {
+        this.cofins = cofins;
+    }
+
+    public void setIss(double iss) {
+        this.iss = iss;
+    }
+
     @Override
     public String toString() {
-        return 
-               "| =============== CALCULO IMPOSTO ===============" + "\n" +
-               "| ICMS = " + icms + "\n" +
-               "| IPI = " + ipi + "\n" +
-               "| PIS = " + pis + "\n" +
-               "| CONFINS = " + cofins + "\n" +
-               "| ISS = " + iss + "\n" +
-               "|==============================================";
+        return "| =============== CALCULO IMPOSTO ===============" + "\n"
+                + "| ICMS = " + icms + "\n"
+                + "| IPI = " + ipi + "\n"
+                + "| PIS = " + pis + "\n"
+                + "| CONFINS = " + cofins + "\n"
+                + "| ISS = " + iss + "\n"
+                + "|==============================================";
     }
 
 }
