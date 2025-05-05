@@ -1,39 +1,35 @@
-
 package model;
 
-
 public class TelefoneModel {
-    private int ddd;
-    private long numero;
 
-    public TelefoneModel() {
-    }
+    private String ddd, numero;
 
-    public TelefoneModel(int ddd, long numero) {
-        this.ddd = ddd;
+    public TelefoneModel(String ddd, String numero) {
         this.numero = numero;
-    }
-
-    public int getDdd() {
-        return ddd;
-    }
-
-    public void setDdd(int ddd) {
         this.ddd = ddd;
     }
 
-    public long getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(long numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
-    
+
+    public String getDDD() {
+        return ddd;
+    }
+
+    public void setDDD(String ddd) {
+        this.ddd = ddd;
+    }
     
     @Override
     public String toString() {
-        return "(" + ddd + ") " + numero;
+        return 
+               "(" + ddd + ")" + numero;
     }
+
 
 }
