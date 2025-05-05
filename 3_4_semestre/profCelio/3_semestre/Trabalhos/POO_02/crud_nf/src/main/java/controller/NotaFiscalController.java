@@ -28,6 +28,7 @@ public class NotaFiscalController {
         this.impostoController = impostoController;
     }
 
+
     public void criarNFe(String chaveAcesso, int modelo, int serie, int numero, 
                        Date dataEmissao, Date dataSaidaEntrada, String horaSaidaEntrada,
                        String naturezaOperacao, String protocoloAutorizacao,

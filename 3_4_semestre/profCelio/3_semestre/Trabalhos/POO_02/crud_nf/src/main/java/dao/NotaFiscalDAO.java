@@ -33,8 +33,11 @@ public class NotaFiscalDAO {
 
     public List<NotaFiscalModel> buscarPorCpfCnpj(String cpfCnpj) {
         return notas.stream()
-                .filter(nf -> nf.getDestinatario().getCpfCnpj().equalsIgnoreCase(cpfCnpj))
-                .collect(Collectors.toList());
+                .filter(
+                        nf -> nf.getDestinatario().getCpfCnpj().equalsIgnoreCase(cpfCnpj) ||
+                        nf.getEmitente().getCpfCnpj().equalsIgnoreCase(cpfCnpj) ||
+                        nf.getTransportadora().getCnpj().equalsIgnoreCase(cpfCnpj)
+                ).collect(Collectors.toList());
     }
 
     public List<NotaFiscalModel> buscarPorValorTotal(double valorTotal) {
@@ -52,9 +55,8 @@ public class NotaFiscalDAO {
     public List<NotaFiscalModel> listarTodas() {
         return new ArrayList<>(notas);
     }
-    
-    
-    public void adicionarFaker(NotaFiscalModel nf){
+
+    public void adicionarFaker(NotaFiscalModel nf) {
         notas.add(nf);
     }
 }
