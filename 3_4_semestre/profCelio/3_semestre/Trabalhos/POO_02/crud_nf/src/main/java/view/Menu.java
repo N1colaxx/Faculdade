@@ -20,38 +20,36 @@ public class Menu {
 
     public Menu(NotaFiscalController nfController, NotaFiscalDAO dao) {
         this.dao = dao;
-        gerarDadosFakerAutomaticamente();
         gerarDadosAutomaticamente();
         scanner = new Scanner(System.in);
         this.nfController = nfController;
     }
 
-    public void gerarDadosFakerAutomaticamente() {
-        int qtdPadrao = 5;
+    public void gerarDadosAutomaticamente() {
+        int qtdPadrao = 3;
 
         if (!nfeFakerGerados) {
             NotaFiscalFaker faker = new NotaFiscalFaker();
             for (int i = 0; i < qtdPadrao; i++) {
-                dao.adicionarFaker(faker.gerarNotaFiscalFake());
+                dao.adicionarNfFake(faker.gerarNotaFiscalFake());
             }
             nfeFakerGerados = true;
-            System.out.println(qtdPadrao + " clientes fake gerados automaticamente.");
+            System.out.println(qtdPadrao + " NF-e FAKE gerados automaticamente.");
+        }
+        
+        if (!nfeGerados) {
+            NotaFiscalFaker faker = new NotaFiscalFaker();
+            for (int i = 0; i < qtdPadrao; i++) {
+                dao.adicionarNF(faker.gerarNotaFiscal());
+            }
+            nfeGerados = true;
+            System.out.println(qtdPadrao + " NF-e automaticamente.");
         }
     }
 
     
-    public void gerarDadosAutomaticamente() {
-        int qtdPadrao = 5;
-
-        if (!nfeGerados) {
-            NotaFiscalFaker faker = new NotaFiscalFaker();
-            for (int i = 0; i < qtdPadrao; i++) {
-                dao.adicionarFaker(faker.gerarNotaFiscal());
-            }
-            nfeGerados = true;
-            System.out.println(qtdPadrao + " clientes gerados automaticamente.");
-        }
-    }
+    
+    
     public void exibir() {
         boolean continuar = true;
 
@@ -179,7 +177,9 @@ public class Menu {
                     nfController.consultarPorRazaoSocial(razao);
                     break;
                 case "C":
-                    nfController.consultarPorCpfCnpj();
+                        System.out.print("Digite o CNPJ/CPF: ");
+                        String cpfCnpj = scanner.nextLine().trim();
+                        nfController.consultarPorCpfCnpj(cpfCnpj);
                     break;
                 case "D":
                     System.out.print("Digite o valor total da NF-e: ");

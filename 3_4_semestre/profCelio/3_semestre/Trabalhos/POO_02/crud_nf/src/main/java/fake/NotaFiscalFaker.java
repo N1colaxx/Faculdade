@@ -12,15 +12,21 @@ public class NotaFiscalFaker {
     private static final Random random = new Random();
 
 
+
     public static NotaFiscalModel gerarNotaFiscalFake() {
+        
+            
         EmitenteModel emitente = new EmitenteModel(
             faker.company().name(),
             faker.number().digits(14),
+            "",
             gerarEnderecoFake()
         );
+    
 
         RemetenteModel remetente = new RemetenteModel(
             faker.company().name(),
+            faker.number().digits(14),
             faker.number().digits(14),
             gerarEnderecoFake()
         );
@@ -28,6 +34,7 @@ public class NotaFiscalFaker {
         DestinatarioModel destinatario = new DestinatarioModel(
             faker.name().fullName(),
             faker.number().digits(11),
+            faker.number().digits(14),
             gerarEnderecoFake()
         );
 
@@ -85,14 +92,17 @@ public class NotaFiscalFaker {
     }
     
     public static NotaFiscalModel gerarNotaFiscal() {
-        EmitenteModel emitente = new EmitenteModel(
+               EmitenteModel emitente = new EmitenteModel(
             faker.company().name(),
             faker.number().digits(14),
+            "",
             gerarEnderecoFake()
         );
+    
 
         RemetenteModel remetente = new RemetenteModel(
             faker.company().name(),
+            faker.number().digits(14),
             faker.number().digits(14),
             gerarEnderecoFake()
         );
@@ -100,8 +110,10 @@ public class NotaFiscalFaker {
         DestinatarioModel destinatario = new DestinatarioModel(
             faker.name().fullName(),
             faker.number().digits(11),
+            faker.number().digits(14),
             gerarEnderecoFake()
         );
+
 
 
         TransportadoraModel transportadora = new TransportadoraModel(
@@ -156,6 +168,10 @@ public class NotaFiscalFaker {
         return nota;
     }
         
+    
+
+
+    
     private static EnderecoModel gerarEnderecoFake() {
         return new EnderecoModel(
             faker.address().streetName(),
@@ -173,4 +189,5 @@ public class NotaFiscalFaker {
         String numero = celular.replaceAll("\\D", "").substring(2);
         return new TelefoneModel(ddd, numero);
     }
+
 }

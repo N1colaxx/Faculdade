@@ -1,17 +1,21 @@
-package model;
+ package model;
 
 public class EmitenteModel extends PessoaModel {
         
-    public EmitenteModel(String razaoSocial, String cpfCnpj, EnderecoModel endereco) {
-        super(razaoSocial, cpfCnpj, endereco);
+    public EmitenteModel(String razaoSocial, String Cnpj, String Cpf, EnderecoModel endereco) {
+        super(razaoSocial, Cnpj, Cpf, endereco);
     }
 
     public String getRazaoSocial() {
         return razaoSocial;
     }
 
-    public String getCpfCnpj() {
-        return cpfCnpj;
+    public String getCnpj() {
+        return Cnpj;
+    }
+    
+    public String getCpf() {
+        return Cpf;
     }
 
     public EnderecoModel getEndereco() {
@@ -22,8 +26,13 @@ public class EmitenteModel extends PessoaModel {
         this.razaoSocial = razaoSocial;
     }
 
-    public void setCpfCnpj(String cpfCnpj) {
-        this.cpfCnpj = cpfCnpj;
+    public void setCnpj(String Cnpj) {
+        this.Cnpj = Cnpj;
+    }
+    
+    
+    public void setCpf(String Cpf) {
+        this.Cpf = Cpf;
     }
 
     public void setEndereco(EnderecoModel endereco) {

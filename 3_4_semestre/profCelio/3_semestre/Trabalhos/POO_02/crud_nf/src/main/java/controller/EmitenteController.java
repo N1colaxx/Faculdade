@@ -14,8 +14,8 @@ public class EmitenteController {
         this.dao = dao;
     }
 
-    public void cadastrarEmitente(String razaoSocial, String cnpj, EnderecoModel endereco) {
-        EmitenteModel emitente = new EmitenteModel(razaoSocial, cnpj, endereco);
+    public void cadastrarEmitente(String razaoSocial, String cnpj, String Cpf, EnderecoModel endereco) {
+        EmitenteModel emitente = new EmitenteModel(razaoSocial, cnpj, Cpf, endereco);
         dao.salvar(emitente);
     }
     
@@ -32,7 +32,7 @@ public class EmitenteController {
         EnderecoController enderecoController = new EnderecoController();
         EnderecoModel endereco = enderecoController.criarEndereco();
 
-        EmitenteModel emitente = new EmitenteModel(razaoSocial, cnpj, endereco);
+        EmitenteModel emitente = new EmitenteModel(razaoSocial, cnpj,  cnpj, endereco);
         dao.salvar(emitente);
 
         return emitente;

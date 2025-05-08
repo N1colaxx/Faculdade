@@ -2,16 +2,20 @@ package model;
 
 public class DestinatarioModel extends PessoaModel {
 
-    public DestinatarioModel(String razaoSocial, String cpfCnpj, EnderecoModel endereco) {
-        super(razaoSocial, cpfCnpj, endereco);
+    public DestinatarioModel(String razaoSocial, String Cnpj, String Cpf, EnderecoModel endereco) {
+        super(razaoSocial, Cnpj, Cpf , endereco);
     }
 
     public String getRazaoSocial() {
         return razaoSocial;
     }
 
-    public String getCpfCnpj() {
-        return cpfCnpj;
+    public String getCnpj() {
+        return Cnpj;
+    }
+    
+    public String getCpf(){
+        return Cpf;
     }
 
     public EnderecoModel getEndereco() {
@@ -22,10 +26,16 @@ public class DestinatarioModel extends PessoaModel {
         this.razaoSocial = razaoSocial;
     }
 
-    public void setCpfCnpj(String cpfCnpj) {
-        this.cpfCnpj = cpfCnpj;
+    
+    public void setCnpj(String Cnpj) {
+        this.Cnpj = Cnpj;
     }
-
+   
+    public void setCpf(String Cpf ){
+        this.Cpf = Cpf;
+    }
+   
+   
     public void setEndereco(EnderecoModel endereco) {
         this.endereco = endereco;
     }
@@ -34,7 +44,8 @@ public class DestinatarioModel extends PessoaModel {
     public String toString() {
         return "| =============== DESTINATARIO ===============" + "\n"
                 + "| Razao Social = " + getRazaoSocial() + "\n"
-                + "| CNPJ = " + getCpfCnpj() + "\n"
+                + "| CNPJ = " + getCnpj() + "\n"
+                + "| Cpf = " + getCpf() + "\n"
                 + "|       -- ENDERECO -- " + "\n"
                 + "| " + getEndereco() + "\n"
                 + "|==============================================";

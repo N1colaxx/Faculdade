@@ -14,8 +14,8 @@ public class DestinatarioController {
         this.dao = dao;
     }
 
-    public void cadastrarDestinatario(String razaoSocial, String cpfCnpj, EnderecoModel endereco) {
-        DestinatarioModel destinatario = new DestinatarioModel(razaoSocial, cpfCnpj, endereco);
+    public void cadastrarDestinatario(String razaoSocial, String Cnpj, String cpf, EnderecoModel endereco) {
+        DestinatarioModel destinatario = new DestinatarioModel(razaoSocial, Cnpj, cpf, endereco);
         dao.salvar(destinatario);
     }
     
@@ -32,7 +32,7 @@ public class DestinatarioController {
         EnderecoController enderecoController = new EnderecoController();
         EnderecoModel endereco = enderecoController.criarEndereco();
 
-        DestinatarioModel destinatario = new DestinatarioModel(razaoSocial, cpfCnpj, endereco);
+        DestinatarioModel destinatario = new DestinatarioModel(razaoSocial, cpfCnpj, cpfCnpj, endereco);
         dao.salvar(destinatario);
         
         return destinatario;

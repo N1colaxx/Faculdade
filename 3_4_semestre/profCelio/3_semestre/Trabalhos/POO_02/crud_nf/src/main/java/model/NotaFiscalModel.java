@@ -276,7 +276,11 @@ public class NotaFiscalModel {
     return """
            
            
-            ----------------- Nota Fiscal -----------------
+           
+           
+           
+           
+        ----------------- Nota Fiscal -----------------
              Chave de Acesso: """ + chaveAcesso +
             "\n  Status: " + status +
             "\n  Tipo: " + tipo +
@@ -303,38 +307,40 @@ public class NotaFiscalModel {
             (calculoImposto != null ? calculoImposto.toString() : "null") + "\n" +
             "\n}";
     }
-    
     
     public String mostraComfake() {
-    return """
-           
-           
-            ----------------- Nota Fiscal -----------------
-             Chave de Acesso: """ + chaveAcesso +
-            "\n  Status: " + status +
-            "\n  Tipo: " + tipo +
-            "\n  Metodo Gerado: " + metodoGerado +
-            "\n  Modelo: " + modelo +
-            "\n  Série: " + serie +
-            "\n  Número: " + numero +
-            "\n  Data Autorização: " + dataAutorizacao +
-            "\n  Data Emissão: " + dataEmissao +
-            "\n  Data Saída/Entrada: " + dataSaidaEntrada +
-            "\n  Hora Saída/Entrada: " + horaSaidaEntrada +
-            "\n  Natureza da Operação: " + naturezaDaOperacao +
-            "\n  Protocolo de Autorização: " + protocoloAutorizacao +
-            "\n  Valor Total NF: R$ " + valorTotalNf +
-            "\n  Valor Produtos: R$ " + valorProdutos +
-            "\n  Valor Serviços: R$ " + valorServicos +
-            "\n  Valor Desconto: R$ " + valorDesconto +
-            "\n  Valor Outras Despesas: R$ " + valorOutrasDespesas +
-            "\n  Valor Frete: R$ " + valorFrete + "\n" +
-            (emitente != null ? emitente.toString() : "null") + "\n" +
-            (remetente != null ? remetente.toString() : "null") + "\n" +
-            (destinatario != null ? destinatario.toString() : "null") + "\n" +
-            (transportadora != null ? transportadora.toString() : "null") + "\n" +
-            (fatura != null ? fatura.toString() : "null") + "\n" +
-            (calculoImposto != null ? calculoImposto.toString() : "null") + "\n" +
-            "\n}";
+        return """  
+               
+               
+               _______________________________
+                |️  NOTA FISCAL ------ FAKE |
+                -----------------------------
+                Chave de Acesso: """ + chaveAcesso +
+                "\n  Status: " + status +
+                "\n  Tipo: " + tipo +
+                "\n  Método Gerado: " + metodoGerado +
+                "\n  Modelo: " + modelo +
+                "\n  Série: " + serie +
+                "\n  Número: " + numero +
+                "\n  Data Autorização: " + dataAutorizacao +
+                "\n  Data Emissão: " + dataEmissao +
+                "\n  Data Saída/Entrada: " + dataSaidaEntrada +
+                "\n  Hora Saída/Entrada: " + horaSaidaEntrada +
+                "\n  Natureza da Operação: " + naturezaDaOperacao +
+                "\n  Protocolo de Autorização: " + protocoloAutorizacao +
+                "\n  Valor Total NF: R$ " + valorTotalNf +
+                "\n  Valor Produtos: R$ " + valorProdutos +
+                "\n  Valor Serviços: R$ " + valorServicos +
+                "\n  Valor Desconto: R$ " + valorDesconto +
+                "\n  Valor Outras Despesas: R$ " + valorOutrasDespesas +
+                "\n  Valor Frete: R$ " + valorFrete + "\n" +
+                (emitente != null ? emitente.toString() : "Emitente: null") + "\n" +
+                (remetente != null ? remetente.toString() : "Remetente: null") + "\n" +
+                (destinatario != null ? destinatario.toString() : "Destinatário: null") + "\n" +
+                (transportadora != null ? transportadora.toString() : "Transportadora: null") + "\n" +
+                (fatura != null ? fatura.toString() : "Fatura: null") + "\n" +
+                (calculoImposto != null ? calculoImposto.toString() : "Imposto: null") + "\n" +
+                "==================================";
     }
+
 }

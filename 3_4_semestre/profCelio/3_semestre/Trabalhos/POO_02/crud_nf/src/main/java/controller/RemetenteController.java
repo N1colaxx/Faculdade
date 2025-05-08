@@ -20,14 +20,17 @@ public class RemetenteController {
         System.out.print("Nome do Remetente: ");
         String nomeRemetente = scanner.nextLine();
 
-        System.out.print("CNPJ/CPF do Remetente: ");
-        String cnpjCpfRemetente = scanner.nextLine();
+        System.out.print("CNPJ do Remetente: ");
+        String cnpjRemetente = scanner.nextLine();
+        
+        System.out.print("CPF do Remetente: ");
+        String cpfRemetente = scanner.nextLine();
 
         System.out.println("--- Endereço do Remetente ---");
         EnderecoController enderecoController = new EnderecoController();
         EnderecoModel endereco = enderecoController.criarEndereco();  // Usa o mesmo método do EnderecoController
 
-        RemetenteModel remetente = new RemetenteModel(nomeRemetente, cnpjCpfRemetente, endereco); // Cria o remetente com dados
+        RemetenteModel remetente = new RemetenteModel(cpfRemetente, cnpjRemetente, cpfRemetente, endereco);// Cria o remetente com dados
         dao.salvar(remetente); // Salva no DAO
 
         return remetente;  // Retorna o remetente criado
