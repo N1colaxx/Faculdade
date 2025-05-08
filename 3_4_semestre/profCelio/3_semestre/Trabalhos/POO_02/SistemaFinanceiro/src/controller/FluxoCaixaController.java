@@ -109,9 +109,4 @@ public class FluxoCaixaController {
 
 
 
-    private String encurtarDescricao(String descricao, int limite) {
-        if (descricao == null) return "";
-        if (descricao.length() <= limite) return descricao;
-        return descricao.substring(0, limite - 3) + "...";
-    }
 }

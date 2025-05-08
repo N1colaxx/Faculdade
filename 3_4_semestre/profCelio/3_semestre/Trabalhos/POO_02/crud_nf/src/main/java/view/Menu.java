@@ -3,22 +3,25 @@ package view;
 import controller.*;
 import dao.*;
 import fake.NotaFiscalFaker;
-import model.NotaFiscalModel;
+import util.Validacoes;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
 
     private static Scanner scanner;
+    private Validacoes valid;
     private NotaFiscalController nfController;
     private NotaFiscalDAO dao;
 
     private boolean nfeFakerGerados = false;
+    private boolean nfeGerados = false;
+
 
     public Menu(NotaFiscalController nfController, NotaFiscalDAO dao) {
         this.dao = dao;
         gerarDadosFakerAutomaticamente();
+        gerarDadosAutomaticamente();
         scanner = new Scanner(System.in);
         this.nfController = nfController;
     }
@@ -36,6 +39,19 @@ public class Menu {
         }
     }
 
+    
+    public void gerarDadosAutomaticamente() {
+        int qtdPadrao = 5;
+
+        if (!nfeGerados) {
+            NotaFiscalFaker faker = new NotaFiscalFaker();
+            for (int i = 0; i < qtdPadrao; i++) {
+                dao.adicionarFaker(faker.gerarNotaFiscal());
+            }
+            nfeGerados = true;
+            System.out.println(qtdPadrao + " clientes gerados automaticamente.");
+        }
+    }
     public void exibir() {
         boolean continuar = true;
 
@@ -53,7 +69,7 @@ public class Menu {
             |---------------------------------------------------|
             """);
 
-            int opcao = lerOpcaoNumerica("Escolha uma opção: ");
+            int opcao = valid.lerInteiroPositivo("Escolha uma opção: ");
 
             switch (opcao) {
                 case 1:
@@ -64,55 +80,16 @@ public class Menu {
                     subMenuAlteracoes();
                     break;
                 case 3:
-                    System.out.print("Digite o número da NF-e a ser excluída: ");
-                    int numeroExcluir = lerOpcaoNumerica("");
-                    boolean resultado = nfController.removerPorNumero(numeroExcluir);
-                    if (resultado) {
-                        System.out.println("Nota fiscal " + numeroExcluir + " removida com sucesso!");
-                    } else {
-                        System.out.println("Nota fiscal não encontrada ou não pode ser removida.");
-                    }
+                    nfController.excluirNFE();
                     break;
                 case 4:
                     subMenuConsultas();
                     break;
                 case 5:
-                    System.out.print("Digite o número inicial: ");
-                    int inicio = lerOpcaoNumerica("");
-                    System.out.print("Digite o número final: ");
-                    int fim = lerOpcaoNumerica("");
-
-                    List<NotaFiscalModel> lista = nfController.listarPorIntervalo(inicio, fim);
-                    if (lista.isEmpty()) {
-                        System.out.println("Nenhuma nota fiscal encontrada nesse intervalo.");
-                    } else {
-                        System.out.println("\n=== Notas Fiscais no intervalo " + inicio + " a " + fim + " ===");
-                        exibirResumosNotasFiscais(lista);
-                        
-                        // Opção para visualizar detalhes de uma nota específica
-                        System.out.print("\nDeseja ver detalhes de alguma nota? (Digite o número da nota ou 0 para sair): ");
-                        int numeroDetalhe = lerOpcaoNumerica("");
-                        if (numeroDetalhe > 0) {
-                            nfController.consultarPorNumero(numeroDetalhe);
-                        }
-                    }
+                    nfController.ListagemPorIntervalo();
                     break;
-
                 case 6:
-                    System.out.println("\n=== Listagem de todas as Notas Fiscais ===\n");
-                    List<NotaFiscalModel> notas = dao.listarTodas();
-                    if (notas.isEmpty()) {
-                        System.out.println("Nenhuma NF-e cadastrada.");
-                    } else {
-                        exibirResumosNotasFiscais(notas);
-                        
-                        // Opção para visualizar detalhes de uma nota específica
-                        System.out.print("\nDeseja ver detalhes de alguma nota? (Digite o número da nota ou 0 para sair): ");
-                        int numeroDetalhe = lerOpcaoNumerica("");
-                        if (numeroDetalhe > 0) {
-                            nfController.consultarPorNumero(numeroDetalhe);
-                        }
-                    }
+                    nfController.exibirNFfake();
                     break;
                 case 7:
                     continuar = false;
@@ -121,21 +98,6 @@ public class Menu {
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
             }
-        }
-    }
-
-    // Método para exibir o resumo de uma lista de notas fiscais
-    private void exibirResumosNotasFiscais(List<NotaFiscalModel> notas) {
-        for (NotaFiscalModel nota : notas) {
-            System.out.println("------------------------------");
-            System.out.println("Nota Fiscal: " + nota.getNumero());
-            System.out.println("Série: " + nota.getSerie());
-            System.out.println("Data de Emissão: " + nota.getDataEmissao());
-            System.out.println("Emitente: " + nota.getEmitente().getRazaoSocial());
-            System.out.println("Destinatário: " + nota.getDestinatario().getRazaoSocial());
-            System.out.println("Valor Total: R$ " + nota.getValorTotalNf());
-            System.out.println("Status: " + nota.getStatus());
-            System.out.println("------------------------------");
         }
     }
 
@@ -155,27 +117,27 @@ public class Menu {
             |===================================================|
                 """);
 
-            String opcaoSubmenu = lerOpcaoLetra("Escolha uma opção: ");
+            String opcaoSubmenu = Validacoes.lerOpcaoLetraE("Escolha uma opção: ");
 
             switch (opcaoSubmenu) {
                 case "A":
                     System.out.print("Digite o número da NF-e para alterar destinatário e remetente: ");
-                    int numAlt1 = lerOpcaoNumerica("");
+                    int numAlt1 = valid.lerInteiroPositivo("");
                     nfController.alterarDestinatarioRemetente(numAlt1);
                     break;
                 case "B":
                     System.out.print("Digite o número da NF-e para alterar fatura: ");
-                    int numAlt2 = lerOpcaoNumerica("");
+                    int numAlt2 = valid.lerInteiroPositivo("");
                     nfController.alterarFatura(numAlt2);
                     break;
                 case "C":
                     System.out.print("Digite o número da NF-e para alterar cálculo do imposto: ");
-                    int numAlt3 = lerOpcaoNumerica("");
+                    int numAlt3 = valid.lerInteiroPositivo("");
                     nfController.alterarCalculoImposto(numAlt3);
                     break;
                 case "D":
                     System.out.print("Digite o número da NF-e para alterar transportadora: ");
-                    int numAlt4 = lerOpcaoNumerica("");
+                    int numAlt4 = valid.lerInteiroPositivo("");
                     nfController.alterarTransportadora(numAlt4);
                     break;
                 case "E":
@@ -203,12 +165,12 @@ public class Menu {
             |===================================================|
                 """);
 
-            String opcaoSubmenu = lerOpcaoLetra("Escolha uma opção: ");
+            String opcaoSubmenu = Validacoes.lerOpcaoLetraE("Escolha uma opção: ");
 
             switch (opcaoSubmenu) {
                 case "A":
                     System.out.print("Digite o número da NF-e: ");
-                    int numeroConsulta = lerOpcaoNumerica("");
+                    int numeroConsulta = valid.lerInteiroPositivo("");
                     nfController.consultarPorNumero(numeroConsulta);
                     break;
                 case "B":
@@ -217,24 +179,7 @@ public class Menu {
                     nfController.consultarPorRazaoSocial(razao);
                     break;
                 case "C":
-                    System.out.print("Digite o CNPJ/CPF: ");
-                    String cpfCnpj = scanner.nextLine().trim();
-
-                    List<NotaFiscalModel> notasCpfCnpj = dao.buscarPorCpfCnpj(cpfCnpj);
-
-                    if (notasCpfCnpj.isEmpty()) {
-                        System.out.println("Nenhuma NF-e encontrada para o CNPJ/CPF informado.");
-                    } else {
-                        System.out.println("\n=== Notas Fiscais encontradas para CPF/CNPJ: " + cpfCnpj + " ===");
-                        exibirResumosNotasFiscais(notasCpfCnpj);
-                        
-                        // Opção para visualizar detalhes de uma nota específica
-                        System.out.print("\nDeseja ver detalhes de alguma nota? (Digite o número da nota ou 0 para sair): ");
-                        int numeroDetalhe = lerOpcaoNumerica("");
-                        if (numeroDetalhe > 0) {
-                            nfController.consultarPorNumero(numeroDetalhe);
-                        }
-                    }
+                    nfController.consultarPorCpfCnpj();
                     break;
                 case "D":
                     System.out.print("Digite o valor total da NF-e: ");
@@ -247,45 +192,6 @@ public class Menu {
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
             }
-        }
-    }
-
-    // Método para validar e ler número inteiro
-    private int lerOpcaoNumerica(String mensagem) {
-        while (true) {
-            System.out.print(mensagem);
-            String input = scanner.nextLine().trim();
-
-            // Se estiver vazio, apenas continua pedindo
-            if (input.isEmpty()) {
-                continue;
-            }
-
-            try {
-                return Integer.parseInt(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Por favor, digite apenas números.");
-            }
-        }
-    }
-
-    // Método para validar e ler letra única (A-E)
-    private String lerOpcaoLetra(String mensagem) {
-        while (true) {
-            System.out.print(mensagem);
-            String entrada = scanner.nextLine().trim().toUpperCase();
-
-            // Se estiver vazio, apenas continua pedindo
-            if (entrada.isEmpty()) {
-                continue;
-            }
-
-            // Verifica se é uma única letra entre A-E
-            if (entrada.length() == 1 && entrada.matches("[A-E]")) {
-                return entrada;
-            }
-
-            System.out.println("Por favor, digite apenas uma letra entre A e E.");
         }
     }
 

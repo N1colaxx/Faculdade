@@ -10,6 +10,10 @@ public class CalculoImpostoModel {
     private double pis;
     private double cofins;
     private double iss;
+    
+    public CalculoImpostoModel(){
+        
+    }
 
     // Construtor completo para inicializar os valores dos impostos
     public CalculoImpostoModel(double icms, double ipi, double pis, double cofins, double iss) {

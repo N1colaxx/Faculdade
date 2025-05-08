@@ -29,6 +29,7 @@ public class NotaFiscalModel {
     private CalculoImpostoModel calculoImposto;
     private StatusModel.StatusNFE status;
     private TipoNfModel.TipoNFE tipo;
+    private TipoNfModel.MetodoGerado metodoGerado;
 
     
     public NotaFiscalModel(){
@@ -38,7 +39,7 @@ public class NotaFiscalModel {
             Date dataSaidaEntrada, String horaSaidaEntrada, String naturezaDaOperacao, String protocoloAutorizacao, 
             double valorTotalNf, double valorProdutos, double valorServicos, double valorDesconto, double valorOutrasDespesas, 
             double valorFrete, EmitenteModel emitente, RemetenteModel remetente, DestinatarioModel destinatario, TransportadoraModel transportadora, 
-            FaturaModel fatura, CalculoImpostoModel calculoImposto, StatusModel.StatusNFE status, TipoNfModel.TipoNFE tipo) {
+            FaturaModel fatura, CalculoImpostoModel calculoImposto, StatusModel.StatusNFE status, TipoNfModel.TipoNFE tipo, TipoNfModel.MetodoGerado metodoGerado) {
         this.chaveAcesso = chaveAcesso;
         this.modelo = modelo;
         this.serie = serie;
@@ -63,6 +64,7 @@ public class NotaFiscalModel {
         this.calculoImposto = calculoImposto;
         this.status = status;
         this.tipo = tipo;
+        this.metodoGerado = metodoGerado;
     }
 
 
@@ -162,6 +164,10 @@ public class NotaFiscalModel {
     public TipoNfModel.TipoNFE getTipo() {
         return tipo;
     }
+    
+    public TipoNfModel.MetodoGerado getMetodoGerado() {
+        return metodoGerado;
+    }
 
 //    Setters
     public void setChaveAcesso(String chaveAcesso) {
@@ -260,12 +266,18 @@ public class NotaFiscalModel {
         this.tipo = tipo;
     }
     
+    public void setMetodoGerar(TipoNfModel.MetodoGerado metodoGerado){
+        this.metodoGerado = metodoGerado;
+    }
+    
     
     @Override
     public String toString() {
-    return "\n" + "\n" +
-            " ---- NotaFiscalModel ---- " +
-            "\n  Chave de Acesso: " + chaveAcesso +
+    return """
+           
+           
+            ----------------- Nota Fiscal -----------------
+             Chave de Acesso: """ + chaveAcesso +
             "\n  Status: " + status +
             "\n  Tipo: " + tipo +
             "\n  Modelo: " + modelo +
@@ -291,5 +303,38 @@ public class NotaFiscalModel {
             (calculoImposto != null ? calculoImposto.toString() : "null") + "\n" +
             "\n}";
     }
-
+    
+    
+    public String mostraComfake() {
+    return """
+           
+           
+            ----------------- Nota Fiscal -----------------
+             Chave de Acesso: """ + chaveAcesso +
+            "\n  Status: " + status +
+            "\n  Tipo: " + tipo +
+            "\n  Metodo Gerado: " + metodoGerado +
+            "\n  Modelo: " + modelo +
+            "\n  Série: " + serie +
+            "\n  Número: " + numero +
+            "\n  Data Autorização: " + dataAutorizacao +
+            "\n  Data Emissão: " + dataEmissao +
+            "\n  Data Saída/Entrada: " + dataSaidaEntrada +
+            "\n  Hora Saída/Entrada: " + horaSaidaEntrada +
+            "\n  Natureza da Operação: " + naturezaDaOperacao +
+            "\n  Protocolo de Autorização: " + protocoloAutorizacao +
+            "\n  Valor Total NF: R$ " + valorTotalNf +
+            "\n  Valor Produtos: R$ " + valorProdutos +
+            "\n  Valor Serviços: R$ " + valorServicos +
+            "\n  Valor Desconto: R$ " + valorDesconto +
+            "\n  Valor Outras Despesas: R$ " + valorOutrasDespesas +
+            "\n  Valor Frete: R$ " + valorFrete + "\n" +
+            (emitente != null ? emitente.toString() : "null") + "\n" +
+            (remetente != null ? remetente.toString() : "null") + "\n" +
+            (destinatario != null ? destinatario.toString() : "null") + "\n" +
+            (transportadora != null ? transportadora.toString() : "null") + "\n" +
+            (fatura != null ? fatura.toString() : "null") + "\n" +
+            (calculoImposto != null ? calculoImposto.toString() : "null") + "\n" +
+            "\n}";
+    }
 }
