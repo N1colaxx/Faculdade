@@ -176,9 +176,10 @@
 
 **Outros métodos Jframe:**
 
-1. setDefaultCloseOperation
+1. `setDefaultCloseOperation`
     -   Determina como a aplicação reage quando o usuário clica no 
     -   botão de fechar.
-2. setSize
+    
+2. `setSize`
     -   Especifica a largura e altura da janela.
     -   Determina se a janela é exibida (true) ou não (false)
