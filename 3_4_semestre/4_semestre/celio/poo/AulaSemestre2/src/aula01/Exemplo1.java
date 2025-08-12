@@ -1,4 +1,4 @@
-package aula1;
+package aula01;
 
 import javax.swing.*; // Importa os componentes Swing
 
