@@ -19,6 +19,9 @@
 4. ADD componente ao frame
     -   Add(lblNome);
 
+5. Gerar o frame
+    -    Criar o frame em si, o construtor (ver melhor forma de carregar os recursos)
+
 ---
 <br><br>
 
