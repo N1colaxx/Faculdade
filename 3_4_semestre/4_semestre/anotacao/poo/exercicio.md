@@ -34,7 +34,30 @@
 
 # OBRIGATORIO
 
+## Menu
 1. Utilize abas (JTabbePane)
 2. Utilize JComboBox com as respectivas opções nos campos:
 -   Sexo, Estado Civil, Nacionalidade, Tipo Sanguinio, Departamento, Cargo/Função, Tipo de contrato, Regime de trabalho
+
+---
+<br><br>
+
+## Regras de Negocio
+
+1. Criar metodo `validar()` e adicione no evento do BTN Gravar. Esse metodo ira validar todas as regras abaixo.
+
+2. Nos campos:  nascimento e data adimissão 
+-   Usar componentes de data ou calendario 
+-   Não aceitar datas inferior ao dia atual.
+-   Valide data de admissão maior que data de nascimento 
+
+3. No campo e-mail, verificar se existe o carecter `"@"`, caso não tenha, de a msg:
+-    "E-mail precisa conter '@' "
+
+4. Insira a formatação para o telefone. Ex: (XX) XXXXX-XXXX
+
+5. Valide o salário para:
+-   Aceitar valores acima de R$100,00
+-   Somente números. Caso tenha outros caracteres, de a msg: "Campo salário precisa conter apenas números"
+
 

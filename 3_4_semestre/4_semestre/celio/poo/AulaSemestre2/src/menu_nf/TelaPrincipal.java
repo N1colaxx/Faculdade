@@ -2,11 +2,15 @@ package menu_nf;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class TelaPrincipal extends JFrame {
     
     private JButton btn_gravar, btn_cancelar, btn_sair;
     
+    private Eventos evento;
+    
+//    Construtor
     public TelaPrincipal(){
         setTitle("Cadastro de Nota Fiscal");
         setSize(800, 600);
@@ -31,14 +35,68 @@ public class TelaPrincipal extends JFrame {
         painelBotoes.add(btn_sair);
 
         add(painelBotoes, BorderLayout.SOUTH); // adiciona painel de botões no rodapé
+        
+        
     }
     
-    // 2º) instanciar cada componente
+    
+//       Tratamento de eventos
+        private void validar(int n){
+        System.out.println("\n Valor de N: " + n + "\n");
+        switch (n) {
+            
+            case 1:    
+                System.out.println("Clique detectado em Tela Principal em: Gravar");
+                
+                // tenho q remover pois: a cada click ele agrega um ActionListener, pois instancio 2 Actionlistener, um em Instanciar e outro dentro do Switch
+                for(ActionListener al : btn_gravar.getActionListeners()){
+                    btn_gravar.removeActionListener(al);
+                }
+                
+                evento = new Eventos(btn_gravar);
+                btn_gravar.addActionListener(evento);
+                break;
+                
+            case 2:
+                System.out.println("Clique detectado em Tela Principal em: Cancelar");
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Clicou no BTN Cancelar",
+                        "Aviso",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                
+                break;
+                
+            case 3:
+                  System.out.println("Clique detectado em Tela Principal em: Sair");
+                  JOptionPane.showMessageDialog(
+                          null,
+                          "Clicou no BTN Sair",
+                          "Aviso",
+                          JOptionPane.ERROR_MESSAGE);
+                  System.exit(0);
+                  break;
+
+            default:
+                throw new AssertionError();
+        }
+    }
+
+    
+    // instanciar cada componente
     private void instanciar() {
         btn_gravar = new JButton("Gravar");
+        btn_gravar.addActionListener(e -> validar(1));
+        
         btn_cancelar = new JButton("Cancelar");
+        btn_cancelar.addActionListener(e -> validar(2));
+        
         btn_sair = new JButton("Sair");
+        btn_sair.addActionListener(e -> validar(3));
     }
+    
+    
 
     public static void main(String[] args){
         SwingUtilities.invokeLater(() -> {
