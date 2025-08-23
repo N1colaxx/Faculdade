@@ -1,5 +1,9 @@
 package menu_nf;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.*;
 
 public class TelaDadosContratuais extends JPanel {
@@ -12,10 +16,12 @@ public class TelaDadosContratuais extends JPanel {
             lbl_info_sobre_ferias, lbl_info_sobre_afastamento, lbl_info_sobre_recisao;
 
     // TextFields
-    private JTextField edt_ra, edt_empresa, edt_local_trabalho, edt_data_admissao,
+    private JTextField edt_ra, edt_empresa, edt_local_trabalho,
             edt_jornada_trabalho, edt_salario,
             edt_info_sobre_ferias, edt_info_sobre_afastamento, edt_info_sobre_recisao;
 
+    private JSpinner spn_data_admissao;
+    
     public TelaDadosContratuais() {
         setLayout(null);
 
@@ -36,8 +42,18 @@ public class TelaDadosContratuais extends JPanel {
         edt_local_trabalho = new JTextField(100);
 
         lbl_data_admissao = new JLabel("Data de Admissão: ");
-        edt_data_admissao = new JTextField(10);
-
+        
+        Date dataHJ = new Date();
+        // SpinnerDateModel -> (Valor inicial, Valor MIM, Valor MAX, uniadede de incremento (sei o Calendar);
+        SpinnerDateModel dateModel = new SpinnerDateModel(dataHJ, null, null, Calendar.DAY_OF_MONTH);
+        spn_data_admissao = new JSpinner(dateModel);
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spn_data_admissao, "yyyy/MM/dd");
+        spn_data_admissao.setEditor(dateEditor);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        String dataFormatada = sdf.format(getSpnDataAdimissao());
+        System.out.println("Data de Admissao, incerida na TELA Dados Contratuais: " + dataFormatada);
+        
         lbl_jornada_trabalho = new JLabel("Jornada de Trabalho: ");
         edt_jornada_trabalho = new JTextField(5);
 
@@ -81,7 +97,7 @@ public class TelaDadosContratuais extends JPanel {
         y += passo;
 
         lbl_data_admissao.setBounds(xLabel, y, 150, altura);
-        edt_data_admissao.setBounds(xEdit, y, largura, altura);
+        spn_data_admissao.setBounds(xEdit, y, largura, altura);
         y += passo;
 
         lbl_jornada_trabalho.setBounds(xLabel, y, 150, altura);
@@ -124,7 +140,7 @@ public class TelaDadosContratuais extends JPanel {
         add(edt_local_trabalho);
 
         add(lbl_data_admissao);
-        add(edt_data_admissao);
+        add(spn_data_admissao);
 
         add(lbl_jornada_trabalho);
         add(edt_jornada_trabalho);
@@ -146,4 +162,31 @@ public class TelaDadosContratuais extends JPanel {
         add(box_tipo_contrato);
         add(box_regime_trabalho);
     }
+    
+    // Getters
+    public Date getSpnDataAdimissao() {
+        try {
+            spn_data_admissao.commitEdit(); // aplica o texto digitado no spinner
+
+            // Captura o que o usuário digitou
+            String texto = ((JSpinner.DefaultEditor) spn_data_admissao.getEditor())
+                              .getTextField().getText();
+
+            // Valida com formato estrito
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            sdf.setLenient(false); // NÃO aceita datas inválidas tipo 2025/02/30
+
+            Date data = sdf.parse(texto); // se falhar, cai no catch
+            return data;
+
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null,
+                "Formato de Data Inválido! Use (yyyy/MM/dd)",
+                "ERRO! Dados Contratuais!",
+                JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+    }
+
+    
 }

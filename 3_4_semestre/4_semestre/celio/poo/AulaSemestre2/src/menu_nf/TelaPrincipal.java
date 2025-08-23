@@ -47,7 +47,7 @@ public class TelaPrincipal extends JFrame {
     
 //  Tratamento de eventos
     private void validar(int n){
-        System.out.println("\n Valor de N: " + n + "\n");
+        System.out.println("\n Valor de N: " + n );
         switch (n) {
             case 0:
                 break;
@@ -59,35 +59,25 @@ public class TelaPrincipal extends JFrame {
                 for(ActionListener al : btn_gravar.getActionListeners()){
                     btn_gravar.removeActionListener(al);
                 }
-                
-                        // aqui formato a data somente para exibir
+
+                // aqui formato a data somente para exibir
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
                 String dataFormatada = sdf.format(TDPessoais.getSpnDataNas());
                 System.out.println("Data de nascimento, recebida em Tela Principal: " + dataFormatada);
 
-                evento = new Eventos(btn_gravar, TDPessoais);
+                evento = new Eventos(TDPessoais, TDContratuais, TIContato);
                 btn_gravar.addActionListener(evento);
                 
                 break;
                 
             case 2:
                 System.out.println("Clique detectado em Tela Principal em: Cancelar");
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Clicou no BTN Cancelar",
-                        "Aviso",
-                        JOptionPane.ERROR_MESSAGE
-                );
-                
+                JOptionPane.showMessageDialog(null, "Clicou no BTN Cancelar", "Aviso", JOptionPane.ERROR_MESSAGE);
                 break;
                 
             case 3:
                   System.out.println("Clique detectado em Tela Principal em: Sair");
-                  JOptionPane.showMessageDialog(
-                          null,
-                          "Clicou no BTN Sair",
-                          "Aviso",
-                          JOptionPane.ERROR_MESSAGE);
+                  JOptionPane.showMessageDialog(null, "Clicou no BTN Sair", "Aviso", JOptionPane.ERROR_MESSAGE);
                   System.exit(0);
                   break;
 

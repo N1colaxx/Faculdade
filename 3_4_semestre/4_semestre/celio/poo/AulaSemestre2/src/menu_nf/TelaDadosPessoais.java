@@ -3,7 +3,9 @@
 
 package menu_nf;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.*;
 
@@ -30,14 +32,17 @@ public class TelaDadosPessoais extends JPanel{
         lbl_nome_completo = new JLabel("Nome Completo : ");
         edt_nome_completo = new JTextField(100);
         
-        lbl_data_nascimento = new JLabel("Data Nascimento (dd/mm/yyyy): ");
+        lbl_data_nascimento = new JLabel("Data Nascimento (yyyy/MM/dd): ");
 
-        spn_data_nascimento = new JSpinner(new SpinnerDateModel());
-        JSpinner.DateEditor editor = new JSpinner.DateEditor(spn_data_nascimento, "dd/MM/yyyy");
-        spn_data_nascimento.setEditor(editor);
+        Date hj = new Date();
+        // SpinnerDateModel -> (Valor inicial, Valor MIM, Valor MAX, uniadede de incremento (sei o Calendar);
+        SpinnerDateModel modelDate = new SpinnerDateModel(hj, null, null, Calendar.DAY_OF_MONTH); 
+        spn_data_nascimento = new JSpinner(modelDate); // aqui passo o model que eu fiz para a Date 
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spn_data_nascimento, "yyyy/MM/dd"); // aqui defino o modelo de exibição
+        spn_data_nascimento.setEditor(dateEditor);
           
         // aqui formato a data somente para exibir
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         String dataFormatada = sdf.format(getSpnDataNas());
         System.out.println("Data de nascimento, incerida na TELA Dados Pessoais: " + dataFormatada);
           
@@ -103,15 +108,29 @@ public class TelaDadosPessoais extends JPanel{
     
     
     // Getters
-    public Date getSpnDataNas(){
-        // aqui forso o JSpinner a escrever o q eu digitei
+    public Date getSpnDataNas() {
         try {
-            spn_data_nascimento.commitEdit(); // sincroniza campo com modelo
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
+            spn_data_nascimento.commitEdit(); // aplica o texto digitado no spinner
+
+            // Captura o que o usuário digitou
+            String texto = ((JSpinner.DefaultEditor) spn_data_nascimento.getEditor())
+                              .getTextField().getText();
+
+            // Valida com formato estrito
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            sdf.setLenient(false); // NÃO aceita datas inválidas tipo 2025/02/30
+
+            Date data = sdf.parse(texto); // se falhar, cai no catch
+            return data;
+
+        } catch (ParseException ex) {
+            JOptionPane.showMessageDialog(null,
+                "Formato de Data Inválido! Use (yyyy/MM/dd)",
+                "ERRO! Dados Pessoais",
+                JOptionPane.WARNING_MESSAGE);
+            return null;
         }
-        
-        return(Date) spn_data_nascimento.getValue();
     }
+
     
 }
