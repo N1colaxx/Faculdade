@@ -1,14 +1,19 @@
 
+
+
 package menu_nf;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.*;
 
 public class TelaDadosPessoais extends JPanel{
 
     // 1º) declarar cada componente gráfico (SWING)
     private JLabel lbl_nome_completo, lbl_data_nascimento, lbl_etinia, lbl_deficienci;
-    private JTextField edt_nome_completo, edt_data_nascimento, edt_etinia, edt_deficienci;
+    private JTextField edt_nome_completo, edt_etinia, edt_deficienci;
     private JComboBox box_sexo, box_estado_civil, box_nacionalidade, box_tipo_sague;
+    private JSpinner spn_data_nascimento;
     
     public TelaDadosPessoais() {
 
@@ -25,8 +30,18 @@ public class TelaDadosPessoais extends JPanel{
         lbl_nome_completo = new JLabel("Nome Completo : ");
         edt_nome_completo = new JTextField(100);
         
-        lbl_data_nascimento = new JLabel("Data Nascimento (com parenteses): ");
-        edt_data_nascimento = new JTextField(10);
+        lbl_data_nascimento = new JLabel("Data Nascimento (dd/mm/yyyy): ");
+
+        spn_data_nascimento = new JSpinner(new SpinnerDateModel());
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(spn_data_nascimento, "dd/MM/yyyy");
+        spn_data_nascimento.setEditor(editor);
+          
+        // aqui formato a data somente para exibir
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+        String dataFormatada = sdf.format(getSpnDataNas());
+        System.out.println("Data de nascimento, incerida na TELA Dados Pessoais: " + dataFormatada);
+          
+        
         
         lbl_deficienci = new JLabel("Deficiencia (se ouver) : ");
         edt_deficienci = new JTextField(100);
@@ -48,8 +63,8 @@ public class TelaDadosPessoais extends JPanel{
         lbl_nome_completo.setBounds(20, 20, 150, 25);
         edt_nome_completo.setBounds(180, 20, 200, 25);
 
-        lbl_data_nascimento.setBounds(20, 60, 150, 25);
-        edt_data_nascimento.setBounds(180, 60, 200, 25);
+        lbl_data_nascimento.setBounds(20, 60, 180, 25);
+        spn_data_nascimento.setBounds(200, 60, 200, 25);
 
         lbl_deficienci.setBounds(20, 100, 150, 25);
         edt_deficienci.setBounds(180, 100, 200, 25);
@@ -71,7 +86,7 @@ public class TelaDadosPessoais extends JPanel{
         add(edt_nome_completo);
         
         add(lbl_data_nascimento);
-        add(edt_data_nascimento);
+        add(spn_data_nascimento);
         
         add(lbl_deficienci);
         add(edt_deficienci);
@@ -84,6 +99,19 @@ public class TelaDadosPessoais extends JPanel{
         add(box_nacionalidade);
         add(box_sexo);
         add(box_tipo_sague);
+    }
+    
+    
+    // Getters
+    public Date getSpnDataNas(){
+        // aqui forso o JSpinner a escrever o q eu digitei
+        try {
+            spn_data_nascimento.commitEdit(); // sincroniza campo com modelo
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        
+        return(Date) spn_data_nascimento.getValue();
     }
     
 }
