@@ -2,12 +2,14 @@
 package menu_nf;
 
 import javax.swing.*;
+import java.util.Date;
 
 public class TelaDadosPessoais extends JPanel{
 
     // 1º) declarar cada componente gráfico (SWING)
     private JLabel lbl_nome_completo, lbl_data_nascimento, lbl_etinia, lbl_deficienci;
-    private JTextField edt_nome_completo, edt_data_nascimento, edt_etinia, edt_deficienci;
+    private JTextField edt_nome_completo, edt_etinia, edt_deficienci;
+    private JSpinner data_nascimento;
     private JComboBox box_sexo, box_estado_civil, box_nacionalidade, box_tipo_sague;
     
     public TelaDadosPessoais() {
@@ -25,8 +27,16 @@ public class TelaDadosPessoais extends JPanel{
         lbl_nome_completo = new JLabel("Nome Completo : ");
         edt_nome_completo = new JTextField(100);
         
-        lbl_data_nascimento = new JLabel("Data Nascimento (com parenteses): ");
-        edt_data_nascimento = new JTextField(10);
+        
+        lbl_data_nascimento = new JLabel("Data Nascimento : ");
+        // Spinner para a DATA
+        SpinnerDateModel model = new SpinnerDateModel(new Date(), null, null,  java.util.Calendar.DAY_OF_MONTH);
+        data_nascimento = new JSpinner(model);
+        // Formatando a exibilção (dd/mm/yyyy)
+        JSpinner.DateEditor editor = new JSpinner.DateEditor(data_nascimento, "dd/mm/yyyy");
+
+        data_nascimento.setEditor(editor);
+
         
         lbl_deficienci = new JLabel("Deficiencia (se ouver) : ");
         edt_deficienci = new JTextField(100);
@@ -49,7 +59,7 @@ public class TelaDadosPessoais extends JPanel{
         edt_nome_completo.setBounds(180, 20, 200, 25);
 
         lbl_data_nascimento.setBounds(20, 60, 150, 25);
-        edt_data_nascimento.setBounds(180, 60, 200, 25);
+        data_nascimento.setBounds(180, 60, 200, 25);
 
         lbl_deficienci.setBounds(20, 100, 150, 25);
         edt_deficienci.setBounds(180, 100, 200, 25);
@@ -71,7 +81,7 @@ public class TelaDadosPessoais extends JPanel{
         add(edt_nome_completo);
         
         add(lbl_data_nascimento);
-        add(edt_data_nascimento);
+        add(data_nascimento);
         
         add(lbl_deficienci);
         add(edt_deficienci);
@@ -84,6 +94,10 @@ public class TelaDadosPessoais extends JPanel{
         add(box_nacionalidade);
         add(box_sexo);
         add(box_tipo_sague);
+    }
+    
+    public JSpinner getDataNascimento(){
+        return data_nascimento;
     }
     
 }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+
 public class TelaPrincipal extends JFrame {
     
     private JButton btn_gravar, btn_cancelar, btn_sair;
@@ -12,6 +13,9 @@ public class TelaPrincipal extends JFrame {
     
 //    Construtor
     public TelaPrincipal(){
+        //
+        
+        // dimensão do Frame
         setTitle("Cadastro de Nota Fiscal");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +49,9 @@ public class TelaPrincipal extends JFrame {
         System.out.println("\n Valor de N: " + n + "\n");
         switch (n) {
             
-            case 1:    
+            case 1:
+                
+                TelaDadosPessoais telaDadosP = new TelaDadosPessoais();
                 System.out.println("Clique detectado em Tela Principal em: Gravar");
                 
                 // tenho q remover pois: a cada click ele agrega um ActionListener, pois instancio 2 Actionlistener, um em Instanciar e outro dentro do Switch
@@ -53,7 +59,7 @@ public class TelaPrincipal extends JFrame {
                     btn_gravar.removeActionListener(al);
                 }
                 
-                evento = new Eventos(btn_gravar);
+                evento = new Eventos(btn_gravar, telaDadosP);
                 btn_gravar.addActionListener(evento);
                 break;
                 
