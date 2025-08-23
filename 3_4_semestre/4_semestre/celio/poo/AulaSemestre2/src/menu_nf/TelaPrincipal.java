@@ -3,19 +3,20 @@ package menu_nf;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-
+import java.text.SimpleDateFormat;
 
 public class TelaPrincipal extends JFrame {
     
     private JButton btn_gravar, btn_cancelar, btn_sair;
-    
     private Eventos evento;
+    private TelaDadosPessoais TDPessoais;
+    private TelaDadosContratuais TDContratuais;
+    private TelaInfoContato TIContato;
+    
     
 //    Construtor
     public TelaPrincipal(){
-        //
-        
-        // dimensão do Frame
+        // CFG Frame
         setTitle("Cadastro de Nota Fiscal");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,9 +24,9 @@ public class TelaPrincipal extends JFrame {
 
         // Abas
         JTabbedPane abas = new JTabbedPane();
-        abas.add("Dados Pessoais", new TelaDadosPessoais());
-        abas.add("Informações de Contato", new TelaInfoContato());
-        abas.add("Dados Contratuais", new TelaDadosContratuais());
+        abas.add("Dados Pessoais", TDPessoais = new TelaDadosPessoais());
+        abas.add("Informações de Contato", TIContato = new TelaInfoContato());
+        abas.add("Dados Contratuais", TDContratuais = new TelaDadosContratuais());
         
         add(abas, BorderLayout.CENTER);
 
@@ -44,14 +45,14 @@ public class TelaPrincipal extends JFrame {
     }
     
     
-//       Tratamento de eventos
-        private void validar(int n){
+//  Tratamento de eventos
+    private void validar(int n){
         System.out.println("\n Valor de N: " + n + "\n");
         switch (n) {
-            
-            case 1:
+            case 0:
+                break;
                 
-                TelaDadosPessoais telaDadosP = new TelaDadosPessoais();
+            case 1:    
                 System.out.println("Clique detectado em Tela Principal em: Gravar");
                 
                 // tenho q remover pois: a cada click ele agrega um ActionListener, pois instancio 2 Actionlistener, um em Instanciar e outro dentro do Switch
@@ -59,8 +60,14 @@ public class TelaPrincipal extends JFrame {
                     btn_gravar.removeActionListener(al);
                 }
                 
-                evento = new Eventos(btn_gravar, telaDadosP);
+                        // aqui formato a data somente para exibir
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
+                String dataFormatada = sdf.format(TDPessoais.getSpnDataNas());
+                System.out.println("Data de nascimento, recebida em Tela Principal: " + dataFormatada);
+
+                evento = new Eventos(btn_gravar, TDPessoais);
                 btn_gravar.addActionListener(evento);
+                
                 break;
                 
             case 2:

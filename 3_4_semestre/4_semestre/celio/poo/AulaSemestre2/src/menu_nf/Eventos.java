@@ -1,63 +1,52 @@
-package menu_nf;
+    package menu_nf;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+    import javax.swing.*;
+    import java.awt.event.ActionEvent;
+    import java.awt.event.ActionListener;
+    import java.text.SimpleDateFormat;
+    import java.time.LocalDate;
+    import java.time.ZoneId;
+    import java.util.Date;
 
-public class Eventos extends JFrame implements ActionListener {
-    private JButton btn_gravar;
-    private TelaDadosPessoais telaDadosP;
-    
-    public Eventos(){
-    }
-    
-    public Eventos(JButton btn_gravar,  TelaDadosPessoais telaDadosP){
-        this.btn_gravar = btn_gravar;
-        this.telaDadosP = telaDadosP;
-    }
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btn_gravar){
-            System.out.println("Clique detectado em Evento Validacao ");
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Clicou no BTN Gravar",
-                    "Aviso",
-                    JOptionPane.WARNING_MESSAGE
-            );    
-          
-          
-            // Pegando a data do JSpinner
-            Date dataSelecionada = (Date) telaDadosP.getDataNascimento().getValue();
-            Date dataHj = new Date();
+    public class Eventos extends JFrame implements ActionListener {
+        private JButton btn_gravar;
+        private TelaDadosPessoais TDPessoais;
 
-            // Formatando apenas para exibir
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            String dataFormatada = formato.format(dataSelecionada);
-
-            System.out.println("Data Selecionada (nascimento) : " + dataFormatada);
-
-            // Comparação correta usando Date
-            if (dataSelecionada.after(dataHj)) {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Data não pode ser no Futuro!",
-                        "Erro de Validação",
-                        JOptionPane.ERROR_MESSAGE
-                );
-            } else {
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Data Válida! -> " + dataFormatada,
-                        "Validação OK",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-            }
+        public Eventos(){
 
         }
+
+        public Eventos(JButton btn_gravar, TelaDadosPessoais TDPessoais){
+            this.btn_gravar = btn_gravar;
+            this.TDPessoais = TDPessoais;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            System.out.println("\nClasse externa de EVENTOS foi Iniciada");
+            
+            validandoDataNascimento();
+        }
+        
+        
+        private void validandoDataNascimento(){
+            
+            Date dataNascimento = TDPessoais.getSpnDataNas();
+            // converto para LocalDate para remover os segundo e deixar somente (dd/mm/yyyy)
+            LocalDate dataNas = dataNascimento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate dataHj = LocalDate.now();
+
+            
+            System.out.println("Data de nascimento, recebida em Eventos: " + dataNas);
+            System.out.println("Data de Hj: " + dataHj);
+
+            if (dataNas.equals(dataHj)) {
+                JOptionPane.showMessageDialog(null, "Data válida: " + dataNas, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Data não pode ser no Futuro ou Passado!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        
+        
     }
-    
-}
