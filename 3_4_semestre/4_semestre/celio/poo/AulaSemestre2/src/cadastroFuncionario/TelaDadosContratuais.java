@@ -1,4 +1,4 @@
-package menu_nf;
+package cadastroFuncionario;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,14 +43,17 @@ public class TelaDadosContratuais extends JPanel {
 
         lbl_data_admissao = new JLabel("Data de Admissão: ");
         
-        Date dataHJ = new Date();
+        
+        // Define o modelo das Datas
         // SpinnerDateModel -> (Valor inicial, Valor MIM, Valor MAX, uniadede de incremento (sei o Calendar);
-        SpinnerDateModel dateModel = new SpinnerDateModel(dataHJ, null, null, Calendar.DAY_OF_MONTH);
+        SpinnerDateModel dateModel = new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH);
         spn_data_admissao = new JSpinner(dateModel);
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spn_data_admissao, "yyyy/MM/dd");
+        
+        //  Define o Editor no formato (dd/mm/yyyy)
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spn_data_admissao, "dd/MM/yyyy");
         spn_data_admissao.setEditor(dateEditor);
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String dataFormatada = sdf.format(getSpnDataAdimissao());
         System.out.println("Data de Admissao, incerida na TELA Dados Contratuais: " + dataFormatada);
         
@@ -173,7 +176,7 @@ public class TelaDadosContratuais extends JPanel {
                               .getTextField().getText();
 
             // Valida com formato estrito
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             sdf.setLenient(false); // NÃO aceita datas inválidas tipo 2025/02/30
 
             Date data = sdf.parse(texto); // se falhar, cai no catch
@@ -181,7 +184,7 @@ public class TelaDadosContratuais extends JPanel {
 
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null,
-                "Formato de Data Inválido! Use (yyyy/MM/dd)",
+                "Formato de Data Inválido! Use (dd/MM/yyyy)",
                 "ERRO! Dados Contratuais!",
                 JOptionPane.WARNING_MESSAGE);
             return null;

@@ -67,4 +67,7 @@ As RI tem 2 modos:
 
 2.  *Na conferencia*: È feita pelo banco de dados apos toda modificação ou aplicação sendo execução 
 
+## Anotar 
+https://castelano.com.br/site/aulas/alpoo/Aula%2005%20-%20Introdu%C3%A7%C3%A3o%20ao%20JDBC.pdf
 
+slid -> 1, 2, 

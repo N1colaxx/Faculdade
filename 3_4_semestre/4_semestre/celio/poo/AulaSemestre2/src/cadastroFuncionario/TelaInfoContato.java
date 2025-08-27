@@ -1,4 +1,4 @@
-package menu_nf;
+package cadastroFuncionario;
 
 import java.awt.*;
 import javax.swing.*;

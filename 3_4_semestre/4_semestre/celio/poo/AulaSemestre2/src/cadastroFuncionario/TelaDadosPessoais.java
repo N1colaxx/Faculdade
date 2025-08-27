@@ -1,7 +1,7 @@
 
 
 
-package menu_nf;
+package cadastroFuncionario;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,17 +32,17 @@ public class TelaDadosPessoais extends JPanel{
         lbl_nome_completo = new JLabel("Nome Completo : ");
         edt_nome_completo = new JTextField(100);
         
-        lbl_data_nascimento = new JLabel("Data Nascimento (yyyy/MM/dd): ");
+        lbl_data_nascimento = new JLabel("Data Nascimento (dd/MM/yyyy): ");
 
         Date hj = new Date();
         // SpinnerDateModel -> (Valor inicial, Valor MIM, Valor MAX, uniadede de incremento (sei o Calendar);
         SpinnerDateModel modelDate = new SpinnerDateModel(hj, null, null, Calendar.DAY_OF_MONTH); 
         spn_data_nascimento = new JSpinner(modelDate); // aqui passo o model que eu fiz para a Date 
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spn_data_nascimento, "yyyy/MM/dd"); // aqui defino o modelo de exibição
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spn_data_nascimento, "dd/MM/yyyy"); // aqui defino o modelo de exibição
         spn_data_nascimento.setEditor(dateEditor);
           
         // aqui formato a data somente para exibir
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String dataFormatada = sdf.format(getSpnDataNas());
         System.out.println("Data de nascimento, incerida na TELA Dados Pessoais: " + dataFormatada);
           
@@ -117,7 +117,7 @@ public class TelaDadosPessoais extends JPanel{
                               .getTextField().getText();
 
             // Valida com formato estrito
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             sdf.setLenient(false); // NÃO aceita datas inválidas tipo 2025/02/30
 
             Date data = sdf.parse(texto); // se falhar, cai no catch
@@ -125,7 +125,7 @@ public class TelaDadosPessoais extends JPanel{
 
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(null,
-                "Formato de Data Inválido! Use (yyyy/MM/dd)",
+                "Formato de Data Inválido! Use (dd/MM/yyyy)",
                 "ERRO! Dados Pessoais",
                 JOptionPane.WARNING_MESSAGE);
             return null;

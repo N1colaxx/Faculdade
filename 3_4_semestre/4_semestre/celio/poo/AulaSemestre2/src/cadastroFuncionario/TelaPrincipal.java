@@ -1,4 +1,4 @@
-package menu_nf;
+package cadastroFuncionario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,11 +59,6 @@ public class TelaPrincipal extends JFrame {
                 for(ActionListener al : btn_gravar.getActionListeners()){
                     btn_gravar.removeActionListener(al);
                 }
-
-                // aqui formato a data somente para exibir
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyy");
-                String dataFormatada = sdf.format(TDPessoais.getSpnDataNas());
-                System.out.println("Data de nascimento, recebida em Tela Principal: " + dataFormatada);
 
                 evento = new Eventos(TDPessoais, TDContratuais, TIContato);
                 btn_gravar.addActionListener(evento);
