@@ -12,7 +12,7 @@ public class PaneLogin extends JPanel {
     private GridBagConstraints gbc;
 
     public PaneLogin() {
-        setLayout(new GridBagLayout()); // <- CORREÇÃO
+        setLayout(new GridBagLayout());
         instanciar();
         cfgPane();
         adicionar();

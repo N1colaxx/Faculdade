@@ -4,49 +4,48 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main extends JFrame {
-    
+    // Telas
     private PaneLogin paneLogin;
     private PaneMenu paneMenu;
-    // Telas de cadastro
+    // Paineis de cadastro
     private PaneCliente paneCliente;
     private PaneUsuarios paneUsuario;
     private PaneFornecedor paneFornecedor;
     private PaneFormaPagamento paneFormaPagamento;
-    // Telas de Movimentos
+    // Paineis de Movimentos
     private PaneVendas paneVendas;
     private PaneCompras paneCompras;
-    // CardLayout
-    private JPanel contentPanel;
-    private CardLayout cardLayout;
+    // Painel de Sair
+    // variaveis
+    private JPanel contentPanel; //recebe tudo 
+    private CardLayout cardLayout; // orquestra todos os paineis
     
     
     
     public Main() {
         cfgFrame();
-
         instanciar();
         criarCardLayout();
 
         add(contentPanel);
-
-        // Quando clicar em Entrar → mostra menu
+        
         paneLogin.getBtnEntrar().addActionListener(e -> mostrarMenu());
 
-        // Quando clicar nos menus
-        paneMenu.getJmiCliente().addActionListener(e -> mostrarTela("CLIENTE"));
-        paneMenu.getJmiUsuario().addActionListener(e -> mostrarTela("USUARIO"));
-        paneMenu.getJmiFornecedor().addActionListener(e -> mostrarTela("FORNECEDOR"));
-        paneMenu.getJmiFormaPagamento().addActionListener(e -> mostrarTela("FORMA DE PAGAMENTO"));
-        paneMenu.getJmiVenda().addActionListener(e -> mostrarTela("VENDAS"));
-        paneMenu.getJmiCompra().addActionListener(e -> mostrarTela("COMPRAS"));
+        // Configura os eventos do menu em uma classe externa
+        try {
+            new EventosMenu(this);
+        } catch (Exception e) {
+            System.out.println("\n ERRO! Executar eventos do MENU \n" + e);
+        }
     }
 
     private void cfgFrame() {
         setTitle("Empresa de Genciamento de Compra - Venda");
-        setSize(800, 600);
+        setSize(1000, 900); // aumentei para caber tudo
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); // centraliza o frame no meio da tela
     }
+
 
     private void instanciar(){
 
@@ -60,7 +59,7 @@ public class Main extends JFrame {
         paneFormaPagamento = new PaneFormaPagamento();
         paneCompras = new PaneCompras();
         paneVendas = new PaneVendas();
-
+                
         } catch (Exception e) {
             System.out.println("\nERRO ao Criar as telas(Pane) \n" + e);
         }
@@ -72,7 +71,7 @@ public class Main extends JFrame {
             cardLayout = new CardLayout();
             contentPanel = new JPanel(cardLayout);
 
-            // adiciona as telas com "nomes"
+            // adiciona as telas
             // Cadastro
             contentPanel.add(paneLogin, "LOGIN");
             contentPanel.add(paneCliente, "CLIENTE");
@@ -82,20 +81,32 @@ public class Main extends JFrame {
             // Movimentados
             contentPanel.add(paneVendas, "VENDAS");
             contentPanel.add(paneCompras, "COMPRAS");
+
             
         } catch (Exception e) {
             System.out.println("\n ERRO! ao Criar o CardLayout \n" + e);
         }
     }
     
-    private void mostrarMenu() {
+    public void mostrarMenu() {
         setJMenuBar(paneMenu.getMenuBar());
         mostrarTela("CLIENTE"); // abre Cliente como padrão
     }
 
-    private void mostrarTela(String nomeTela) {
+    public void mostrarTela(String nomeTela) {
         cardLayout.show(contentPanel, nomeTela);
     }
+    
+    
+    //Getterts
+    
+    public PaneMenu getPaneMenu() {
+        return paneMenu;
+    }
+    
+
+
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Main().setVisible(true));

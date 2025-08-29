@@ -11,9 +11,10 @@ public class TelaDadosContratuais extends JPanel {
     private JComboBox box_departamento, box_cargo_funcao, box_tipo_contrato, box_regime_trabalho;
 
     // Labels
-    private JLabel lbl_ra, lbl_empresa, lbl_local_trabalho, lbl_data_admissao,
-            lbl_jornada_trabalho, lbl_salario,
-            lbl_info_sobre_ferias, lbl_info_sobre_afastamento, lbl_info_sobre_recisao;
+    private JLabel 
+            lbl_ra, lbl_empresa, lbl_local_trabalho, lbl_data_admissao,
+            lbl_jornada_trabalho, lbl_salario, lbl_info_sobre_ferias, 
+            lbl_info_sobre_afastamento, lbl_info_sobre_recisao;
 
     // TextFields
     private JTextField edt_ra, edt_empresa, edt_local_trabalho,

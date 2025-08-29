@@ -1,6 +1,5 @@
 package t02_10_09_25;
 
-import java.awt.*;
 import javax.swing.*;
 
 public class PaneMenu extends JPanel {
@@ -9,7 +8,8 @@ public class PaneMenu extends JPanel {
     private JMenuBar menuBar;
     private JMenuItem 
             jmiCliente, jmiFornecedor, jmiUsuario, jmiFormaPagamento, // Itens do menuCadastro
-            jmiVenda, jmiCompra; // itens do menuMovimentos
+            jmiVenda, jmiCompra, // itens do menuMovimentos
+            jmiSair; // itens de menuSair
     
     public PaneMenu(){
         instanciar();
@@ -22,6 +22,7 @@ public class PaneMenu extends JPanel {
         menuCadastro = new JMenu("Cadastro");
         menuMovimentos = new JMenu("Movimentos");
         menuSair = new JMenu("Sair");
+
         
         // Itens de Cadastro
         jmiCliente = new JMenuItem("Cliente");
@@ -33,6 +34,8 @@ public class PaneMenu extends JPanel {
         jmiVenda = new JMenuItem("Vendas");
         jmiCompra = new JMenuItem("Compras");
         
+        // Itens de Sair
+        jmiSair = new JMenuItem("sair");
     }
     
     
@@ -43,17 +46,18 @@ public class PaneMenu extends JPanel {
         menuCadastro.add(jmiFormaPagamento);
         menuCadastro.add(jmiUsuario);
         // Movimentados
-        menuCadastro.add(jmiCompra);
-        menuCadastro.add(jmiVenda);
-
-
-        menuMovimentos.add(jmiVenda);
         menuMovimentos.add(jmiCompra);
-
+        menuMovimentos.add(jmiVenda);
+        //Sair
+        menuSair.add(jmiSair);
+        
         menuBar.add(menuCadastro);
         menuBar.add(menuMovimentos);
         menuBar.add(menuSair);
     }
+    
+
+
     
     // Getters
     public JMenuBar getMenuBar() { return menuBar; }
@@ -63,5 +67,8 @@ public class PaneMenu extends JPanel {
     public JMenuItem getJmiFormaPagamento() { return jmiFormaPagamento; }
     public JMenuItem getJmiVenda() { return jmiVenda; }
     public JMenuItem getJmiCompra() { return jmiCompra; }
+    public JMenuItem getJmiSair() { return jmiSair; }
+    
+    
     
 }
