@@ -12,6 +12,39 @@ alter table teste
     add primary key (teste_id); -- aqui vc não cria o nome da constraint, o DB cria sozinho
 
 ```
+
+***Usando o `SERIAL`***
+
+> cria ID auto auto increment
+
+Para usar o SERIAL temos q seguir esses passos:
+
+1. Criar uma sequence (sequencia):
+    
+    ``` sql 
+        CREATE SEQUENCE cliente_cli_cod_seq;
+    ```
+
+2. Conectar a coluna
+
+    ``` sql 
+        ALTER TABLE cliente
+            ALTER COLUMN cli_codigo SET DEFAULT nextval('cliente_cli_cod_seq');
+
+            --  nextval function (commonly used with sequences),
+    ```
+3. Criar a PK com CONSTRAINT
+
+    ```sql 
+        ALTER TABLE cliente 
+            add constraint pk_cliente primary key (cli_codigo);
+    ```
+    
+
+<br>
+
+---
+
 ### Criar chave estrangeira (foreign key)
 
 ```sql
