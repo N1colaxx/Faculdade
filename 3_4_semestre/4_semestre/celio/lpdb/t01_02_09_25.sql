@@ -441,14 +441,19 @@ VALUES
  * */
 
 -- 1) Apagar Ana e Nicolas de clientes
+SELECT * FROM cliente;
 DELETE FROM cliente AS c
 WHERE c.pes_codigo IN (4,5);
 
 -- 2) Apagar Ana e Nicolas de fornecedores
+SELECT * FROM fornecedor;
+
 DELETE FROM fornecedor AS f
-WHERE f.pes_codigo IN (4,5);
+WHERE f.pes_codigo IN (2);
 
 -- 3) Apagar Ana e Nicolas da tabela pessoa
+SELECT * FROM pessoa;
+
 DELETE FROM pessoa AS p
 WHERE p.pes_codigo IN (4,5);
 
