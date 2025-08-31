@@ -5,21 +5,16 @@ import java.awt.*;
 
 public class ViewPessoa extends JPanel {
 
-    protected JLabel 
-            lblNome, lblPesFisica, lblDocumento, lblRgie, lblEndereco,
+    protected JLabel lblNome, lblPesFisica, lblDocumento, lblRgie, lblEndereco,
             lblNumero, lblComplemento, lblBairro, lblCidade, lblUF, lblCEP,
             lblCelular, lblSite, lblEmail, lblTelefone;
-
-    protected JTextField 
-            edtNome, edtDocumento, edtRgie, edtEndereco, edtNumero, edtComplemento,
+    protected JTextField edtNome, edtDocumento, edtRgie, edtEndereco, edtNumero, edtComplemento,
             edtBairro, edtCidade, edtCEP, edtCelular, edtSite, edtEmail, edtTelefone;
-
-    protected JComboBox<String> cbPesFisica;
-    protected JComboBox<String> cbUF;
+    protected JComboBox<String> cbPesFisica, cbUF;
 
     public ViewPessoa() {
-        
         setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         instanciar();
         adicionar();
     }
@@ -27,8 +22,8 @@ public class ViewPessoa extends JPanel {
     private void instanciar() {
         lblNome = new JLabel("Nome:"); edtNome = new JTextField(20);
         lblPesFisica = new JLabel("Pessoa Física?"); cbPesFisica = new JComboBox<>(new String[]{"Sim", "Não"});
-        lblDocumento = new JLabel("CPF/CNPJ:"); edtDocumento = new JTextField(20);
-        lblRgie = new JLabel("RG/IE:"); edtRgie = new JTextField(20);
+        lblDocumento = new JLabel("CPF/CNPJ:"); edtDocumento = new JTextField(15);
+        lblRgie = new JLabel("RG/IE:"); edtRgie = new JTextField(15);
         lblEndereco = new JLabel("Endereço:"); edtEndereco = new JTextField(20);
         lblNumero = new JLabel("Número:"); edtNumero = new JTextField(5);
         lblComplemento = new JLabel("Complemento:"); edtComplemento = new JTextField(15);
@@ -48,12 +43,11 @@ public class ViewPessoa extends JPanel {
 
     private void adicionar() {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10,10,10,10); // espaçamento
+        gbc.insets = new Insets(5,5,5,5);
         gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 0;
 
-        // helper para adicionar label + field
         addCampo(lblNome, edtNome, gbc);
         addCampo(lblPesFisica, cbPesFisica, gbc);
         addCampo(lblDocumento, edtDocumento, gbc);

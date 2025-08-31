@@ -5,70 +5,77 @@ import java.awt.*;
 
 public class TelaUsuarios extends JPanel {
 
-    private JLabel lblTitulo, lblNomeUser, lblLoginUser, lblSenhaUser;
-    private JTextField edtNomeUser, edtLoginUser;
-    private JPasswordField edtSenhaUser;
+    private JLabel lblTitulo, lblNome, lblLogin, lblSenha;
+    private JTextField edtNome, edtLogin;
+    private JPasswordField edtSenha;
     private JButton btnCadastrar, btnCancelar;
 
     public TelaUsuarios() {
-        setLayout(null);
-        setBorder(BorderFactory.createLineBorder(new Color(200,200,200)));
+        setBackground(new Color(245, 250, 255));
+        setLayout(new BorderLayout());
         instanciar();
         adicionar();
     }
 
     private void instanciar() {
-        lblTitulo = new JLabel("CADASTRO DE USUÁRIO", SwingConstants.CENTER);
+        lblTitulo = new JLabel("Cadastro de Usuário", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
-        lblTitulo.setForeground(new Color(30, 30, 120));
+        lblTitulo.setForeground(new Color(30,30,120));
 
-        lblNomeUser = new JLabel("Nome:");
-        lblLoginUser = new JLabel("Login (e-mail):");
-        lblSenhaUser = new JLabel("Senha:");
+        lblNome = new JLabel("Nome:");
+        lblLogin = new JLabel("Login (e-mail):");
+        lblSenha = new JLabel("Senha:");
 
-        edtNomeUser = new JTextField(20);
-        edtLoginUser = new JTextField(20);
-        edtSenhaUser = new JPasswordField(20);
+        edtNome = new JTextField(20);
+        edtLogin = new JTextField(20);
+        edtSenha = new JPasswordField(20);
 
         btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setBackground(Color.green);
+        btnCadastrar.setBackground(new Color(0,150,0));
+        btnCadastrar.setForeground(Color.WHITE);
         btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
 
         btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBackground(Color.red);
+        btnCancelar.setBackground(new Color(180,0,0));
+        btnCancelar.setForeground(Color.WHITE);
         btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
     }
 
     private void adicionar() {
-        int xLbl = 50, xField = 220;
-        int larguraLbl = 140, larguraField = 220;
-        int altura = 28, y = 70, passo = 45;
+        JPanel centro = new JPanel();
+        centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
+        centro.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Título
-        lblTitulo.setBounds(50, 20, 400, 30);
-        add(lblTitulo);
+        JPanel form = new JPanel(new GridBagLayout());
+        form.setBackground(getBackground());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,5,5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 0;
 
-        // Nome
-        lblNomeUser.setBounds(xLbl, y, larguraLbl, altura);
-        edtNomeUser.setBounds(xField, y, larguraField, altura);
-        add(lblNomeUser); add(edtNomeUser);
+        addCampo(form, lblNome, edtNome, gbc);
+        addCampo(form, lblLogin, edtLogin, gbc);
+        addCampo(form, lblSenha, edtSenha, gbc);
 
-        // Login
-        y += passo;
-        lblLoginUser.setBounds(xLbl, y, larguraLbl, altura);
-        edtLoginUser.setBounds(xField, y, larguraField, altura);
-        add(lblLoginUser); add(edtLoginUser);
+        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        botoes.add(btnCancelar);
+        botoes.add(btnCadastrar);
 
-        // Senha
-        y += passo;
-        lblSenhaUser.setBounds(xLbl, y, larguraLbl, altura);
-        edtSenhaUser.setBounds(xField, y, larguraField, altura);
-        add(lblSenhaUser); add(edtSenhaUser);
+        centro.add(lblTitulo);
+        centro.add(Box.createVerticalStrut(15));
+        centro.add(form);
+        centro.add(Box.createVerticalStrut(15));
+        centro.add(botoes);
 
-        // Botões
-        y += passo;
-        btnCancelar.setBounds(80, y, 140, altura);
-        btnCadastrar.setBounds(250, y, 140, altura);
-        add(btnCancelar); add(btnCadastrar);
+        add(centro, BorderLayout.CENTER);
+    }
+
+    private void addCampo(JPanel panel, JLabel label, JComponent field, GridBagConstraints gbc) {
+        gbc.gridx = 0;
+        panel.add(label, gbc);
+        gbc.gridx = 1;
+        panel.add(field, gbc);
+        gbc.gridy++;
     }
 }
