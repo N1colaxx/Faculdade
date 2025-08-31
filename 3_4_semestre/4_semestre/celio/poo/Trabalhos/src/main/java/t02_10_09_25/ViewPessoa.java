@@ -3,7 +3,7 @@ package t02_10_09_25;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanePessoa extends JPanel {
+public class ViewPessoa extends JPanel {
 
     protected JLabel 
             lblNome, lblPesFisica, lblDocumento, lblRgie, lblEndereco,
@@ -17,7 +17,7 @@ public class PanePessoa extends JPanel {
     protected JComboBox<String> cbPesFisica;
     protected JComboBox<String> cbUF;
 
-    public PanePessoa() {
+    public ViewPessoa() {
         
         setLayout(new GridBagLayout());
         instanciar();

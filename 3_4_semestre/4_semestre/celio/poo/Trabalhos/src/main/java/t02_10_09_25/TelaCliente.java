@@ -3,13 +3,13 @@ package t02_10_09_25;
 import javax.swing.*;
 import java.awt.*;
 
-public class PaneCliente extends JPanel {
+public class TelaCliente extends JPanel {
 
-    private PanePessoa panePessoa;
+    private ViewPessoa panePessoa;
     private JLabel lblTitulo;
     private JButton btnSalvar, btnCancelar;
 
-    public PaneCliente() {
+    public TelaCliente() {
         setBackground(new Color(245, 250, 255)); // fundo suave;;;
 
         setLayout(new BorderLayout());
@@ -23,7 +23,7 @@ public class PaneCliente extends JPanel {
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setForeground(new Color(30, 30, 120));
 
-        panePessoa = new PanePessoa();
+        panePessoa = new ViewPessoa();
 
         btnSalvar = new JButton("Salvar Cliente");
         btnSalvar.setBackground(new Color(0, 200, 0));

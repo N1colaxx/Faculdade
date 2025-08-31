@@ -3,7 +3,7 @@ package t02_10_09_25;
 import java.awt.*;
 import javax.swing.*;
 
-public class PaneLogin extends JPanel {
+public class Login extends JPanel {
 
     private JLabel lblTitulo, lblEmail, lblSenha, lblEsqueci;
     private JTextField edtEmail;
@@ -11,7 +11,7 @@ public class PaneLogin extends JPanel {
     private JButton btnEntrar;
     private GridBagConstraints gbc;
 
-    public PaneLogin() {
+    public Login() {
         setLayout(new GridBagLayout());
         instanciar();
         cfgPane();

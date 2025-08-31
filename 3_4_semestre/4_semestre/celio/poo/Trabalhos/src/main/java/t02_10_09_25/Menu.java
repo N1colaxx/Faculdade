@@ -2,7 +2,7 @@ package t02_10_09_25;
 
 import javax.swing.*;
 
-public class PaneMenu extends JPanel {
+public class Menu extends JPanel {
     
     private JMenu menuCadastro, menuMovimentos, menuSair;
     private JMenuBar menuBar;
@@ -11,7 +11,7 @@ public class PaneMenu extends JPanel {
             jmiVenda, jmiCompra, // itens do menuMovimentos
             jmiSair; // itens de menuSair
     
-    public PaneMenu(){
+    public Menu(){
         instanciar();
         adicionar();
     }

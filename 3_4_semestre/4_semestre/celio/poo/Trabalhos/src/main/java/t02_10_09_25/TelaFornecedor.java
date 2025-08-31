@@ -3,14 +3,14 @@ package t02_10_09_25;
 import javax.swing.*;
 import java.awt.*;
 
-public class PaneFornecedor extends JPanel {
+public class TelaFornecedor extends JPanel {
 
-    private PanePessoa panePessoa;
+    private ViewPessoa panePessoa;
     private JLabel lblTitulo, lblFantasia, lblFone1, lblFone2;
     private JTextField edtFantasia, edtFone1, edtFone2;
     private JButton btnSalvar, btnCancelar;
 
-    public PaneFornecedor() {
+    public TelaFornecedor() {
         setBackground(new Color(245, 250, 255));
         setLayout(new BorderLayout());
 
@@ -23,7 +23,7 @@ public class PaneFornecedor extends JPanel {
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setForeground(new Color(30, 30, 120));
 
-        panePessoa = new PanePessoa();
+        panePessoa = new ViewPessoa();
 
         lblFantasia = new JLabel("Nome Fantasia:");
         edtFantasia = new JTextField(20);

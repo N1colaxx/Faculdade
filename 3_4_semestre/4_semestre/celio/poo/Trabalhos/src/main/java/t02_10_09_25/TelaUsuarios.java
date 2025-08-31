@@ -3,14 +3,14 @@ package t02_10_09_25;
 import javax.swing.*;
 import java.awt.*;
 
-public class PaneUsuarios extends JPanel {
+public class TelaUsuarios extends JPanel {
 
     private JLabel lblTitulo, lblNomeUser, lblLoginUser, lblSenhaUser;
     private JTextField edtNomeUser, edtLoginUser;
     private JPasswordField edtSenhaUser;
     private JButton btnCadastrar, btnCancelar;
 
-    public PaneUsuarios() {
+    public TelaUsuarios() {
         setLayout(null);
         setBorder(BorderFactory.createLineBorder(new Color(200,200,200)));
         instanciar();

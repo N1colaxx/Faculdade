@@ -5,16 +5,16 @@ import java.awt.*;
 
 public class Main extends JFrame {
     // Telas
-    private PaneLogin paneLogin;
-    private PaneMenu paneMenu;
+    private Login paneLogin;
+    private Menu paneMenu;
     // Paineis de cadastro
-    private PaneCliente paneCliente;
-    private PaneUsuarios paneUsuario;
-    private PaneFornecedor paneFornecedor;
-    private PaneFormaPagamento paneFormaPagamento;
+    private TelaCliente paneCliente;
+    private TelaUsuarios paneUsuario;
+    private TelaFornecedor paneFornecedor;
+    private FormaPaga paneFormaPagamento;
     // Paineis de Movimentos
-    private PaneVendas paneVendas;
-    private PaneCompras paneCompras;
+    private TelaVendas paneVendas;
+    private TelaCompras paneCompras;
     // Painel de Sair
     // variaveis
     private JPanel contentPanel; //recebe tudo 
@@ -51,14 +51,14 @@ public class Main extends JFrame {
 
         // Cria telas
         try {            
-        paneLogin = new PaneLogin();
-        paneMenu = new PaneMenu();
-        paneCliente = new PaneCliente();
-        paneUsuario = new PaneUsuarios();
-        paneFornecedor = new PaneFornecedor();
-        paneFormaPagamento = new PaneFormaPagamento();
-        paneCompras = new PaneCompras();
-        paneVendas = new PaneVendas();
+        paneLogin = new Login();
+        paneMenu = new Menu();
+        paneCliente = new TelaCliente();
+        paneUsuario = new TelaUsuarios();
+        paneFornecedor = new TelaFornecedor();
+        paneFormaPagamento = new FormaPaga();
+        paneCompras = new TelaCompras();
+        paneVendas = new TelaVendas();
                 
         } catch (Exception e) {
             System.out.println("\nERRO ao Criar as telas(Pane) \n" + e);
@@ -100,7 +100,7 @@ public class Main extends JFrame {
     
     //Getterts
     
-    public PaneMenu getPaneMenu() {
+    public Menu getPaneMenu() {
         return paneMenu;
     }
     
