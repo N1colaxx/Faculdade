@@ -11,7 +11,7 @@ public class Main extends JFrame {
     private TelaCliente paneCliente;
     private TelaUsuarios paneUsuario;
     private TelaFornecedor paneFornecedor;
-    private FormaPaga paneFormaPagamento;
+    private TelaFormaPaga paneFormaPagamento;
     // Paineis de Movimentos
     private TelaVendas paneVendas;
     private TelaCompras paneCompras;
@@ -56,7 +56,7 @@ public class Main extends JFrame {
         paneCliente = new TelaCliente();
         paneUsuario = new TelaUsuarios();
         paneFornecedor = new TelaFornecedor();
-        paneFormaPagamento = new FormaPaga();
+        paneFormaPagamento = new TelaFormaPaga();
         paneCompras = new TelaCompras();
         paneVendas = new TelaVendas();
                 

@@ -16,6 +16,7 @@ public class AbaPrincipal {
         JPanel cab = new JPanel(new GridLayout(2, 2, 8, 4));
         cab.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
         
+        
         cab.add(new JLabel("CPF"));
         txtCPF = UIHelper.criarCampoMascara("###.###.###-##");
         cab.add(txtCPF);

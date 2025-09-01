@@ -86,6 +86,7 @@ public class Main extends JFrame {
     
     private JPanel criarBarraAcoes() {
         JPanel topo = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 8));
+
         
         topo.add(new JLabel("Status:"));
         JComboBox<String> cmbStatus = new JComboBox<>(new String[]{"Aberta","Pendente","Fechada"});
@@ -114,6 +115,7 @@ public class Main extends JFrame {
     
     private JPanel criarCentro() {
         JPanel centro = new JPanel(new BorderLayout());
+
         
         // Cabeçalho (CPF / Nome) - vem da AbaPrincipal
         centro.add(abaPrincipal.criarCabecalho(), BorderLayout.NORTH);
@@ -124,7 +126,6 @@ public class Main extends JFrame {
         tabs.addTab("Documentação", UIHelper.criarScrollPane(abaDocumentacao.criarAba()));
         tabs.addTab("Contrato", UIHelper.criarScrollPane(abaContrato.criarAba()));
         tabs.addTab("Operacional", UIHelper.criarScrollPane(abaOperacional.criarAba()));
-        
         centro.add(tabs, BorderLayout.CENTER);
         return centro;
     }

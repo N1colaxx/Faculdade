@@ -3,13 +3,13 @@ package t02_10_09_25;
 import java.awt.*;
 import javax.swing.*;
 
-public class FormaPaga extends JPanel {
+public class TelaFormaPaga extends JPanel {
 
     private JLabel lblTitulo, lblNomeFormaPaga;
     private JTextField edtNomeFormaPaga;
     private JButton btnSalvar, btnCancelar;
 
-    public FormaPaga() {
+    public TelaFormaPaga() {
         setLayout(new BorderLayout());
         instanciar();
         adicionar();
