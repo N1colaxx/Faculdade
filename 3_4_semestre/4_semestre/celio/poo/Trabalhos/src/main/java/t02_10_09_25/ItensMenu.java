@@ -4,9 +4,10 @@ package t02_10_09_25;
 import javax.swing.*;
 
 import java.awt.*;
+import javax.swing.table.DefaultTableModel;
 
 
-public final class AbasCadastro extends JPanel{
+public final class ItensMenu extends JPanel{
     
     private ViewPessoa viewPessoa;
     private Main classMain;
@@ -14,8 +15,12 @@ public final class AbasCadastro extends JPanel{
     private JTextField edtNomeFormaPaga, edtNome, edtLogin, edtSenha;
     private JButton btnCadastrar, btnCancelar;
     
+    
+    private JTable tabelaProdutos;
+    private DefaultTableModel modeloTabela;
+    
 
-    public AbasCadastro(Main classMain) {
+    public ItensMenu(Main classMain) {
         this.classMain = classMain;
     }
     
@@ -120,7 +125,8 @@ private JPanel paneLefth(JLabel lblTitulo) {
     
     public void paneFormaPagamento() {
         removeAll();
-        
+        System.out.println("pane de Forma de Pagamento ABERTO.");
+
         lblTitulo = new JLabel("Cadastro de Forma de Pagamento", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setForeground(new Color(30, 30, 120));
@@ -139,6 +145,8 @@ private JPanel paneLefth(JLabel lblTitulo) {
     
     public void paneUsuario() {
         removeAll();
+        System.out.println("pane de USUARIOS ABERTO.");
+
         lblTitulo = new JLabel("Cadastro de Usuário", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         lblTitulo.setForeground(new Color(30,30,120));
@@ -160,6 +168,75 @@ private JPanel paneLefth(JLabel lblTitulo) {
     }
     
     
+    public void paneVendas() {
+        removeAll();                     
+        System.out.println("pane de VENDAS ABERTO.");
+        JOptionPane.showMessageDialog(null, "OLA ABRIU TELA DE VENDAS");
+
+        lblTitulo = new JLabel("Movimentos de Venda");
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
+        lblTitulo.setForeground(new Color(30, 30, 120));
+
+        String[] colunas = {"Código", "Venda", "Produto", "Quantidade", "Preço", "Desconto", "Total"};
+        modeloTabela = new DefaultTableModel(colunas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        tabelaProdutos = new JTable(modeloTabela);
+        tabelaProdutos.setFillsViewportHeight(true);
+        tabelaProdutos.setPreferredScrollableViewportSize(new Dimension(700, 250));
+   
+        JPanel centro = new JPanel();
+        centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
+        centro.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centro.add(lblTitulo);
+        centro.add(Box.createVerticalStrut(15));
+
+        JScrollPane scroll = new JScrollPane(tabelaProdutos);
+        centro.add(scroll);
+
+        add(centro, BorderLayout.CENTER);
+    }
 
     
+    public void paneCompras() {
+        removeAll();
+        JOptionPane.showMessageDialog(null, "OLA ABRIU TELA DE COMPRAS");
+        System.out.println("pane de COMPRAS ABERTO.");
+
+        lblTitulo = new JLabel("Movimentos de Compra", SwingConstants.CENTER);
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
+        lblTitulo.setForeground(new Color(30, 30, 120));
+
+        // Colunas baseadas na tabela compra_produto
+        String[] colunas = {"Código", "Compra", "Produto", "Quantidade", "Preço", "Desconto", "Total"};
+        modeloTabela = new DefaultTableModel(colunas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Apenas visualização
+            }
+        };
+        tabelaProdutos = new JTable(modeloTabela);
+        tabelaProdutos.setFillsViewportHeight(true);
+        tabelaProdutos.setPreferredScrollableViewportSize(new Dimension(700, 250));
+ 
+        JPanel centro = new JPanel();
+        centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
+        centro.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        centro.add(lblTitulo);
+        centro.add(Box.createVerticalStrut(15));
+
+        JScrollPane scroll = new JScrollPane(tabelaProdutos);
+        centro.add(scroll);
+
+        add(centro, BorderLayout.CENTER);
+    }
+
+
 }

@@ -5,11 +5,11 @@ import javax.swing.JOptionPane;
 public final class EventosMenu {
 
    private ViewMenu menu;
-   private AbasCadastro abasCadastro;
+   private ItensMenu abasCadastro;
     
 
     
-   public EventosMenu(ViewMenu menu, AbasCadastro abasCadastro) {
+   public EventosMenu(ViewMenu menu, ItensMenu abasCadastro) {
         this.menu = menu;
         this.abasCadastro = abasCadastro;
         
@@ -22,36 +22,37 @@ public final class EventosMenu {
         try {
             // Cadastro
             menu.getJmiCliente().addActionListener(e -> {
-                System.out.println("\n Abrindo Pane CLIENTE");
                 abasCadastro.paneCliente();
+                System.out.println("\n Abrindo Pane CLIENTE");
             });
 
             menu.getJmiFornecedor().addActionListener(e -> {
+                abasCadastro.paneFornecedor();                
                 System.out.println("\n Abrindo pane de FORNECEDOR");
-                abasCadastro.paneFornecedor();
             });
 
             menu.getJmiFormaPagamento().addActionListener(e -> {
+               abasCadastro.paneFormaPagamento();                
                 System.out.println("\n Abrindo pane de FORMA DE PAGAMENTO");
-               abasCadastro.paneFormaPagamento();
             });
             
             menu.getJmiUsuario().addActionListener(e -> {
+                abasCadastro.paneUsuario();                
                 System.out.println("\n Abrindo pane de USUARIO");
-                abasCadastro.paneUsuario();
             });
             
             
             // Movimentos
-//            menu.getJmiVenda().addActionListener(e -> {;
-//                System.out.println("Abrindo pane de VENDAS");
-//                main.mostrarTela("VENDAS");
-//            });
+            menu.getJmiCompra().addActionListener(e -> {
+               abasCadastro.paneCompras();
+               System.out.println("\n Abrindo pane de COMPRAS");
 
-//            menu.getJmiCompra().addActionListener(e -> {
-//                System.out.println("Abrindo pane de COMPRAS");
-//                main.mostrarTela("COMPRAS");
-//            });
+            });
+            
+            menu.getJmiVenda().addActionListener(e -> {
+                abasCadastro.paneVendas();
+                System.out.println("\n Abrindo pane de VENDAS");
+            });
 
             // Sair
             menu.getJmiSair().addActionListener(e -> {

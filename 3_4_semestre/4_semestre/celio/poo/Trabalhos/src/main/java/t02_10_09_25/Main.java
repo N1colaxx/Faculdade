@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class Main extends JFrame {
     private TelaLogin telaLogin;
-    private AbasCadastro abasCadastro;
+    private ItensMenu abasCadastro;
     private ViewMenu viewMenu;
     private EventosMenu eventosMenu;
     
@@ -19,21 +19,19 @@ public class Main extends JFrame {
     
     private void inicializar() {
         try {
-            System.out.println("\n Inicializando obj class Main... \n");
+            System.out.println("\n Inicializando obj class Main...");
             
             telaLogin = new TelaLogin();
-            System.out.println("Tela Login ... ");
+            System.out.println(" Tela Login ... ");
             
             viewMenu = new ViewMenu(this);
-            System.out.println("View Menu ... ");
+            System.out.println(" View Menu ... ");
             
-            abasCadastro = new AbasCadastro(this);    
-            System.out.println("Abas Cadastro ... ");
+            abasCadastro = new ItensMenu(this);    
+            System.out.println(" Abas Cadastro ... ");
             
             eventosMenu = new EventosMenu(viewMenu, abasCadastro);
-            System.out.println("Eventos do Menu ...");
-            
-            System.out.println("\n Inicialização comcluida com SUCESSO!");
+            System.out.println(" Eventos do Menu ...");
             
         } catch (Exception e) {
             System.out.println("\n ERRO! falha na inicialização dos OBJETOS. \n " + e);
@@ -53,13 +51,13 @@ public class Main extends JFrame {
             pack();
             
             try {
-                System.out.println("Inicializado -> Evento para mostrar Menu (...) ");
+                System.out.println(" Inicializado -> Evento para mostrar Menu (...) ");
                 telaLogin.getBtnEntrar().addActionListener(e -> mostrarMenu());
             } catch (Exception e) {
                 System.out.println("\n ERRO! Inicializado -> Evento para mostrar Menu (FALHOU) " + e);
             }
 
-            System.out.println("Inicializando -> Mostrando Tela Login (SUCESSO!)");
+            System.out.println(" Inicializando -> Mostrando Tela Login (SUCESSO!)");
         } catch (Exception e) {
             System.out.println("\n ERRO! Falha em: Inicializando -> Mostrando Tela Login (...) " + e);
         }}
