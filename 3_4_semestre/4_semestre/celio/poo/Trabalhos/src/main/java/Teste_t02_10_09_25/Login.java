@@ -1,9 +1,9 @@
-package Testes;
+package Teste_t02_10_09_25;
 
 import java.awt.*;
 import javax.swing.*;
 
-public class TelaLogin extends JPanel {
+public class Login extends JPanel {
 
     private JLabel lblTitulo, lblEmail, lblSenha, lblEsqueci;
     private JTextField edtEmail;
@@ -11,7 +11,7 @@ public class TelaLogin extends JPanel {
     private JButton btnEntrar;
     private GridBagConstraints gbc;
 
-    public TelaLogin() {
+    public Login() {
         setLayout(new GridBagLayout());
         instanciar();
         cfgPane();

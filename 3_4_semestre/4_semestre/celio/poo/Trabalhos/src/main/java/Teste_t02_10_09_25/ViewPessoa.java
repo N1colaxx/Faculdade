@@ -1,4 +1,4 @@
-package Testes;
+package Teste_t02_10_09_25;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,10 +8,10 @@ public class ViewPessoa extends JPanel {
     protected JLabel 
             lblNome, lblPesFisica, lblDocumento, lblRgie, lblEndereco,
             lblNumero, lblComplemento, lblBairro, lblCidade, lblUF, lblCEP,
-            lblCelular, lblSite, lblEmail ;
+            lblCelular, lblSite, lblEmail, lblTelefone;
     protected JTextField 
             edtNome, edtDocumento, edtRgie, edtEndereco, edtNumero, edtComplemento,
-            edtBairro, edtCidade, edtCEP, edtCelular, edtSite, edtEmail;
+            edtBairro, edtCidade, edtCEP, edtCelular, edtSite, edtEmail, edtTelefone;
     protected JComboBox<String> cbPesFisica, cbUF;
 
     public ViewPessoa() {
@@ -38,6 +38,7 @@ public class ViewPessoa extends JPanel {
         });
         lblCEP = new JLabel("CEP:"); edtCEP = new JTextField(10);
         lblCelular = new JLabel("Celular:"); edtCelular = new JTextField(15);
+        lblTelefone = new JLabel("Telefone:"); edtTelefone = new JTextField(15);
         lblSite = new JLabel("Site:"); edtSite = new JTextField(20);
         lblEmail = new JLabel("E-mail:"); edtEmail = new JTextField(20);
     }
@@ -61,42 +62,16 @@ public class ViewPessoa extends JPanel {
         addCampo(lblUF, cbUF, gbc);
         addCampo(lblCEP, edtCEP, gbc);
         addCampo(lblCelular, edtCelular, gbc);
+        addCampo(lblTelefone, edtTelefone, gbc);
         addCampo(lblSite, edtSite, gbc);
         addCampo(lblEmail, edtEmail, gbc);
     }
 
-    
     private void addCampo(JLabel label, JComponent field, GridBagConstraints gbc) {
-        // lbl
         gbc.gridx = 0;
         add(label, gbc);
-        // edt
         gbc.gridx = 1;
         add(field, gbc);
-        // mudar linha
         gbc.gridy++;
     }
-    
-    // Dentro de ViewPessoa, depois do adicionar()
-    public void adicionarExtras() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5,5,5,5);
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridy = getComponentCount() / 2; // começa na próxima linha
-
-        JLabel lblFantasia = new JLabel("Fantasia:");
-        JTextField edtFantasia = new JTextField(20);
-
-        JLabel lblFone1 = new JLabel("Telefone 1:");
-        JTextField edtFone1 = new JTextField(15);
-
-        JLabel lblFone2 = new JLabel("Telefone 2:");
-        JTextField edtFone2 = new JTextField(15);
-
-        addCampo(lblFantasia, edtFantasia, gbc);
-        addCampo(lblFone1, edtFone1, gbc);
-        addCampo(lblFone2, edtFone2, gbc);
-    }
-
 }

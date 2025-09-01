@@ -2,54 +2,59 @@ package t02_10_09_25;
 
 import javax.swing.JOptionPane;
 
-public class EventosMenu {
+public final class EventosMenu {
 
-    private Main main;
+   private ViewMenu menu;
+   private AbasCadastro abasCadastro;
     
-    public EventosMenu() {
-    }
+
     
-    public EventosMenu(Main main) {
-        this.main = main;
+   public EventosMenu(ViewMenu menu, AbasCadastro abasCadastro) {
+        this.menu = menu;
+        this.abasCadastro = abasCadastro;
+        
         itensMenu();
     }
 
-    private void itensMenu() {
+    private void itensMenu() {        
+        System.out.println("\n Inicializando Eventos Menu (SUCESSO!)");
+        
         try {
             // Cadastro
-            main.getPaneMenu().getJmiCliente().addActionListener(e -> {
-                System.out.println("Abrindo tela de CLIENTE");
-                main.mostrarTela("CLIENTE");
+            menu.getJmiCliente().addActionListener(e -> {
+                System.out.println("\n Abrindo Pane CLIENTE");
+                abasCadastro.paneCliente();
             });
 
-            main.getPaneMenu().getJmiUsuario().addActionListener(e -> {
-                System.out.println("Abrindo tela de USUARIO");
-                main.mostrarTela("USUARIO");
+            menu.getJmiFornecedor().addActionListener(e -> {
+                System.out.println("\n Abrindo pane de FORNECEDOR");
+                abasCadastro.paneFornecedor();
             });
 
-            main.getPaneMenu().getJmiFornecedor().addActionListener(e -> {
-                System.out.println("Abrindo tela de FORNECEDOR");
-                main.mostrarTela("FORNECEDOR");
+            menu.getJmiFormaPagamento().addActionListener(e -> {
+                System.out.println("\n Abrindo pane de FORMA DE PAGAMENTO");
+               abasCadastro.paneFormaPagamento();
             });
-
-            main.getPaneMenu().getJmiFormaPagamento().addActionListener(e -> {
-                System.out.println("Abrindo tela de FORMA DE PAGAMENTO");
-                main.mostrarTela("FORMA DE PAGAMENTO");
+            
+            menu.getJmiUsuario().addActionListener(e -> {
+                System.out.println("\n Abrindo pane de USUARIO");
+                abasCadastro.paneUsuario();
             });
-
+            
+            
             // Movimentos
-            main.getPaneMenu().getJmiVenda().addActionListener(e -> {
-                System.out.println("Abrindo tela de VENDAS");
-                main.mostrarTela("VENDAS");
-            });
+//            menu.getJmiVenda().addActionListener(e -> {;
+//                System.out.println("Abrindo pane de VENDAS");
+//                main.mostrarTela("VENDAS");
+//            });
 
-            main.getPaneMenu().getJmiCompra().addActionListener(e -> {
-                System.out.println("Abrindo tela de COMPRAS");
-                main.mostrarTela("COMPRAS");
-            });
+//            menu.getJmiCompra().addActionListener(e -> {
+//                System.out.println("Abrindo pane de COMPRAS");
+//                main.mostrarTela("COMPRAS");
+//            });
 
             // Sair
-            main.getPaneMenu().getJmiSair().addActionListener(e -> {
+            menu.getJmiSair().addActionListener(e -> {
                 System.out.println("\n Fechando Aplicacao...\n");
                 int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Confirmação", JOptionPane.YES_NO_OPTION);
                 if(opcao == JOptionPane.YES_OPTION){

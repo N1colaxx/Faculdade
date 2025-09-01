@@ -1,16 +1,16 @@
-package t02_10_09_25;
+package Teste_t02_10_09_25;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class TelaCompras extends JPanel {
+public class TelaVendas extends JPanel {
 
     private JLabel lblTitulo;
     private JTable tabelaProdutos;
     private DefaultTableModel modeloTabela;
 
-    public TelaCompras() {
+    public TelaVendas() {
         setBackground(new Color(245, 250, 255));
         setLayout(new BorderLayout());
         instanciar();
@@ -18,16 +18,15 @@ public class TelaCompras extends JPanel {
     }
 
     private void instanciar() {
-        lblTitulo = new JLabel("Movimentos de Compra", SwingConstants.CENTER);
+        lblTitulo = new JLabel("Movimentos de Venda", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         lblTitulo.setForeground(new Color(30, 30, 120));
 
-        // Colunas baseadas na tabela compra_produto
-        String[] colunas = {"Código", "Compra", "Produto", "Quantidade", "Preço", "Desconto", "Total"};
+        String[] colunas = {"Código", "Venda", "Produto", "Quantidade", "Preço", "Desconto", "Total"};
         modeloTabela = new DefaultTableModel(colunas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Apenas visualização
+                return false;
             }
         };
         tabelaProdutos = new JTable(modeloTabela);
@@ -50,9 +49,9 @@ public class TelaCompras extends JPanel {
         add(centro, BorderLayout.CENTER);
     }
 
-    // Método para carregar os dados futuramente
-    public void adicionarProduto(int codigo, int compra, int produto, double qtde, double preco, double desconto) {
+    public void adicionarProduto(int codigo, int venda, int produto, double qtde, double preco, double desconto) {
         double total = qtde * preco - desconto;
-        modeloTabela.addRow(new Object[]{codigo, compra, produto, qtde, preco, desconto, total});
+        modeloTabela.addRow(new Object[]{codigo, venda, produto, qtde, preco, desconto, total});
     }
 }
+

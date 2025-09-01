@@ -1,4 +1,4 @@
-package t02_10_09_25;
+package Teste_t02_10_09_25;
 
 import java.awt.*;
 import javax.swing.*;
