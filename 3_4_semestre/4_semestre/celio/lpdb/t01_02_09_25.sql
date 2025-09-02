@@ -18,6 +18,10 @@ referencial).
 
 
 -- Drop tables
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
+
 DROP TABLE IF EXISTS pessoa;
 DROP TABLE IF EXISTS fornecedor;
 DROP TABLE IF EXISTS cliente;
@@ -33,7 +37,7 @@ DROP TABLE IF EXISTS formapagto;
 
 
 CREATE TABLE pessoa(
-	pes_codigo int NOT NULL, -- PK
+	pes_codigo SERIAL NOT NULL, -- PK
 	pes_nome varchar(80) NOT NULL,
 	pes_fantasia varchar(80),
 	pes_fisica char(1) NOT NULL,
@@ -57,20 +61,20 @@ CREATE TABLE pessoa(
  
 
 CREATE TABLE fornecedor (
-	for_codigo int NOT NULL, --PK
+	for_codigo SERIAL NOT NULL, --PK
 	pes_codigo int NOT NULL, --FK_FORNECEDOR_PESSOA
 	for_contato varchar(80)
 );
 
 CREATE TABLE cliente(
-	cli_codigo int NOT NULL, --PK
+	cli_codigo SERIAL NOT NULL, --PK
 	pes_codigo int NOT NULL, -- FK_CLIENTE_PESSOA
 	cli_limitecred numeric(18,2) -- em Oracle -> Number
 );
 
 
 CREATE TABLE venda (
-	vda_codigo int NOT NULL, --PK
+	vda_codigo SERIAL NOT NULL, --PK
 	usu_codigo int NOT NULL, --FK_VENDA_USUARIO
 	cli_codigo int NOT NULL, --FK_VENDA_CLIENTE
 	vda_data date NOT NULL,
@@ -82,7 +86,7 @@ CREATE TABLE venda (
 
 
 CREATE TABLE usuario (
-	usu_codigo int NOT NULL, -- PK
+	usu_codigo SERIAL NOT NULL, -- PK
 	usu_nome varchar(80),
 	usu_login varchar(20) NOT NULL,
 	usu_senha varchar(20),
@@ -92,7 +96,7 @@ CREATE TABLE usuario (
 
 
 CREATE TABLE compra(
-	cpr_codigo int NOT NULL, --PK
+	cpr_codigo SERIAL NOT NULL, --PK
 	usu_codigo int NOT NULL, --FK_COMPRA_USUARIO
 	for_codigo int NOT NULL, --FK_COMPRA_FORNECEDOR
 	cpr_emissao date,
@@ -106,7 +110,7 @@ CREATE TABLE compra(
 
 
 CREATE TABLE compra_produto (
-	cpp_codigo int NOT NULL, --PK
+	cpp_codigo SERIAL NOT NULL, --PK
 	cpr_codigo int NOT NULL, --FK_COMPRA_PRODUTO_COMPRA
 	pro_codigo int NOT NULL, --FK_COMPRA_PRODUTO_PRODUTO
 	cpr_qtde numeric(14,4) NOT NULL,
@@ -117,7 +121,7 @@ CREATE TABLE compra_produto (
 
 
 CREATE TABLE produto (
-	pro_codigo int NOT NULL, --PK
+	pro_codigo SERIAL NOT NULL, --PK
 	pro_nome varchar(80) NOT NULL,
 	pro_estoque numeric(14,4),
 	pro_unidade varchar(5),
@@ -134,7 +138,7 @@ CREATE TABLE produto (
 );
 
 CREATE TABLE venda_produto (
-	vep_codigo int NOT NULL, --PK
+	vep_codigo SERIAL NOT NULL, --PK
 	vda_codigo int NOT NULL, --FK_VENDA_PRODUTO_VENDA
 	pro_codigo int NOT NULL, --FK_VENDA_PRODUTO_PRODUTO
 	vep_qtde numeric(14,4),
@@ -144,81 +148,19 @@ CREATE TABLE venda_produto (
 );
 
 CREATE TABLE venda_pagto (
-	vdp_codigo int NOT NULL, --PK
+	vdp_codigo SERIAL NOT NULL, --PK
 	vda_codigo int NOT NULL, --FK_VENDA_PAGTO_VEND
 	fpg_codigo int NOT NULL, --FK_VENDA_PAGAMENTO_FORMAPAGTO
 	vdp_valor numeric(18,2)
 );
 
 CREATE TABLE formapagto (
-	fpg_codigo int NOT NULL, --pk
+	fpg_codigo SERIAL NOT NULL, --pk
 	fpg_nome varchar(80) NOT NULL,
 	fpg_ativo char(1)
 );
 
-
-
-/*
- * 	CRIANDO AS PK com SERIAL
- *
- *	Porem para usar o SERIAL em colunas ja criadas tenho q seguir 3 passos.
- *
- *	1. adicionar as sequencias
- *  2. conectar as colunas
- *  3. Criando as PK
- *  */
-
-
--- 1. adicionar as sequencias
-	
-CREATE SEQUENCE pessoa_pes_codigo_seq;
-CREATE SEQUENCE fornecedor_for_codigo_seq;
-CREATE SEQUENCE cliente_cli_codigo_seq;
-CREATE SEQUENCE venda_vda_codigo_seq;
-CREATE SEQUENCE usuario_usu_codigo_seq;
-CREATE SEQUENCE compra_cpr_codigo_seq;
-CREATE SEQUENCE compra_produto_cpp_codigo_seq;
-CREATE SEQUENCE produto_pro_codigo_seq;
-CREATE SEQUENCE venda_produto_vep_codigo_seq;
-CREATE SEQUENCE venda_pagto_vdp_codigo_seq;
-CREATE SEQUENCE formapagto_fpg_codigo_seq;
-
--- 2. conectar as colunas 
-
-ALTER TABLE pessoa
-	ALTER COLUMN pes_codigo SET DEFAULT nextval('pessoa_pes_codigo_seq');
-
-ALTER TABLE cliente
-	ALTER COLUMN cli_codigo SET DEFAULT nextval('cliente_cli_codigo_seq');
-
-ALTER TABLE venda
-	ALTER COLUMN vda_codigo SET DEFAULT nextval('venda_vda_codigo_seq');
-
-ALTER TABLE usuario
-    ALTER COLUMN usu_codigo SET DEFAULT nextval('usuario_usu_codigo_seq');
-
-ALTER TABLE compra
-    ALTER COLUMN cpr_codigo SET DEFAULT nextval('compra_cpr_codigo_seq');
-
-ALTER TABLE fornecedor
-    ALTER COLUMN for_codigo SET DEFAULT nextval('fornecedor_for_codigo_seq');
-
-ALTER TABLE compra_produto
-    ALTER COLUMN cpp_codigo SET DEFAULT nextval('compra_produto_cpp_codigo_seq');
-
-ALTER TABLE produto
-    ALTER COLUMN pro_codigo SET DEFAULT nextval('produto_pro_codigo_seq');
-
-ALTER TABLE venda_produto
-    ALTER COLUMN vep_codigo SET DEFAULT nextval('venda_produto_vep_codigo_seq');
-
-ALTER TABLE venda_pagto
-    ALTER COLUMN vdp_codigo SET DEFAULT nextval('venda_pagto_vdp_codigo_seq');
-
-ALTER TABLE formapagto
-    ALTER COLUMN fpg_codigo SET DEFAULT nextval('formapagto_fpg_codigo_seq');
-
--- 3. Criando as PK
+-- ADD as CONSTRAINTS das PK
 
 ALTER TABLE cliente 
 	add PRIMARY KEY (cli_codigo);
@@ -253,12 +195,10 @@ ALTER TABLE venda_pagto
 ALTER TABLE formapagto
     ADD PRIMARY KEY (fpg_codigo);
 
-
-
-/**
- *  CRIANDO AS  FK
- * 
+/*
+ *	ADD as FK 
  * */
+
 
 
 
@@ -267,80 +207,80 @@ ALTER TABLE cliente
 	ADD CONSTRAINT fk_cliente_pessoa
 	FOREIGN KEY (pes_codigo) REFERENCES pessoa (pes_codigo)
 	ON DELETE RESTRICT   -- impede apagar pessoa se houver cliente
-	ON UPDATE CASCADE;   -- atualiza código se pessoa mudar
+	ON UPDATE RESTRICT; 	
 
 -- FORNECEDOR
 ALTER TABLE fornecedor
 	ADD CONSTRAINT fk_fornecedor_pessoa
 	FOREIGN KEY (pes_codigo) REFERENCES pessoa (pes_codigo)
 	ON DELETE RESTRICT   -- impede apagar pessoa se houver fornecedor
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 -- COMPRA
 ALTER TABLE compra
 	ADD CONSTRAINT fk_compra_usuario
 	FOREIGN KEY (usu_codigo) REFERENCES usuario (usu_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 -- COMPRA
 ALTER TABLE compra
 	ADD CONSTRAINT fk_compra_fornecedor
 	FOREIGN KEY (for_codigo) REFERENCES fornecedor (for_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 -- COMPRA_PRODUTO: não pode apagar compra ou produto se houver itens, para manter histórico
 ALTER TABLE compra_produto
 	ADD CONSTRAINT fk_compra_produto_compra
 	FOREIGN KEY (cpr_codigo) REFERENCES compra (cpr_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 ALTER TABLE compra_produto
 	ADD CONSTRAINT fk_compra_produto_produto
 	FOREIGN KEY (pro_codigo) REFERENCES produto (pro_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 -- VENDA: não pode apagar usuário ou cliente se houver vendas
 ALTER TABLE venda
 	ADD CONSTRAINT fk_venda_usuario
 	FOREIGN KEY (usu_codigo) REFERENCES usuario (usu_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 ALTER TABLE venda
 	ADD CONSTRAINT fk_venda_cliente
 	FOREIGN KEY (cli_codigo) REFERENCES cliente (cli_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 -- VENDA_PRODUTO: não pode apagar venda ou produto se houver histórico de vendas
 ALTER TABLE venda_produto
 	ADD CONSTRAINT fk_venda_produto_venda
 	FOREIGN KEY (vda_codigo) REFERENCES venda (vda_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 ALTER TABLE venda_produto
 	ADD CONSTRAINT fk_venda_produto_produto
 	FOREIGN KEY (pro_codigo) REFERENCES produto (pro_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 -- VENDA_PAGTO: não pode apagar venda ou forma de pagamento
 ALTER TABLE venda_pagto
 	ADD CONSTRAINT fk_venda_pagto_venda
 	FOREIGN KEY (vda_codigo) REFERENCES venda (vda_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 ALTER TABLE venda_pagto
 	ADD CONSTRAINT fk_venda_pagto_formapagto
 	FOREIGN KEY (fpg_codigo) REFERENCES formapagto (fpg_codigo)
 	ON DELETE RESTRICT
-	ON UPDATE CASCADE;
+	ON UPDATE RESTRICT;
 
 
 
@@ -442,6 +382,7 @@ VALUES
 
 -- 1) Apagar Ana e Nicolas de clientes
 SELECT * FROM cliente;
+
 DELETE FROM cliente AS c
 WHERE c.pes_codigo IN (4,5);
 
@@ -456,8 +397,3 @@ SELECT * FROM pessoa;
 
 DELETE FROM pessoa AS p
 WHERE p.pes_codigo IN (4,5);
-
-
-
-
-
