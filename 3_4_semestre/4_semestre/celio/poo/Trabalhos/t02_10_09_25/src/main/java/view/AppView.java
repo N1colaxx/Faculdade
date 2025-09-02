@@ -1,19 +1,28 @@
 package view;
 
+import util.MenuItem;
 
 import java.awt.*;
 import javax.swing.*;
 
 public class AppView extends JFrame{
-    // Views
+//     Util
+    private MenuItem eventosMenuItem;
+    
+//     Views
     private LoginView loginView;
     private MenuView menuView;
-    private ClienteView clienteView;
-    private CompraView compraView;
-    private FormaPagaView formaPagaView;
     private PessoaView pessoaView;
+
+    // cadastro
+    private ClienteView clienteView;
+    private FornecedorView fornecedorView;
+    private FormaPagaView formaPagaView;
     private UsuarioView usuario1View;
+    // movimentos
     private VendaView vendaView;
+    private CompraView compraView;
+
     
     // Variveis
     private JPanel contendPanel;
@@ -21,15 +30,13 @@ public class AppView extends JFrame{
 
 
     public AppView() {
-        instanciarUtil();
         instanciarView();
         criarCardLayout();
         
         add(contendPanel);
         
+        instanciarUtil();
         mostrandoLogin();
-                
-
         cfgFrame();
     }
     
@@ -37,9 +44,9 @@ public class AppView extends JFrame{
         try {
             System.out.println("\n Instanciando Util (...)");
             
-            menuView = new MenuView();
+            eventosMenuItem = new MenuItem(this);
             System.out.println(" Eventos do Menu");
-            System.out.println("\n Instanciando Util (SUCESSO)");
+            System.out.println(" Instanciando Util (SUCESSO)");
 
         } catch (Exception e) {
             System.out.println("\n ERRO! ao Instanciando Util (FALHA) \n" + e);            
@@ -51,28 +58,34 @@ public class AppView extends JFrame{
             System.out.println("\n Instanciando View (...)");
             
             loginView = new LoginView();
-            System.out.println(" Login");            
+            System.out.println(" Login");
+            
+            menuView = new MenuView();
+            System.out.println(" Menu");
+            
+            pessoaView = new PessoaView();
+            System.out.println(" Pessoa");
 
+            // Cadastro
             clienteView = new ClienteView();
             System.out.println(" Cliente");
             
-            compraView = new CompraView();
-            System.out.println(" Compra");
+            fornecedorView = new FornecedorView();
+            System.out.println(" Fronecedor");
             
             formaPagaView = new FormaPagaView();
             System.out.println(" FormaPaga");
             
-            pessoaView = new PessoaView();
-            System.out.println(" Pessoa");
-            
             usuario1View = new UsuarioView();
             System.out.println(" Usuario");
             
+            // Movimentos
+            
+            compraView = new CompraView();
+            System.out.println(" Compra");
+            
             vendaView = new VendaView();
             System.out.println(" Venda");
-            
-            menuView = new MenuView();
-            System.out.println(" Menu");
 
             System.out.println("Instanciando View (SUCESSO)");
             
@@ -90,26 +103,29 @@ public class AppView extends JFrame{
             
             contendPanel.add(loginView, "Login");
             System.out.println(" Login");
+            
+            contendPanel.add(pessoaView, "Pessoa");
+            System.out.println(" Pessoa");
 
             // Cadastro
             contendPanel.add(clienteView, "Cliente");
             System.out.println(" Cliente");
             
-            contendPanel.add(compraView, "Compra");
-            System.out.println(" Compra");
+            contendPanel.add(fornecedorView, "Fornecedor");
+            System.out.println(" Fornecedor");
             
             contendPanel.add(formaPagaView, "FormaPaga");
             System.out.println(" FormaPaga");
-            
-            contendPanel.add(pessoaView, "Pessoa");
-            System.out.println(" Pessoa");
             
             contendPanel.add(usuario1View, "Usuario");
             System.out.println(" Usuario");
             
             // Movimentos
             contendPanel.add(vendaView, "Venda");
+            System.out.println(" Venda");
+            
             contendPanel.add(compraView, "Compra");
+            System.out.println(" Compra");
             
             System.out.println(" Criando CardLayout (SUCESSO)");
             
@@ -128,16 +144,24 @@ public class AppView extends JFrame{
 
     private void mostrandoLogin(){
         mostrarTela("Login");
-        loginView.getBtnEntrar().addActionListener(e -> mostrarMenu());
+        loginView.getBtnEntrar().addActionListener(e -> entrarMenu());
     }
     
-    private void mostrarMenu() {
+    private void entrarMenu() {
+        System.out.println("\n Entrando em Menu...");
+        setJMenuBar(menuView);
         mostrarTela("Cliente");
+        System.out.println(" Entrando em Menu(SUCESSO)");
+
     }
-    public void mostrarTela(String nomePane){
-        cardLayout.show(contendPanel, nomePane);
+    
+    public void mostrarTela(String nome){
+        cardLayout.show(contendPanel, nome);
     }
-    public MenuView getMenu(){
+    
+
+    // Getters 
+    public MenuView getMenuView(){
         return menuView;
     }
 }

@@ -2,10 +2,9 @@ package view;
 
 import javax.swing.*;
 
-public class MenuView extends JPanel {
+public class MenuView extends JMenuBar{
     
     private JMenu menuCadastro, menuMovimentos, menuSair;
-    private JMenuBar menuBar;
     private JMenuItem 
             jmiCliente, jmiFornecedor, jmiUsuario, jmiFormaPagamento, // Itens do menuCadastro
             jmiVenda, jmiCompra, // itens do menuMovimentos
@@ -18,7 +17,6 @@ public class MenuView extends JPanel {
     
     private void instanciar(){
         
-        menuBar = new JMenuBar();
         menuCadastro = new JMenu("Cadastro");
         menuMovimentos = new JMenu("Movimentos");
         menuSair = new JMenu("Sair");
@@ -35,7 +33,7 @@ public class MenuView extends JPanel {
         jmiCompra = new JMenuItem("Compras");
         
         // Itens de Sair
-        jmiSair = new JMenuItem("sair");
+        jmiSair = new JMenuItem("Fechar");
     }
     
     
@@ -51,16 +49,15 @@ public class MenuView extends JPanel {
         //Sair
         menuSair.add(jmiSair);
         
-        menuBar.add(menuCadastro);
-        menuBar.add(menuMovimentos);
-        menuBar.add(menuSair);
+        add(menuCadastro);
+        add(menuMovimentos);
+        add(menuSair);
     }
     
 
 
     
     // Getters
-    public JMenuBar getMenuBar() { return menuBar; }
     public JMenuItem getJmiCliente() { return jmiCliente; }
     public JMenuItem getJmiUsuario() { return jmiUsuario; }
     public JMenuItem getJmiFornecedor() { return jmiFornecedor; }

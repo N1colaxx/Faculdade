@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 
 public class Cliente {
 
-    private int pk_cli_codigo, fk_pes_codigo;
+    private int pk_cli_codigo, 
+            fk_pes_codigo;
     private BigDecimal cli_limitecred;
 
     public Cliente() {
