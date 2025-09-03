@@ -1,4 +1,4 @@
-package t01_02_09_25;
+package testes;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
