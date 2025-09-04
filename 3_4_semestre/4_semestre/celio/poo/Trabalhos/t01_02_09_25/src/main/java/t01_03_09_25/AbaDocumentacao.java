@@ -94,7 +94,7 @@ public class AbaDocumentacao extends JPanel {
 
     public AbaDocumentacao() {
         setLayout(null);
-        setBackground(new Color(60, 63, 65));
+        
 
         criarComponentes();
         adicionarComponentes();

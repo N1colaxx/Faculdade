@@ -1,53 +1,56 @@
 package view;
 
-import util.MenuItem;
+import util.AppUI;
+import util.MenuUI;
 
 import java.awt.*;
 import javax.swing.*;
 
 public class AppView extends JFrame{
 //     Util
-    private MenuItem eventosMenuItem;
+    private MenuUI eventosMenuItem;
     
 //     Views
     private LoginView loginView;
     private MenuView menuView;
     private PessoaView pessoaView;
-
-    // cadastro
+    // ItensCadastro
     private ClienteView clienteView;
     private FornecedorView fornecedorView;
     private FormaPagaView formaPagaView;
     private UsuarioView usuario1View;
-    // movimentos
+    // ItensMovimentos
     private VendaView vendaView;
     private CompraView compraView;
-
-    
-    // Variveis
+    // Variaveis
     private JPanel contendPanel;
     private CardLayout cardLayout;
-
-
+    
     public AppView() {
+        AppUI.setNimbusLaFIfAvailable(); // opcional
         instanciarView();
+        tamanhoView();
         criarCardLayout();
-        
+      
         add(contendPanel);
         
         instanciarUtil();
         mostrandoLogin();
         cfgFrame();
+        setLocationRelativeTo(null);
     }
     
     private void instanciarUtil() {
         try {
             System.out.println("\n Instanciando Util (...)");
             
-            eventosMenuItem = new MenuItem(this);
-            System.out.println(" Eventos do Menu");
-            System.out.println(" Instanciando Util (SUCESSO)");
+            if (eventosMenuItem == null) {
+                eventosMenuItem = new MenuUI(this);
+            } else {
+                System.out.println(" -- MenuUI ja foi inicializado ANTERIORMENTE!");
+            }
 
+            System.out.println(" Instanciando Util (SUCESSO)");
         } catch (Exception e) {
             System.out.println("\n ERRO! ao Instanciando Util (FALHA) \n" + e);            
         }
@@ -58,48 +61,68 @@ public class AppView extends JFrame{
             System.out.println("\n Instanciando View (...)");
             
             loginView = new LoginView();
-            System.out.println(" Login");
-            
+                System.out.println(" Login");
             menuView = new MenuView();
-            System.out.println(" Menu");
-            
+                System.out.println(" Menu");
             pessoaView = new PessoaView();
-            System.out.println(" Pessoa");
-
+                System.out.println(" Pessoa");
             // Cadastro
             clienteView = new ClienteView();
-            System.out.println(" Cliente");
-            
+                System.out.println(" Cliente");
             fornecedorView = new FornecedorView();
-            System.out.println(" Fronecedor");
-            
+                System.out.println(" Fronecedor");
             formaPagaView = new FormaPagaView();
-            System.out.println(" FormaPaga");
-            
+                System.out.println(" FormaPaga");
             usuario1View = new UsuarioView();
-            System.out.println(" Usuario");
-            
+                System.out.println(" Usuario");
             // Movimentos
-            
             compraView = new CompraView();
-            System.out.println(" Compra");
-            
+                System.out.println(" Compra");
             vendaView = new VendaView();
-            System.out.println(" Venda");
-
-            System.out.println("Instanciando View (SUCESSO)");
-            
+                System.out.println(" Venda");
+                               
+            System.out.println(" Instanciando View (SUCESSO)");
         } catch (Exception e) {
             System.out.println("\n ERRO! ao Instanciando View (FALHA) \n" + e);
         }
     }
     
-    private void criarCardLayout() {
+    private void tamanhoView() {
+        try {
+            System.out.println("\n Aplicando Tamanho Padrao nas VIEW ...");
+            
+            // Login com tamanho diferente
+            Dimension t = new Dimension(600, 400);
+            loginView.setPreferredSize(t);
+                System.out.println(" Login");
+
+            // Demais com tamanho padrão (via AppUI)
+            aplicarTamanhoPadrao(clienteView);
+                System.out.println(" Cliente");
+            aplicarTamanhoPadrao(fornecedorView);
+                System.out.println(" Fornecedor");
+            aplicarTamanhoPadrao(formaPagaView);
+                System.out.println(" FormaPaga");
+            aplicarTamanhoPadrao(usuario1View);
+                System.out.println(" Usuario");
+            aplicarTamanhoPadrao(compraView);
+                System.out.println(" Compra");
+            aplicarTamanhoPadrao(vendaView);
+                System.out.println(" venda");
+                
+            System.out.println(" Aplicando Tamanho Padrao nas VIEW (SUCESSO)");
+        } catch (Exception e) {
+            System.out.println("\n Aplicando Tamanho Padrao nas VIEW (FALHA) \n" + e);
+        }
+    }
+    
+    private void criarCardLayout () {
         try {
             System.out.println("\n Criando CardLayout (...)");
             
             cardLayout = new CardLayout();
-            contendPanel = new JPanel(cardLayout);
+            // content recebe o CardLayout MAS com as regras de CardPanelView (usa preferred do card visível)
+            contendPanel = new CardPanelView(cardLayout);
             
             contendPanel.add(loginView, "Login");
             System.out.println(" Login");
@@ -136,10 +159,12 @@ public class AppView extends JFrame{
     
     private void cfgFrame(){
         setTitle("Empresa de Genciamento de Compra - Venda");
-        setPreferredSize(new Dimension(900, 700));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        pack();
+    }
+    
+    private void aplicarTamanhoPadrao(JComponent c) {
+        // usa AppUI para padronizar
+        AppUI.applyDefaultSize(c);
     }
 
     private void mostrandoLogin(){
@@ -149,16 +174,17 @@ public class AppView extends JFrame{
     
     private void entrarMenu() {
         System.out.println("\n Entrando em Menu...");
+        
         setJMenuBar(menuView);
         mostrarTela("Cliente");
         System.out.println(" Entrando em Menu(SUCESSO)");
-
     }
     
     public void mostrarTela(String nome){
         cardLayout.show(contendPanel, nome);
+        // empacota respeitando o card visível (CardPanelView)
+        AppUI.packToVisibleCard(this, contendPanel);
     }
-    
 
     // Getters 
     public MenuView getMenuView(){

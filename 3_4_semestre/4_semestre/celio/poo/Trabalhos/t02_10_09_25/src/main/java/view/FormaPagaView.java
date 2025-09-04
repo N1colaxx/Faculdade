@@ -1,68 +1,79 @@
 package view;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 public class FormaPagaView extends JPanel {
 
     private JLabel lblTitulo, lblNomeFormaPaga;
     private JTextField edtNomeFormaPaga;
-    private JButton btnSalvar, btnCancelar;
+    private JButton btnCadastrar, btnCancelar;
 
     public FormaPagaView() {
+        setBackground(new Color(245, 250, 255)); // igual UsuarioView
         setLayout(new BorderLayout());
         instanciar();
         adicionar();
     }
 
     private void instanciar() {
-        // Título
         lblTitulo = new JLabel("Cadastro de Forma de Pagamento", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         lblTitulo.setForeground(new Color(30, 30, 120));
 
-        // Campo Nome
-        lblNomeFormaPaga = new JLabel("Nome Forma de Pagamento:");
-        edtNomeFormaPaga = new JTextField(20);
+        lblNomeFormaPaga = new JLabel("Nome:");
+        edtNomeFormaPaga = new JTextField(20); // largura definida por colunas, não por weightx
 
-        // Botões
-        btnSalvar = new JButton("Salvar");
+        btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.setBackground(new Color(0,150,0));
+        btnCadastrar.setForeground(Color.WHITE);
+        btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
+
         btnCancelar = new JButton("Cancelar");
+        btnCancelar.setBackground(new Color(180,0,0));
+        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
     }
 
     private void adicionar() {
         JPanel centro = new JPanel();
-        centro.setBackground(getBackground());
+        centro.setOpaque(false);
         centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
+        centro.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Título
         lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centro.add(Box.createVerticalStrut(20));
-        centro.add(lblTitulo);
-        centro.add(Box.createVerticalStrut(20));
 
-        // Painel do campo Nome
-        JPanel painelNome = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
-        painelNome.setBackground(getBackground());
-        lblNomeFormaPaga.setPreferredSize(new Dimension(100, 25));
-        edtNomeFormaPaga.setPreferredSize(new Dimension(200, 25));
-        painelNome.add(lblNomeFormaPaga);
-        painelNome.add(edtNomeFormaPaga);
-        painelNome.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centro.add(painelNome);
+        // mesmo grid da UsuarioView
+        JPanel form = new JPanel(new GridBagLayout());
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,5,5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 0;
 
-        centro.add(Box.createVerticalStrut(20));
+        addCampo(form, lblNomeFormaPaga, edtNomeFormaPaga, gbc);
 
-        // Painel de botões
         JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         botoes.setBackground(getBackground());
         botoes.add(btnCancelar);
-        botoes.add(btnSalvar);
-        botoes.setAlignmentX(Component.CENTER_ALIGNMENT);
-        centro.add(botoes);
+        botoes.add(btnCadastrar);
 
-        centro.add(Box.createVerticalStrut(20)); // espaço no final
+        centro.add(lblTitulo);
+        centro.add(Box.createVerticalStrut(15));
+        centro.add(form);
+        centro.add(Box.createVerticalStrut(15));
+        centro.add(botoes);
 
         add(centro, BorderLayout.CENTER);
     }
+
+    // exatamente como na UsuarioView
+    private void addCampo(JPanel panel, JLabel label, JComponent field, GridBagConstraints gbc) {
+        gbc.gridx = 0;
+        panel.add(label, gbc);
+        gbc.gridx = 1;
+        panel.add(field, gbc);
+        gbc.gridy++;
+    }
+
 }

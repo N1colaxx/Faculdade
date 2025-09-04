@@ -3,21 +3,18 @@ package util;
 import view.AppView;
 import javax.swing.JOptionPane;
 
-public class MenuItem {
-
+public class MenuUI {
     private AppView app;
     
-    public MenuItem() {
-    }
-    
-    public MenuItem(AppView app) {
+    public MenuUI(AppView app) {
         this.app = app;
         itensMenu();
     }
 
     private void itensMenu() {
+        System.out.println(" MenuUI inicializado ...");
+        
         try {
-            System.out.println("\n Eventos de Menu");
             app.getMenuView().getJmiCliente().addActionListener(e -> {
                 app.mostrarTela("Cliente");
                 System.out.println(" Abrindo tela de CLIENTE");

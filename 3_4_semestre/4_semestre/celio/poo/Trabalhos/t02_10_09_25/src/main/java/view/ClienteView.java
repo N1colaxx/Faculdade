@@ -5,10 +5,10 @@ import java.awt.*;
 
 public class ClienteView extends JPanel {
 
-    private JLabel lblTitulo;
     private PessoaView pessoaView;
+    private JLabel lblTitulo, lblLimiteCredito;
     private JTextField edtLimiteCredito;
-    private JButton btnSalvar, btnCancelar;
+    private JButton btnCadastrar, btnCancelar;
 
     public ClienteView() {
         setBackground(new Color(245, 250, 255));
@@ -24,12 +24,15 @@ public class ClienteView extends JPanel {
 
         pessoaView = new PessoaView();
 
+        // Campo extra alinhado dentro do grid da PessoaView
+        lblLimiteCredito = new JLabel("Limite de Crédito:");
         edtLimiteCredito = new JTextField(10);
+        pessoaView.addCampoExtra(lblLimiteCredito, edtLimiteCredito);
 
-        btnSalvar = new JButton("Salvar");
-        btnSalvar.setBackground(new Color(0, 150, 0));
-        btnSalvar.setForeground(Color.WHITE);
-        btnSalvar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.setBackground(new Color(0, 150, 0));
+        btnCadastrar.setForeground(Color.WHITE);
+        btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
 
         btnCancelar = new JButton("Cancelar");
         btnCancelar.setBackground(new Color(180, 0, 0));
@@ -38,36 +41,23 @@ public class ClienteView extends JPanel {
     }
 
     private void adicionar() {
-        JPanel centro = new JPanel();
+        // Título no topo
+        add(lblTitulo, BorderLayout.NORTH);
+
+        // Centro: pessoaView centralizado
+        JPanel centro = new JPanel(new FlowLayout(FlowLayout.CENTER));
         centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
         centro.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-
-        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pessoaView.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // Campo de limite de crédito
-        JPanel painelCredito = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        painelCredito.add(new JLabel("Limite de Crédito:"));
-        painelCredito.add(edtLimiteCredito);
-
-        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
-        botoes.add(btnCancelar);
-        botoes.add(btnSalvar);
-
-        centro.add(lblTitulo);
-        centro.add(Box.createVerticalStrut(15));
+                
+        centro.setOpaque(false);
         centro.add(pessoaView);
-        centro.add(Box.createVerticalStrut(10));
-        centro.add(painelCredito);
-        centro.add(Box.createVerticalStrut(15));
-        centro.add(botoes);
-
         add(centro, BorderLayout.CENTER);
+
+        // Rodapé: botões centralizados
+        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        botoes.add(btnCancelar);
+        botoes.add(btnCadastrar);
+        add(botoes, BorderLayout.SOUTH);
     }
 
-    // Getters
-    public JButton getBtnSalvar() { return btnSalvar; }
-    public JButton getBtnCancelar() { return btnCancelar; }
-    public PessoaView getPessoaView() { return pessoaView; }
-    public JTextField getEdtLimiteCredito() { return edtLimiteCredito; }
 }

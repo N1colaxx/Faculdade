@@ -5,20 +5,50 @@ import java.awt.*;
 
 public class PessoaView extends JPanel {
 
-    protected JLabel 
-            lblNome, lblPesFisica, lblDocumento, lblRgie, lblEndereco,
-            lblNumero, lblComplemento, lblBairro, lblCidade, lblUF, lblCEP,
-            lblCelular, lblSite, lblEmail, lblTelefone;
-    protected JTextField 
+    // ===== Campos base =====
+    protected JLabel
+            lblNome,
+            lblPesFisica,
+            lblDocumento,
+            lblRgie,
+            lblEndereco,
+            lblNumero,
+            lblComplemento,
+            lblBairro,
+            lblCidade,
+            lblUF,
+            lblCEP,
+            lblCelular,
+            lblSite,
+            lblEmail,
+            lblTelefone;
+
+    protected JTextField
             edtNome, edtDocumento, edtRgie, edtEndereco, edtNumero, edtComplemento,
             edtBairro, edtCidade, edtCEP, edtCelular, edtSite, edtEmail, edtTelefone;
+
     protected JComboBox<String> cbPesFisica, cbUF;
 
+    // ===== Estado do layout =====
+    private final GridBagConstraints gbc = new GridBagConstraints();
+    private int nextRow = 0; // controla a próxima linha disponível
+
     public PessoaView() {
+//        setBackground(Color.red);
         setLayout(new GridBagLayout());
-        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        configurarGbc();
         instanciar();
-        adicionar();
+        adicionarBase();
+    }
+
+    private void configurarGbc() {
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.weightx = 0; // nada expande por padrão
+        gbc.fill = GridBagConstraints.NONE;
     }
 
     private void instanciar() {
@@ -43,45 +73,53 @@ public class PessoaView extends JPanel {
         lblEmail = new JLabel("E-mail:"); edtEmail = new JTextField(20);
     }
 
-    private void adicionar() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5,5,5,5);
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridy = 0;
-
-        addCampo(lblNome, edtNome, gbc);
-        addCampo(lblPesFisica, cbPesFisica, gbc);
-        addCampo(lblDocumento, edtDocumento, gbc);
-        addCampo(lblRgie, edtRgie, gbc);
-        addCampo(lblEndereco, edtEndereco, gbc);
-        addCampo(lblNumero, edtNumero, gbc);
-        addCampo(lblComplemento, edtComplemento, gbc);
-        addCampo(lblBairro, edtBairro, gbc);
-        addCampo(lblCidade, edtCidade, gbc);
-        addCampo(lblUF, cbUF, gbc);
-        addCampo(lblCEP, edtCEP, gbc);
-        addCampo(lblCelular, edtCelular, gbc);
-        addCampo(lblTelefone, edtTelefone, gbc);
-        addCampo(lblSite, edtSite, gbc);
-        addCampo(lblEmail, edtEmail, gbc);
+    private void adicionarBase() {
+        addCampo(lblNome, edtNome);
+        addCampo(lblPesFisica, cbPesFisica);
+        addCampo(lblDocumento, edtDocumento);
+        addCampo(lblRgie, edtRgie);
+        addCampo(lblEndereco, edtEndereco);
+        addCampo(lblNumero, edtNumero);
+        addCampo(lblComplemento, edtComplemento);
+        addCampo(lblBairro, edtBairro);
+        addCampo(lblCidade, edtCidade);
+        addCampo(lblUF, cbUF);
+        addCampo(lblCEP, edtCEP);
+        addCampo(lblCelular, edtCelular);
+        addCampo(lblTelefone, edtTelefone);
+        addCampo(lblSite, edtSite);
+        addCampo(lblEmail, edtEmail);
     }
 
-    private void addCampo(JLabel label, JComponent field, GridBagConstraints gbc) {
+    // label na col 0, campo na col 1; nada expande
+    private void addCampo(JLabel label, JComponent field) {
+        // Label (coluna 0)
         gbc.gridx = 0;
+        gbc.gridy = nextRow;
+        gbc.weightx = 0;
+        gbc.fill = GridBagConstraints.NONE;
         add(label, gbc);
+
+        // Campo (coluna 1)
         gbc.gridx = 1;
+        gbc.gridy = nextRow;
+        gbc.weightx = 0;                 // não distribuir espaço extra
+        gbc.fill = GridBagConstraints.HORIZONTAL; // mantém preferredSize do componente
         add(field, gbc);
-        gbc.gridy++;
+
+        nextRow++;
     }
 
+    public void addCampoExtra(JLabel label, JComponent field) {
+        addCampo(label, field);
+        revalidate();
+        repaint();
+    }
 
-
-// exemplo de getters para usar no Controller
-public String getNome() { return edtNome.getText(); }
-public String getDocumento() { return edtDocumento.getText(); }
-public String getEndereco() { return edtEndereco.getText(); }
-public String getUf() { return (String) cbUF.getSelectedItem(); }
-public boolean isPessoaFisica() { return cbPesFisica.getSelectedItem().equals("Sim"); }
-
+    // ==== Getters ====
+    public String getNome() { return edtNome.getText(); }
+    public String getDocumento() { return edtDocumento.getText(); }
+    public String getEndereco() { return edtEndereco.getText(); }
+    public String getUf() { return (String) cbUF.getSelectedItem(); }
+    public boolean isPessoaFisica() { return cbPesFisica.getSelectedItem().equals("Sim"); }
 }

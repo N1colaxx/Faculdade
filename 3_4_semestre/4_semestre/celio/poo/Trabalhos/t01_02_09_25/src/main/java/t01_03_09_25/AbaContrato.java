@@ -85,7 +85,7 @@ public class AbaContrato extends JPanel {
 
     public AbaContrato() {
         setLayout(null);
-        setBackground(new Color(60, 63, 65));
+        
 
 
         criarComponentes();
@@ -343,7 +343,7 @@ public class AbaContrato extends JPanel {
         lblTipoContrato.setBounds(650, 125, 120, 25);
         cbTipoContrato.setBounds(780, 125, 220, 25);
 
-        lblRescisao.setBounds(650, 170, 100, 25);
+        lblRescisao.setBounds(670, 170, 100, 25);
 
         lblDataDemissao.setBounds(670, 200, 120, 25);
         edtDataDemissao.setBounds(800, 200, 120, 25);
@@ -351,16 +351,16 @@ public class AbaContrato extends JPanel {
         lblMotivoDemissao.setBounds(670, 235, 120, 25);
         cbMotivoDemissao.setBounds(800, 235, 220, 25);
 
-        chkAvisoPrevio.setBounds(670, 270, 140, 25);
+        chkAvisoPrevio.setBounds(700, 300, 140, 25);
 
-        lblDataAvisoInicio.setBounds(670, 300, 140, 25);
-        edtDataAvisoInicio.setBounds(800, 300, 120, 25);
+        lblDataAvisoInicio.setBounds(670, 350, 140, 25);
+        edtDataAvisoInicio.setBounds(800, 350, 120, 25);
 
-        lblDataAvisoFim.setBounds(670, 335, 140, 25);
-        edtDataAvisoFim.setBounds(800, 335, 120, 25);
+        lblDataAvisoFim.setBounds(670, 390, 140, 25);
+        edtDataAvisoFim.setBounds(800, 390, 120, 25);
 
-        lblMotivoRais.setBounds(670, 370, 140, 25);
-        cbMotivoRais.setBounds(800, 370, 220, 25);
+        lblMotivoRais.setBounds(670, 450, 140, 25);
+        cbMotivoRais.setBounds(800, 450, 220, 25);
 
     }
 

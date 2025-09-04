@@ -50,11 +50,11 @@ public class AbaPrincipal extends JPanel {
             edtPai, edtMae;
     private JComboBox<String> cbEmpresa, cbDivisaoRh, cbMunicipio, cbSexo, cbEstadoCivil, cbGrauDeInstrucao;
 
-    private String[] empresas = {"1000- Empresa 1", "2000- Empresa 2", "3000- Empresa 3", "4000- Empresa 4", "5000- Empresa 5"};
+    private String[] empresas = {"Empresa 1", "Empresa 2", "Empresa 3", "Empresa 4", "Empresa 5"};
     
     private String[] divisaorh = {"100- Dono", "200- Gerente", "300- Administrador", "400- TI"};
     
-    private String[] municipios = {"Reginópolis - SP", "Bauru - SP", "Catanduva - SP", "Pongaí - SP"};
+    private String[] municipios = {"Reginópolis - SP", "Bauru - SP", "Pongaí - SP"};
     
     private String[] generos = {"Masculino", "Feminino"};
     
@@ -65,7 +65,7 @@ public class AbaPrincipal extends JPanel {
     public AbaPrincipal() {
 
         setLayout(null);
-        setBackground(new Color(60, 63, 65));   
+          
         criarComponentes();
         adicionarComponentes();
         configurarPosicoes();

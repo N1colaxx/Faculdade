@@ -1,14 +1,15 @@
 package view;
 
+import util.AppUI;      
 import view.PessoaView;
 import javax.swing.*;
 import java.awt.*;
 
 public class FornecedorView extends JPanel {
 
-    private JLabel lblTitulo;
     private PessoaView pessoaView;
-    private JButton btnSalvar, btnCancelar;
+    private JLabel lblTitulo, lblFantasia, lblFone1, lblFone2;
+    private JButton btnCadastrar, btnCancelar;
     private JTextField edtFantasia, edtFone1, edtFone2;
 
     public FornecedorView() {
@@ -25,14 +26,23 @@ public class FornecedorView extends JPanel {
 
         pessoaView = new PessoaView();
 
+        lblFantasia = new JLabel("Nome Fantasia:");
+        lblFone1 = new JLabel("Fone 1:");
+        lblFone2 = new JLabel("Fone 2:");
+
         edtFantasia = new JTextField(20);
         edtFone1 = new JTextField(15);
         edtFone2 = new JTextField(15);
 
-        btnSalvar = new JButton("Salvar");
-        btnSalvar.setBackground(new Color(0, 150, 0));
-        btnSalvar.setForeground(Color.WHITE);
-        btnSalvar.setFont(new Font("Arial", Font.BOLD, 14));
+        // entram alinhados no grid da PessoaView
+        pessoaView.addCampoExtra(lblFantasia, edtFantasia);
+        pessoaView.addCampoExtra(lblFone1, edtFone1);
+        pessoaView.addCampoExtra(lblFone2, edtFone2);
+
+        btnCadastrar = new JButton("Cadastrar");
+        btnCadastrar.setBackground(new Color(0, 150, 0));
+        btnCadastrar.setForeground(Color.WHITE);
+        btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
 
         btnCancelar = new JButton("Cancelar");
         btnCancelar.setBackground(new Color(180, 0, 0));
@@ -41,44 +51,22 @@ public class FornecedorView extends JPanel {
     }
 
     private void adicionar() {
-        JPanel centro = new JPanel();
+        // Título no topo
+        add(lblTitulo, BorderLayout.NORTH);
+
+        // Centro: PessoaView centralizado 
+        JPanel centro = new JPanel(new FlowLayout(FlowLayout.CENTER));
         centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
         centro.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-        lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pessoaView.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JPanel extras = new JPanel(new GridBagLayout());
-        extras.setBackground(getBackground());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5,5,5,5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridy = 0;
-
-        addCampo(extras, "Nome Fantasia:", edtFantasia, gbc);
-        addCampo(extras, "Fone 1:", edtFone1, gbc);
-        addCampo(extras, "Fone 2:", edtFone2, gbc);
-
-        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
-        botoes.add(btnCancelar);
-        botoes.add(btnSalvar);
-
-        centro.add(lblTitulo);
-        centro.add(Box.createVerticalStrut(15));
+        
+        centro.setOpaque(false);
         centro.add(pessoaView);
-        centro.add(Box.createVerticalStrut(15));
-        centro.add(extras);
-        centro.add(Box.createVerticalStrut(15));
-        centro.add(botoes);
-
         add(centro, BorderLayout.CENTER);
-    }
 
-    private void addCampo(JPanel panel, String labelText, JComponent field, GridBagConstraints gbc) {
-        JLabel label = new JLabel(labelText);
-        gbc.gridx = 0;
-        panel.add(label, gbc);
-        gbc.gridx = 1;
-        panel.add(field, gbc);
-        gbc.gridy++;
+        // Rodapé: botões centralizados
+        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        botoes.add(btnCancelar);
+        botoes.add(btnCadastrar);
+        add(botoes, BorderLayout.SOUTH);
     }
 }

@@ -12,6 +12,8 @@ slid -> 1, 2,
 
 `Statement` → executa comandos SQL simples (sem parâmetros).
 
+-   **ResultsSet**
+    -   
 `PreparedStatement` → executa comandos SQL com parâmetros (mais seguro contra SQL Injection).
 
 `ResultSet` → guarda os resultados de um SELECT.

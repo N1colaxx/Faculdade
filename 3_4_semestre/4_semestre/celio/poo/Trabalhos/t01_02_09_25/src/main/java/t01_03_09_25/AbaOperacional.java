@@ -57,7 +57,7 @@ public class AbaOperacional extends JPanel {
 
     public AbaOperacional() {
         setLayout(null);
-        setBackground(new Color(60, 63, 65));
+        
         
         criarComponentes();
         adicionarComponentes();
@@ -226,12 +226,13 @@ public class AbaOperacional extends JPanel {
 
         lblBanco.setBounds(580, 110, 60, 20);
         cbBanco.setBounds(640, 110, 200, 22);
+        
+        
+        lblAgencia.setBounds(300, 150, 80, 20);
+        edtAgencia.setBounds(380, 150, 80, 22);
 
-        lblAgencia.setBounds(300, 145, 80, 20);
-        edtAgencia.setBounds(380, 145, 80, 22);
-
-        lblNumeroConta.setBounds(470, 145, 100, 20);
-        edtNumeroConta.setBounds(570, 145, 120, 22);
+        lblNumeroConta.setBounds(470, 150, 100, 20);
+        edtNumeroConta.setBounds(570, 150, 120, 22);
 
         lblExamesAdmissionais.setBounds(300, 185, 200, 20);
 
