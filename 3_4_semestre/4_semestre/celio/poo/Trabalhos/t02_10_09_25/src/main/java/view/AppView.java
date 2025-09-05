@@ -27,7 +27,7 @@ public class AppView extends JFrame{
     private CardLayout cardLayout;
     
     public AppView() {
-        AppUI.setNimbusLaFIfAvailable(); // opcional
+        AppUI.setNimbus(); // opcional
         instanciarView();
         tamanhoView();
         criarCardLayout();

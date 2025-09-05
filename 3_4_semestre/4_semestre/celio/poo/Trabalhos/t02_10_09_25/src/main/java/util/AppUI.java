@@ -7,14 +7,12 @@ public final class AppUI {
 
     // === Constantes globais ===
     public static final Dimension SIZE_PADRAO     = new Dimension(800, 800);
-
-    public static final Color COLOR_BG      = new Color(245, 250, 255);
   
 
     private AppUI() {} // utility class
 
     // === Look & Feel (opcional) ===
-    public static void setNimbusLaFIfAvailable() {
+    public static void setNimbus() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
