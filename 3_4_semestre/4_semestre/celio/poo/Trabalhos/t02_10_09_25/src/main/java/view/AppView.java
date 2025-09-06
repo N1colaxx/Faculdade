@@ -90,24 +90,31 @@ public class AppView extends JFrame{
     private void tamanhoView() {
         try {
             System.out.println("\n Aplicando Tamanho Padrao nas VIEW ...");
+            Dimension l, v, c;
             
             // Login com tamanho diferente
-            Dimension t = new Dimension(600, 400);
-            loginView.setPreferredSize(t);
+            l = new Dimension(600, 400);
+            loginView.setPreferredSize(l);
                 System.out.println(" Login");
 
             // Demais com tamanho padrão (via AppUI)
-            aplicarTamanhoPadrao(clienteView);
+            
+            AppUI.applyDefaultSize(clienteView);
                 System.out.println(" Cliente");
-            aplicarTamanhoPadrao(fornecedorView);
+            AppUI.applyDefaultSize(fornecedorView);
                 System.out.println(" Fornecedor");
-            aplicarTamanhoPadrao(formaPagaView);
+            AppUI.applyDefaultSize(formaPagaView);
                 System.out.println(" FormaPaga");
-            aplicarTamanhoPadrao(usuario1View);
+            AppUI.applyDefaultSize(usuario1View);
                 System.out.println(" Usuario");
-            aplicarTamanhoPadrao(compraView);
+                
+            // Venda e Compra com tamanho diferente
+            c = new Dimension(1400, 800);
+            AppUI.applySize(compraView, c);
                 System.out.println(" Compra");
-            aplicarTamanhoPadrao(vendaView);
+                
+            v = new Dimension(1100, 750);
+            AppUI.applySize(vendaView, v);
                 System.out.println(" venda");
                 
             System.out.println(" Aplicando Tamanho Padrao nas VIEW (SUCESSO)");
@@ -162,11 +169,6 @@ public class AppView extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
-    private void aplicarTamanhoPadrao(JComponent c) {
-        // usa AppUI para padronizar
-        AppUI.applyDefaultSize(c);
-    }
-
     private void mostrandoLogin(){
         mostrarTela("Login");
         loginView.getBtnEntrar().addActionListener(e -> entrarMenu());

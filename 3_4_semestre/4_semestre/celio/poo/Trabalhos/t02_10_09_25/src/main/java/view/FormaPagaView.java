@@ -21,7 +21,7 @@ public class FormaPagaView extends JPanel {
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         lblTitulo.setForeground(new Color(30, 30, 120));
 
-        lblNomeFormaPaga = new JLabel("Nome:");
+        lblNomeFormaPaga = new JLabel("Forma de Pagamento nome:");
         edtNomeFormaPaga = new JTextField(20); // largura definida por colunas, não por weightx
 
         btnCadastrar = new JButton("Cadastrar");

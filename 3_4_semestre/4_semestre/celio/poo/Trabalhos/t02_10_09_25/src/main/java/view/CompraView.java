@@ -8,7 +8,7 @@ public class CompraView extends JPanel implements InterfaceCadastro {
 
     // Título
     private JLabel lblTitulo;
-    private JButton btnIncluir, btnAlterar, btnConsultar, btnExcluir, btnCadastrar;
+    private JButton btnIncluir, btnAlterar, btnConsultar, btnExcluir;
 
     // Campos do formulário
     private JTextField edtCodigo, edtCompra, edtProduto, edtQtde, edtPreco, edtDesconto;
@@ -37,7 +37,6 @@ public class CompraView extends JPanel implements InterfaceCadastro {
         btnAlterar    = new JButton("Alterar");
         btnConsultar  = new JButton("Consultar");
         btnExcluir    = new JButton("Excluir");
-        btnCadastrar  = new JButton("Cadastrar");
 
         // Campos
         edtCodigo   = new JTextField(12);
@@ -76,7 +75,6 @@ public class CompraView extends JPanel implements InterfaceCadastro {
         botoes.add(btnAlterar);
         botoes.add(btnConsultar);
         botoes.add(btnExcluir);
-        botoes.add(btnCadastrar);
         coluna.add(botoes);
         coluna.add(Box.createVerticalStrut(12));
 
@@ -128,7 +126,6 @@ public class CompraView extends JPanel implements InterfaceCadastro {
         btnAlterar.addActionListener(e -> alterar());
         btnConsultar.addActionListener(e -> consultar());
         btnExcluir.addActionListener(e -> excluir());
-        btnCadastrar.addActionListener(e -> cadastrar());
     }
 
     @Override
@@ -153,10 +150,7 @@ public class CompraView extends JPanel implements InterfaceCadastro {
         System.out.println(" [Compra] Excluir");
     }
 
-    @Override
-    public void cadastrar() {
-        System.out.println(" [Compra] Cadastrar");
-    }
+
 
     @Override
     public boolean validar(int operacao) {
