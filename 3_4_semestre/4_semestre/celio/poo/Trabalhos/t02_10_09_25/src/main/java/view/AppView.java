@@ -109,11 +109,11 @@ public class AppView extends JFrame{
                 System.out.println(" Usuario");
                 
             // Venda e Compra com tamanho diferente
-            c = new Dimension(1100, 800);
+            c = new Dimension(1000, 850);
             AppUI.applySize(compraView, c);
                 System.out.println(" Compra");
                 
-            v = new Dimension(1100, 750);
+            v = new Dimension(1000, 800);
             AppUI.applySize(vendaView, v);
                 System.out.println(" venda");
                 
