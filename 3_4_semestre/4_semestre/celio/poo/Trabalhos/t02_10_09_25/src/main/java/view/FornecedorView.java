@@ -56,8 +56,8 @@ public class FornecedorView extends JPanel {
 
         // Centro: PessoaView centralizado 
         JPanel centro = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
-        centro.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+            centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
+            centro.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         
         centro.setOpaque(false);
         centro.add(pessoaView);

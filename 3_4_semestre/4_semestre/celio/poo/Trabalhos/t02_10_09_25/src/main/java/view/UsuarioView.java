@@ -1,5 +1,6 @@
 package view;
 
+import util.AppUI;
 import javax.swing.*;
 import java.awt.*;
 
@@ -54,9 +55,9 @@ public class UsuarioView extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridy = 0;
 
-        addCampo(form, lblNome, edtNome, gbc);
-        addCampo(form, lblLogin, edtLogin, gbc);
-        addCampo(form, lblSenha, edtSenha, gbc);
+        AppUI.addCampo2(form, lblNome, edtNome, gbc);
+        AppUI.addCampo2(form, lblLogin, edtLogin, gbc);
+        AppUI.addCampo2(form, lblSenha, edtSenha, gbc);
 
         JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         botoes.add(btnCancelar);
@@ -71,11 +72,5 @@ public class UsuarioView extends JPanel {
         add(centro, BorderLayout.CENTER);
     }
 
-    private void addCampo(JPanel panel, JLabel label, JComponent field, GridBagConstraints gbc) {
-        gbc.gridx = 0;
-        panel.add(label, gbc);
-        gbc.gridx = 1;
-        panel.add(field, gbc);
-        gbc.gridy++;
-    }
+
 }

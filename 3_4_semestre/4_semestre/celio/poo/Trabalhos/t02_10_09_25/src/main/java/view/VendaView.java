@@ -10,12 +10,12 @@ public class VendaView extends JPanel implements InterfaceCadastro {
     // Título
     private JLabel lblTitulo;
     // Botões
-    private JButton btnIncluir, btnAlterar, btnConsultar, btnExcluir;
+    private JButton btnIncluir, btnAlterar, btnConsultar, btnExcluir, btnConfirmar;
     // Campos
     private JLabel
-            // Dados da tab Venda
+            // Dados da Venda
             lblVdaCodigo,
-            lblUsuCodigo, lblCliCodigo, // 1 dos 2 obrigatorio, mas so pode ser 1
+            lblCliCodigo, // 1 dos 2 obrigatorio, mas so pode ser 1
             lblVdaData, // deixo para a data automatico e editavel para mudança
             lblVdaValor, // somente leitura
             lblVdaDesconto, 
@@ -27,21 +27,21 @@ public class VendaView extends JPanel implements InterfaceCadastro {
             lblProPreco,
             lblProUnidade,
             lblProPeso,
-            lblProObs;
+            lblProObs,
+            // Forma de Pagamento
+            lblFpgNome;
+
     private JTextField
-            // Dados da tab Venda
+            // Dados da Venda
             edtVdaCodigo,
             edtUsuCodigo, edtCliCodigo,
             edtVdaData,
+            edtVdaTotal, //soemente leitura
             edtVdaDesconto,
             edtVdaObs,
-            // Dados do Produto
-            edtProCodigo,
-            edtProNome,
-            edtProPreco,
-            edtProPeso,
-            edtProObs;
-    private JComboBox<String> jcbUnidade; // dados de produto
+            edtProCodigo; // Dados produto
+    
+    private JComboBox<String> jcbFpgNome; // dados de produto
 
 
     // Tabela
@@ -66,34 +66,32 @@ public class VendaView extends JPanel implements InterfaceCadastro {
         btnAlterar   = new JButton("Alterar");
         btnConsultar = new JButton("Consultar");
         btnExcluir   = new JButton("Excluir");
+        btnConfirmar = new JButton("Confimar");
         // Campos Venda
         lblVdaCodigo = new JLabel("Venda codigo");      edtVdaCodigo = new JTextField(10);
-        lblUsuCodigo = new JLabel("Usuario codigo");    edtUsuCodigo = new JTextField(10);
         lblCliCodigo = new JLabel("Cliente codigo");    edtCliCodigo = new JTextField(10);
         lblVdaData = new JLabel("Data ");               edtVdaData = new JTextField(10);
-        lblVdaValor = new JLabel("Valor ");
+        lblVdaValor = new JLabel("Valor ");             
         lblVdaDesconto = new JLabel("Desconto ");       edtVdaDesconto = new JTextField(10);
-        lblVdaTotal = new JLabel("Valor Total ");
+        lblVdaTotal = new JLabel("Valor Total ");       edtVdaTotal = new JTextField(10); edtVdaTotal.setEditable(false);
         lblVdaObs = new JLabel("Observacao ");          edtVdaObs = new JTextField(); 
-        // Capompos Produto
-        lblProCodigo = new JLabel("Produto Codigo");    edtProCodigo = new JTextField(10); 
-        lblProNome = new JLabel("Nome ");               edtProNome = new JTextField(25); 
-        lblProPreco = new JLabel("Proço ");             edtProPreco = new JTextField(10);
-        lblProUnidade = new JLabel("Unidade ");
-        lblProPeso = new JLabel("Peso ");               edtProPeso = new JTextField(20);
-        lblProObs = new JLabel("Observacao ");          edtProObs = new JTextField(); 
+        // Campo Produto
+        lblProCodigo = new JLabel("Produto Codigo");    edtProCodigo = new JTextField(10);
         
-        String[] unidade = {"Kg", "UN"};
-        jcbUnidade = new JComboBox<>(unidade);
+        // Forma Pagamento
+        lblFpgNome = new JLabel("Escolha");
+        
+        String[] forma = {"Pix", "Cartão Credito", "Cartão Debito"};
+        jcbFpgNome = new JComboBox<>(forma);
         
         // Tabela
-        String[] colunas = {"Codigo Venda", "Data Venda", "Codigo Produto", "Nome Produto", "Preco", "Unidade", "Peso", "Valor", "Desconto", "Valor Total"};
+        String[] colunas = {"Codigo Venda", "Data Venda", "Codigo Produto", "Nome Produto", "Preco", "Unidade", "Peso", "Total"};
         modeloTabela = new DefaultTableModel(colunas, 0) {
             @Override public boolean isCellEditable(int row, int column) { return false; } // impede de alguem clicar em uma celuda e mudar os dados manualmente
         };
         tabela = new JTable(modeloTabela);
         tabela.setFillsViewportHeight(true); // ocupa todo a altura disponivel
-        tabela.setPreferredScrollableViewportSize(new Dimension(1000, 400));
+        tabela.setPreferredScrollableViewportSize(new Dimension(1000, 300));
     }
 
     private void adicionar() {
@@ -139,53 +137,64 @@ public class VendaView extends JPanel implements InterfaceCadastro {
                     lblTituloV.setForeground(Color.WHITE);
                     
                     JPanel paneVenda = new JPanel(new GridBagLayout());
-                        AppUI.addCampo(paneVenda, lblVdaCodigo, edtVdaCodigo, gbc);
-                        AppUI.addCampo(paneVenda, lblUsuCodigo, edtUsuCodigo, gbc);
-                        AppUI.addCampo(paneVenda, lblCliCodigo, edtCliCodigo, gbc);
-                        AppUI.addCampo(paneVenda, lblVdaData, edtVdaData, gbc);
-                        AppUI.addCampo(paneVenda, lblVdaDesconto, edtVdaDesconto, gbc);
-                        AppUI.addCampo(paneVenda, lblVdaObs, edtVdaObs, gbc);
+                        AppUI.addCampo1(paneVenda, lblProCodigo, edtProCodigo, gbc);
+                        AppUI.addCampo1(paneVenda, lblCliCodigo, edtCliCodigo, gbc);
+                        AppUI.addCampo1(paneVenda, lblVdaData, edtVdaData, gbc);
+                        AppUI.addCampo1(paneVenda, lblVdaDesconto, edtVdaDesconto, gbc);
+                        AppUI.addCampo1(paneVenda, lblVdaObs, edtVdaObs, gbc);
                 colunaVenda.add(lblTituloV);
                 colunaVenda.add(paneVenda);
         
-                // Dados do Produto
-                JPanel colunaProduto = new JPanel();
-                    colunaProduto.setLayout(new BoxLayout(colunaProduto, BoxLayout.Y_AXIS));
-                    colunaProduto.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                // Forma de Pagamento
+                JPanel colunaFormaPaga = new JPanel();
+                    colunaFormaPaga.setLayout(new BoxLayout(colunaFormaPaga, BoxLayout.Y_AXIS));
+                    colunaFormaPaga.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-                    JLabel lblTituloP = new JLabel("Dados Produto");
+                    JLabel lblTituloP = new JLabel("Forma de Pagamento");
                     lblTituloP.setAlignmentX(Component.LEFT_ALIGNMENT);
                     lblTituloP.setFont(new Font("Arial", Font.BOLD, 14));
                     lblTituloP.setForeground(Color.WHITE);
 
-                    JPanel paneProduto = new JPanel(new GridBagLayout());
-                        AppUI.addCampo(paneProduto, lblProCodigo,edtProCodigo , gbc);
-                        AppUI.addCampo(paneProduto, lblProNome,edtProNome , gbc);
-                        AppUI.addCampo(paneProduto, lblProPreco,edtProPreco , gbc);
-                        AppUI.addCampo(paneProduto, lblProUnidade, jcbUnidade, gbc);
-                        AppUI.addCampo(paneProduto, lblProPeso,edtProPeso , gbc);
-                        AppUI.addCampo(paneProduto, lblProObs,edtProObs , gbc);
-                colunaProduto.add(lblTituloP);
-                colunaProduto.add(paneProduto);
+                    JPanel paneFormaPaga = new JPanel(new GridBagLayout());
+                        AppUI.addCampo1(paneFormaPaga, lblFpgNome, jcbFpgNome, gbc);
+                        
+                colunaFormaPaga.add(lblTituloP);
+                colunaFormaPaga.add(paneFormaPaga);
+                colunaFormaPaga.add(btnConfirmar);
                 
                 // e deixe os filhos transparentes, para a parecer o fundo 
                 colunaVenda.setOpaque(false);
-                colunaProduto.setOpaque(false);
+                colunaFormaPaga.setOpaque(false);
                 
-            // ADD colunaVenda e colunaProdutoo ao PANE de Formulario
+            // ADD colunaVenda e colunaFormaPagao ao PANE de Formulario
             paneFormularioPrincipal.add(colunaVenda);
-            paneFormularioPrincipal.add(colunaProduto);
+            paneFormularioPrincipal.add(colunaFormaPaga);
 
         // ADD o paneFormulario ao panePrincipal
         panePrincipal.add(paneFormularioPrincipal, BorderLayout.CENTER);
-
-            // colocando a tabela dentro de um panel com SCROLL
-            JScrollPane scroll = new JScrollPane(tabela); 
-                scroll.setOpaque(true);
-                scroll.setBackground(Color.LIGHT_GRAY);
+        
+        
+            JPanel coluna2 = new JPanel();
+               coluna2.setLayout(new BoxLayout(coluna2, BoxLayout.Y_AXIS));
                
+                // colocando a tabela dentro de um panel com SCROLL
+                JScrollPane scroll = new JScrollPane(tabela); 
+                    scroll.setOpaque(true);
+                    scroll.setBackground(Color.LIGHT_GRAY);
+                    
+                JPanel paneRodape = new JPanel();
+                paneRodape.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+                    paneRodape.add(lblVdaTotal);
+                    paneRodape.add(edtVdaTotal);
+            coluna2.add(scroll);
+            coluna2.add(paneRodape);
+            
+            
         // ADD a tabela com o Scroll ao panePrincipal
-        panePrincipal.add(scroll, BorderLayout.SOUTH);
+        panePrincipal.add(coluna2, BorderLayout.SOUTH);
+        
+
+        
         
         // ADD o panePrincipal ao paneVendaView
         add(panePrincipal);

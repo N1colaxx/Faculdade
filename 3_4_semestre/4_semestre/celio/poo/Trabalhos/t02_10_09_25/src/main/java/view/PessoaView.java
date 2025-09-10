@@ -103,7 +103,7 @@ public class PessoaView extends JPanel {
         // Campo (coluna 1)
         gbc.gridx = 1;
         gbc.gridy = nextRow;
-        gbc.weightx = 0;                 // não distribuir espaço extra
+        gbc.weightx = 0; // não distribuir espaço extra
         gbc.fill = GridBagConstraints.HORIZONTAL; // mantém preferredSize do componente
         add(field, gbc);
 

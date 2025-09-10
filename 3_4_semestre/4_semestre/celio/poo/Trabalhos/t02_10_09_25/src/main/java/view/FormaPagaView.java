@@ -1,13 +1,15 @@
 package view;
 
+import util.AppUI;
 import javax.swing.*;
 import java.awt.*;
 
 public class FormaPagaView extends JPanel {
 
-    private JLabel lblTitulo, lblNomeFormaPaga;
+    private JLabel lblTitulo, lblNomeFormaPaga, lblAtivo;
     private JTextField edtNomeFormaPaga;
     private JButton btnCadastrar, btnCancelar;
+    private JComboBox jcbAtivo;
 
     public FormaPagaView() {
         setBackground(new Color(245, 250, 255)); // igual UsuarioView
@@ -33,6 +35,10 @@ public class FormaPagaView extends JPanel {
         btnCancelar.setBackground(new Color(180,0,0));
         btnCancelar.setForeground(Color.WHITE);
         btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        lblAtivo = new JLabel("Ativo Sim/Nao");
+        String[] tipo = {"Sim", "Nao"};
+        jcbAtivo = new JComboBox(tipo);
     }
 
     private void adicionar() {
@@ -51,8 +57,9 @@ public class FormaPagaView extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridy = 0;
 
-        addCampo(form, lblNomeFormaPaga, edtNomeFormaPaga, gbc);
-
+        AppUI.addCampo2(form, lblNomeFormaPaga, edtNomeFormaPaga, gbc);
+        AppUI.addCampo2(form, lblAtivo, jcbAtivo, gbc);
+        
         JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         botoes.setBackground(getBackground());
         botoes.add(btnCancelar);
@@ -65,15 +72,6 @@ public class FormaPagaView extends JPanel {
         centro.add(botoes);
 
         add(centro, BorderLayout.CENTER);
-    }
-
-    // exatamente como na UsuarioView
-    private void addCampo(JPanel panel, JLabel label, JComponent field, GridBagConstraints gbc) {
-        gbc.gridx = 0;
-        panel.add(label, gbc);
-        gbc.gridx = 1;
-        panel.add(field, gbc);
-        gbc.gridy++;
     }
 
 }

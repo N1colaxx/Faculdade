@@ -43,7 +43,7 @@ public final class AppUI {
     }
     
     // Add campo em Movimentos
-    public static void addCampo(JPanel panel, JLabel label, JComponent field, GridBagConstraints gbc) {
+    public static void addCampo1(JPanel panel, JLabel label, JComponent component, GridBagConstraints gbc) {
         // LABEL
         gbc.gridx = 0;
         gbc.weightx = 0;
@@ -53,10 +53,18 @@ public final class AppUI {
 
         // CAMPO
         gbc.gridx = 1;
-        gbc.weightx = 0;                     // não recebe espaço extra
-        field.setPreferredSize(new Dimension(300, 25));
-        panel.add(field, gbc);
+        gbc.weightx = 0; // não recebe espaço extra
+        component.setPreferredSize(new Dimension(300, 25));
+        panel.add(component, gbc);
 
+        gbc.gridy++;
+    }
+    
+    public static void addCampo2(JPanel panel, JLabel label, JComponent field, GridBagConstraints gbc) {
+        gbc.gridx = 0;
+        panel.add(label, gbc);
+        gbc.gridx = 1;
+        panel.add(field, gbc);
         gbc.gridy++;
     }
 }

@@ -154,13 +154,13 @@ public class CompraView extends JPanel implements InterfaceCadastro {
                     lblTituloC.setForeground(Color.WHITE);
 
                 JPanel paneCompra = new JPanel(new GridBagLayout());
-                    AppUI.addCampo(paneCompra, lblCprCodigo,   edtCprCodigo,    gbc);
-                    AppUI.addCampo(paneCompra, lblUsuCodigo,   edtUsuCodigo,    gbc);
-                    AppUI.addCampo(paneCompra, lblForCodigo,   edtForCodigo,    gbc);
-                    AppUI.addCampo(paneCompra, lblCprEmissao,  edtCprEmissao,   gbc);
-                    AppUI.addCampo(paneCompra, lblCprDtentrada,edtCprDtentrada, gbc);
-                    AppUI.addCampo(paneCompra, lblCprDesconto, edtCprDesconto,  gbc);
-                    AppUI.addCampo(paneCompra, lblCprObs,      edtCprObs,       gbc);
+                    AppUI.addCampo1(paneCompra, lblCprCodigo,   edtCprCodigo,    gbc);
+                    AppUI.addCampo1(paneCompra, lblUsuCodigo,   edtUsuCodigo,    gbc);
+                    AppUI.addCampo1(paneCompra, lblForCodigo,   edtForCodigo,    gbc);
+                    AppUI.addCampo1(paneCompra, lblCprEmissao,  edtCprEmissao,   gbc);
+                    AppUI.addCampo1(paneCompra, lblCprDtentrada,edtCprDtentrada, gbc);
+                    AppUI.addCampo1(paneCompra, lblCprDesconto, edtCprDesconto,  gbc);
+                    AppUI.addCampo1(paneCompra, lblCprObs,      edtCprObs,       gbc);
                     // Observação: lblCprValor e lblCprTotal são de "somente leitura".
 
                 colunaCompra.add(lblTituloC);
@@ -177,12 +177,12 @@ public class CompraView extends JPanel implements InterfaceCadastro {
                     lblTituloP.setForeground(Color.WHITE);
 
                     JPanel paneProduto = new JPanel(new GridBagLayout());
-                        AppUI.addCampo(paneProduto, lblProCodigo,  edtProCodigo, gbc);
-                        AppUI.addCampo(paneProduto, lblProNome,    edtProNome,   gbc);
-                        AppUI.addCampo(paneProduto, lblProPreco,   edtProPreco,  gbc);
-                        AppUI.addCampo(paneProduto, lblProUnidade, jcbUnidade,   gbc);
-                        AppUI.addCampo(paneProduto, lblProPeso,    edtProPeso,   gbc);
-                        AppUI.addCampo(paneProduto, lblProObs,     edtProObs,    gbc);
+                        AppUI.addCampo1(paneProduto, lblProCodigo,  edtProCodigo, gbc);
+                        AppUI.addCampo1(paneProduto, lblProNome,    edtProNome,   gbc);
+                        AppUI.addCampo1(paneProduto, lblProPreco,   edtProPreco,  gbc);
+                        AppUI.addCampo1(paneProduto, lblProUnidade, jcbUnidade,   gbc);
+                        AppUI.addCampo1(paneProduto, lblProPeso,    edtProPeso,   gbc);
+                        AppUI.addCampo1(paneProduto, lblProObs,     edtProObs,    gbc);
 
                     colunaProduto.add(lblTituloP);
                     colunaProduto.add(paneProduto);
