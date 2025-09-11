@@ -38,23 +38,28 @@ public class AppView extends JFrame{
         mostrandoLogin();
         cfgFrame();
         setLocationRelativeTo(null);
+        
+        setVisible(true);
     }
     
     private void instanciarUtil() {
         try {
             System.out.println("\n Instanciando Util (...)");
             
+            
             if (eventosMenuItem == null) {
                 eventosMenuItem = new MenuUI(this);
             } else {
                 System.out.println(" -- MenuUI ja foi inicializado ANTERIORMENTE!");
             }
-
-            System.out.println(" Instanciando Util (SUCESSO)");
+            
         } catch (Exception e) {
             System.out.println("\n ERRO! ao Instanciando Util (FALHA) \n" + e);            
         }
+        
+        System.out.println(" Instanciando Util (SUCESSO)");
     }
+    
 
     private void instanciarView(){
         try {
