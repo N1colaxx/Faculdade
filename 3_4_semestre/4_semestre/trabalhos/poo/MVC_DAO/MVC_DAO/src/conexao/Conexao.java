@@ -10,9 +10,9 @@ import javax.swing.JOptionPane;
 public class Conexao {
 
     private final static String DRIVER = "org.postgresql.Driver";
-    private final static String BANCO = "jdbc:postgresql://localhost:5432/compravenda";
+    private final static String BANCO = "jdbc:postgresql://localhost:5432/postgres";
     private final static String USUARIO = "postgres";
-    private final static String SENHA = "unip";
+    private final static String SENHA = "12345";
 
     private static Connection conexao;
     private Statement stm;

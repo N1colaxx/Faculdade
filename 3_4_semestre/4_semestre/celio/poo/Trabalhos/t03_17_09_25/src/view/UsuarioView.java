@@ -1,5 +1,6 @@
 package view;
 
+import util.UsuarioTableModel;
 import javax.swing.*;
 import java.awt.*;
 
@@ -76,7 +77,7 @@ public class UsuarioView extends JPanel {
         btnGravar   = new JButton("Gravar");
 
         // Título
-        lblTitulo = new JLabel("Cadastro de Usuários com MVC e DAO", SwingConstants.CENTER);
+        lblTitulo = new JLabel("Cadastro de Usuários", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
         lblTitulo.setForeground(new Color(30,30,120));
 
