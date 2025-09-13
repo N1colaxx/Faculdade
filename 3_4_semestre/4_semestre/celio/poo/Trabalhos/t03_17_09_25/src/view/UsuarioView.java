@@ -1,17 +1,17 @@
 package view;
 
-import util.UsuarioTableModel;
 import javax.swing.*;
 import java.awt.*;
 
-
 import controller.UsuarioController;
 import model.UsuarioModel;
+import util.UsuarioTableModel;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.ListSelectionModel;
 
+import java.util.ArrayList;
 
 public class UsuarioView extends JPanel {
 
@@ -19,7 +19,7 @@ public class UsuarioView extends JPanel {
     private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
     private JButton btnNovo, btnAlterar, btnExcluir, btnGravar;
 
-    // Campos – Dados do Usuário
+    // Campos – Dados do Cadastro
     private JLabel lblCodigo, lblNome, lblLogin, lblSenha, lblAtivo;
     private JTextField edtCodigo, edtNome, edtLogin;
     private JPasswordField edtSenha;
@@ -49,9 +49,9 @@ public class UsuarioView extends JPanel {
     private UsuarioTableModel tableModel;
     
     // --- Estado / dados ---
-    private String operacao = "";
+    private String operacao = ""; // recebe as oberação, as ações dos BTN -> novo(incluir), Consultar, Cadastrar, Excluir 
     private final String[] colunas = {"Código", "Nome", "Login", "Ativo"};
-    private java.util.ArrayList<UsuarioModel> lista = new java.util.ArrayList<>();
+    private ArrayList<UsuarioModel> lista = new ArrayList<>();
 
 
     public UsuarioView() {
@@ -114,25 +114,22 @@ public class UsuarioView extends JPanel {
         tabela = new JTable(tableModel);
         tabela.setFillsViewportHeight(true);
         tabela.setAutoCreateRowSorter(true);
-        tabela.getTableHeader().setReorderingAllowed(false);
-        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tabela.getTableHeader().setReorderingAllowed(false); // Pega cabeçario da tabela(os nomes das colunas) e depois seta que ele não pode arrastar, ele fica fixo na orde que foi criado.
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // define quantas linhas o user pode selecionar por vez
         scrollTabela = new JScrollPane(tabela);
 
-        // quando trocar a seleção na tabela, refletir nos campos
+        // quando trocar a seleção na tabela, refletir nos campos da tela(lbl, edt, etc...).
         tabela.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override public void valueChanged(ListSelectionEvent e) {
-                if (e.getValueIsAdjusting()) return;
-                int sel = tabela.getSelectedRow();
-                if (sel >= 0 && sel < lista.size()) {
-                    // ajustar índice por causa do RowSorter
-                    int modelIndex = tabela.convertRowIndexToModel(sel);
-                    mostrar(lista.get(modelIndex));
+            @Override 
+            public void valueChanged(ListSelectionEvent e) {
+                if (e.getValueIsAdjusting()) return; // ignora eventos intermediários, assim garante que so vai execuatar quando terminar de selecionar a linha (quando clicar).
+                int viewSel = tabela.getSelectedRow();
+                if (viewSel >= 0 && viewSel < lista.size()) { // valida se alinha é validas
+                    int sel = tabela.convertRowIndexToModel(viewSel); // conver o indice da linha da tabela visivel para o indece correspondente no TableModel
+                    mostrar(lista.get(sel));
                 }
             }
         });
-
-        
-        
         
         // Contêineres
         paneCabecario = new JPanel(null);
@@ -210,7 +207,7 @@ public class UsuarioView extends JPanel {
         lblTitulo.setBounds(0, 0, 780, 30);
 
         // TabbedPane: Dados do Usuário
-        paneDadosUsuario.setBounds(10, 40, 760, 140);
+        paneDadosUsuario.setBounds(10, 40, 930, 140);
         lblCodigo.setBounds(10, 15, 60, 25);   edtCodigo.setBounds(75, 15, 100, 25);
         lblNome.setBounds(10, 50, 60, 25);     edtNome.setBounds(75, 50, 300, 25);
         lblLogin.setBounds(390, 50, 50, 25);   edtLogin.setBounds(445, 50, 180, 25);
@@ -325,7 +322,7 @@ public class UsuarioView extends JPanel {
     }
 
     private void setOperacao(String operacao) {
-        this.operacao = operacao; // "", "incluir", "alterar"
+        this.operacao = operacao;
         boolean ativar = !operacao.isEmpty();
         btnGravar.setEnabled(ativar);
     }
@@ -349,7 +346,11 @@ public class UsuarioView extends JPanel {
     private UsuarioModel montarUsuarioDosCampos() {
         UsuarioModel u = new UsuarioModel();
         int cod = 0;
-        try { cod = Integer.parseInt(edtCodigo.getText().trim()); } catch (Exception ignore) {}
+        try { 
+            cod = Integer.parseInt(edtCodigo.getText().trim()); 
+        } catch (NumberFormatException e) {
+            System.out.println("\n ERRO! falhou na converção: cod = Integer.parseInt \n" + e.getMessage()); 
+        }
         u.setUSU_CODIGO(cod);
         u.setUSU_NOME(edtNome.getText());
         u.setUSU_LOGIN(edtLogin.getText());
@@ -358,13 +359,14 @@ public class UsuarioView extends JPanel {
         return u;
     }
 
+    // Criando o filtro para os campos com basse em um WHERE
     private String filtroConsulta() {
         String cond = "";
         if (!edtId1.getText().trim().isEmpty()) {
-            cond += "(USU_CODIGO >= " + edtId1.getText().trim() + ")";
+            cond += "(USU_CODIGO >= " + edtId1.getText().trim() + ")"; // Isso -> " USU_CODIGO >= " é o que o WHERE vai comparar, ex: USU_CODIGO >= 10
         }
         if (!edtId2.getText().trim().isEmpty()) {
-            if (!cond.isEmpty()) cond += " AND ";
+            if (!cond.isEmpty()) cond += " AND "; // Se cond já tem alguma condição dentro, antes de adicionar uma nova, ele coloca " AND " no final. Se cond ainda estiver vazio (""), não faz nada.
             cond += "(USU_CODIGO <= " + edtId2.getText().trim() + ")";
         }
         if (!edtNomeFiltro.getText().trim().isEmpty()) {
@@ -379,13 +381,13 @@ public class UsuarioView extends JPanel {
     }
 
     private void consultar() {
-        try {
+        try {   
             String cond = filtroConsulta();
             UsuarioController ctrl = new UsuarioController();
             lista = ctrl.consultar(cond); // retorna ArrayList<UsuarioModel>
-            if (lista == null) lista = new java.util.ArrayList<>();
+            if (lista == null) lista = new ArrayList<>();
 
-            // recria o TableModel do professor com a nova lista
+            // recria o TableModel com a nova lista, com os dados da consulta 
             tableModel = new UsuarioTableModel(lista, colunas);
             tabela.setModel(tableModel);
             tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -405,11 +407,11 @@ public class UsuarioView extends JPanel {
         if (lista == null || lista.isEmpty()) return;
         if (registro < 0 || registro >= lista.size()) return;
 
-        mostrar(lista.get(registro));
+        mostrar(lista.get(registro)); // pega e mostra o registro do user 
 
         // posiciona seleção na JTable (ajusta viewIndex x modelIndex)
         int viewIndex = tabela.convertRowIndexToView(registro);
-        tabela.changeSelection(viewIndex, 0, false, false);
+        tabela.changeSelection(viewIndex, 0, false, false); //linha, coluna, boolean TOGGLE, boolean EXTEND
     }
 
 }

@@ -63,13 +63,13 @@ public class UsuarioDao {
         lista = new ArrayList<>();
 
         while (rs.next()) {
-            UsuarioModel objusu = new UsuarioModel();
-            objusu.setUSU_CODIGO(rs.getInt("USU_CODIGO"));
-            objusu.setUSU_NOME(rs.getString("USU_NOME"));
-            objusu.setUSU_LOGIN(rs.getString("USU_LOGIN"));
-            objusu.setUSU_SENHA(rs.getString("USU_SENHA"));
-            objusu.setUSU_ATIVO(rs.getInt("USU_ATIVO"));
-            lista.add(objusu);
+            UsuarioModel obj_usu = new UsuarioModel();
+            obj_usu.setUSU_CODIGO(rs.getInt("USU_CODIGO"));
+            obj_usu.setUSU_NOME(rs.getString("USU_NOME"));
+            obj_usu.setUSU_LOGIN(rs.getString("USU_LOGIN"));
+            obj_usu.setUSU_SENHA(rs.getString("USU_SENHA"));
+            obj_usu.setUSU_ATIVO(rs.getInt("USU_ATIVO"));
+            lista.add(obj_usu);
         }
         rs.close();
         stm.close();

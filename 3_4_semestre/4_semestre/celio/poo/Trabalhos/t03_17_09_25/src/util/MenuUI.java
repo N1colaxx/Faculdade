@@ -19,6 +19,7 @@ public class MenuUI {
             // Cadastro
             addMenuAction(app.getMenuView().getJmiCliente(), "Cliente", "CLIENTE");
             addMenuAction(app.getMenuView().getJmiFornecedor(), "Fornecedor", "FORNECEDOR");
+            addMenuAction(app.getMenuView().getjmiProduto(), "Produto", "PRODUTO");
             addMenuAction(app.getMenuView().getJmiFormaPagamento(), "FormaPaga", "FORMA DE PAGAMENTO");
             addMenuAction(app.getMenuView().getJmiUsuario(), "Usuario", "USUARIO");
 

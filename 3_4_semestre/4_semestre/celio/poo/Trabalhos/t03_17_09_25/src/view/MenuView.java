@@ -6,7 +6,7 @@ public class MenuView extends JMenuBar{
     
     private JMenu menuCadastro, menuMovimentos, menuSair;
     private JMenuItem 
-            jmiCliente, jmiFornecedor, jmiUsuario, jmiFormaPagamento, // Itens do menuCadastro
+            jmiCliente, jmiFornecedor, jmiProduto, jmiUsuario, jmiFormaPagamento, // Itens do menuCadastro
             jmiVenda, jmiCompra, // itens do menuMovimentos
             jmiSair; // itens de menuSair
     
@@ -26,6 +26,7 @@ public class MenuView extends JMenuBar{
         jmiCliente = new JMenuItem("Cliente");
         jmiFornecedor = new JMenuItem("Fornecedor");
         jmiFormaPagamento = new JMenuItem("Forma de Pagamento");
+        jmiProduto = new JMenuItem("Produto");
         jmiUsuario = new JMenuItem("Usuario");
         
         // Itens de Movimentos
@@ -41,6 +42,7 @@ public class MenuView extends JMenuBar{
         // Cadastro
         menuCadastro.add(jmiCliente);
         menuCadastro.add(jmiFornecedor);
+        menuCadastro.add(jmiProduto);
         menuCadastro.add(jmiFormaPagamento);
         menuCadastro.add(jmiUsuario);
         // Movimentados
@@ -61,6 +63,7 @@ public class MenuView extends JMenuBar{
     public JMenuItem getJmiCliente() { return jmiCliente; }
     public JMenuItem getJmiUsuario() { return jmiUsuario; }
     public JMenuItem getJmiFornecedor() { return jmiFornecedor; }
+    public JMenuItem getjmiProduto() { return jmiProduto; }
     public JMenuItem getJmiFormaPagamento() { return jmiFormaPagamento; }
     public JMenuItem getJmiVenda() { return jmiVenda; }
     public JMenuItem getJmiCompra() { return jmiCompra; }

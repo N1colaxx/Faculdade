@@ -17,6 +17,7 @@ public class AppView extends JFrame{
     // ItensCadastro
     private ClienteView clienteView;
     private FornecedorView fornecedorView;
+    private ProdutoView produtoView;
     private FormaPagaView formaPagaView;
     private UsuarioView usuario1View;
     // ItensMovimentos
@@ -76,6 +77,8 @@ public class AppView extends JFrame{
                 System.out.println(" Cliente");
             fornecedorView = new FornecedorView();
                 System.out.println(" Fronecedor");
+            produtoView = new ProdutoView();
+                System.out.println(" Produto");
             formaPagaView = new FormaPagaView();
                 System.out.println(" FormaPaga");
             usuario1View = new UsuarioView();
@@ -95,7 +98,7 @@ public class AppView extends JFrame{
     private void tamanhoView() {
         try {
             System.out.println("\n Aplicando Tamanho Padrao nas VIEW ...");
-            Dimension log, usu, vda, cop;
+            Dimension log, usu, pro, vda, cop;
             
             // Login com tamanho diferente
             log = new Dimension(600, 400);
@@ -108,6 +111,11 @@ public class AppView extends JFrame{
                 System.out.println(" Cliente");
             AppUI.applyDefaultSize(fornecedorView);
                 System.out.println(" Fornecedor");
+                
+            pro = new Dimension(1000, 850);
+            AppUI.applySize(produtoView, pro);
+                System.out.println(" Produto");
+                
             AppUI.applyDefaultSize(formaPagaView);
                 System.out.println(" FormaPaga");
                 
@@ -150,6 +158,9 @@ public class AppView extends JFrame{
             
             contendPanel.add(fornecedorView, "Fornecedor");
             System.out.println(" Fornecedor");
+            
+            contendPanel.add(produtoView, "Produto");
+            System.out.println(" Produto");
             
             contendPanel.add(formaPagaView, "FormaPaga");
             System.out.println(" FormaPaga");

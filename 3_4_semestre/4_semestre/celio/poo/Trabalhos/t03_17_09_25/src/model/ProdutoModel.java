@@ -17,6 +17,7 @@ public class ProdutoModel {
             PRO_PESO;
     private LocalDate PRO_CADASTRO;
     private String
+            PRO_NOME,
             PRO_UNIDADE, 
             PRO_OBS, 
             PRO_ATIVO;
@@ -27,7 +28,7 @@ public class ProdutoModel {
 
     public ProdutoModel(int PRO_CODIGO, BigDecimal PRO_ESTOQUE, BigDecimal PRO_PRECO, BigDecimal PRO_CUSTO,
                         BigDecimal PRO_ATACADO, BigDecimal PRO_MIN, BigDecimal PRO_MAX, BigDecimal PRO_EMBALAGEM,
-                        BigDecimal PRO_PESO, LocalDate PRO_CADASTRO, String PRO_UNIDADE, String PRO_OBS, String PRO_ATIVO) {
+                        BigDecimal PRO_PESO, LocalDate PRO_CADASTRO, String PRO_NOME, String PRO_UNIDADE, String PRO_OBS, String PRO_ATIVO) {
         this.PRO_CODIGO = PRO_CODIGO;
         this.PRO_ESTOQUE = PRO_ESTOQUE;
         this.PRO_PRECO = PRO_PRECO;
@@ -38,6 +39,7 @@ public class ProdutoModel {
         this.PRO_EMBALAGEM = PRO_EMBALAGEM;
         this.PRO_PESO = PRO_PESO;
         this.PRO_CADASTRO = PRO_CADASTRO;
+        this.PRO_NOME = PRO_NOME;
         this.PRO_UNIDADE = PRO_UNIDADE;
         this.PRO_OBS = PRO_OBS;
         this.PRO_ATIVO = PRO_ATIVO;
@@ -54,6 +56,7 @@ public class ProdutoModel {
     public BigDecimal getPRO_EMBALAGEM() { return PRO_EMBALAGEM; }
     public BigDecimal getPRO_PESO() { return PRO_PESO; }
     public LocalDate getPRO_CADASTRO() { return PRO_CADASTRO; }
+    public String getPRO_NOME() { return PRO_NOME; }
     public String getPRO_UNIDADE() { return PRO_UNIDADE; }
     public String getPRO_OBS() { return PRO_OBS; }
     public String getPRO_ATIVO() { return PRO_ATIVO; }
@@ -97,6 +100,10 @@ public class ProdutoModel {
 
     public void setPRO_CADASTRO(LocalDate PRO_CADASTRO) {
         this.PRO_CADASTRO = PRO_CADASTRO;
+    }
+    
+    public void setPRO_NOME(String PRO_NOME) {
+        this.PRO_NOME = PRO_NOME;
     }
 
     public void setPRO_UNIDADE(String PRO_UNIDADE) {
