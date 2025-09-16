@@ -4,27 +4,27 @@ import java.time.LocalDate;
 
 public class PessoaModel {
 
-    private int PES_CODIGO;
-    private String PES_NOME,
-            PES_FANTAZIA,
-            PES_FISICA,
-            PES_CPFCNPJ,
-            PES_RGIE,
-            PES_ENDERECO,
-            PES_NUMERO,
-            PES_COMPLEMENTO,
-            PES_BAIRRO,
-            PES_UF,
-            PES_CIDADE,
-            PES_CEP,
-            PES_FONE1,
-            PES_FONE2,
-            PES_CELULAR,
-            PES_SITE,
-            PES_EMAIL,
-            PES_ATIVO;
-
-    private LocalDate PES_CADASTRO;
+    private int         PES_CODIGO;
+    private String      PES_NOME,
+                        PES_FANTAZIA, // somente do fonecedor
+                        PES_FISICA,
+                        PES_CPFCNPJ,
+                        PES_RGIE;
+    private LocalDate   PES_CADASTRO;
+    private String
+                        PES_ENDERECO,
+                        PES_NUMERO,
+                        PES_COMPLEMENTO,
+                        PES_BAIRRO,
+                        PES_CIDADE,
+                        PES_UF,
+                        PES_CEP,
+                        PES_FONE1, // somente do fonecedor
+                        PES_FONE2, // somente do fonecedor
+                        PES_CELULAR,
+                        PES_SITE,
+                        PES_EMAIL,
+                        PES_ATIVO;
 
     public PessoaModel() {
 
@@ -33,35 +33,34 @@ public class PessoaModel {
     // Construtor de Cliente 
     public PessoaModel(
             int PES_CODIGO, String PES_NOME, String PES_FISICA, String PES_CPFCNPJ,
-            String PES_RGIE, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
-            String PES_UF, String PES_CIDADE, String PES_CEP,
-            String PES_CELULAR, String PES_SITE, String PES_EMAIL, String PES_ATIVO, LocalDate PES_CADASTRO
+            String PES_RGIE, LocalDate PES_CADASTRO, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
+            String PES_CIDADE, String PES_UF, String PES_CEP, String PES_CELULAR,String PES_SITE, String PES_EMAIL, String PES_ATIVO 
     ) {
         this.PES_CODIGO = PES_CODIGO;
         this.PES_NOME = PES_NOME;
         this.PES_FISICA = PES_FISICA;
         this.PES_CPFCNPJ = PES_CPFCNPJ;
         this.PES_RGIE = PES_RGIE;
+        this.PES_CADASTRO = PES_CADASTRO;
         this.PES_ENDERECO = PES_ENDERECO;
         this.PES_NUMERO = PES_NUMERO;
         this.PES_COMPLEMENTO = PES_COMPLEMENTO;
         this.PES_BAIRRO = PES_BAIRRO;
-        this.PES_UF = PES_UF;
         this.PES_CIDADE = PES_CIDADE;
+        this.PES_UF = PES_UF;
         this.PES_CEP = PES_CEP;
         this.PES_CELULAR = PES_CELULAR;
         this.PES_SITE = PES_SITE;
         this.PES_EMAIL = PES_EMAIL;
         this.PES_ATIVO = PES_ATIVO;
-        this.PES_CADASTRO = PES_CADASTRO;
     }
 
     // Construtor de Fornecedor
     public PessoaModel(
             int PES_CODIGO, String PES_NOME, String PES_FANTAZIA, String PES_FISICA, String PES_CPFCNPJ,
-            String PES_RGIE, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
-            String PES_UF, String PES_CIDADE, String PES_CEP, String PES_FONE1, String PES_FONE2,
-            String PES_CELULAR, String PES_SITE, String PES_EMAIL, String PES_ATIVO, LocalDate PES_CADASTRO
+            String PES_RGIE, LocalDate PES_CADASTRO, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
+            String PES_CIDADE, String PES_UF, String PES_CEP, String PES_FONE1, String PES_FONE2,
+            String PES_CELULAR,String PES_SITE, String PES_EMAIL, String PES_ATIVO
     ) {
         this.PES_CODIGO = PES_CODIGO;
         this.PES_NOME = PES_NOME;
@@ -69,6 +68,7 @@ public class PessoaModel {
         this.PES_FISICA = PES_FISICA;
         this.PES_CPFCNPJ = PES_CPFCNPJ;
         this.PES_RGIE = PES_RGIE;
+        this.PES_CADASTRO = PES_CADASTRO;
         this.PES_ENDERECO = PES_ENDERECO;
         this.PES_NUMERO = PES_NUMERO;
         this.PES_COMPLEMENTO = PES_COMPLEMENTO;
@@ -82,7 +82,6 @@ public class PessoaModel {
         this.PES_SITE = PES_SITE;
         this.PES_EMAIL = PES_EMAIL;
         this.PES_ATIVO = PES_ATIVO;
-        this.PES_CADASTRO = PES_CADASTRO;
     }
 
 
@@ -93,12 +92,13 @@ public class PessoaModel {
     public String getPES_FISICA() { return PES_FISICA; }
     public String getPES_CPFCNPJ() { return PES_CPFCNPJ; }
     public String getPES_RGIE() { return PES_RGIE; }
+    public LocalDate getPES_CADASTRO() { return PES_CADASTRO; }
     public String getPES_ENDERECO() { return PES_ENDERECO; }
     public String getPES_NUMERO() { return PES_NUMERO; }
     public String getPES_COMPLEMENTO() { return PES_COMPLEMENTO; }
     public String getPES_BAIRRO() { return PES_BAIRRO; }
-    public String getPES_UF() { return PES_UF; }
     public String getPES_CIDADE() { return PES_CIDADE; }
+    public String getPES_UF() { return PES_UF; }
     public String getPES_CEP() { return PES_CEP; }
     public String getPES_FONE1() { return PES_FONE1; }
     public String getPES_FONE2() { return PES_FONE2; }
@@ -106,7 +106,6 @@ public class PessoaModel {
     public String getPES_SITE() { return PES_SITE; }
     public String getPES_EMAIL() { return PES_EMAIL; }
     public String getPES_ATIVO() { return PES_ATIVO; }
-    public LocalDate getPES_CADASTRO() { return PES_CADASTRO; }
 
 
     // Setters

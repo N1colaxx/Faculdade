@@ -13,7 +13,6 @@ public class AppView extends JFrame{
 //     Views
     private LoginView loginView;
     private MenuView menuView;
-    private PessoaView pessoaView;
     // ItensCadastro
     private ClienteView clienteView;
     private FornecedorView fornecedorView;
@@ -70,8 +69,7 @@ public class AppView extends JFrame{
                 System.out.println(" Login");
             menuView = new MenuView();
                 System.out.println(" Menu");
-            pessoaView = new PessoaView();
-                System.out.println(" Pessoa");
+                
             // Cadastro
             clienteView = new ClienteView();
                 System.out.println(" Cliente");
@@ -98,39 +96,37 @@ public class AppView extends JFrame{
     private void tamanhoView() {
         try {
             System.out.println("\n Aplicando Tamanho Padrao nas VIEW ...");
-            Dimension log, usu, pro, vda, cop;
+            Dimension log, usu, forpag, vda, cop;
             
-            // Login com tamanho diferente
             log = new Dimension(600, 400);
             loginView.setPreferredSize(log);
-                System.out.println(" Login");
-
-            // Demais com tamanho padrão (via AppUI)
-            
+            System.out.println(" Login");
+                
             AppUI.applyDefaultSize(clienteView);
-                System.out.println(" Cliente");
+            System.out.println(" Cliente");
+                
             AppUI.applyDefaultSize(fornecedorView);
-                System.out.println(" Fornecedor");
+            System.out.println(" Fornecedor");
                 
-            pro = new Dimension(1000, 850);
-            AppUI.applySize(produtoView, pro);
-                System.out.println(" Produto");
+            AppUI.applyDefaultSize(produtoView);
+            System.out.println(" Produto");
                 
-            AppUI.applyDefaultSize(formaPagaView);
-                System.out.println(" FormaPaga");
+            forpag = new Dimension(800, 800);
+            AppUI.applySize(formaPagaView, forpag);
+            System.out.println(" FormaPaga");
                 
             usu = new Dimension(950, 650);
             AppUI.applySize(usuario1View, usu);
-                System.out.println(" Usuario");
+            System.out.println(" Usuario");
                 
             
             cop = new Dimension(1000, 850);
             AppUI.applySize(compraView, cop);
-                System.out.println(" Compra");
+            System.out.println(" Compra");
                 
             vda = new Dimension(1000, 800);
             AppUI.applySize(vendaView, vda);
-                System.out.println(" venda");
+            System.out.println(" venda");
                 
             System.out.println(" Aplicando Tamanho Padrao nas VIEW (SUCESSO)");
         } catch (Exception e) {
@@ -148,9 +144,6 @@ public class AppView extends JFrame{
             
             contendPanel.add(loginView, "Login");
             System.out.println(" Login");
-            
-            contendPanel.add(pessoaView, "Pessoa");
-            System.out.println(" Pessoa");
 
             // Cadastro
             contendPanel.add(clienteView, "Cliente");

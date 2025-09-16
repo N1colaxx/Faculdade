@@ -353,10 +353,12 @@ public class ProdutoView extends JPanel {
 
         btnNovo.addActionListener(e -> {
             limparCampos();
+            edtProCadastro.setText(java.time.LocalDate.now().toString()); // yyyy-MM-dd
             setOperacao("incluir");
             chkAtivo.setSelected(true);
             edtProNome.requestFocusInWindow();
         });
+
 
         btnAlterar.addActionListener(e -> setOperacao("alterar"));
 

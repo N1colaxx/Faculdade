@@ -1,63 +1,594 @@
 package view;
 
+import controller.ClienteController;
+import model.ClienteModel;
+import util.ClienteTableModel;
+
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.ListSelectionModel;
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class ClienteView extends JPanel {
 
-    private PessoaView pessoaView;
-    private JLabel lblTitulo, lblLimiteCredito;
-    private JTextField edtLimiteCredito;
-    private JButton btnCadastrar, btnCancelar;
+    // Botões (cabeçalho)
+    private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
+    private JButton btnNovo, btnAlterar, btnExcluir, btnGravar;
+
+    // Campos – Dados do Cadastro Cliente (Pessoa + Cliente)
+    private JLabel
+            lblCliCodigo, lblNome, lblPesFisica, lblCPFCNPJ, lblRgie, lblDataCadastro,
+            lblEndereco, lblNumero, lblComplemento, lblBairro, lblCidade, lblUF, lblCEP,
+            lblCelular, lblSite, lblEmail, lblAtivo, lblLimiteCred;
+
+    private JTextField
+            edtCliCodigo, edtNome, edtCPFCNPJ, edtRgie, edtDataCadastro,
+            edtEndereco, edtNumero, edtComplemento, edtBairro, edtCidade, edtCEP,
+            edtCelular, edtSite, edtEmail, edtLimiteCred;
+
+    private JCheckBox chkPesFisica, chkAtivo; // mapear para 'F'/'J' e 'S'/'N'
+    private JComboBox<String> cbUF;
+
+    // Consulta (filtros)
+    private JLabel lblId1, lblText, lblId2, lblNomeFiltro, lblDataCadastroFiltro, lblLimiteCredFiltro, lblUFFiltro;
+    private JTextField edtId1, edtId2, edtNomeFiltro, edtDataCadastroFiltro, edtLimiteCredFiltro;
+    private JComboBox<String> cbUFFiltro;
+    private JButton btnConsultar, btnLimpar;
+
+    // Painéis
+    private JPanel paneCabecario;      // botões
+    private JPanel paneCentro;         // título + abas
+    private JTabbedPane paneDadosCliente;   // aba "Dados do Cliente"
+    private JTabbedPane paneDadosConsulta;  // aba "Consulta"
+    private JPanel tabDadosCliente;         // conteúdo da aba "Dados do Cliente"
+    private JPanel tabConsulta;             // conteúdo da aba "Consulta"
+    private JPanel paneConsultaDados;       // filtros
+    private JPanel paneConsultaTabela;      // tabela
+
+    // Título
+    private JLabel lblTitulo;
+
+    // Tabela
+    private JTable tabela;
+    private JScrollPane scrollTabela;
+    private ClienteTableModel tableModel;
+
+    // Estado / dados
+    private String operacao = "";
+    private final String[] colunas = {"Código", "Nome", "CPF/CNPJ", "Ativo", "Limite Cred."};
+    private ArrayList<ClienteModel> lista = new ArrayList<>();
+
+    // Utils data
+    private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public ClienteView() {
-        setBackground(new Color(245, 250, 255));
-        setLayout(new BorderLayout());
+        setLayout(null);
+        setBackground(Color.BLACK);
+        setPreferredSize(new Dimension(1500, 850));
+
         instanciar();
         adicionar();
+        posicionar();
+        configurarAcoes();
     }
 
     private void instanciar() {
-        lblTitulo = new JLabel("Cadastro de Cliente", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
-        lblTitulo.setForeground(new Color(30, 30, 120));
+        // Botões topo
+        btnPrimeiro = new JButton("Primeiro");
+        btnAnterior = new JButton("Anterior");
+        btnProximo  = new JButton("Próximo");
+        btnUltimo   = new JButton("Último");
+        btnNovo     = new JButton("Novo");
+        btnAlterar  = new JButton("Alterar");
+        btnExcluir  = new JButton("Excluir");
+        btnGravar   = new JButton("Gravar");
 
-        pessoaView = new PessoaView();
+        // Título
+        lblTitulo = new JLabel("Cadastro de Clientes", SwingConstants.CENTER);
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
+        lblTitulo.setForeground(new Color(30,30,120));
 
-        // Campo extra alinhado dentro do grid da PessoaView
-        lblLimiteCredito = new JLabel("Limite de Crédito:");
-        edtLimiteCredito = new JTextField(10);
-        pessoaView.addCampoExtra(lblLimiteCredito, edtLimiteCredito);
+        // Dados do Cliente (Pessoa + Cliente)
+        lblCliCodigo     = new JLabel("Código:");
+        edtCliCodigo     = new JTextField();
 
-        btnCadastrar = new JButton("Cadastrar");
-        btnCadastrar.setBackground(new Color(0, 150, 0));
-        btnCadastrar.setForeground(Color.WHITE);
-        btnCadastrar.setFont(new Font("Arial", Font.BOLD, 14));
+        lblNome          = new JLabel("Nome:");
+        edtNome          = new JTextField(30);
 
-        btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBackground(new Color(180, 0, 0));
-        btnCancelar.setForeground(Color.WHITE);
-        btnCancelar.setFont(new Font("Arial", Font.BOLD, 14));
+        lblPesFisica     = new JLabel("Pessoa Física?");
+        chkPesFisica     = new JCheckBox();  chkPesFisica.setBackground(new Color(245,250,255));
+
+        lblCPFCNPJ       = new JLabel("CPF/CNPJ:");
+        edtCPFCNPJ       = new JTextField(20);
+
+        lblRgie          = new JLabel("RG/IE:");
+        edtRgie          = new JTextField(20);
+
+        lblDataCadastro  = new JLabel("Cadastro (yyyy-MM-dd):");
+        edtDataCadastro = new JTextField(12);
+        edtDataCadastro.setText(java.time.LocalDate.now().toString()); // yyyy-MM-dd
+
+
+        lblEndereco      = new JLabel("Endereço:");
+        edtEndereco      = new JTextField(30);
+
+        lblNumero        = new JLabel("Número:");
+        edtNumero        = new JTextField(8);
+
+        lblComplemento   = new JLabel("Complemento:");
+        edtComplemento   = new JTextField(20);
+
+        lblBairro        = new JLabel("Bairro:");
+        edtBairro        = new JTextField(20);
+
+        lblCidade        = new JLabel("Cidade:");
+        edtCidade        = new JTextField(20);
+
+        lblUF            = new JLabel("UF:");
+        cbUF             = new JComboBox<>(new String[]{
+                "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
+                "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"
+        });
+
+        lblCEP           = new JLabel("CEP:");
+        edtCEP           = new JTextField(10);
+
+        lblCelular       = new JLabel("Celular:");
+        edtCelular       = new JTextField(16);
+
+        lblSite          = new JLabel("Site:");
+        edtSite          = new JTextField(30);
+
+        lblEmail         = new JLabel("E-mail:");
+        edtEmail         = new JTextField(30);
+
+        lblAtivo         = new JLabel("Ativo:");
+        chkAtivo         = new JCheckBox(); chkAtivo.setBackground(new Color(245,250,255));
+
+        lblLimiteCred    = new JLabel("Limite Crédito:");
+        edtLimiteCred    = new JTextField(12);
+
+        // Consulta (filtros)
+        lblId1                = new JLabel("ID");
+        lblText               = new JLabel("à");
+        lblId2                = new JLabel(); // apenas placeholder para manter a estrutura
+        lblNomeFiltro         = new JLabel("Nome");
+        lblDataCadastroFiltro = new JLabel("Cadastro ≥");
+        lblLimiteCredFiltro   = new JLabel("Limite ≥");
+        lblUFFiltro           = new JLabel("UF");
+
+        edtId1                = new JTextField();
+        edtId2                = new JTextField();
+        edtNomeFiltro         = new JTextField();
+        edtDataCadastroFiltro = new JTextField(); // yyyy-MM-dd
+        edtLimiteCredFiltro   = new JTextField();
+        cbUFFiltro            = new JComboBox<>(new String[]{"", "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
+                "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"});
+
+        btnConsultar          = new JButton("Consulta");
+        btnLimpar             = new JButton("Limpa");
+
+        // Tabela
+        tableModel = new ClienteTableModel(lista, colunas);
+        tabela = new JTable(tableModel);
+        tabela.setFillsViewportHeight(true);
+        tabela.setAutoCreateRowSorter(true);
+        tabela.getTableHeader().setReorderingAllowed(false);
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        scrollTabela = new JScrollPane(tabela);
+
+        tabela.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            if (e.getValueIsAdjusting()) return;
+            int viewSel = tabela.getSelectedRow();
+            if (viewSel >= 0 && viewSel < lista.size()) {
+                int sel = tabela.convertRowIndexToModel(viewSel);
+                mostrar(lista.get(sel));
+            }
+        });
+
+        // Contêineres
+        paneCabecario      = new JPanel(null);
+        paneCentro         = new JPanel(null);
+        paneCentro.setBackground(new Color(245,250,255));
+        paneDadosCliente   = new JTabbedPane();
+        paneDadosConsulta  = new JTabbedPane();
+        tabDadosCliente    = new JPanel(null);
+        tabConsulta        = new JPanel(null);
+        paneConsultaDados  = new JPanel(null);
+        paneConsultaTabela = new JPanel(null);
+
+
     }
 
     private void adicionar() {
-        // Título no topo
-        add(lblTitulo, BorderLayout.NORTH);
+        // Cabeçalho
+        paneCabecario.add(btnPrimeiro); paneCabecario.add(btnAnterior);
+        paneCabecario.add(btnProximo);  paneCabecario.add(btnUltimo);
+        paneCabecario.add(btnNovo);     paneCabecario.add(btnAlterar);
+        paneCabecario.add(btnExcluir);  paneCabecario.add(btnGravar);
+        add(paneCabecario);
 
-        // Centro: pessoaView centralizado
-        JPanel centro = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
-            centro.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        // Centro
+        paneCentro.add(lblTitulo);
+        add(paneCentro);
 
-        centro.setOpaque(false);
-        centro.add(pessoaView);
-        add(centro, BorderLayout.CENTER);
+        // Aba: Dados do Cliente
+        tabDadosCliente.add(lblCliCodigo);     tabDadosCliente.add(edtCliCodigo);
+        tabDadosCliente.add(lblNome);          tabDadosCliente.add(edtNome);
+        tabDadosCliente.add(lblPesFisica);     tabDadosCliente.add(chkPesFisica);
+        tabDadosCliente.add(lblCPFCNPJ);       tabDadosCliente.add(edtCPFCNPJ);
+        tabDadosCliente.add(lblRgie);          tabDadosCliente.add(edtRgie);
+        tabDadosCliente.add(lblDataCadastro);  tabDadosCliente.add(edtDataCadastro);
 
-        // Rodapé: botões centralizados
-        JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        botoes.add(btnCancelar);
-        botoes.add(btnCadastrar);
-        add(botoes, BorderLayout.SOUTH);
+        tabDadosCliente.add(lblEndereco);      tabDadosCliente.add(edtEndereco);
+        tabDadosCliente.add(lblNumero);        tabDadosCliente.add(edtNumero);
+        tabDadosCliente.add(lblComplemento);   tabDadosCliente.add(edtComplemento);
+        tabDadosCliente.add(lblBairro);        tabDadosCliente.add(edtBairro);
+        tabDadosCliente.add(lblCidade);        tabDadosCliente.add(edtCidade);
+        tabDadosCliente.add(lblUF);            tabDadosCliente.add(cbUF);
+        tabDadosCliente.add(lblCEP);           tabDadosCliente.add(edtCEP);
+
+        tabDadosCliente.add(lblCelular);       tabDadosCliente.add(edtCelular);
+        tabDadosCliente.add(lblSite);          tabDadosCliente.add(edtSite);
+        tabDadosCliente.add(lblEmail);         tabDadosCliente.add(edtEmail);
+        tabDadosCliente.add(lblAtivo);         tabDadosCliente.add(chkAtivo);
+        tabDadosCliente.add(lblLimiteCred);    tabDadosCliente.add(edtLimiteCred);
+
+        paneDadosCliente.addTab("Dados do Cliente", tabDadosCliente);
+        paneCentro.add(paneDadosCliente);
+
+        // Aba: Consulta
+        paneConsultaDados.add(lblId1);                paneConsultaDados.add(edtId1);
+        paneConsultaDados.add(lblText);               paneConsultaDados.add(edtId2);
+        paneConsultaDados.add(lblNomeFiltro);         paneConsultaDados.add(edtNomeFiltro);
+        paneConsultaDados.add(lblDataCadastroFiltro); paneConsultaDados.add(edtDataCadastroFiltro);
+        paneConsultaDados.add(lblLimiteCredFiltro);   paneConsultaDados.add(edtLimiteCredFiltro);
+        paneConsultaDados.add(lblUFFiltro);           paneConsultaDados.add(cbUFFiltro);
+        paneConsultaDados.add(btnConsultar);          paneConsultaDados.add(btnLimpar);
+
+        paneConsultaTabela.add(scrollTabela);
+
+        tabConsulta.add(paneConsultaDados);
+        tabConsulta.add(paneConsultaTabela);
+        paneDadosConsulta.addTab("Consulta", tabConsulta);
+        paneCentro.add(paneDadosConsulta);
+
+        // Ações dos botões consulta/limpar
+        btnConsultar.addActionListener(e -> consultar());
+        btnLimpar.addActionListener(e -> {
+            edtId1.setText("");
+            edtId2.setText("");
+            edtNomeFiltro.setText("");
+            edtDataCadastroFiltro.setText("");
+            edtLimiteCredFiltro.setText("");
+            cbUFFiltro.setSelectedIndex(0);
+        });
     }
 
-}
+    private void posicionar() {
+        // Cabeçalho
+        paneCabecario.setBounds(10, 10, 1470, 40);
+        paneCabecario.setBackground(Color.LIGHT_GRAY);
+        btnPrimeiro.setBounds(  0, 7, 100, 25);
+        btnAnterior.setBounds(105, 7, 100, 25);
+        btnProximo .setBounds(210, 7, 100, 25);
+        btnUltimo  .setBounds(315, 7, 100, 25);
+        btnNovo    .setBounds(520, 7, 100, 25);
+        btnAlterar .setBounds(625, 7, 100, 25);
+        btnExcluir .setBounds(730, 7, 100, 25);
+        btnGravar  .setBounds(1320, 7, 120, 25);
+
+        // Centro
+        paneCentro.setBounds(10, 60, 1470, 770);
+        lblTitulo.setBounds(0, 0, 1200, 30);
+
+        // Abas
+        paneDadosCliente.setBounds(10, 40, 1470, 320);
+        paneDadosConsulta.setBounds(10, 370, 1470, 460);
+
+        // ===== Campos da aba "Dados do Cliente" =====
+        // Linha 1
+        lblCliCodigo.setBounds(10, 15, 60, 25);  edtCliCodigo.setBounds(75, 15, 100, 25);
+        lblNome.setBounds(190, 15, 60, 25);      edtNome.setBounds(250, 15, 420, 25);
+        lblPesFisica.setBounds(680, 15, 120, 25);chkPesFisica.setBounds(800, 15, 25, 25);
+        lblAtivo.setBounds(840, 15, 50, 25);     chkAtivo.setBounds(890, 15, 25, 25);
+        lblDataCadastro.setBounds(940, 15, 150, 25); edtDataCadastro.setBounds(1095, 15, 120, 25);
+
+        // Linha 2
+        lblCPFCNPJ.setBounds(10, 50, 80, 25);    edtCPFCNPJ.setBounds(90, 50, 180, 25);
+        lblRgie.setBounds(280, 50, 60, 25);      edtRgie.setBounds(340, 50, 160, 25);
+        lblLimiteCred.setBounds(510, 50, 100, 25); edtLimiteCred.setBounds(615, 50, 120, 25);
+
+        // Linha 3
+        lblEndereco.setBounds(10, 85, 70, 25);   edtEndereco.setBounds(80, 85, 350, 25);
+        lblNumero.setBounds(440, 85, 60, 25);    edtNumero.setBounds(500, 85, 80, 25);
+        lblComplemento.setBounds(590, 85, 100, 25); edtComplemento.setBounds(695, 85, 200, 25);
+
+        // Linha 4
+        lblBairro.setBounds(10, 120, 60, 25);    edtBairro.setBounds(70, 120, 200, 25);
+        lblCidade.setBounds(280, 120, 60, 25);   edtCidade.setBounds(340, 120, 200, 25);
+        lblUF.setBounds(550, 120, 30, 25);       cbUF.setBounds(585, 120, 60, 25);
+        lblCEP.setBounds(655, 120, 40, 25);      edtCEP.setBounds(700, 120, 120, 25);
+
+        // Linha 5
+        lblCelular.setBounds(10, 155, 60, 25);   edtCelular.setBounds(70, 155, 160, 25);
+        lblSite.setBounds(240, 155, 40, 25);     edtSite.setBounds(285, 155, 260, 25);
+        lblEmail.setBounds(550, 155, 60, 25);    edtEmail.setBounds(610, 155, 285, 25);
+
+        // ===== Aba "Consulta" =====
+        tabConsulta.setBounds(0, 0, 1470, 460);
+
+        // Filtros (topo)
+        paneConsultaDados.setBounds(10, 10, 1440, 110);
+
+        lblId1.setBounds(10, 10, 20, 25);                edtId1.setBounds(35, 10, 100, 25);
+        lblText.setBounds(140, 10, 10, 25);              edtId2.setBounds(155, 10, 100, 25);
+
+        lblNomeFiltro.setBounds(270, 10, 40, 25);        edtNomeFiltro.setBounds(315, 10, 200, 25);
+        lblUFFiltro.setBounds(525, 10, 25, 25);          cbUFFiltro.setBounds(555, 10, 70, 25);
+        lblDataCadastroFiltro.setBounds(635, 10, 100, 25); edtDataCadastroFiltro.setBounds(740, 10, 120, 25);
+        lblLimiteCredFiltro.setBounds(870, 10, 70, 25);  edtLimiteCredFiltro.setBounds(945, 10, 120, 25);
+
+        btnConsultar.setBounds(1080, 10, 100, 25);
+        btnLimpar.setBounds(1190, 10, 100, 25);
+
+        // Tabela
+        paneConsultaTabela.setBounds(10, 130, 1440, 300);
+        scrollTabela.setBounds(0, 0, 1440, 300);
+        paneConsultaTabela.add(scrollTabela);
+    }
+
+    private void configurarAcoes() {
+        btnPrimeiro.addActionListener(e -> {
+            if (lista == null || lista.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Não Existem Clientes Cadastrados !");
+                return;
+            }
+            mostrarRegistro(0);
+        });
+
+        btnAnterior.addActionListener(e -> {
+            int viewSel = tabela.getSelectedRow();
+            int sel = (viewSel < 0 ? 0 : tabela.convertRowIndexToModel(viewSel)) - 1;
+            mostrarRegistro(sel);
+        });
+
+        btnProximo.addActionListener(e -> {
+            int viewSel = tabela.getSelectedRow();
+            int sel = (viewSel < 0 ? -1 : tabela.convertRowIndexToModel(viewSel)) + 1;
+            mostrarRegistro(sel);
+        });
+
+        btnUltimo.addActionListener(e -> {
+            if (lista == null || lista.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Não Existem Clientes Cadastrados !");
+                return;
+            }
+            mostrarRegistro(lista.size() - 1);
+        });
+
+        btnNovo.addActionListener(e -> {
+            limparCampos();
+            edtDataCadastro.setText(java.time.LocalDate.now().toString()); // yyyy-MM-dd
+            setOperacao("incluir");
+            chkAtivo.setSelected(true);
+            edtNome.requestFocusInWindow();
+        });
+
+        btnAlterar.addActionListener(e -> setOperacao("alterar"));
+
+        btnGravar.addActionListener(e -> {
+            if (JOptionPane.showConfirmDialog(this,
+                    "Confirma Gravação deste Cliente ?",
+                    "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                try {
+                    ClienteModel c = montarClienteDosCampos();
+                    ClienteController ctrl = new ClienteController();
+                    ctrl.gravar(getOperacao(), c);
+                    JOptionPane.showMessageDialog(this, "Dados Gravados com Sucesso");
+                    consultar(); // recarrega tabela
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Erro na Gravação \n" + ex.getMessage());
+                }
+            }
+        });
+
+        btnExcluir.addActionListener(e -> {
+            setOperacao("");
+            if (JOptionPane.showConfirmDialog(this,
+                    "Confirma Exclusão deste Cliente ? (somente vínculo cliente)",
+                    "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                try {
+                    ClienteModel c = montarClienteDosCampos();
+                    ClienteController ctrl = new ClienteController();
+                    ctrl.excluir(c);
+                    JOptionPane.showMessageDialog(this, "Registro Excluído com Sucesso");
+                    consultar();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Erro na Exclusão de Registro \n" + ex.getMessage());
+                }
+            }
+        });
+
+        btnConsultar.addActionListener(e -> consultar());
+        btnLimpar.addActionListener(e -> {
+            edtId1.setText("");
+            edtId2.setText("");
+            edtNomeFiltro.setText("");
+            edtDataCadastroFiltro.setText("");
+            edtLimiteCredFiltro.setText("");
+            cbUFFiltro.setSelectedIndex(0);
+        });
+    }
+
+    private String getOperacao() { return operacao; }
+
+    private void setOperacao(String operacao) {
+        this.operacao = operacao;
+        btnGravar.setEnabled(!operacao.isEmpty());
+    }
+
+    private void limparCampos() {
+        edtCliCodigo.setText("0");
+        edtNome.setText("");
+        chkPesFisica.setSelected(true);
+        edtCPFCNPJ.setText("");
+        edtRgie.setText("");
+        edtDataCadastro.setText(""); // yyyy-MM-dd
+        edtEndereco.setText("");
+        edtNumero.setText("");
+        edtComplemento.setText("");
+        edtBairro.setText("");
+        edtCidade.setText("");
+        cbUF.setSelectedItem("SP");
+        edtCEP.setText("");
+        edtCelular.setText("");
+        edtSite.setText("");
+        edtEmail.setText("");
+        chkAtivo.setSelected(false);
+        edtLimiteCred.setText("");
+    }
+
+    private void mostrar(ClienteModel c) {
+        edtCliCodigo.setText(String.valueOf(c.getPES_CODIGO())); // chave da pessoa
+        edtNome.setText(c.getPES_NOME());
+        chkPesFisica.setSelected("F".equalsIgnoreCase(c.getPES_FISICA()));
+        edtCPFCNPJ.setText(c.getPES_CPFCNPJ());
+        edtRgie.setText(c.getPES_RGIE());
+        edtDataCadastro.setText(fmtDate(c.getPES_CADASTRO()));
+        edtEndereco.setText(c.getPES_ENDERECO());
+        edtNumero.setText(c.getPES_NUMERO());
+        edtComplemento.setText(c.getPES_COMPLEMENTO());
+        edtBairro.setText(c.getPES_BAIRRO());
+        edtCidade.setText(c.getPES_CIDADE());
+        cbUF.setSelectedItem(c.getPES_UF());
+        edtCEP.setText(c.getPES_CEP());
+        edtCelular.setText(c.getPES_CELULAR());
+        edtSite.setText(c.getPES_SITE());
+        edtEmail.setText(c.getPES_EMAIL());
+        chkAtivo.setSelected("S".equalsIgnoreCase(c.getPES_ATIVO()));
+        edtLimiteCred.setText(c.getCLI_LIMITECRED() == 0.0 ? "" : String.valueOf(c.getCLI_LIMITECRED()));
+    }
+
+    private ClienteModel montarClienteDosCampos() {
+        ClienteModel c = new ClienteModel();
+        // Código (pes_codigo)
+        int cod = 0;
+        try { cod = Integer.parseInt(edtCliCodigo.getText().trim()); } catch (Exception ignored) {}
+        c.setPES_CODIGO(cod);
+
+        // Pessoa
+        c.setPES_NOME(edtNome.getText().trim());
+        c.setPES_FISICA(chkPesFisica.isSelected() ? "F" : "J"); // F/J
+        c.setPES_CPFCNPJ(edtCPFCNPJ.getText().trim());
+        c.setPES_RGIE(edtRgie.getText().trim());
+        c.setPES_CADASTRO(parseDate(edtDataCadastro.getText().trim()));
+        c.setPES_ENDERECO(edtEndereco.getText().trim());
+        c.setPES_NUMERO(edtNumero.getText().trim());
+        c.setPES_COMPLEMENTO(edtComplemento.getText().trim());
+        c.setPES_BAIRRO(edtBairro.getText().trim());
+        c.setPES_CIDADE(edtCidade.getText().trim());
+        c.setPES_UF((String) cbUF.getSelectedItem());
+        c.setPES_CEP(edtCEP.getText().trim());
+        c.setPES_CELULAR(edtCelular.getText().trim());
+        c.setPES_SITE(edtSite.getText().trim());
+        c.setPES_EMAIL(edtEmail.getText().trim());
+        c.setPES_ATIVO(chkAtivo.isSelected() ? "S" : "N");
+
+        // Cliente
+        c.setCLI_LIMITECRED(parseDouble(edtLimiteCred.getText().trim()));
+
+        return c;
+    }
+
+    private String filtroConsulta() {
+        String cond = "";
+
+        if (!edtId1.getText().trim().isEmpty()) {
+            cond += "(p.pes_codigo >= " + edtId1.getText().trim() + ")";
+        }
+        if (!edtId2.getText().trim().isEmpty()) {
+            if (!cond.isEmpty()) cond += " AND ";
+            cond += "(p.pes_codigo <= " + edtId2.getText().trim() + ")";
+        }
+        if (!edtNomeFiltro.getText().trim().isEmpty()) {
+            if (!cond.isEmpty()) cond += " AND ";
+            cond += "(p.pes_nome ILIKE ('%" + edtNomeFiltro.getText().trim() + "%'))";
+        }
+        if (!edtDataCadastroFiltro.getText().trim().isEmpty()) {
+            if (!cond.isEmpty()) cond += " AND ";
+            cond += "(p.pes_cadastro >= '" + edtDataCadastroFiltro.getText().trim() + "')";
+        }
+        if (!edtLimiteCredFiltro.getText().trim().isEmpty()) {
+            if (!cond.isEmpty()) cond += " AND ";
+            cond += "(c.cli_limitecred >= " + edtLimiteCredFiltro.getText().trim().replace(",", ".") + ")";
+        }
+        if (cbUFFiltro.getSelectedItem() != null && !"".equals(cbUFFiltro.getSelectedItem())) {
+            if (!cond.isEmpty()) cond += " AND ";
+            cond += "(p.pes_uf = '" + cbUFFiltro.getSelectedItem() + "')";
+        }
+        return cond;
+    }
+
+    private void consultar() {
+        try {
+            String cond = filtroConsulta();
+            ClienteController ctrl = new ClienteController();
+            lista = ctrl.consultar(cond); // retorna ArrayList<ClienteModel>
+            if (lista == null) lista = new ArrayList<>();
+
+            tableModel = new ClienteTableModel(lista, colunas);
+            tabela.setModel(tableModel);
+            tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+            if (!lista.isEmpty()) {
+                mostrarRegistro(0);
+            } else {
+                JOptionPane.showMessageDialog(this, "Não Existem Clientes Cadastrados !");
+                limparCampos();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro na Consulta do Cliente \n" + ex.getMessage());
+        }
+    }
+
+    private void mostrarRegistro(int registro) {
+        if (lista == null || lista.isEmpty()) return;
+        if (registro < 0 || registro >= lista.size()) return;
+
+        mostrar(lista.get(registro));
+
+        int viewIndex = tabela.convertRowIndexToView(registro);
+        tabela.changeSelection(viewIndex, 0, false, false);
+    }
+
+    // ===== Utils =====
+    private static LocalDate parseDate(String s) {
+        try {
+            if (s == null || s.isEmpty()) return null;
+            return LocalDate.parse(s, DF);
+        } catch (Exception e) {
+            System.out.println("Data inválida: '" + s + "'. Esperado yyyy-MM-dd.");
+            return null;
+        }
+    }
+
+    private static String fmtDate(LocalDate d) {
+        return d == null ? "" : d.format(DF);
+    }
+
+    private static double parseDouble(String s) {
+        try {
+            if (s == null) return 0.0;
+            String t = s.trim().replace(",", ".");
+            if (t.isEmpty()) return 0.0;
+            return Double.parseDouble(t);
+        } catch (Exception e) {
+            System.out.println("Falha ao converter double: '" + s + "': " + e.getMessage());
+            return 0.0;
+        }
+    }
+} 

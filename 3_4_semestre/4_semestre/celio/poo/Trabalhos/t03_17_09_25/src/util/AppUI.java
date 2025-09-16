@@ -6,7 +6,7 @@ import java.awt.*;
 public final class AppUI {
 
     // === Constantes globais ===
-    public static final Dimension SIZE_PADRAO  = new Dimension(800, 800);
+    public static final Dimension SIZE_PADRAO  = new Dimension(1500, 850);
   
 
     private AppUI() {} // utility class
