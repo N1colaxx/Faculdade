@@ -18,8 +18,8 @@ referencial).
 
 
 -- Drop tables
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
+--DROP SCHEMA public CASCADE;
+--CREATE SCHEMA public;
 
 
 DROP TABLE IF EXISTS pessoa;
