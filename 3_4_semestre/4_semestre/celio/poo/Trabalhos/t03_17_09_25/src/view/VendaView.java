@@ -1,15 +1,15 @@
 package view;
 
 import controller.VendaController;
-import controller.VendaProdutoController;
+import controller.ProdutoVendaController;
 import controller.FormapagtoController;
 
 import model.VendaModel;
-import model.VendaItemModel;
-import model.VendaPagtoModel;
 import model.VendaProdutoModel;
+import model.VendaPagtoModel;
+import model.ProdutoVendaModel;
 
-import util.VendaItemTableModel;
+import util.VendaProdutoTableModel;
 import util.VendaPagtoTableModel;
 
 import javax.swing.*;
@@ -30,7 +30,9 @@ import java.util.ArrayList;
  * - Consulta: filtros (id1..id2, valor>=, valor<=) em venda_produto
  */
 public class VendaView extends JPanel {
-
+    
+    private JLabel lblTitulo;
+    
     // Botões (cabeçalho)
     private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
     private JButton btnNovo, btnAlterar, btnExcluir, btnGravar;
@@ -54,7 +56,7 @@ public class VendaView extends JPanel {
     private JTextField edtProCod, edtProNome, edtUn, edtQtde, edtPreco, edtSubTotal;
     private JButton btnAddItem, btnDelItem;
     private JTable tabItensGrid;
-    private VendaItemTableModel itensModel;
+    private VendaProdutoTableModel itensModel;
 
     // ====== ABA PAGAMENTOS ======
     private JPanel tabPgtos, panePgEditor, panePgTabela;
@@ -76,7 +78,7 @@ public class VendaView extends JPanel {
 
     // Estado (listas em memória)
     private String operacao = "";
-    private final ArrayList<VendaItemModel> listaItens = new ArrayList<>();
+    private final ArrayList<VendaProdutoModel> listaItens = new ArrayList<>();
     private final ArrayList<VendaPagtoModel> listaPgtos = new ArrayList<>();
     private final ArrayList<VendaModel> listaVendas = new ArrayList<>();
 
@@ -108,6 +110,12 @@ public class VendaView extends JPanel {
         paneCentro    = new JPanel(null);
         paneCentro.setBackground(new Color(245,250,255));
         tabs = new JTabbedPane();
+        
+            // ===== TÍTULO =====
+        lblTitulo = new JLabel("Vendas", SwingConstants.CENTER);   // << ADICIONE
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));       // idem
+        lblTitulo.setForeground(new Color(30,30,120));             // idem
+
 
         // ===== Dados =====
         tabDados = new JPanel(null);
@@ -154,7 +162,7 @@ public class VendaView extends JPanel {
         btnAddItem = new JButton("Adicionar");
         btnDelItem = new JButton("Remover");
 
-        itensModel = new VendaItemTableModel(listaItens);
+        itensModel = new VendaProdutoTableModel(listaItens);
         tabItensGrid = new JTable(itensModel);
         tabItensGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -214,6 +222,7 @@ public class VendaView extends JPanel {
 
         // Centro
         add(paneCentro);
+         paneCentro.add(lblTitulo);   // << ADICIONE
         paneCentro.add(tabs);
 
         // Aba Dados
@@ -273,6 +282,7 @@ public class VendaView extends JPanel {
         btnGravar  .setBounds(1320, 7, 120, 25);
 
         paneCentro.setBounds(10, 60, 1470, 770);
+        lblTitulo.setBounds(0, 0, 1450, 30);
         tabs.setBounds(10, 10, 1450, 750);
 
         // ===== Dados =====
@@ -384,7 +394,7 @@ public class VendaView extends JPanel {
             int viewSel = tabItensGrid.getSelectedRow();
             if (viewSel >= 0) {
                 int modelSel = tabItensGrid.convertRowIndexToModel(viewSel);
-                VendaItemModel it = itensModel.getItem(modelSel);
+                VendaProdutoModel it = itensModel.getItem(modelSel);
                 mostrarItem(it);
             }
         });
@@ -430,7 +440,7 @@ public class VendaView extends JPanel {
         try {
             int cod = parseInt(edtProCod.getText());
             if (cod <= 0) { limparCamposProduto(); return; }
-            VendaProdutoModel p = new VendaProdutoController().buscarPorCodigo(cod);
+            ProdutoVendaModel p = new ProdutoVendaController().buscarPorCodigo(cod);
             if (p == null) {
                 JOptionPane.showMessageDialog(this, "Produto não encontrado/ativo.");
                 limparCamposProduto();
@@ -458,7 +468,7 @@ public class VendaView extends JPanel {
         double pr = parseDouble(edtPreco.getText());
         if (qt <= 0 || pr <= 0) { JOptionPane.showMessageDialog(this, "Qtde e Preço precisam ser > 0."); return; }
 
-        VendaItemModel it = new VendaItemModel();
+        VendaProdutoModel it = new VendaProdutoModel();
         it.setPRO_CODIGO(pro);
         it.setPRO_NOME(edtProNome.getText().trim());
         it.setPRO_UNIDADE(edtUn.getText().trim());
@@ -491,7 +501,7 @@ public class VendaView extends JPanel {
 
     private void recomputarTotais() {
         double soma = 0.0;
-        for (VendaItemModel it : itensModel.getLinhas()) soma += it.getVEP_TOTAL();
+        for (VendaProdutoModel it : itensModel.getLinhas()) soma += it.getVEP_TOTAL();
         edtValor.setText(fmt(soma));
         double desc = parseDouble(edtDesc.getText());
         if (desc < 0) desc = 0;
@@ -725,7 +735,7 @@ public class VendaView extends JPanel {
         if (v.getCLI_CODIGO() <= 0) { JOptionPane.showMessageDialog(this,"Informe o cliente."); return; }
 
         // VDA_CODIGO nos itens/pgtos (preenche na gravação se incluir)
-        ArrayList<VendaItemModel> itens = new ArrayList<>(itensModel.getLinhas());
+        ArrayList<VendaProdutoModel> itens = new ArrayList<>(itensModel.getLinhas());
         ArrayList<VendaPagtoModel> pgtos = new ArrayList<>(pgtosModel.getLinhas());
 
         new VendaController().gravar(op, v, itens, pgtos);
@@ -813,7 +823,7 @@ public class VendaView extends JPanel {
 // ==== Seleção -> editores ====
 
 // Preenche os campos do editor de ITENS com base no modelo
-private void mostrarItem(VendaItemModel it){
+private void mostrarItem(VendaProdutoModel it){
     if (it == null) return;
     edtProCod.setText(String.valueOf(it.getPRO_CODIGO()));
     edtProNome.setText(it.getPRO_NOME());

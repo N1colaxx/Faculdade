@@ -2,7 +2,7 @@ package controller;
 
 import dao.VendaDao;
 import model.VendaModel;
-import model.VendaItemModel;
+import model.VendaProdutoModel;
 import model.VendaPagtoModel;
 
 import java.sql.ResultSet;
@@ -24,7 +24,7 @@ public class VendaController {
     }
 
     public void gravar(String operacao, VendaModel venda,
-                       ArrayList<VendaItemModel> itens,
+                       ArrayList<VendaProdutoModel> itens,
                        ArrayList<VendaPagtoModel> pgtos) throws SQLException {
         new VendaDao().gravarTransacao(operacao, venda, itens, pgtos);
     }

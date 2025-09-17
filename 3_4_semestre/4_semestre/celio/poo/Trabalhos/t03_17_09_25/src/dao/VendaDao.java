@@ -2,7 +2,7 @@ package dao;
 
 import conexao.Conexao;
 import model.VendaModel;
-import model.VendaItemModel;
+import model.VendaProdutoModel;
 import model.VendaPagtoModel;
 
 import java.sql.*;
@@ -19,7 +19,7 @@ public class VendaDao {
     /** Grava (incluir/alterar) venda completa em transação. */
     public void gravarTransacao(String operacao,
                                 VendaModel venda,
-                                ArrayList<VendaItemModel> itens,
+                                ArrayList<VendaProdutoModel> itens,
                                 ArrayList<VendaPagtoModel> pgtos) throws SQLException {
         boolean auto = conexao.getAutoCommit();
         try {
@@ -125,11 +125,11 @@ public class VendaDao {
         }
     }
 
-    private void inserirItens(int vdaCodigo, ArrayList<VendaItemModel> itens) throws SQLException {
+    private void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws SQLException {
         String sql = "INSERT INTO venda_produto (vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_desconto, vep_total) " +
                      "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
-            for (VendaItemModel it : itens) {
+            for (VendaProdutoModel it : itens) {
                 ps.setInt(1, vdaCodigo);
                 ps.setInt(2, it.getPRO_CODIGO());
                 ps.setDouble(3, it.getVEP_QTDE());
