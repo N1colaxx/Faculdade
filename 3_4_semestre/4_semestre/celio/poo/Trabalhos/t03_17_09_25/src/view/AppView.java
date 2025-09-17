@@ -118,14 +118,12 @@ public class AppView extends JFrame{
             usu = new Dimension(950, 650);
             AppUI.applySize(usuario1View, usu);
             System.out.println(" Usuario");
-                
             
             cop = new Dimension(1000, 850);
             AppUI.applySize(compraView, cop);
             System.out.println(" Compra");
-                
-            vda = new Dimension(1000, 800);
-            AppUI.applySize(vendaView, vda);
+            
+            AppUI.applyDefaultSize(vendaView);
             System.out.println(" venda");
                 
             System.out.println(" Aplicando Tamanho Padrao nas VIEW (SUCESSO)");
@@ -180,23 +178,27 @@ public class AppView extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
-    
+  
     private void mostrandoLogin(){
-    mostrarTela("Login");
-
-    // Usa a validação da view e chama o controller
-    loginView.setOnLogin((email, senha) -> {
-        controller.UsuarioController ctrl = new controller.UsuarioController();
-        boolean ok = ctrl.autenticar(email, senha);
-        if (ok) {
-            entrarMenu();
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(
-                this, "Usuário ou senha inválidos, ou usuário inativo."
-            );
-        }
-    });
-}
+        mostrarTela("Login");
+        loginView.getBtnEntrar().addActionListener(e -> entrarMenu());
+    }
+//    private void mostrandoLogin(){
+//        mostrarTela("Login");
+//
+//        // Usa a validação da view e chama o controller
+//        loginView.setOnLogin((email, senha) -> {
+//            controller.UsuarioController ctrl = new controller.UsuarioController();
+//            boolean ok = ctrl.autenticar(email, senha);
+//            if (ok) {
+//                entrarMenu();
+//            } else {
+//                javax.swing.JOptionPane.showMessageDialog(
+//                    this, "Usuário ou senha inválidos, ou usuário inativo."
+//                );
+//            }
+//        });
+//    }
 
     
     private void entrarMenu() {

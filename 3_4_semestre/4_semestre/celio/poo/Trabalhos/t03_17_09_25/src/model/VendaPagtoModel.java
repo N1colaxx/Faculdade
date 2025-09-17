@@ -1,45 +1,27 @@
 package model;
 
-import java.math.BigDecimal;
-
 public class VendaPagtoModel {
+    private int VDP_CODIGO;  // opcional para controle (PK)
+    private int VDA_CODIGO;  // FK venda
+    private int FPG_CODIGO;  // FK forma pagto
+    private String FPG_NOME; // somente exibição
+    private double VDP_VALOR;
 
-    private int
-            VDP_CODIGO,
-            VDA_CODIGO,
-            FPG_CODIG;
-    private BigDecimal VDP_VALOR;
+    public VendaPagtoModel(){}
 
-    
-    public VendaPagtoModel() { }
-
-    public VendaPagtoModel(int VDP_CODIGO, int VDA_CODIGO, int FPG_CODIG, BigDecimal VDP_VALOR) {
-        this.VDP_CODIGO = VDP_CODIGO;
-        this.VDA_CODIGO = VDA_CODIGO;
-        this.FPG_CODIG = FPG_CODIG;
-        this.VDP_VALOR = VDP_VALOR;
-    }
-
-    // Getters
+    // Getters/Setters
     public int getVDP_CODIGO() { return VDP_CODIGO; }
+    public void setVDP_CODIGO(int v) { VDP_CODIGO = v; }
+
     public int getVDA_CODIGO() { return VDA_CODIGO; }
-    public int getFPG_CODIG() { return FPG_CODIG; }
-    public BigDecimal getVDP_VALOR() { return VDP_VALOR; }
+    public void setVDA_CODIGO(int v) { VDA_CODIGO = v; }
 
-    // Setters
-    public void setVDP_CODIGO(int VDP_CODIGO) {
-        this.VDP_CODIGO = VDP_CODIGO;
-    }
+    public int getFPG_CODIGO() { return FPG_CODIGO; }
+    public void setFPG_CODIGO(int v) { FPG_CODIGO = v; }
 
-    public void setVDA_CODIGO(int VDA_CODIGO) {
-        this.VDA_CODIGO = VDA_CODIGO;
-    }
+    public String getFPG_NOME() { return FPG_NOME; }
+    public void setFPG_NOME(String v) { FPG_NOME = v; }
 
-    public void setFPG_CODIG(int FPG_CODIG) {
-        this.FPG_CODIG = FPG_CODIG;
-    }
-
-    public void setVDP_VALOR(BigDecimal VDP_VALOR) {
-        this.VDP_VALOR = VDP_VALOR;
-    }
+    public double getVDP_VALOR() { return VDP_VALOR; }
+    public void setVDP_VALOR(double v) { VDP_VALOR = v; }
 }

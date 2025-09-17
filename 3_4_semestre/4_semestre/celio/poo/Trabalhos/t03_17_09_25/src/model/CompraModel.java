@@ -1,6 +1,5 @@
 package model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class CompraModel {
@@ -9,7 +8,7 @@ public class CompraModel {
             CPR_CODIGO,
             USU_CODIGO,
             FOR_CODIGO;
-    private BigDecimal 
+    private double 
             CPR_VALOR,
             CPR_DESCONTO,
             CPR_TOTAL;
@@ -23,7 +22,7 @@ public class CompraModel {
 
 
     public CompraModel(int CPR_CODIGO, int USU_CODIGO, int FOR_CODIGO,
-                       BigDecimal CPR_VALOR, BigDecimal CPR_DESCONTO, BigDecimal CPR_TOTAL,
+                       double CPR_VALOR, double CPR_DESCONTO, double CPR_TOTAL,
                        LocalDate CPR_EMISSAO, LocalDate CPR_DTENTRADA, String CPR_OBS) {
         this.CPR_CODIGO = CPR_CODIGO;
         this.USU_CODIGO = USU_CODIGO;
@@ -40,9 +39,9 @@ public class CompraModel {
     public int getCPR_CODIGO() { return CPR_CODIGO; }
     public int getUSU_CODIGO() { return USU_CODIGO; }
     public int getFOR_CODIGO() { return FOR_CODIGO; }
-    public BigDecimal getCPR_VALOR() { return CPR_VALOR; }
-    public BigDecimal getCPR_DESCONTO() { return CPR_DESCONTO; }
-    public BigDecimal getCPR_TOTAL() { return CPR_TOTAL; }
+    public double getCPR_VALOR() { return CPR_VALOR; }
+    public double getCPR_DESCONTO() { return CPR_DESCONTO; }
+    public double getCPR_TOTAL() { return CPR_TOTAL; }
     public LocalDate getCPR_EMISSAO() { return CPR_EMISSAO; }
     public LocalDate getCPR_DTENTRADA() { return CPR_DTENTRADA; }
     public String getCPR_OBS() { return CPR_OBS; }
@@ -60,15 +59,15 @@ public class CompraModel {
         this.FOR_CODIGO = FOR_CODIGO;
     }
 
-    public void setCPR_VALOR(BigDecimal CPR_VALOR) {
+    public void setCPR_VALOR(double CPR_VALOR) {
         this.CPR_VALOR = CPR_VALOR;
     }
 
-    public void setCPR_DESCONTO(BigDecimal CPR_DESCONTO) {
+    public void setCPR_DESCONTO(double CPR_DESCONTO) {
         this.CPR_DESCONTO = CPR_DESCONTO;
     }
 
-    public void setCPR_TOTAL(BigDecimal CPR_TOTAL) {
+    public void setCPR_TOTAL(double CPR_TOTAL) {
         this.CPR_TOTAL = CPR_TOTAL;
     }
 

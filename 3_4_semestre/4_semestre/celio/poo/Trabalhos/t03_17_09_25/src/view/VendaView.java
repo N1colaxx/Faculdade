@@ -1,257 +1,338 @@
 package view;
-      
-import util.AppUI;
+
+import controller.VendaController;
+// import controller.ProdutoController; // se quiser buscar produto por código
+
+import model.VendaModel;
+import model.VendaItemModel;
+import model.VendaPagtoModel;
+// import model.ProdutoModel;
+import util.VendaItemTableModel;
+import util.VendaPagtoTableModel;
+
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.ListSelectionModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
+public class VendaView extends JPanel {
 
-public class VendaView extends JPanel { 
-    // Título
-    private JLabel lblTitulo;
-    // Botões
-    private JButton btnIncluir, btnConfirmar;
-    // Campos
-    private JLabel
-            // Dados da Venda
-            lblCliCodigo, // 1 dos 2 obrigatorio, mas so pode ser 1
-            lblVdaData, // deixo para a data automatico e editavel para mudança
-            lblVdaDesconto, 
-            lblVdaTotal,// somente leitura
-            lblVdaObs, // deixar Opcional
-            // Dados do Produto
-            lblProCodigo,
-            // Forma de Pagamento
-            lblFpgNome;
+    // Botões (cabeçalho)
+    private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
+    private JButton btnNovo, btnAlterar, btnExcluir, btnGravar;
 
-    private JTextField
-            // Dados da Venda
-            edtCliCodigo,
-            edtVdaData,
-            edtVdaTotal, //soemente leitura
-            edtVdaDesconto,
-            edtVdaObs,
-            // Dados produto
-            edtProCodigo; 
-    
-    private JComboBox<String> jcbFpgNome; // dados de produto
+    // Abas / painéis
+    private JPanel paneCabecario;
+    private JPanel paneCentro;
+    private JTabbedPane tabs;
 
+    // ====== ABA DADOS ======
+    private JPanel tabDados;
+    private JLabel lblVdaCodigo, lblUsuCodigo, lblCliCodigo, lblData, lblObs;
+    private JTextField edtVdaCodigo, edtUsuCodigo, edtCliCodigo, edtData;
+    private JTextArea edtObs;
+    private JLabel lblValor, lblDesc, lblTotal;
+    private JTextField edtValor, edtDesc, edtTotal;
 
-    // Tabela
-    private JTable tabela;
-    private DefaultTableModel modeloTabela;
-    
-    // ===== coluna lateral de ações (fora da tabela principal) =====
-    private JTable tabelaAcoes;
-    private DefaultTableModel modeloAcoes;
+    // ====== ABA ITENS ======
+    private JPanel tabItens, paneItemEditor, paneItemTabela;
+    private JLabel lblProCod, lblProNome, lblUn, lblQtde, lblPreco, lblDesconto, lblSubTotal;
+    private JTextField edtProCod, edtProNome, edtUn, edtQtde, edtPreco, edtDescItem, edtSubTotal; // <-- edtDescItem declarado
+    private JButton btnAddItem, btnUpdItem, btnDelItem, btnLimpaItem;
+    private JTable tabItensGrid;
+    private VendaItemTableModel itensModel;
 
-    
+    // ====== ABA PAGAMENTOS ======
+    private JPanel tabPgtos, panePgEditor, panePgTabela;
+    private JLabel lblFpgCod, lblFpgNome, lblPgValor;
+    private JTextField edtFpgCod, edtPgValor;
+    private JComboBox<String> cbFpgNome; // <-- trocado para combo
+    private JButton btnAddPg, btnUpdPg, btnDelPg, btnLimpaPg;
+    private JTable tabPgtosGrid;
+    private VendaPagtoTableModel pgtosModel;
+
+    // ====== ABA CONSULTA ======
+    private JPanel tabConsulta, paneConsultaDados, paneConsultaTabela;
+    private JLabel lblFiltroCodIni, lblATxt, lblFiltroCodFim;
+    private JTextField edtFiltroCodIni, edtFiltroCodFim;
+    private JButton btnConsultar, btnLimpar;
+    private JTable tabelaConsulta; // simplificado (cabeçalho) -> aquii fica os clientes
+    private JTable tabelaItensCunsulta; // aqui se vc selecioanr 1 cliente na tabela (tabelaConsulta) mostra os produstos aqui
+    private JScrollPane scrollConsulta;
+    private javax.swing.table.DefaultTableModel consultaModel;
+
+    // Estado
+    private String operacao = "";
+    private ArrayList<VendaItemModel> listaItens = new ArrayList<>();
+    private ArrayList<VendaPagtoModel> listaPgtos = new ArrayList<>();
+    private ArrayList<VendaModel> listaVendas = new ArrayList<>();
+
+    private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     public VendaView() {
-        setBackground(new Color(245, 250, 255));
-        
+        setLayout(null);
+        setBackground(Color.BLACK);
+
         instanciar();
         adicionar();
+        posicionar();
     }
 
+    //  esse metodo é para: instanciar todos os componentes da UI
     private void instanciar() {
-        // Título
-        lblTitulo = new JLabel("Movimentos de Venda", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
-        lblTitulo.setForeground(new Color(30, 30, 120));
-        // Botões
-        btnIncluir   = new JButton("Incluir");
-        btnConfirmar = new JButton("Confimar");
-            btnConfirmar.setBackground(Color.GREEN);
-            btnConfirmar.addActionListener(e -> System.out.println("[btnConfirmar] foi clicado em VENDA para validar (Forma de Pagamento)"));
-        // Campos Venda
-        lblCliCodigo = new JLabel("Cliente codigo");    edtCliCodigo = new JTextField(10);
-        lblVdaData = new JLabel("Data ");               edtVdaData = new JTextField(10);             
-        lblVdaDesconto = new JLabel("Desconto ");       edtVdaDesconto = new JTextField(10);
-        lblVdaTotal = new JLabel("Valor Total ");       edtVdaTotal = new JTextField(10); edtVdaTotal.setEditable(false);
-        lblVdaObs = new JLabel("Observacao ");          edtVdaObs = new JTextField(); 
-        // Campo Produto
-        lblProCodigo = new JLabel("Produto Codigo");    edtProCodigo = new JTextField(10);
-        
-        // Forma Pagamento
-        lblFpgNome = new JLabel("Escolha");
-        
-        String[] forma = {"Pix", "Cartão Credito", "Cartão Debito"};
-        jcbFpgNome = new JComboBox<>(forma);
-        
-        // Tabela
-        // Lembrar  de quando for popular ter que colocar um campo para a ultima colunar(Acao) escrito -> alterar
-        String[] colunas = {"Codigo Venda_Produto", "Codigo Venda", "Data Emisao", "Valor Total"};
-        
-        modeloTabela = new DefaultTableModel(colunas, 0) {
-            @Override public boolean isCellEditable(int row, int column) {return false;} // tabela toda não editável
+        // Cabeçalho
+        btnPrimeiro = new JButton("Primeiro");
+        btnAnterior = new JButton("Anterior");
+        btnProximo  = new JButton("Próximo");
+        btnUltimo   = new JButton("Último");
+        btnNovo     = new JButton("Novo");
+        btnAlterar  = new JButton("Alterar");
+        btnExcluir  = new JButton("Excluir");
+        btnGravar   = new JButton("Gravar");
+
+        paneCabecario = new JPanel(null);
+        paneCentro    = new JPanel(null);
+        paneCentro.setBackground(new Color(245,250,255));
+        tabs = new JTabbedPane();
+
+        // ===== Dados =====
+        tabDados = new JPanel(null);
+        lblVdaCodigo = new JLabel("Código:");
+        edtVdaCodigo = new JTextField();
+        lblUsuCodigo = new JLabel("Usuário:");
+        edtUsuCodigo = new JTextField();
+        lblCliCodigo = new JLabel("Cliente:");
+        edtCliCodigo = new JTextField();
+        lblData = new JLabel("Data (yyyy-MM-dd):");
+        edtData = new JTextField(LocalDate.now().toString());
+        lblObs = new JLabel("Obs.:");
+        edtObs = new JTextArea(); edtObs.setLineWrap(true); edtObs.setWrapStyleWord(true);
+
+        lblValor = new JLabel("Valor:");
+        edtValor = new JTextField(); edtValor.setEditable(false);
+        lblDesc = new JLabel("Desconto:");
+        edtDesc = new JTextField(); edtDesc.setEditable(false);
+        lblTotal = new JLabel("Total:");
+        edtTotal = new JTextField(); edtTotal.setEditable(false);
+
+        // ===== Itens =====
+        tabItens = new JPanel(null);
+        paneItemEditor = new JPanel(null);
+        paneItemTabela = new JPanel(null);
+
+        lblProCod = new JLabel("Prod Cód:");
+        edtProCod = new JTextField();
+        lblProNome = new JLabel("Nome:");
+        edtProNome = new JTextField(); edtProNome.setEditable(false);
+        lblUn = new JLabel("Und:");
+        edtUn = new JTextField(); edtUn.setEditable(false);
+        lblQtde = new JLabel("Qtde:");
+        edtQtde = new JTextField();
+        lblPreco = new JLabel("Preço:");
+        edtPreco = new JTextField(); edtPreco.setEditable(false); // <-- não editável (vem do produto)
+        lblDesconto = new JLabel("Desc:");
+        edtDescItem = new JTextField();
+        lblSubTotal = new JLabel("Subtotal:");
+        edtSubTotal = new JTextField(); edtSubTotal.setEditable(false);
+
+        btnAddItem = new JButton("Adicionar");
+        btnUpdItem = new JButton("Atualizar");
+        btnDelItem = new JButton("Remover");
+        btnLimpaItem = new JButton("Limpar");
+
+        itensModel = new util.VendaItemTableModel(listaItens);
+        tabItensGrid = new JTable(itensModel);
+        tabItensGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // ===== Pagamentos =====
+        tabPgtos = new JPanel(null);
+        panePgEditor = new JPanel(null);
+        panePgTabela = new JPanel(null);
+
+        lblFpgCod = new JLabel("FPG Cód:");
+        edtFpgCod = new JTextField();
+        lblFpgNome = new JLabel("Forma:");
+        cbFpgNome = new JComboBox<>(); // <-- combo para formas
+        lblPgValor = new JLabel("Valor:");
+        edtPgValor = new JTextField();
+
+        btnAddPg = new JButton("Adicionar");
+        btnUpdPg = new JButton("Atualizar");
+        btnDelPg = new JButton("Remover");
+        btnLimpaPg = new JButton("Limpar");
+
+        pgtosModel = new util.VendaPagtoTableModel(listaPgtos);
+        tabPgtosGrid = new JTable(pgtosModel);
+        tabPgtosGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // ===== Consulta =====
+        tabConsulta = new JPanel(null);
+        paneConsultaDados = new JPanel(null);
+        paneConsultaTabela = new JPanel(null);
+
+        lblFiltroCodIni = new JLabel("Cód de");
+        edtFiltroCodIni = new JTextField();
+        lblATxt = new JLabel("à");
+        lblFiltroCodFim = new JLabel("Cód até");
+        edtFiltroCodFim = new JTextField();
+        btnConsultar = new JButton("Consulta");
+        btnLimpar = new JButton("Limpa");
+
+        consultaModel = new javax.swing.table.DefaultTableModel(
+                new Object[][]{},
+                new String[]{"Código", "Usuário", "Cliente", "Data", "Valor", "Desc", "Total"}
+        ){
+            public boolean isCellEditable(int r, int c){ return false; }
         };
-        
-        tabela = new JTable(modeloTabela);
-        tabela.setFillsViewportHeight(true); // ocupa todo a altura disponivel
-        tabela.setPreferredScrollableViewportSize(new Dimension(750, 430));
-        
-    
-        // ===== TABELA DE AÇÕES (row header, fora da principal) =====
-        modeloAcoes = new DefaultTableModel(new String[]{"Alterar", "Consultar", "Excluir"}, 0) { // o zero"0" indica qtd de linha iniciais 
-            @Override public boolean isCellEditable(int row, int column) { return false; } // tabela toda não editável
-        };
-        tabelaAcoes = new JTable(modeloAcoes);  
-        // aparência enxuta
-        tabelaAcoes.setTableHeader(null);                 // sem cabeçalho
-        tabelaAcoes.setRowHeight(tabela.getRowHeight());  // mesma altura de linha
-        tabelaAcoes.setShowGrid(false);
-        tabelaAcoes.setIntercellSpacing(new Dimension(0,0));
-        // largura compacta
-        tabelaAcoes.getColumnModel().getColumn(0).setPreferredWidth(70);
-        tabelaAcoes.getColumnModel().getColumn(1).setPreferredWidth(80);
-        tabelaAcoes.getColumnModel().getColumn(2).setPreferredWidth(70);
-        tabelaAcoes.setPreferredScrollableViewportSize(new Dimension(220, 0));
-        
-
-        // Clique nos "botões" (texto clicável)
-        tabelaAcoes.addMouseListener(new MouseAdapter() {
-            @Override public void mouseClicked(MouseEvent e) {
-                int viewRow = tabelaAcoes.rowAtPoint(e.getPoint());  // Descobre o índice da LINHA (na VIEW) onde o mouse foi clicado
-                int col     = tabelaAcoes.columnAtPoint(e.getPoint()); //  Descobre o índice da COLUNA (na VIEW) onde o mouse foi clicado
-                if (viewRow < 0 || col < 0) return;  // Se clicou fora de uma célula válida (linha/coluna = -1), sai sem fazer nada
-
-                switch (col) {
-                    case 0: // Alterar;
-                        System.out.println("[Ações] Alterar venda "  );
-                    
-                    case 1:  // Consultar
-                        System.out.println("[Ações] Consultar venda "  );
-                    
-                    case 2:// Excluir
-                        System.out.println("[Ações] Excluir venda " );
-                }
-            }
-        });
-        
-        try {
-            System.out.println("add dados em Tab Venda");
-                    // Exemplo de como popular
-            modeloTabela.addRow(new Object[]{1, 101, "2025-09-10", 500.0});
-            modeloAcoes.addRow(new Object[]{"Alterar", "Consultar", "Excluir"});
-
-            modeloTabela.addRow(new Object[]{2, 102, "2025-09-11", 300.0});
-            modeloAcoes.addRow(new Object[]{"Alterar", "Consultar", "Excluir"});
-        } catch (Exception e) {
-            System.out.println("\n ERRO! add dados em Tab Venda \n " + e);
-        }
+        tabelaConsulta = new JTable(consultaModel);
+        scrollConsulta = new JScrollPane(tabelaConsulta);
     }
 
+    //  esse metodo é para: adicionar os componentes nos painéis/abas
     private void adicionar() {
-        JPanel panePrincipal = new JPanel(new BorderLayout(10, 10)); // Y | X  espaço entre as regiões 
-        panePrincipal.setOpaque(true);
+        // Cabeçalho
+        paneCabecario.add(btnPrimeiro); paneCabecario.add(btnAnterior);
+        paneCabecario.add(btnProximo);  paneCabecario.add(btnUltimo);
+        paneCabecario.add(btnNovo);     paneCabecario.add(btnAlterar);
+        paneCabecario.add(btnExcluir);  paneCabecario.add(btnGravar);
+        add(paneCabecario);
 
+        add(paneCentro);
+        paneCentro.add(tabs);
 
-        // Coluna1 => recebe o Titulo da Aba e os BTN
-            JPanel coluna1 = new JPanel();
-                coluna1.setLayout(new BoxLayout(coluna1, BoxLayout.Y_AXIS)); // crio o pane de columa, depois seto o layout como um Box alinhando em Y
-                // Título
-                lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-                // Linha de botões
-                JPanel paneBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
-                    paneBotoes.setOpaque(false);
-                    paneBotoes.add(btnIncluir);
-                    
-            coluna1.add(lblTitulo);
-            coluna1.add(paneBotoes);
-        panePrincipal.add(coluna1, BorderLayout.NORTH);
-        
-            // Formulário, contem os campos par incerir dados
-            JPanel paneFormularioPrincipal = new JPanel(new GridLayout(1, 2, 0, 0)); // y, x
-                paneFormularioPrincipal.setOpaque(true);
-                paneFormularioPrincipal.setBackground(Color.BLACK);
-            
-                // Regras pra os componetes do Grid
-                GridBagConstraints gbc = new GridBagConstraints();
-                    gbc.insets = new Insets(5, 8, 5, 8);
-                    gbc.fill = GridBagConstraints.HORIZONTAL;
-                    gbc.gridy = 0;
-                          
-                // Dados da venda
-                JPanel colunaVenda = new JPanel();
-                    colunaVenda.setLayout(new BoxLayout(colunaVenda, BoxLayout.Y_AXIS));
-                    colunaVenda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-               
-                    JLabel lblTituloV = new JLabel("Dados Venda");
-                    lblTituloV.setFont(new Font("Arial", Font.BOLD, 14));
-                    lblTituloV.setForeground(Color.WHITE);
-                    
-                    JPanel paneVenda = new JPanel(new GridBagLayout());
-                        AppUI.addCampo1(paneVenda, lblProCodigo, edtProCodigo, gbc);
-                        AppUI.addCampo1(paneVenda, lblCliCodigo, edtCliCodigo, gbc);
-                        AppUI.addCampo1(paneVenda, lblVdaData, edtVdaData, gbc);
-                        AppUI.addCampo1(paneVenda, lblVdaDesconto, edtVdaDesconto, gbc);
-                        AppUI.addCampo1(paneVenda, lblVdaObs, edtVdaObs, gbc);
-                       
-                colunaVenda.add(lblTituloV);
-                colunaVenda.add(paneVenda);
-        
-                // Dados Forma de Pagamento
-                JPanel colunaFormaPaga = new JPanel();
-                    colunaFormaPaga.setLayout(new BoxLayout(colunaFormaPaga, BoxLayout.Y_AXIS));
-                    colunaFormaPaga.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        // Aba Dados
+        tabDados.add(lblVdaCodigo); tabDados.add(edtVdaCodigo);
+        tabDados.add(lblUsuCodigo); tabDados.add(edtUsuCodigo);
+        tabDados.add(lblCliCodigo); tabDados.add(edtCliCodigo);
+        tabDados.add(lblData);      tabDados.add(edtData);
+        tabDados.add(lblObs);       tabDados.add(edtObs);
+        tabDados.add(lblValor);     tabDados.add(edtValor);
+        tabDados.add(lblDesc);      tabDados.add(edtDesc);
+        tabDados.add(lblTotal);     tabDados.add(edtTotal);
+        tabs.addTab("Dados", tabDados);
 
-                    JLabel lblTituloP = new JLabel("Forma de Pagamento");
-                    lblTituloP.setAlignmentX(Component.LEFT_ALIGNMENT);
-                    lblTituloP.setFont(new Font("Arial", Font.BOLD, 14));
-                    lblTituloP.setForeground(Color.WHITE);
+        // Aba Itens
+        tabItens.add(paneItemEditor); tabItens.add(paneItemTabela);
+        paneItemEditor.add(lblProCod); paneItemEditor.add(edtProCod);
+        paneItemEditor.add(lblProNome); paneItemEditor.add(edtProNome);
+        paneItemEditor.add(lblUn); paneItemEditor.add(edtUn);
+        paneItemEditor.add(lblQtde); paneItemEditor.add(edtQtde);
+        paneItemEditor.add(lblPreco); paneItemEditor.add(edtPreco);
+        paneItemEditor.add(lblDesconto); paneItemEditor.add(edtDescItem);
+        paneItemEditor.add(lblSubTotal); paneItemEditor.add(edtSubTotal);
+        paneItemEditor.add(btnAddItem); paneItemEditor.add(btnUpdItem);
+        paneItemEditor.add(btnDelItem); paneItemEditor.add(btnLimpaItem);
 
-                    JPanel paneFormaPaga = new JPanel(new GridBagLayout());
-                        AppUI.addCampo1(paneFormaPaga, lblFpgNome, jcbFpgNome, gbc);
-                        
-                    JPanel paneBtnFormaPaga = new JPanel();
-                        paneBtnFormaPaga.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
-                        paneBtnFormaPaga.setOpaque(true);
-                        paneBtnFormaPaga.add(btnConfirmar);
-                        
-                colunaFormaPaga.add(lblTituloP);
-                colunaFormaPaga.add(paneFormaPaga);
-                colunaFormaPaga.add(paneBtnFormaPaga);
-                
-                // e deixe os filhos transparentes, para a parecer o fundo 
-                colunaVenda.setOpaque(false);
-                colunaFormaPaga.setOpaque(false);
-                
-            // ADD colunaVenda e colunaFormaPagao ao PANE de Formulario
-            paneFormularioPrincipal.add(colunaVenda);
-            paneFormularioPrincipal.add(colunaFormaPaga);
+        paneItemTabela.add(new JScrollPane(tabItensGrid));
+        tabs.addTab("Itens (Produtos)", tabItens);
 
-        // ADD o paneFormulario ao panePrincipal
-        panePrincipal.add(paneFormularioPrincipal, BorderLayout.CENTER);
-        
-        
-            JPanel coluna2 = new JPanel();
-               coluna2.setLayout(new BoxLayout(coluna2, BoxLayout.Y_AXIS));
-               
-            // colocando a tabela dentro de um panel com SCROLL
-            JScrollPane scroll = new JScrollPane(tabela);
-            scroll.setRowHeaderView(tabelaAcoes);
+        // Aba Pagamentos
+        tabPgtos.add(panePgEditor); tabPgtos.add(panePgTabela);
+        panePgEditor.add(lblFpgCod); panePgEditor.add(edtFpgCod);
+        panePgEditor.add(lblFpgNome); panePgEditor.add(cbFpgNome); // <-- combo no lugar do textfield
+        panePgEditor.add(lblPgValor); panePgEditor.add(edtPgValor);
+        panePgEditor.add(btnAddPg); panePgEditor.add(btnUpdPg);
+        panePgEditor.add(btnDelPg); panePgEditor.add(btnLimpaPg);
 
-            // opcional: dar um “título” para as ações no canto superior da row header
-            JPanel headerAcoes = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 0));
-            headerAcoes.add(new JLabel("............................ Ações ...................................."));
-            scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER, headerAcoes);
-                    
-                JPanel paneRodape = new JPanel();
-                paneRodape.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));
-                    edtVdaTotal.setBorder(BorderFactory.createLineBorder(Color.BLACK));;
-                    paneRodape.add(lblVdaTotal);
-                    paneRodape.add(edtVdaTotal);
-                    
-            coluna2.add(scroll);
-            coluna2.add(paneRodape);
-            
-        // ADD a tabela com o Scroll ao panePrincipal
-        panePrincipal.add(coluna2, BorderLayout.SOUTH);
+        panePgTabela.add(new JScrollPane(tabPgtosGrid));
+        tabs.addTab("Pagamentos", tabPgtos);
 
-        // ADD o panePrincipal ao paneVendaView
-        add(panePrincipal);
+        // Aba Consulta
+        tabConsulta.add(paneConsultaDados); tabConsulta.add(paneConsultaTabela);
+        paneConsultaDados.add(lblFiltroCodIni); paneConsultaDados.add(edtFiltroCodIni);
+        paneConsultaDados.add(lblATxt);
+        paneConsultaDados.add(lblFiltroCodFim); paneConsultaDados.add(edtFiltroCodFim);
+        paneConsultaDados.add(btnConsultar); paneConsultaDados.add(btnLimpar);
+        paneConsultaTabela.add(scrollConsulta);
+        tabs.addTab("Consulta", tabConsulta);
     }
-    
+
+    //  esse metodo é para: posicionar (setBounds) todos os componentes
+    private void posicionar() {
+        // Painéis base
+        paneCabecario.setBounds(10, 10, 970, 40);
+        paneCabecario.setBackground(Color.LIGHT_GRAY);
+        paneCentro.setBounds(10, 60, 970, 730);
+        tabs.setBounds(10, 10, 950, 710);
+
+        // Botões cabeçalho
+        btnPrimeiro.setBounds(  0, 7, 90, 25);
+        btnAnterior.setBounds( 95, 7, 90, 25);
+        btnProximo .setBounds(190, 7, 90, 25);
+        btnUltimo  .setBounds(285, 7, 90, 25);
+        btnNovo    .setBounds(430, 7, 90, 25);
+        btnAlterar .setBounds(520, 7, 90, 25);
+        btnExcluir .setBounds(610, 7, 90, 25);
+        btnGravar  .setBounds(835, 7, 90, 25);
+
+        // ===== Dados =====
+        lblVdaCodigo.setBounds(10, 15, 60, 25);  edtVdaCodigo.setBounds(75, 15, 100, 25);
+        lblUsuCodigo.setBounds(190, 15, 60, 25); edtUsuCodigo.setBounds(255, 15, 80, 25);
+        lblCliCodigo.setBounds(345, 15, 60, 25); edtCliCodigo.setBounds(410, 15, 80, 25);
+        lblData.setBounds(500, 15, 140, 25);     edtData.setBounds(640, 15, 120, 25);
+
+        lblObs.setBounds(10, 55, 40, 25);
+        edtObs.setBounds(55, 55, 705, 90);
+
+        lblValor.setBounds(10, 160, 60, 25);    edtValor.setBounds(70, 160, 120, 25);
+        lblDesc.setBounds(200, 160, 70, 25);    edtDesc.setBounds(270, 160, 120, 25);
+        lblTotal.setBounds(400, 160, 60, 25);   edtTotal.setBounds(460, 160, 120, 25);
+
+        // ===== Itens =====
+        tabItens.setBounds(0,0,950,710);
+        paneItemEditor.setBounds(10, 10, 925, 120);
+        paneItemTabela.setBounds(10, 140, 925, 520);
+
+        lblProCod.setBounds(10, 10, 80, 25);    edtProCod.setBounds(90, 10, 80, 25);
+        lblProNome.setBounds(180, 10, 45, 25);  edtProNome.setBounds(230, 10, 260, 25);
+        lblUn.setBounds(500, 10, 35, 25);       edtUn.setBounds(540, 10, 50, 25);
+
+        lblQtde.setBounds(10, 45, 50, 25);      edtQtde.setBounds(60, 45, 80, 25);
+        lblPreco.setBounds(150, 45, 45, 25);    edtPreco.setBounds(200, 45, 80, 25);
+        lblDesconto.setBounds(290, 45, 45, 25); edtDescItem.setBounds(340, 45, 80, 25);
+        lblSubTotal.setBounds(430, 45, 60, 25); edtSubTotal.setBounds(495, 45, 95, 25);
+
+        btnAddItem.setBounds(610, 45, 100, 25);
+        btnUpdItem.setBounds(715, 45, 100, 25);
+        btnDelItem.setBounds(820, 45, 90, 25);
+        btnLimpaItem.setBounds(820, 80, 90, 25);
+
+        JScrollPane spItens = (JScrollPane) paneItemTabela.getComponent(0);
+        spItens.setBounds(0, 0, 925, 520);
+
+        // ===== Pagamentos =====
+        tabPgtos.setBounds(0,0,950,710);
+        panePgEditor.setBounds(10, 10, 925, 90);
+        panePgTabela.setBounds(10, 110, 925, 550);
+
+        lblFpgCod.setBounds(10, 10, 60, 25);    edtFpgCod.setBounds(75, 10, 80, 25);
+        lblFpgNome.setBounds(165, 10, 50, 25);  cbFpgNome.setBounds(220, 10, 250, 25); // <-- bounds do combo
+        lblPgValor.setBounds(480, 10, 40, 25);  edtPgValor.setBounds(525, 10, 100, 25);
+
+        btnAddPg.setBounds(640, 10, 90, 25);
+        btnUpdPg.setBounds(735, 10, 90, 25);
+        btnDelPg.setBounds(830, 10, 90, 25);
+        btnLimpaPg.setBounds(830, 45, 90, 25);
+
+        JScrollPane spPg = (JScrollPane) panePgTabela.getComponent(0);
+        spPg.setBounds(0, 0, 925, 550);
+
+        // ===== Consulta =====
+        tabConsulta.setBounds(0,0,950,710);
+        paneConsultaDados.setBounds(10, 10, 925, 60);
+        paneConsultaTabela.setBounds(10, 80, 925, 580);
+
+        lblFiltroCodIni.setBounds(10, 10, 60, 25);    edtFiltroCodIni.setBounds(70, 10, 80, 25);
+        lblATxt.setBounds(160, 10, 10, 25);
+        lblFiltroCodFim.setBounds(180, 10, 60, 25);   edtFiltroCodFim.setBounds(240, 10, 80, 25);
+
+        btnConsultar.setBounds(340, 10, 100, 25);
+        btnLimpar.setBounds(445, 10, 100, 25);
+
+        scrollConsulta.setBounds(0, 0, 925, 580);
+    }
 
 }
