@@ -202,7 +202,7 @@ ALTER TABLE formapagto
 
 
 
--- CLIENTE
+-- CLIENTE	
 ALTER TABLE cliente
 	ADD CONSTRAINT fk_cliente_pessoa
 	FOREIGN KEY (pes_codigo) REFERENCES pessoa (pes_codigo)
