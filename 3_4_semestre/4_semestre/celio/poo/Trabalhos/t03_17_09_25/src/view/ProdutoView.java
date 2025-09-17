@@ -65,18 +65,19 @@ public class ProdutoView extends JPanel {
     };
     private ArrayList<ProdutoModel> lista = new ArrayList<>();
 
+    //  construtor: configura layout base e liga tudo
     public ProdutoView() {
         setLayout(null);
         setBackground(Color.BLACK);
+        setPreferredSize(new Dimension(1500, 850)); // garante o tamanho do frame
 
         instanciar();
         adicionar();
         posicionar();
-
         configurarAcoes();
     }
 
-
+    //  instancia todos os componentes visuais (labels, inputs, painéis, tabela)
     private void instanciar() {
         // Botões topo
         btnPrimeiro = new JButton("Primeiro");
@@ -183,7 +184,7 @@ public class ProdutoView extends JPanel {
         }
     }
 
-
+    //  adiciona todos os componentes aos painéis/abas e ao JPanel principal
     private void adicionar() {
         // Cabeçalho
         paneCabecario.add(btnPrimeiro); paneCabecario.add(btnAnterior);
@@ -224,7 +225,7 @@ public class ProdutoView extends JPanel {
         paneConsultaDados.add(lblProMinFiltro);     paneConsultaDados.add(edtProMinFiltro);
         paneConsultaDados.add(lblProMaxFiltro);     paneConsultaDados.add(edtProMaxFiltro);
 
-        // Botões de consulta/limpa (iguais ao UsuarioView)
+        // Botões de consulta/limpa
         btnConsultar = new JButton("Consulta");
         btnLimpar    = new JButton("Limpa");
         paneConsultaDados.add(btnConsultar);
@@ -252,33 +253,32 @@ public class ProdutoView extends JPanel {
         });
     }
 
-
+    //  define posições e tamanhos (bounds) para caber em 1500 x 850
     private void posicionar() {
         // Cabeçalho
-        paneCabecario.setBounds(10, 10, 970, 40);
+        paneCabecario.setBounds(10, 10, 1470, 40);
         paneCabecario.setBackground(Color.LIGHT_GRAY);
-        btnPrimeiro.setBounds(  0, 7, 90, 25);
-        btnAnterior.setBounds( 95, 7, 90, 25);
-        btnProximo .setBounds(190, 7, 90, 25);
-        btnUltimo  .setBounds(285, 7, 90, 25);
-        btnNovo    .setBounds(430, 7, 90, 25);
-        btnAlterar .setBounds(520, 7, 90, 25);
-        btnExcluir .setBounds(610, 7, 90, 25);
-        btnGravar  .setBounds(835, 7, 90, 25);
+        btnPrimeiro.setBounds(  0, 7, 100, 25);
+        btnAnterior.setBounds(105, 7, 100, 25);
+        btnProximo .setBounds(210, 7, 100, 25);
+        btnUltimo  .setBounds(315, 7, 100, 25);
+        btnNovo    .setBounds(520, 7, 100, 25);
+        btnAlterar .setBounds(625, 7, 100, 25);
+        btnExcluir .setBounds(730, 7, 100, 25);
+        btnGravar  .setBounds(1320, 7, 120, 25);
 
         // Centro
-        paneCentro.setBounds(10, 60, 970, 770);
-        lblTitulo.setBounds(0, 0, 780, 30);
+        paneCentro.setBounds(10, 60, 1470, 770);
+        lblTitulo.setBounds(0, 0, 1200, 30);
 
         // Abas
-        paneDadosCadastro.setBounds(10, 40, 960, 240);
-        paneDadosConsulta.setBounds(10, 290, 960, 470);
+        paneDadosCadastro.setBounds(10, 40, 1470, 260);
+        paneDadosConsulta.setBounds(10, 310, 1470, 460);
 
         // ===== Campos da aba "Dados do Produto" =====
-
         lblProCodigo.setBounds(10, 15, 60, 25);    edtProCodigo.setBounds(75, 15, 100, 25);
-        lblProNome.setBounds(190, 15, 60, 25);     edtProNome.setBounds(250, 15, 400, 25);
-        lblProCadastro.setBounds(660, 15, 70, 25); edtProCadastro.setBounds(730, 15, 200, 25);
+        lblProNome.setBounds(190, 15, 60, 25);     edtProNome.setBounds(250, 15, 520, 25);
+        lblProCadastro.setBounds(790, 15, 70, 25); edtProCadastro.setBounds(865, 15, 200, 25);
 
         lblProEstoque.setBounds(10, 50, 60, 25);   edtProEstoque.setBounds(75, 50, 100, 25);
         lblProUnidade.setBounds(190, 50, 60, 25);  cbxUnidade.setBounds(250, 50, 100, 25);
@@ -288,40 +288,37 @@ public class ProdutoView extends JPanel {
         lblProPreco.setBounds(10, 85, 60, 25);     edtProPreco.setBounds(75, 85, 100, 25);
         lblProCusto.setBounds(190, 85, 60, 25);    edtProCusto.setBounds(250, 85, 100, 25);
         lblProAtacado.setBounds(360, 85, 70, 25);  edtProAtacado.setBounds(430, 85, 100, 25);
-        lblProEmbalagem.setBounds(540, 85, 80, 25);edtProEmbalagem.setBounds(625, 85, 80, 25);
-        lblProObs.setBounds(720, 85, 40, 25);      edtProObs.setBounds(760, 85, 170, 25);
+        lblProEmbalagem.setBounds(540, 85, 80, 25);edtProEmbalagem.setBounds(625, 85, 100, 25);
+        lblProObs.setBounds(740, 85, 40, 25);      edtProObs.setBounds(785, 85, 280, 25);
 
         lblProMin.setBounds(10, 120, 60, 25);      edtProMin.setBounds(75, 120, 100, 25);
         lblProMax.setBounds(190, 120, 60, 25);     edtProMax.setBounds(250, 120, 100, 25);
 
-        lblProNome.setLabelFor(edtProNome); // acessibilidade (apenas exemplo)
-
         // ===== Aba "Consulta" =====
-        tabConsulta.setBounds(0, 0, 960, 470);
+        tabConsulta.setBounds(0, 0, 1470, 460);
 
         // Filtros (topo)
-        paneConsultaDados.setBounds(10, 10, 930, 100);
+        paneConsultaDados.setBounds(10, 10, 1440, 110);
 
-        lblId1.setBounds(10, 10, 20, 25);           edtId1.setBounds(35, 10, 80, 25);
-        lblText.setBounds(120, 10, 10, 25);         edtId2.setBounds(135, 10, 80, 25);
+        lblId1.setBounds(10, 10, 20, 25);           edtId1.setBounds(35, 10, 100, 25);
+        lblText.setBounds(140, 10, 10, 25);         edtId2.setBounds(155, 10, 100, 25);
 
-        lblProNomeFiltro.setBounds(230, 10, 45, 25);   edtProNomeFiltro.setBounds(280, 10, 160, 25);
-        lblProUnidadeFiltro.setBounds(450, 10, 60, 25);edtProUnidadeFiltro.setBounds(515, 10, 80, 25);
-        lblProPrecoFiltro.setBounds(605, 10, 45, 25);  edtProPrecoFiltro.setBounds(655, 10, 80, 25);
+        lblProNomeFiltro.setBounds(270, 10, 45, 25);   edtProNomeFiltro.setBounds(320, 10, 220, 25);
+        lblProUnidadeFiltro.setBounds(550, 10, 60, 25);edtProUnidadeFiltro.setBounds(615, 10, 80, 25);
+        lblProPrecoFiltro.setBounds(710, 10, 45, 25);  edtProPrecoFiltro.setBounds(760, 10, 100, 25);
 
-        lblProMinFiltro.setBounds(745, 10, 65, 25);    edtProMinFiltro.setBounds(810, 10, 60, 25);
-        lblProMaxFiltro.setBounds(745, 45, 65, 25);    edtProMaxFiltro.setBounds(810, 45, 60, 25);
+        lblProMinFiltro.setBounds(870, 10, 65, 25);    edtProMinFiltro.setBounds(935, 10, 80, 25);
+        lblProMaxFiltro.setBounds(1025, 10, 65, 25);   edtProMaxFiltro.setBounds(1090, 10, 80, 25);
 
-
-        btnConsultar.setBounds(280, 45, 90, 25);
-        btnLimpar.setBounds(375, 45, 90, 25);
+        btnConsultar.setBounds(1185, 10, 100, 25);
+        btnLimpar.setBounds(1295, 10, 100, 25);
 
         // Tabela
-        paneConsultaTabela.setBounds(10, 120, 930, 330);
-        scrollTabela.setBounds(0, 0, 930, 330);
+        paneConsultaTabela.setBounds(10, 130, 1440, 310);
+        scrollTabela.setBounds(0, 0, 1440, 310);
     }
 
-
+    //  registra listeners dos botões (primeiro, anterior, próximo, etc.)
     private void configurarAcoes() {
         btnPrimeiro.addActionListener(e -> {
             if (lista == null || lista.isEmpty()) {
@@ -359,7 +356,6 @@ public class ProdutoView extends JPanel {
             edtProNome.requestFocusInWindow();
         });
 
-
         btnAlterar.addActionListener(e -> setOperacao("alterar"));
 
         btnGravar.addActionListener(e -> {
@@ -396,18 +392,19 @@ public class ProdutoView extends JPanel {
         });
     }
 
-
+    //  retorna a operação atual (incluir/alterar/""), usada pelo controller
     private String getOperacao() {
         return operacao;
     }
 
+    //  define a operação atual e habilita/desabilita o botão Gravar
     private void setOperacao(String operacao) {
         this.operacao = operacao;
         boolean ativar = !operacao.isEmpty();
         btnGravar.setEnabled(ativar);
     }
 
-
+    //  limpa todos os campos do formulário de cadastro
     private void limparCampos() {
         edtProCodigo.setText("0");
         edtProNome.setText("");
@@ -425,8 +422,7 @@ public class ProdutoView extends JPanel {
         chkAtivo.setSelected(false); // mapeia para "N"
     }
 
-
-
+    //  preenche os campos a partir de um ProdutoModel selecionado
     private void mostrar(ProdutoModel p) {
         edtProCodigo.setText(String.valueOf(p.getPRO_CODIGO()));
         edtProNome.setText(p.getPRO_NOME());
@@ -447,7 +443,7 @@ public class ProdutoView extends JPanel {
         chkAtivo.setSelected(ativo != null && ativo.trim().equalsIgnoreCase("S"));
     }
 
-
+    //  lê os campos da tela e monta um ProdutoModel para gravação
     private ProdutoModel montarProdutoDosCampos() {
         ProdutoModel p = new ProdutoModel();
 
@@ -483,7 +479,7 @@ public class ProdutoView extends JPanel {
         return p;
     }
 
-
+    //  monta a string de WHERE da consulta com base nos filtros preenchidos
     private String filtroConsulta() {
         String cond = "";
 
@@ -517,7 +513,7 @@ public class ProdutoView extends JPanel {
         return cond;
     }
 
-
+    //  executa a consulta via controller, popula a tabela e posiciona no 1º registro
     private void consultar() {
         try {
             String cond = filtroConsulta();
@@ -540,7 +536,7 @@ public class ProdutoView extends JPanel {
         }
     }
 
-
+    //  seleciona e mostra um registro específico da lista/tabela
     private void mostrarRegistro(int registro) {
         if (lista == null || lista.isEmpty()) return;
         if (registro < 0 || registro >= lista.size()) return;
@@ -550,10 +546,10 @@ public class ProdutoView extends JPanel {
         int viewIndex = tabela.convertRowIndexToView(registro);
         tabela.changeSelection(viewIndex, 0, false, false);
     }
-    
-    
-    
+
     // ===== Utils para BigDecimal e Data =====
+
+    //  converte String para BigDecimal de modo seguro (retorna ZERO em erro)
     private static java.math.BigDecimal parseBig(String s) {
         try {
             if (s == null) return java.math.BigDecimal.ZERO;
@@ -566,15 +562,18 @@ public class ProdutoView extends JPanel {
         }
     }
 
+    //  formata BigDecimal para exibição simples (sem casas desnecessárias)
     private static String fmtBig(java.math.BigDecimal v) {
         if (v == null) return "";
-        // Exibe com escala natural (sem forçar casas), usando ponto; se preferir vírgula visual, troque aqui:
         String s = v.stripTrailingZeros().toPlainString();
         return s;
     }
 
-    private static final java.time.format.DateTimeFormatter DF = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    //  converte String (yyyy-MM-dd) para LocalDate (seguro)
+    private static final java.time.format.DateTimeFormatter DF =
+            java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    //  faz o parse da data do campo (retorna null se inválida)
     private static java.time.LocalDate parseDate(String s) {
         try {
             if (s == null || s.trim().isEmpty()) return null;
@@ -585,10 +584,8 @@ public class ProdutoView extends JPanel {
         }
     }
 
+    //  formata LocalDate para String yyyy-MM-dd
     private static String fmtDate(java.time.LocalDate d) {
         return d == null ? "" : d.format(DF);
     }
-
-
-
 }

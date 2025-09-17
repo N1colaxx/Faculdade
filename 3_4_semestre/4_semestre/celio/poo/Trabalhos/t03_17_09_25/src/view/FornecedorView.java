@@ -64,6 +64,7 @@ public class FornecedorView extends JPanel {
     // Utils data
     private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    //  esse metodo é para: configurar o painel principal, definir tamanho/preferências e disparar a construção da UI.
     public FornecedorView() {
         setLayout(null);
         setBackground(Color.BLACK);
@@ -75,6 +76,7 @@ public class FornecedorView extends JPanel {
         configurarAcoes();
     }
 
+    //  esse metodo é para: instanciar todos os componentes visuais (labels, campos, combos, tabela, painéis e botões).
     private void instanciar() {
         // Botões topo
         btnPrimeiro = new JButton("Primeiro");
@@ -92,73 +94,45 @@ public class FornecedorView extends JPanel {
         lblTitulo.setForeground(new Color(30,30,120));
 
         // Dados do Fornecedor (Pessoa + Fornecedor)
-        lblForCodigo     = new JLabel("Código:");
-        edtForCodigo     = new JTextField();
-
-        lblNome          = new JLabel("Nome:");
-        edtNome          = new JTextField(30);
-
-        lblFantasia      = new JLabel("Fantasia:");
-        edtFantasia      = new JTextField(30);
-
-        lblPesFisica     = new JLabel("Pessoa Física?");
-        chkPesFisica     = new JCheckBox();  chkPesFisica.setBackground(new Color(245,250,255));
-
-        lblCPFCNPJ       = new JLabel("CPF/CNPJ:");
-        edtCPFCNPJ       = new JTextField(20);
-
-        lblRgie          = new JLabel("RG/IE:");
-        edtRgie          = new JTextField(20);
-
+        lblForCodigo     = new JLabel("Código:");   edtForCodigo     = new JTextField();
+        lblNome          = new JLabel("Nome:");     edtNome          = new JTextField(30);
+        lblFantasia      = new JLabel("Fantasia:"); edtFantasia      = new JTextField(30);
+        
+        lblPesFisica     = new JLabel("Pessoa Física?");    
+        chkPesFisica     = new JCheckBox();  
+        chkPesFisica.setBackground(new Color(245,250,255));
+        
+        lblCPFCNPJ       = new JLabel("CPF/CNPJ:"); edtCPFCNPJ       = new JTextField(20);
+        lblRgie          = new JLabel("RG/IE:");    edtRgie          = new JTextField(20);
+        
         lblDataCadastro  = new JLabel("Cadastro (yyyy-MM-dd):");
         edtDataCadastro  = new JTextField(12);
         edtDataCadastro.setText(LocalDate.now().toString()); // yyyy-MM-dd
 
-        lblEndereco      = new JLabel("Endereço:");
-        edtEndereco      = new JTextField(30);
-
-        lblNumero        = new JLabel("Número:");
-        edtNumero        = new JTextField(8);
-
-        lblComplemento   = new JLabel("Complemento:");
-        edtComplemento   = new JTextField(20);
-
-        lblBairro        = new JLabel("Bairro:");
-        edtBairro        = new JTextField(20);
-
-        lblCidade        = new JLabel("Cidade:");
-        edtCidade        = new JTextField(20);
-
+        lblEndereco      = new JLabel("Endereço:");     edtEndereco      = new JTextField(30);
+        lblNumero        = new JLabel("Número:");       edtNumero        = new JTextField(8);
+        lblComplemento   = new JLabel("Complemento:");  edtComplemento   = new JTextField(20);
+        lblBairro        = new JLabel("Bairro:");       edtBairro        = new JTextField(20);
+        lblCidade        = new JLabel("Cidade:");       edtCidade        = new JTextField(20);
+        
         lblUF            = new JLabel("UF:");
         cbUF             = new JComboBox<>(new String[]{
                 "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
                 "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"
         });
 
-        lblCEP           = new JLabel("CEP:");
-        edtCEP           = new JTextField(10);
-
-        lblFone1         = new JLabel("Fone 1:");
-        edtFone1         = new JTextField(16);
-
-        lblFone2         = new JLabel("Fone 2:");
-        edtFone2         = new JTextField(16);
-
-        lblCelular       = new JLabel("Celular:");
-        edtCelular       = new JTextField(16);
-
-        lblSite          = new JLabel("Site:");
-        edtSite          = new JTextField(30);
-
-        lblEmail         = new JLabel("E-mail:");
-        edtEmail         = new JTextField(30);
-
+        lblCEP           = new JLabel("CEP:");      edtCEP           = new JTextField(10);
+        lblFone1         = new JLabel("Fone 1:");   edtFone1         = new JTextField(16);
+        lblFone2         = new JLabel("Fone 2:");   edtFone2         = new JTextField(16);
+        lblCelular       = new JLabel("Celular:");  edtCelular       = new JTextField(16);
+        lblSite          = new JLabel("Site:");     edtSite          = new JTextField(30);
+        lblEmail         = new JLabel("E-mail:");   edtEmail         = new JTextField(30);
+        
         lblAtivo         = new JLabel("Ativo:");
-        chkAtivo         = new JCheckBox(); chkAtivo.setBackground(new Color(245,250,255));
-
-        lblContato       = new JLabel("Contato:");
-        edtContato       = new JTextField(30);
-
+        chkAtivo         = new JCheckBox(); 
+        chkAtivo.setBackground(new Color(245,250,255));
+        
+        lblContato       = new JLabel("Contato:");edtContato       = new JTextField(30);
         // Consulta (filtros)
         lblId1          = new JLabel("ID");
         lblText         = new JLabel("à");
@@ -208,6 +182,7 @@ public class FornecedorView extends JPanel {
         paneConsultaTabela = new JPanel(null);
     }
 
+    //  esse metodo é para: adicionar os componentes instanciados aos painéis e montar as abas de dados e consulta.
     private void adicionar() {
         // Cabeçalho
         paneCabecario.add(btnPrimeiro); paneCabecario.add(btnAnterior);
@@ -274,6 +249,7 @@ public class FornecedorView extends JPanel {
         });
     }
 
+    //  esse metodo é para: posicionar todos os componentes com coordenadas absolutas (layout fixo).
     private void posicionar() {
         // Cabeçalho
         paneCabecario.setBounds(10, 10, 1470, 40);
@@ -349,6 +325,7 @@ public class FornecedorView extends JPanel {
         paneConsultaTabela.add(scrollTabela);
     }
 
+    //  esse metodo é para: registrar todas as ações dos botões de navegação, CRUD e consulta.
     private void configurarAcoes() {
         btnPrimeiro.addActionListener(e -> {
             if (lista == null || lista.isEmpty()) {
@@ -431,13 +408,16 @@ public class FornecedorView extends JPanel {
         });
     }
 
+    //  esse metodo é para: obter a operação atual (incluir/alterar/""), usada na gravação.
     private String getOperacao() { return operacao; }
 
+    //  esse metodo é para: definir a operação e habilitar/desabilitar o botão Gravar conforme necessário.
     private void setOperacao(String operacao) {
         this.operacao = operacao;
         btnGravar.setEnabled(!operacao.isEmpty());
     }
 
+    //  esse metodo é para: limpar todos os campos da tela e restaurar valores padrão.
     private void limparCampos() {
         edtForCodigo.setText("0");
         edtNome.setText("");
@@ -462,6 +442,7 @@ public class FornecedorView extends JPanel {
         edtContato.setText("");
     }
 
+    //  esse metodo é para: preencher os campos da tela com os dados do fornecedor selecionado na tabela.
     private void mostrar(FornecedorModel f) {
         edtForCodigo.setText(String.valueOf(f.getPES_CODIGO())); // chave da pessoa
         edtNome.setText(f.getPES_NOME());
@@ -486,6 +467,7 @@ public class FornecedorView extends JPanel {
         edtContato.setText(f.getFOR_CONTATO());
     }
 
+    //  esse metodo é para: montar um FornecedorModel a partir dos valores digitados nos campos (para gravar/alterar/excluir).
     private FornecedorModel montarFornecedorDosCampos() {
         FornecedorModel f = new FornecedorModel();
 
@@ -520,6 +502,7 @@ public class FornecedorView extends JPanel {
         return f;
     }
 
+    //  esse metodo é para: construir a cláusula WHERE da consulta com base nos filtros digitados.
     private String filtroConsulta() {
         String cond = "";
 
@@ -532,11 +515,11 @@ public class FornecedorView extends JPanel {
         }
         if (!edtNomeFiltro.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(p.pes_nome ILIKE ('%" + edtNomeFiltro.getText().trim() + "%'))";
+            cond += "(p.pes_nome LIKE ('%" + edtNomeFiltro.getText().trim() + "%'))";
         }
         if (!edtContatoFiltro.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(f.for_contato ILIKE ('%" + edtContatoFiltro.getText().trim() + "%'))";
+            cond += "(f.for_contato LIKE ('%" + edtContatoFiltro.getText().trim() + "%'))";
         }
         if (cbUFFiltro.getSelectedItem() != null && !"".equals(cbUFFiltro.getSelectedItem())) {
             if (!cond.isEmpty()) cond += " AND ";
@@ -545,6 +528,7 @@ public class FornecedorView extends JPanel {
         return cond;
     }
 
+    //  esse metodo é para: chamar o controller, carregar a lista na tabela e posicionar no primeiro registro (ou limpar se vazio).
     private void consultar() {
         try {
             String cond = filtroConsulta();
@@ -567,6 +551,7 @@ public class FornecedorView extends JPanel {
         }
     }
 
+    //  esse metodo é para: exibir um registro específico da lista e sincronizar a seleção da tabela (índice de view x model).
     private void mostrarRegistro(int registro) {
         if (lista == null || lista.isEmpty()) return;
         if (registro < 0 || registro >= lista.size()) return;
@@ -578,6 +563,8 @@ public class FornecedorView extends JPanel {
     }
 
     // ===== Utils =====
+
+    //  esse metodo é para: converter String yyyy-MM-dd em LocalDate (retorna null se inválida).
     private static LocalDate parseDate(String s) {
         try {
             if (s == null || s.isEmpty()) return null;
@@ -588,6 +575,7 @@ public class FornecedorView extends JPanel {
         }
     }
 
+    //  esse metodo é para: formatar LocalDate em yyyy-MM-dd (ou vazio se null).
     private static String fmtDate(LocalDate d) {
         return d == null ? "" : d.format(DF);
     }

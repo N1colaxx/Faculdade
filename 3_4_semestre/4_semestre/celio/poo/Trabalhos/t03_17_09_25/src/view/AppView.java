@@ -17,7 +17,7 @@ public class AppView extends JFrame{
     private ClienteView clienteView;
     private FornecedorView fornecedorView;
     private ProdutoView produtoView;
-    private FormaPagaView formaPagaView;
+    private FormaPagamentoView formaPagaView;
     private UsuarioView usuario1View;
     // ItensMovimentos
     private VendaView vendaView;
@@ -77,7 +77,7 @@ public class AppView extends JFrame{
                 System.out.println(" Fronecedor");
             produtoView = new ProdutoView();
                 System.out.println(" Produto");
-            formaPagaView = new FormaPagaView();
+            formaPagaView = new FormaPagamentoView();
                 System.out.println(" FormaPaga");
             usuario1View = new UsuarioView();
                 System.out.println(" Usuario");
@@ -111,7 +111,7 @@ public class AppView extends JFrame{
             AppUI.applyDefaultSize(produtoView);
             System.out.println(" Produto");
                 
-            forpag = new Dimension(800, 800);
+            forpag = new Dimension(1000, 850);
             AppUI.applySize(formaPagaView, forpag);
             System.out.println(" FormaPaga");
                 
