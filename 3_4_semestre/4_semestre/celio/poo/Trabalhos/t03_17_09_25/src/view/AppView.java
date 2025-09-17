@@ -119,8 +119,7 @@ public class AppView extends JFrame{
             AppUI.applySize(usuario1View, usu);
             System.out.println(" Usuario");
             
-            cop = new Dimension(1000, 850);
-            AppUI.applySize(compraView, cop);
+            AppUI.applyDefaultSize(compraView);
             System.out.println(" Compra");
             
             AppUI.applyDefaultSize(vendaView);
