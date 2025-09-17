@@ -1,24 +1,22 @@
 package dao;
 
-
 import conexao.Conexao;
 import model.VendaModel;
 import model.VendaItemModel;
 import model.VendaPagtoModel;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
+/** DAO da Venda: cabeçalho + itens + pagamentos em transação. */
 public class VendaDao {
     private final Connection conexao;
 
-    //  esse metodo é para: abrir a conexão (usando sua classe Conexao)
     public VendaDao() throws SQLException {
         this.conexao = Conexao.getConexao();
     }
 
-    //  esse metodo é para: inserir/alterar venda + itens + pagtos em transação
+    /** Grava (incluir/alterar) venda completa em transação. */
     public void gravarTransacao(String operacao,
                                 VendaModel venda,
                                 ArrayList<VendaItemModel> itens,
@@ -50,31 +48,54 @@ public class VendaDao {
         }
     }
 
-    //  esse metodo é para: inserir a venda (cabeçalho) e retornar PK gerada
+    /** INSERT do cabeçalho; retorna PK gerada. Suporta PostgreSQL e MySQL. */
     private int inserirVenda(VendaModel v) throws SQLException {
-        String sql = "INSERT INTO venda (usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING vda_codigo";
-        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
-            ps.setInt(1, v.getUSU_CODIGO());
-            ps.setInt(2, v.getCLI_CODIGO());
-            ps.setDate(3, v.getVDA_DATA() == null ? null : Date.valueOf(v.getVDA_DATA()));
-            ps.setDouble(4, v.getVDA_VALOR());
-            ps.setDouble(5, v.getVDA_DESCONTO());
-            ps.setDouble(6, v.getVDA_TOTAL());
-            ps.setString(7, v.getVDA_OBS());
+        String product = conexao.getMetaData().getDatabaseProductName();
+        boolean isPostgres = product != null && product.toLowerCase().contains("postgres");
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) return rs.getInt(1);
+        if (isPostgres) {
+            // PostgreSQL: usa RETURNING
+            String sql = "INSERT INTO venda (usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING vda_codigo";
+            try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+                ps.setInt(1, v.getUSU_CODIGO());
+                ps.setInt(2, v.getCLI_CODIGO());
+                ps.setDate(3, v.getVDA_DATA() == null ? null : java.sql.Date.valueOf(v.getVDA_DATA()));
+                ps.setDouble(4, v.getVDA_VALOR());
+                ps.setDouble(5, v.getVDA_DESCONTO());
+                ps.setDouble(6, v.getVDA_TOTAL());
+                ps.setString(7, v.getVDA_OBS());
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) return rs.getInt(1);
+                }
             }
+            throw new SQLException("Falha ao inserir venda (RETURNING não retornou chave).");
+        } else {
+            // MySQL/MariaDB: usa generated keys
+            String sql = "INSERT INTO venda (usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement ps = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(1, v.getUSU_CODIGO());
+                ps.setInt(2, v.getCLI_CODIGO());
+                ps.setDate(3, v.getVDA_DATA() == null ? null : java.sql.Date.valueOf(v.getVDA_DATA()));
+                ps.setDouble(4, v.getVDA_VALOR());
+                ps.setDouble(5, v.getVDA_DESCONTO());
+                ps.setDouble(6, v.getVDA_TOTAL());
+                ps.setString(7, v.getVDA_OBS());
+                ps.executeUpdate();
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) return rs.getInt(1);
+                }
+            }
+            throw new SQLException("Falha ao inserir venda (sem chave gerada).");
         }
-        throw new SQLException("Falha ao inserir venda (sem retorno de chave).");
     }
 
-    //  esse metodo é para: atualizar os campos do cabeçalho da venda
+
+    /** UPDATE do cabeçalho. */
     private void alterarVenda(VendaModel v) throws SQLException {
         String sql = "UPDATE venda SET usu_codigo=?, cli_codigo=?, vda_data=?, " +
-                     "vda_valor=?, vda_desconto=?, vda_total=?, vda_obs=? " +
-                     "WHERE vda_codigo=?";
+                     "vda_valor=?, vda_desconto=?, vda_total=?, vda_obs=? WHERE vda_codigo=?";
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setInt(1, v.getUSU_CODIGO());
             ps.setInt(2, v.getCLI_CODIGO());
@@ -88,23 +109,22 @@ public class VendaDao {
         }
     }
 
-    //  esse metodo é para: excluir itens de uma venda (antes de regravar)
     private void excluirItens(int vdaCodigo) throws SQLException {
-        try (PreparedStatement ps = conexao.prepareStatement("DELETE FROM venda_produto WHERE vda_codigo = ?")) {
+        try (PreparedStatement ps = conexao.prepareStatement(
+                "DELETE FROM venda_produto WHERE vda_codigo = ?")) {
             ps.setInt(1, vdaCodigo);
             ps.executeUpdate();
         }
     }
 
-    //  esse metodo é para: excluir pagamentos de uma venda (antes de regravar)
     private void excluirPgtos(int vdaCodigo) throws SQLException {
-        try (PreparedStatement ps = conexao.prepareStatement("DELETE FROM venda_pagto WHERE vda_codigo = ?")) {
+        try (PreparedStatement ps = conexao.prepareStatement(
+                "DELETE FROM venda_pagto WHERE vda_codigo = ?")) {
             ps.setInt(1, vdaCodigo);
             ps.executeUpdate();
         }
     }
 
-    //  esse metodo é para: inserir todos os itens na tabela venda_produto
     private void inserirItens(int vdaCodigo, ArrayList<VendaItemModel> itens) throws SQLException {
         String sql = "INSERT INTO venda_produto (vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_desconto, vep_total) " +
                      "VALUES (?, ?, ?, ?, ?, ?)";
@@ -114,7 +134,7 @@ public class VendaDao {
                 ps.setInt(2, it.getPRO_CODIGO());
                 ps.setDouble(3, it.getVEP_QTDE());
                 ps.setDouble(4, it.getVEP_PRECO());
-                ps.setDouble(5, it.getVEP_DESCONTO());
+                ps.setDouble(5, 0.0); // desconto por item não usado na UI
                 ps.setDouble(6, it.getVEP_TOTAL());
                 ps.addBatch();
             }
@@ -122,7 +142,6 @@ public class VendaDao {
         }
     }
 
-    //  esse metodo é para: inserir os pagamentos na tabela venda_pagto
     private void inserirPgtos(int vdaCodigo, ArrayList<VendaPagtoModel> pgtos) throws SQLException {
         String sql = "INSERT INTO venda_pagto (vda_codigo, fpg_codigo, vdp_valor) VALUES (?, ?, ?)";
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
@@ -136,7 +155,7 @@ public class VendaDao {
         }
     }
 
-    //  esse metodo é para: consultar vendas (somente cabeçalho) por condição livre
+    /** Consulta cabeçalhos por condição livre. */
     public ArrayList<VendaModel> consultar(String cond) throws SQLException {
         ArrayList<VendaModel> lista = new ArrayList<>();
         String sql = "SELECT vda_codigo, usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs FROM venda";
@@ -161,7 +180,15 @@ public class VendaDao {
         return lista;
     }
 
-    //  esse metodo é para: excluir a venda inteira (cabeçalho + itens + pgtos)
+    /** Consulta para aba "Consulta": RETORNA ResultSet de venda_produto. (Feche o RS no chamador) */
+    public ResultSet consultarVendaProdutoRS(String cond) throws SQLException {
+        String sql = "SELECT vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_total FROM venda_produto";
+        if (cond != null && !cond.trim().isEmpty()) sql += " WHERE " + cond;
+        PreparedStatement ps = conexao.prepareStatement(sql);
+        return ps.executeQuery(); // o chamador deve fechar o ResultSet (fecha o PS junto em muitos drivers)
+    }
+
+    /** Exclui venda inteira (cabeçalho + itens + pgtos). */
     public void excluir(VendaModel v) throws SQLException {
         boolean auto = conexao.getAutoCommit();
         try {
