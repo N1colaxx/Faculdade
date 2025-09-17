@@ -11,11 +11,11 @@ import java.util.ArrayList;
  * TableModel dos ITENS da COMPRA (usa CompraProdutoModel existente).
  * Colunas: cpr_codigo, pro_codigo, qtde, preco, total
  */
-public class CompraItemTableModel extends AbstractTableModel {
+public class CompraProdutoTableModel extends AbstractTableModel {
     private final String[] colunas = { "Compra", "Cód Prod", "Qtde", "Preço", "Total" };
     private final ArrayList<CompraProdutoModel> linhas;
 
-    public CompraItemTableModel(ArrayList<CompraProdutoModel> itens){
+    public CompraProdutoTableModel(ArrayList<CompraProdutoModel> itens){
         this.linhas = itens;
     }
 

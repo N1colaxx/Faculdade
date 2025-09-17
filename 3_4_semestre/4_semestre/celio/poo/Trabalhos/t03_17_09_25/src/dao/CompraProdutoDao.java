@@ -2,7 +2,7 @@ package dao;
 
 
 import conexao.Conexao;
-import model.ProtoCompraProdutoModel;
+import model.ProdutoCompraModel;
 
 import java.sql.*;
 
@@ -15,14 +15,14 @@ public class CompraProdutoDao {
     }
 
     /** Busca produto por código; retorna null se não achar ou ativo != 'S'. */
-    public ProtoCompraProdutoModel buscarPorCodigo(int proCodigo) throws SQLException {
+    public ProdutoCompraModel buscarPorCodigo(int proCodigo) throws SQLException {
         String sql = "SELECT pro_codigo, pro_nome, pro_unidade, pro_custo, pro_ativo, pro_cadastro " +
                      "FROM produto WHERE pro_codigo = ?";
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setInt(1, proCodigo);
             try (ResultSet rs = ps.executeQuery()){
                 if (rs.next()){
-                    ProtoCompraProdutoModel p = new ProtoCompraProdutoModel();
+                    ProdutoCompraModel p = new ProdutoCompraModel();
                     p.setPRO_CODIGO(rs.getInt("pro_codigo"));
                     p.setPRO_NOME(rs.getString("pro_nome"));
                     p.setPRO_UNIDADE(rs.getString("pro_unidade"));

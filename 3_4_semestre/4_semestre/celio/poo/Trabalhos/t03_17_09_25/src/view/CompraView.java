@@ -1,13 +1,13 @@
 package view;
 
 import controller.CompraController;
-import controller.CompraProdutoController;
+import controller.ProdutoCompraController;
 
 import model.CompraModel;
 import model.CompraProdutoModel;
-import model.ProtoCompraProdutoModel;
+import model.ProdutoCompraModel;
 
-import util.CompraItemTableModel;
+import util.CompraProdutoTableModel;
 
 import javax.swing.*;
 import javax.swing.ListSelectionModel;
@@ -24,6 +24,8 @@ import java.util.ArrayList;
  * Tela de Cadastro de COMPRAS (espelho da VendaView, sem Pagamentos).
  */
 public class CompraView extends JPanel {
+    
+    private JLabel lblTitulo;
 
     // Cabeçalho
     private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
@@ -48,7 +50,7 @@ public class CompraView extends JPanel {
     private JTextField edtProCod, edtProNome, edtUn, edtQtde, edtPreco, edtSubTotal;
     private JButton btnAddItem, btnDelItem;
     private JTable tabItensGrid;
-    private CompraItemTableModel itensModel;
+    private CompraProdutoTableModel itensModel;
 
     // ===== Consulta =====
     private JPanel tabConsulta, paneConsultaDados, paneConsultaTabela;
@@ -91,6 +93,12 @@ public class CompraView extends JPanel {
         paneCentro    = new JPanel(null);
         paneCentro.setBackground(new Color(245,250,255));
         tabs = new JTabbedPane();
+        
+            // ===== TÍTULO =====
+        lblTitulo = new JLabel("Compras", SwingConstants.CENTER);  // << ADICIONE
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));       // idem
+        lblTitulo.setForeground(new Color(30,30,120));             // idem
+
 
         // Dados
         tabDados = new JPanel(null);
@@ -140,7 +148,7 @@ public class CompraView extends JPanel {
         btnAddItem = new JButton("Adicionar");
         btnDelItem = new JButton("Remover");
 
-        itensModel = new CompraItemTableModel(listaItens);
+        itensModel = new CompraProdutoTableModel(listaItens);
         tabItensGrid = new JTable(itensModel);
         tabItensGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -182,8 +190,9 @@ public class CompraView extends JPanel {
 
         // Centro
         add(paneCentro);
+        paneCentro.add(lblTitulo);
         paneCentro.add(tabs);
-
+        
         // Aba Dados
         tabDados.add(lblCprCodigo); tabDados.add(edtCprCodigo);
         tabDados.add(lblUsuCodigo); tabDados.add(edtUsuCodigo);
@@ -233,6 +242,7 @@ public class CompraView extends JPanel {
         btnGravar  .setBounds(1320, 7, 120, 25);
 
         paneCentro.setBounds(10, 60, 1470, 770);
+        lblTitulo.setBounds(0, 0, 1450, 30);
         tabs.setBounds(10, 10, 1450, 750);
 
         // Dados
@@ -341,7 +351,7 @@ public class CompraView extends JPanel {
         try {
             int cod = parseInt(edtProCod.getText());
             if (cod <= 0) { limparCamposProduto(); return; }
-            ProtoCompraProdutoModel p = new CompraProdutoController().buscarPorCodigo(cod);
+            ProdutoCompraModel p = new ProdutoCompraController().buscarPorCodigo(cod);
             if (p == null) {
                 JOptionPane.showMessageDialog(this, "Produto não encontrado/ativo.");
                 limparCamposProduto();
