@@ -38,4 +38,18 @@ public class UsuarioController {
             alterar(usuario);
         }
     }
+    
+    
+    public boolean autenticar(String emailOuLogin, String senha) {
+        try {
+            UsuarioDao dao = new UsuarioDao();
+            UsuarioModel u = dao.buscarPorEmailSenha(emailOuLogin, senha);
+            return (u != null && u.getUSU_ATIVO() == 1); // << ativo = 1
+        } catch (Exception e) {
+            System.out.println("Erro ao autenticar: " + e.getMessage());
+            return false;
+        }
+    }
+
+
 }

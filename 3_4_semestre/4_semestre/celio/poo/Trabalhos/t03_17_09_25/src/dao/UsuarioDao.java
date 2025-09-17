@@ -75,4 +75,27 @@ public class UsuarioDao {
         stm.close();
         return lista;
     }
+    
+    public UsuarioModel buscarPorEmailSenha(String login, String hashSenha) {
+        String sql = "SELECT USU_CODIGO, USU_NOME, USU_LOGIN, USU_ATIVO " +
+                     "FROM USUARIO WHERE USU_LOGIN = ? AND USU_SENHA = ?";
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setString(1, login);
+            ps.setString(2, hashSenha);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    UsuarioModel u = new UsuarioModel();
+                    u.setUSU_CODIGO(rs.getInt("USU_CODIGO"));
+                    u.setUSU_NOME(rs.getString("USU_NOME"));
+                    u.setUSU_LOGIN(rs.getString("USU_LOGIN"));
+                    u.setUSU_ATIVO(rs.getInt("USU_ATIVO")); 
+                    return u;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro no login: " + e.getMessage());
+        }
+        return null;
+    }
+
 }

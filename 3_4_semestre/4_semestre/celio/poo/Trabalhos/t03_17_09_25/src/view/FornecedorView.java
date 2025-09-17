@@ -96,7 +96,7 @@ public class FornecedorView extends JPanel {
         // Dados do Fornecedor (Pessoa + Fornecedor)
         lblForCodigo     = new JLabel("Código:");   edtForCodigo     = new JTextField();
         lblNome          = new JLabel("Nome:");     edtNome          = new JTextField(30);
-        lblFantasia      = new JLabel("Fantasia:"); edtFantasia      = new JTextField(30);
+        lblFantasia      = new JLabel("Nome Fantasia:"); edtFantasia      = new JTextField(30);
         
         lblPesFisica     = new JLabel("Pessoa Física?");    
         chkPesFisica     = new JCheckBox();  

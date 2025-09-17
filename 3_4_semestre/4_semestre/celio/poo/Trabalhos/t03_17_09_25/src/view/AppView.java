@@ -180,10 +180,24 @@ public class AppView extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
+    
     private void mostrandoLogin(){
-        mostrarTela("Login");
-        loginView.getBtnEntrar().addActionListener(e -> entrarMenu());
-    }
+    mostrarTela("Login");
+
+    // Usa a validação da view e chama o controller
+    loginView.setOnLogin((email, senha) -> {
+        controller.UsuarioController ctrl = new controller.UsuarioController();
+        boolean ok = ctrl.autenticar(email, senha);
+        if (ok) {
+            entrarMenu();
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(
+                this, "Usuário ou senha inválidos, ou usuário inativo."
+            );
+        }
+    });
+}
+
     
     private void entrarMenu() {
         System.out.println("\n Entrando em Menu...");
