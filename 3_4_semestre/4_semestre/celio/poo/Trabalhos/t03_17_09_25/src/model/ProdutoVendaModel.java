@@ -2,8 +2,11 @@ package model;
 
 import java.time.LocalDate;
 
-/** Produto simplificado para a tela de venda. */
+/**
+ * Produto simplificado para a tela de venda.
+ */
 public class ProdutoVendaModel {
+
     private int PRO_CODIGO;
     private String PRO_NOME;
     private String PRO_UNIDADE;
@@ -11,16 +14,51 @@ public class ProdutoVendaModel {
     private String PRO_ATIVO;
     private LocalDate PRO_CADASTRO;
 
-    public int getPRO_CODIGO(){ return PRO_CODIGO; }
-    public void setPRO_CODIGO(int v){ PRO_CODIGO = v; }
-    public String getPRO_NOME(){ return PRO_NOME; }
-    public void setPRO_NOME(String v){ PRO_NOME = v; }
-    public String getPRO_UNIDADE(){ return PRO_UNIDADE; }
-    public void setPRO_UNIDADE(String v){ PRO_UNIDADE = v; }
-    public double getPRO_PRECO(){ return PRO_PRECO; }
-    public void setPRO_PRECO(double v){ PRO_PRECO = v; }
-    public String getPRO_ATIVO(){ return PRO_ATIVO; }
-    public void setPRO_ATIVO(String v){ PRO_ATIVO = v; }
-    public LocalDate getPRO_CADASTRO(){ return PRO_CADASTRO; }
-    public void setPRO_CADASTRO(LocalDate v){ PRO_CADASTRO = v; }
+    public int getPRO_CODIGO() {
+        return PRO_CODIGO;
+    }
+
+    public void setPRO_CODIGO(int v) {
+        PRO_CODIGO = v;
+    }
+
+    public String getPRO_NOME() {
+        return PRO_NOME;
+    }
+
+    public void setPRO_NOME(String v) {
+        PRO_NOME = v;
+    }
+
+    public String getPRO_UNIDADE() {
+        return PRO_UNIDADE;
+    }
+
+    public void setPRO_UNIDADE(String v) {
+        PRO_UNIDADE = v;
+    }
+
+    public double getPRO_PRECO() {
+        return PRO_PRECO;
+    }
+
+    public void setPRO_PRECO(double v) {
+        PRO_PRECO = v;
+    }
+
+    public String getPRO_ATIVO() {
+        return PRO_ATIVO;
+    }
+
+    public void setPRO_ATIVO(String v) {
+        PRO_ATIVO = v;
+    }
+
+    public LocalDate getPRO_CADASTRO() {
+        return PRO_CADASTRO;
+    }
+
+    public void setPRO_CADASTRO(LocalDate v) {
+        PRO_CADASTRO = v;
+    }
 }

@@ -1,17 +1,17 @@
 package util;
 
 
-import model.FormapagtoModel;
+import model.FormaPagtoModel;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 public class FormaPagamentoTableModel extends AbstractTableModel {
 
-    private ArrayList<FormapagtoModel> linhas;
+    private ArrayList<FormaPagtoModel> linhas;
     private final String[] colunas;
 
-    public FormaPagamentoTableModel(ArrayList<FormapagtoModel> lista, String[] colunas) {
+    public FormaPagamentoTableModel(ArrayList<FormaPagtoModel> lista, String[] colunas) {
         this.colunas = colunas;
         this.linhas  = lista;
     }
@@ -27,7 +27,7 @@ public class FormaPagamentoTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int row, int col) {
-        FormapagtoModel f = linhas.get(row);
+        FormaPagtoModel f = linhas.get(row);
         switch (col) {
             case 0: return f.getFPG_CODIGO();
             case 1: return f.getFPG_NOME();
@@ -36,7 +36,7 @@ public class FormaPagamentoTableModel extends AbstractTableModel {
         }
     }
 
-    public void addLista(ArrayList<FormapagtoModel> novas) {
+    public void addLista(ArrayList<FormaPagtoModel> novas) {
         int tamanhoAntigo = getRowCount();
         linhas.addAll(novas);
         fireTableRowsInserted(tamanhoAntigo, getRowCount() - 1);

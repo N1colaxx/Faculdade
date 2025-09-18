@@ -189,10 +189,10 @@ public class VendaView extends JPanel {
         paneConsultaDados = new JPanel(null);
         paneConsultaTabela = new JPanel(null);
 
-        lblId1 = new JLabel("id1");
+        lblId1 = new JLabel("Venda cod");
         edtId1 = new JTextField();
         lblATxt = new JLabel("à");
-        lblId2 = new JLabel("id2");
+        lblId2 = new JLabel("Venda cod");
         edtId2 = new JTextField();
         lblValorGe = new JLabel("valor >=");
         edtValorGe = new JTextField();
@@ -704,6 +704,7 @@ public class VendaView extends JPanel {
     try {
         if (itensModel.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "Inclua ao menos 1 item.");
+            limparTudo();
             return;
         }
         VendaModel v = new VendaModel();
@@ -744,6 +745,7 @@ public class VendaView extends JPanel {
         edtVdaCodigo.setText(String.valueOf(v.getVDA_CODIGO()));
         JOptionPane.showMessageDialog(this, "Venda gravada.");
         setOperacao("");
+        limparTudo();
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(this, "Falha ao gravar: " + ex.getMessage());
     }

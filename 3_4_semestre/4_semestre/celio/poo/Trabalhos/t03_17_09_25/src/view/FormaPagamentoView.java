@@ -1,7 +1,7 @@
 package view;
 
-import controller.FormaPagamentoController;
-import model.FormapagtoModel;
+import controller.FormapagtoController;
+import model.FormaPagtoModel;
 import util.FormaPagamentoTableModel;
 
 import javax.swing.*;
@@ -47,7 +47,7 @@ public class FormaPagamentoView extends JPanel {
     // Estado / dados
     private String operacao = "";
     private final String[] colunas = {"Código", "Nome", "Ativo"};
-    private ArrayList<FormapagtoModel> lista = new ArrayList<>();
+    private ArrayList<FormaPagtoModel> lista = new ArrayList<>();
 
     public FormaPagamentoView() {
         setLayout(null);
@@ -263,8 +263,8 @@ public class FormaPagamentoView extends JPanel {
                     "Confirma Gravação desta Forma de Pagamento ?",
                     "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
-                    FormapagtoModel f = montarDosCampos();
-                    FormaPagamentoController ctrl = new FormaPagamentoController();
+                    FormaPagtoModel f = montarDosCampos();
+                    FormapagtoController ctrl = new FormapagtoController();
                     ctrl.gravar(getOperacao(), f);
                     JOptionPane.showMessageDialog(this, "Dados Gravados com Sucesso");
                     consultar();
@@ -280,8 +280,8 @@ public class FormaPagamentoView extends JPanel {
                     "Confirma Exclusão desta Forma de Pagamento ?",
                     "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
-                    FormapagtoModel f = montarDosCampos();
-                    FormaPagamentoController ctrl = new FormaPagamentoController();
+                    FormaPagtoModel f = montarDosCampos();
+                    FormapagtoController ctrl = new FormapagtoController();
                     ctrl.excluir(f);
                     JOptionPane.showMessageDialog(this, "Registro Excluído com Sucesso");
                     consultar();
@@ -316,15 +316,15 @@ public class FormaPagamentoView extends JPanel {
     }
 
     //  esse metodo é para: preencher os campos da tela com os dados do objeto selecionado.
-    private void mostrar(FormapagtoModel f) {
+    private void mostrar(FormaPagtoModel f) {
         edtCodigo.setText(String.valueOf(f.getFPG_CODIGO()));
         edtNome.setText(f.getFPG_NOME());
         chkAtivo.setSelected(f.getFPG_ATIVO() != null && f.getFPG_ATIVO().trim().equalsIgnoreCase("S"));
     }
 
-    //  esse metodo é para: montar um objeto FormapagtoModel a partir dos campos da tela.
-    private FormapagtoModel montarDosCampos() {
-        FormapagtoModel f = new FormapagtoModel();
+    //  esse metodo é para: montar um objeto FormaPagtoModel a partir dos campos da tela.
+    private FormaPagtoModel montarDosCampos() {
+        FormaPagtoModel f = new FormaPagtoModel();
         int cod = 0;
         try { cod = Integer.parseInt(edtCodigo.getText().trim()); } catch (NumberFormatException ignored) {}
         f.setFPG_CODIGO(cod);
@@ -354,7 +354,7 @@ public class FormaPagamentoView extends JPanel {
     private void consultar() {
         try {
             String cond = filtroConsulta();
-            FormaPagamentoController ctrl = new FormaPagamentoController();
+            FormapagtoController ctrl = new FormapagtoController();
             lista = ctrl.consultar(cond);
             if (lista == null) lista = new ArrayList<>();
 

@@ -64,7 +64,7 @@ public class ClienteDao {
             psPessoa.setString(10, cliente.getPES_CIDADE());
             psPessoa.setString(11, cliente.getPES_UF());
             psPessoa.setString(12, cliente.getPES_CEP());
-            psPessoa.setString(13, cliente.getPES_CELULAR()); // ATENÇÃO: coluna é pes_celular (sem 'c' extra)
+            psPessoa.setString(13, cliente.getPES_CELULAR()); 
             psPessoa.setString(14, cliente.getPES_SITE());
             psPessoa.setString(15, cliente.getPES_EMAIL());
             psPessoa.setString(16, cliente.getPES_ATIVO());   // 'S'/'N'
@@ -187,7 +187,7 @@ public class ClienteDao {
             "JOIN pessoa p ON p.pes_codigo = c.pes_codigo ";
 
         if (condicao != null && !condicao.trim().isEmpty()) {
-            sql += "WHERE " + condicao;  // cuidado: preferir parâmetros (?) p/ evitar SQL injection
+            sql += "WHERE " + condicao;
         }
 
         try (PreparedStatement ps = conexao.prepareStatement(sql);
@@ -238,7 +238,7 @@ public class ClienteDao {
 
         // Cliente
         c.setCLI_CODIGO(rs.getInt("cli_codigo"));
-        c.setCLI_LIMITECRED(rs.getDouble("cli_limitecred")); // se voltar a BigDecimal, use getBigDecimal
+        c.setCLI_LIMITECRED(rs.getDouble("cli_limitecred")); 
 
         return c;
     }

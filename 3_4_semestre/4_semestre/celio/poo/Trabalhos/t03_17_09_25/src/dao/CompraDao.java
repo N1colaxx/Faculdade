@@ -16,10 +16,8 @@ public class CompraDao {
         this.conexao = Conexao.getConexao();
     }
 
-    /** Transação para incluir/alterar compra e seus itens. */
-    public void gravarTransacao(String operacao,
-                                CompraModel compra,
-                                ArrayList<CompraProdutoModel> itens) throws SQLException {
+    /** Transação para incluir/alterar compra  */
+    public void gravarTransacao(String operacao, CompraModel compra, ArrayList<CompraProdutoModel> itens) throws SQLException {
         boolean auto = conexao.getAutoCommit();
         try {
             conexao.setAutoCommit(false);
