@@ -285,7 +285,7 @@ ALTER TABLE venda_pagto
 
 
 /*
- * 	INCERINDO VALORES EM TODAS AS  TABELAS
+ * 	INCERINDO VALORES EM TODAS AS  TABELAS, n fiz em NN
  * 
  * -- Sempre inserir primeiro as tabelas que não têm FK. --
  * 
@@ -305,95 +305,99 @@ ALTER TABLE venda_pagto
  * 
  * */
 
-
-/* 1. PESSOAS */
-INSERT INTO pessoa (pes_nome, pes_fantasia, pes_fisica, pes_cpfcnpj, pes_rgie, pes_cadastro, pes_endereco, pes_numero, pes_bairro, pes_cidade, pes_uf, pes_cep, pes_fone1, pesc_celular, pes_email, pes_ativo)
+/* ============== 1. PESSOA (20 registros novos) ============== */
+-- 10 para clientes + 10 para fornecedores
+INSERT INTO pessoa (pes_nome, pes_fantasia, pes_fisica, pes_cpfcnpj, pes_rgie, pes_cadastro,
+                    pes_endereco, pes_numero, pes_bairro, pes_cidade, pes_uf, pes_cep,
+                    pes_fone1, pes_celular, pes_email, pes_ativo)
 VALUES
-('João Silva', 'JS Ltda', 'F', '12345678900', 'MG123456', '2025-01-01', 'Rua A', '100', 'Centro', 'Belo Horizonte', 'MG', '30000-000', '31999999999', '31988888888', 'joao@js.com.br', 'S'),
-('Maria Souza', 'MS Ltda', 'F', '98765432100', 'SP654321', '2025-02-01', 'Rua B', '200', 'Jardim', 'São Paulo', 'SP', '01000-000', '11999999999', '11988888888', 'maria@ms.com.br', 'S'),
-('Pedro Santos', NULL, 'F', '11122233344', NULL, '2025-03-01', 'Rua C', '300', 'Centro', 'Rio de Janeiro', 'RJ', '20000-000', '21999999999', '21988888888', 'pedro@exemplo.com', 'S'),
-('Ana Souza', NULL, 'F', '98762432250', NULL, '2025-04-01', 'Rua D', '400', 'Bairro X', 'São Paulo', 'SP', '01100-000', '34234344999', '1198882323', 'ana@ms.com.br', 'S'),
-('Nicolas Santos', NULL, 'F', '54645645645', NULL, '2025-05-01', 'Rua E', '500', 'Bairro Y', 'Rio de Janeiro', 'RJ', '22000-000', '219999234999', '2198842318', 'nicolas@exemplo.com', 'S');
+('Cliente A', NULL, 'F', '11111111111', 'RG111', CURRENT_DATE, 'Rua 1', '10', 'Centro', 'São Paulo', 'SP', '01000-000', '11911111111','11991111111','clienteA@email.com','S'),
+('Cliente B', NULL, 'F', '22222222222', 'RG222', CURRENT_DATE, 'Rua 2', '20', 'Jardim', 'Rio de Janeiro', 'RJ', '20000-000', '21922222222','21992222222','clienteB@email.com','S'),
+('Cliente C', NULL, 'F', '33333333333', 'RG333', CURRENT_DATE, 'Rua 3', '30', 'Centro', 'Belo Horizonte', 'MG', '30000-000', '31933333333','31993333333','clienteC@email.com','S'),
+('Cliente D', NULL, 'F', '44444444444', 'RG444', CURRENT_DATE, 'Rua 4', '40', 'Bairro X', 'Curitiba', 'PR', '80000-000', '41944444444','41994444444','clienteD@email.com','S'),
+('Cliente E', NULL, 'F', '55555555555', 'RG555', CURRENT_DATE, 'Rua 5', '50', 'Bairro Y', 'Porto Alegre', 'RS', '90000-000', '51955555555','51995555555','clienteE@email.com','S'),
+('Cliente F', NULL, 'F', '66666666666', 'RG666', CURRENT_DATE, 'Rua 6', '60', 'Bairro Z', 'Recife', 'PE', '50000-000', '81966666666','81996666666','clienteF@email.com','S'),
+('Cliente G', NULL, 'F', '77777777777', 'RG777', CURRENT_DATE, 'Rua 7', '70', 'Centro', 'Fortaleza', 'CE', '60000-000', '85977777777','85997777777','clienteG@email.com','S'),
+('Cliente H', NULL, 'F', '88888888888', 'RG888', CURRENT_DATE, 'Rua 8', '80', 'Jardim', 'Manaus', 'AM', '69000-000', '92988888888','92998888888','clienteH@email.com','S'),
+('Cliente I', NULL, 'F', '99999999999', 'RG999', CURRENT_DATE, 'Rua 9', '90', 'Bairro A', 'Salvador', 'BA', '40000-000', '71999999999','71999999999','clienteI@email.com','S'),
+('Cliente J', NULL, 'F', '10101010101', 'RG1010', CURRENT_DATE, 'Rua 10','100','Bairro B', 'Brasília','DF','70000-000','61910101010','61991010101','clienteJ@email.com','S'),
 
-/* 2. USUÁRIOS */
-INSERT INTO usuario (usu_nome, usu_login, usu_senha, usu_cadastro, usu_ativo)
+('Fornecedor A', 'Fantasia A', 'J', '11111000111', 'IE111', CURRENT_DATE, 'Av 1', '1000','Industrial','São Paulo','SP','01010-000','1131111111','1199111111','fornA@email.com','S'),
+('Fornecedor B', 'Fantasia B', 'J', '22222000222', 'IE222', CURRENT_DATE, 'Av 2', '2000','Comercial','Rio de Janeiro','RJ','20020-000','2132222222','2199222222','fornB@email.com','S'),
+('Fornecedor C', 'Fantasia C', 'J', '33333000333', 'IE333', CURRENT_DATE, 'Av 3', '3000','Centro','Belo Horizonte','MG','30030-000','3133333333','3199333333','fornC@email.com','S'),
+('Fornecedor D', 'Fantasia D', 'J', '44444000444', 'IE444', CURRENT_DATE, 'Av 4', '4000','Bairro D','Curitiba','PR','80040-000','4134444444','4199444444','fornD@email.com','S'),
+('Fornecedor E', 'Fantasia E', 'J', '55555000555', 'IE555', CURRENT_DATE, 'Av 5', '5000','Bairro E','Porto Alegre','RS','90050-000','5135555555','5199555555','fornE@email.com','S'),
+('Fornecedor F', 'Fantasia F', 'J', '66666000666', 'IE666', CURRENT_DATE, 'Av 6', '6000','Bairro F','Recife','PE','50060-000','8136666666','8199666666','fornF@email.com','S'),
+('Fornecedor G', 'Fantasia G', 'J', '77777000777', 'IE777', CURRENT_DATE, 'Av 7', '7000','Bairro G','Fortaleza','CE','60070-000','8537777777','8599777777','fornG@email.com','S'),
+('Fornecedor H', 'Fantasia H', 'J', '88888000888', 'IE888', CURRENT_DATE, 'Av 8', '8000','Bairro H','Manaus','AM','69080-000','9238888888','9299888888','fornH@email.com','S'),
+('Fornecedor I', 'Fantasia I', 'J', '99999000999', 'IE999', CURRENT_DATE, 'Av 9', '9000','Bairro I','Salvador','BA','40090-000','7139999999','7199999999','fornI@email.com','S'),
+('Fornecedor J', 'Fantasia J', 'J', '10101001010', 'IE1010', CURRENT_DATE, 'Av 10','10000','Bairro J','Brasília','DF','70100-000','6131010101','6199101010','fornJ@email.com','S');
+
+/* ============== 2. CLIENTE (10, ligando às primeiras 10 pessoas) ============== */
+INSERT INTO cliente (pes_codigo, cli_limitecred) VALUES
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente A'), 1000),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente B'), 1500),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente C'),  800),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente D'), 2000),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente E'), 1200),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente F'),  900),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente G'), 1800),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente H'),  600),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente I'), 2500),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Cliente J'), 1400);
+
+/* ============== 3. FORNECEDOR (10, ligando às últimas 10 pessoas) ============== */
+INSERT INTO fornecedor (pes_codigo, for_contato) VALUES
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor A'), 'Contato A'),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor B'), 'Contato B'),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor C'), 'Contato C'),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor D'), 'Contato D'),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor E'), 'Contato E'),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor F'), 'Contato F'),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor G'), 'Contato G'),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor H'), 'Contato H'),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor I'), 'Contato I'),
+( (SELECT pes_codigo FROM pessoa WHERE pes_nome='Fornecedor J'), 'Contato J');
+
+
+INSERT INTO usuario (usu_nome, usu_login, usu_senha, usu_cadastro, usu_ativo) VALUES
+('Bruno Costa',     'bruno',   '123', '2025-02-02', '1'),
+('Alice Ribeiro',   'alice',   '123', '2025-02-01', '1'),
+('Carla Mendes',    'carla',   '123', '2025-02-03', '1'),
+('Diego Souza',     'diego',   '123', '2025-02-04', '1'),
+('Eduarda Lima',    'edu',     '123', '2025-02-05', '1'),
+('Felipe Santos',   'felipe',  '123', '2025-02-06', '0'),
+('Gabriela Rocha',  'gabi',    '123', '2025-02-07', '0'),
+('Henrique Silva',  'henrique','123', '2025-02-08', '1'),
+('Isabela Nunes',   'isa',     '123', '2025-02-09', '1'),
+('João Pedro',      'jpedro',  '123', '2025-02-10', '0');
+
+
+
+/* ================= FORMAS DE PAGAMENTO ================= */
+INSERT INTO formapagto (fpg_nome, fpg_ativo) VALUES
+('Dinheiro', 'S'),
+('Pix', 'S'),
+('Cartão de Crédito - 1x', 'S'),
+('Cartão de Crédito - 2x', 'S'),
+('Cartão de Crédito - 3x', 'S'),
+('Cartão de Débito', 'S'),
+('Boleto Bancário', 'S'),
+('Transferência Bancária', 'S'),
+('Carteira Digital', 'S'),
+('Cheque', 'N');
+
+/* ================= PRODUTOS ================= */
+INSERT INTO produto (pro_nome, pro_estoque, pro_unidade, pro_preco, pro_custo, pro_atacado,
+                     pro_min, pro_max, pro_embalagem, pro_peso, pro_cadastro, pro_obs, pro_ativo)
 VALUES
-('Admin', 'admin', '123', '2025-01-01', 'S'),
-('João', 'joao', '123', '2025-01-02', 'S');
-
-/* 3. FORMAS DE PAGAMENTO */
-INSERT INTO formapagto (fpg_nome, fpg_ativo)
-VALUES
-('Dinheiro','S'),
-('Cartão Crédito','S');
-
-/* 4. PRODUTOS */
-INSERT INTO produto (pro_nome, pro_estoque, pro_unidade, pro_preco, pro_custo, pro_atacado, pro_min, pro_max, pro_embalagem, pro_peso, pro_cadastro, pro_ativo)
-VALUES
-('Produto A', 100, 'UN', 10, 5, 9, 10, 200, 1, 0.5, '2025-01-01', 'S'),
-('Produto B', 200, 'UN', 20, 10, 18, 20, 400, 1, 0.8, '2025-01-02', 'S');
-
-/* 5. CLIENTES */
-INSERT INTO cliente (pes_codigo, cli_limitecred)
-VALUES
-(1, 1000),  
-(2, 2000),  
-(4, 500),  
-(5, 600); 
-
-/* 6. FORNECEDORES */
-INSERT INTO fornecedor (pes_codigo, for_contato)
-VALUES
-(1, 'João Contato'),
-(2, 'Maria Contato'),
-(3, 'Pedro Contato'); 
-
-/* 7. VENDAS */
-INSERT INTO venda (usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total)
-VALUES
-(1,1,'2025-08-01',100,10,90),  
-(2,2,'2025-08-02',200,20,180);
-
-/* 8. COMPRAS */
-INSERT INTO compra (usu_codigo, for_codigo, cpr_emissao, cpr_valor, cpr_desconto, cpr_total, cpr_dtentrada)
-VALUES
-(1,1,'2025-08-01',1000,100,900,'2025-08-02'), 
-(2,3,'2025-08-02',2000,200,1800,'2025-08-03');
-
-/* 9. VENDA PRODUTO */
-INSERT INTO venda_produto (vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_desconto, vep_total)
-VALUES
-(1,1,5,10,0.5,49.5),
-(2,2,10,20,1,199);
-
-/* 10. VENDA PAGTO */
-INSERT INTO venda_pagto (vda_codigo, fpg_codigo, vdp_valor)
-VALUES
-(1,1,49.5),
-(2,2,199);
-
-
-
-/**
- * 
- * DELETANDO REGISTROS
- * 
- * */
-
--- 1) Apagar Ana e Nicolas de clientes
-SELECT * FROM cliente;
-
-DELETE FROM cliente AS c
-WHERE c.pes_codigo IN (4,5);
-
--- 2) Apagar Ana e Nicolas de fornecedores
-SELECT * FROM fornecedor;
-
-DELETE FROM fornecedor AS f
-WHERE f.pes_codigo IN (2);
-
--- 3) Apagar Ana e Nicolas da tabela pessoa
-SELECT * FROM pessoa;
-
-DELETE FROM pessoa AS p
-WHERE p.pes_codigo IN (4,5);
+('Caneta Azul',       500, 'UN',  2.50,  1.20,  2.20,  50, 2000, 1, 0.010, CURRENT_DATE, 'Material escolar', 'S'),
+('Caderno 200 fls',   300, 'UN', 18.90, 12.00, 16.00,  20, 1000, 1, 0.450, CURRENT_DATE, 'Caderno universitário', 'S'),
+('Lápis HB',          800, 'UN',  1.80,  0.80,  1.50, 100, 5000, 1, 0.008, CURRENT_DATE, 'Lápis preto comum', 'S'),
+('Borracha Branca',   600, 'UN',  3.50,  1.70,  3.00,  50, 3000, 1, 0.012, CURRENT_DATE, 'Apaga bem grafite', 'S'),
+('Mochila Escolar',   120, 'UN', 95.00, 65.00, 85.00,  10,  500, 1, 0.800, CURRENT_DATE, 'Mochila reforçada', 'S'),
+('Régua 30cm',        450, 'UN',  4.20,  2.10,  3.80,  30, 1500, 1, 0.030, CURRENT_DATE, 'Régua plástica', 'S'),
+('Marca Texto',       380, 'UN',  6.90,  3.40,  5.90,  20, 1200, 1, 0.015, CURRENT_DATE, 'Caneta marca texto', 'S'),
+('Grampeador',        140, 'UN', 29.90, 18.00, 25.00,   5,  400, 1, 0.250, CURRENT_DATE, 'Grampeador médio', 'S'),
+('Papel A4 500fls',   220, 'UN', 32.00, 23.00, 29.00,  10,  800, 1, 2.500, CURRENT_DATE, 'Resma papel A4', 'S'),
+('Post-it 76x76',     260, 'UN', 11.90,  7.50, 10.50,  10,  900, 1, 0.090, CURRENT_DATE, 'Bloco adesivo', 'S');
