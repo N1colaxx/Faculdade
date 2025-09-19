@@ -22,3 +22,4 @@ public class FormaPagtoModel {
     public String getFPG_ATIVO(){ return FPG_ATIVO; }
     public void setFPG_ATIVO(String v){ FPG_ATIVO = v; }
 }
+

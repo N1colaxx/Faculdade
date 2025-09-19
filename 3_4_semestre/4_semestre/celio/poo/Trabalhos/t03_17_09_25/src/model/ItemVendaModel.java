@@ -5,7 +5,7 @@ import java.time.LocalDate;
 /**
  * Produto simplificado para a tela de venda.
  */
-public class ProdutoVendaModel {
+public class ItemVendaModel {
 
     private int PRO_CODIGO;
     private String PRO_NOME;

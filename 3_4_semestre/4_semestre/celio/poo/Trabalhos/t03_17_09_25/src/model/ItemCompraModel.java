@@ -4,7 +4,7 @@ package model;
 import java.time.LocalDate;
 
 /** Produto simplificado para a tela de COMPRA. */
-public class ProdutoCompraModel {
+public class ItemCompraModel {
     private int PRO_CODIGO;
     private String PRO_NOME;
     private String PRO_UNIDADE;
@@ -12,7 +12,7 @@ public class ProdutoCompraModel {
     private String PRO_ATIVO;
     private LocalDate PRO_CADASTRO;
 
-    public ProdutoCompraModel(){}
+    public ItemCompraModel(){}
 
     public int getPRO_CODIGO(){ return PRO_CODIGO; }
     public void setPRO_CODIGO(int v){ PRO_CODIGO = v; }

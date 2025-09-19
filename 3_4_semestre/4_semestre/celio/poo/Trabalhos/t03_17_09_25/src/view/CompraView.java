@@ -1,13 +1,13 @@
 package view;
 
 import controller.CompraController;
-import controller.ProdutoCompraController;
+import controller.ProdutoController;
 
 import model.CompraModel;
 import model.CompraProdutoModel;
-import model.ProdutoCompraModel;
+import model.ItemCompraModel;
 
-import util.CompraProdutoTableModel;
+import util.ItemCompraTableModel;
 
 import javax.swing.*;
 import javax.swing.ListSelectionModel;
@@ -50,7 +50,7 @@ public class CompraView extends JPanel {
     private JTextField edtProCod, edtProNome, edtUn, edtQtde, edtPreco, edtSubTotal;
     private JButton btnAddItem, btnDelItem;
     private JTable tabItensGrid;
-    private CompraProdutoTableModel itensModel;
+    private ItemCompraTableModel itensModel;
 
     // ===== Consulta =====
     private JPanel tabConsulta, paneConsultaDados, paneConsultaTabela;
@@ -148,7 +148,7 @@ public class CompraView extends JPanel {
         btnAddItem = new JButton("Adicionar");
         btnDelItem = new JButton("Remover");
 
-        itensModel = new CompraProdutoTableModel(listaItens);
+        itensModel = new ItemCompraTableModel(listaItens);
         tabItensGrid = new JTable(itensModel);
         tabItensGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -351,7 +351,7 @@ public class CompraView extends JPanel {
         try {
             int cod = parseInt(edtProCod.getText());
             if (cod <= 0) { limparCamposProduto(); return; }
-            ProdutoCompraModel p = new ProdutoCompraController().buscarPorCodigo(cod);
+            ItemCompraModel p = new ProdutoController().buscarPorCodigoCompra(cod);
             if (p == null) {
                 JOptionPane.showMessageDialog(this, "Produto não encontrado/ativo.");
                 limparCamposProduto();

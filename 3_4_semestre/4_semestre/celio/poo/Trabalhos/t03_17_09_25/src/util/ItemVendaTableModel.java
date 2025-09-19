@@ -5,11 +5,11 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
 /** Tabela de itens da venda: Venda, Cód Prod, Qtde, Preço, Total. */
-public class VendaProdutoTableModel extends AbstractTableModel {
+public class ItemVendaTableModel extends AbstractTableModel {
     private final String[] colunas = { "Venda", "Cód Prod", "Qtde", "Preço", "Total" };
     private final ArrayList<VendaProdutoModel> linhas;
 
-    public VendaProdutoTableModel(ArrayList<VendaProdutoModel> itens){ this.linhas = itens; }
+    public ItemVendaTableModel(ArrayList<VendaProdutoModel> itens){ this.linhas = itens; }
     @Override public int getRowCount(){ return linhas.size(); }
     @Override public int getColumnCount(){ return colunas.length; }
     @Override public String getColumnName(int c){ return colunas[c]; }

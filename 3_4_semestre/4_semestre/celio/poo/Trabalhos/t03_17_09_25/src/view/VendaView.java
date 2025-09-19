@@ -1,15 +1,15 @@
 package view;
 
 import controller.VendaController;
-import controller.ProdutoVendaController;
+import controller.ProdutoController;
 import controller.FormapagtoController;
 
 import model.VendaModel;
 import model.VendaProdutoModel;
 import model.VendaPagtoModel;
-import model.ProdutoVendaModel;
+import model.ItemVendaModel;
 
-import util.VendaProdutoTableModel;
+import util.ItemVendaTableModel;
 import util.VendaPagtoTableModel;
 
 import javax.swing.*;
@@ -56,7 +56,7 @@ public class VendaView extends JPanel {
     private JTextField edtProCod, edtProNome, edtUn, edtQtde, edtPreco, edtSubTotal;
     private JButton btnAddItem, btnDelItem;
     private JTable tabItensGrid;
-    private VendaProdutoTableModel itensModel;
+    private ItemVendaTableModel itensModel;
 
     // ====== ABA PAGAMENTOS ======
     private JPanel tabPgtos, panePgEditor, panePgTabela;
@@ -162,7 +162,7 @@ public class VendaView extends JPanel {
         btnAddItem = new JButton("Adicionar");
         btnDelItem = new JButton("Remover");
 
-        itensModel = new VendaProdutoTableModel(listaItens);
+        itensModel = new ItemVendaTableModel(listaItens);
         tabItensGrid = new JTable(itensModel);
         tabItensGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -440,7 +440,7 @@ public class VendaView extends JPanel {
         try {
             int cod = parseInt(edtProCod.getText());
             if (cod <= 0) { limparCamposProduto(); return; }
-            ProdutoVendaModel p = new ProdutoVendaController().buscarPorCodigo(cod);
+            ItemVendaModel p = new ProdutoController().buscarPorCodigoVenda(cod);
             if (p == null) {
                 JOptionPane.showMessageDialog(this, "Produto não encontrado/ativo.");
                 limparCamposProduto();

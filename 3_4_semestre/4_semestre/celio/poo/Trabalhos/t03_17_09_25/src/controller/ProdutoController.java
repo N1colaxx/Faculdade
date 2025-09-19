@@ -1,11 +1,14 @@
 package controller;
 
+
 import dao.ProdutoDao;
 import model.ProdutoModel;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.ItemCompraModel;
+import model.ItemVendaModel;
 
 public class ProdutoController {
 
@@ -37,5 +40,22 @@ public class ProdutoController {
         } else if ("alterar".equalsIgnoreCase(operacao)) {
             alterar(produto);
         }
+    }
+    
+    /**
+     * PARA COMPRAS
+    **/
+    
+        /** Controller simples de produto para COMPRA. */
+        public ItemCompraModel buscarPorCodigoCompra(int cod) throws SQLException {
+            return new ProdutoDao().buscarPorCodigoCompra(cod);
+        }
+    
+    /**
+     * PARA VENDAS
+     */
+    
+    public ItemVendaModel buscarPorCodigoVenda(int cod) throws SQLException {
+        return new ProdutoDao().buscarPorCodigoVenda(cod);
     }
 }
