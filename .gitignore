@@ -1,3 +1,7 @@
+# Ignorar todas as configs privadas do NetBeans
+**/nbproject/private/
+
+
 /3_4_semestre/profCelio/3_semestre/POO/TESTEjava/target/
 /3_4_semestre/profCelio/3_semestre/POO/Aulas/nbproject/private/
 /3_4_semestre/profCelio/3_semestre/POO/Aulas/build/
