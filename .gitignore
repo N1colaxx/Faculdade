@@ -1,30 +1,47 @@
-# Ignorar todas as configs privadas do NetBeans
+# =========================
+# NetBeans
+# =========================
 **/nbproject/private/
+**/build/
+**/dist/
 
+# Arquivos temporários do NetBeans
+*.orig
 
-/3_4_semestre/profCelio/3_semestre/POO/TESTEjava/target/
-/3_4_semestre/profCelio/3_semestre/POO/Aulas/nbproject/private/
-/3_4_semestre/profCelio/3_semestre/POO/Aulas/build/
-/3_4_semestre/profCelio/3_semestre/POO/aula02/nbproject/private/
-/3_4_semestre/profCelio/3_semestre/Trabalhos/Trabalhos/target/
-/3_4_semestre/profCelio/3_semestre/Trabalhos/POO/Trabalhos/target/
-/3_4_semestre/profCelio/3_semestre/Trabalhos/POO_01/Trabalhos/target/
+# =========================
+# Maven
+# =========================
+**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
 
+# =========================
+# Gradle (se usar)
+# =========================
+.gradle/
+build/
 
+# =========================
+# Arquivos Java comuns
+# =========================
+*.class
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
 
-/3_4_semestre/profCelio/3_semestre/POO/Aulas/dist/
+# =========================
+# Sistema Operacional
+# =========================
+# Windows
+Thumbs.db
+Desktop.ini
 
-/3_4_semestre/profCelio/3_semestre/Trabalhos/POO_02/SistemaFinanceiro/build/
-/3_4_semestre/profCelio/3_semestre/Trabalhos/POO_02/crud_nf/target/
-/3_4_semestre/profCelio/3_semestre/POO/Aulas/target/
-/3_4_semestre/4_semestre/poo/AulaSemestre2/nbproject/private/
-/3_4_semestre/4_semestre/poo/AulaSemestre2/build/
-/3_4_semestre/4_semestre/poo/AulaSemestre2/dist/
-/3_4_semestre/4_semestre/celio/poo/EmpresaJDBC/EmpresaJDBC/target/
-/3_4_semestre/4_semestre/celio/poo/EmpresaJDBC/target/
-/3_4_semestre/4_semestre/celio/poo/Trabalhos/target/
-/3_4_semestre/4_semestre/celio/poo/Trabalhos/t02_10_09_25/target/
-/3_4_semestre/4_semestre/celio/poo/Trabalhos/t01_02_09_25/target/
-/3_4_semestre/4_semestre/luciana/Trabalhos/t01/target/
-/3_4_semestre/4_semestre/celio/poo/Trabalhos/t03_17_09_25/dist/
-/3_4_semestre/4_semestre/celio/poo/Trabalhos/t03_17_09_25/build/
+# macOS
+.DS_Store
+
+# Linux
+*~
