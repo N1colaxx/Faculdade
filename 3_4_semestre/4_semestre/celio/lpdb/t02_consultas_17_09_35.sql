@@ -113,7 +113,7 @@ JOIN compra co ON co.for_codigo = f.for_codigo
 WHERE pf.pes_ativo   = '0'
   AND pf.pes_fisica  = '1'
   AND pf.pes_uf IN ('SP','MG','RS','SC')
-  AND pf.pes_dtcadastro >= DATE '2023-01-01'
-  AND pf.pes_dtcadastro <  DATE '2024-01-01'
+  AND pf.pes_dtcadastro >= DATE '2023-01-01' AND pf.pes_dtcadastro <  DATE '2024-01-01'
+-- AND EXTRACT (YEAR FROM pf.pes_dtcadastro) = 2023
 GROUP BY pf.pes_fantasia, f.for_contato
 ORDER BY pf.pes_fantasia;
