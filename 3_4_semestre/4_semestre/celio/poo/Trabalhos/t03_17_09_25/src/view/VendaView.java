@@ -3,6 +3,7 @@ package view;
 import controller.VendaController;
 import controller.ProdutoController;
 import controller.FormapagtoController;
+import dto.VendaCompletaDTO;
 
 import model.VendaModel;
 import model.VendaProdutoModel;
@@ -412,11 +413,8 @@ public class VendaView extends JPanel {
 
         // Consulta: ao selecionar linha, joga para filtros/editores
         tabelaConsulta.getSelectionModel().addListSelectionListener(e -> {
-            if (e.getValueIsAdjusting()) return;
-            int viewSel = tabelaConsulta.getSelectedRow();
-            if (viewSel >= 0) {
-                mostrarLinhaConsultaNaBusca(viewSel);
-            }
+            if (e.getValueIsAdjusting()) return;            
+            if (!e.getValueIsAdjusting()) selecionarLinhaConsulta();
         });
 
     }
@@ -665,18 +663,12 @@ public class VendaView extends JPanel {
 
     private void consultarVendaProduto() {
         limparTabelaConsulta();
-        try (ResultSet rs = new VendaController().consultarVendaProdutoRS(filtroConsultaVendaProduto())){
-            while (rs.next()){
-                Object[] row = new Object[]{
-                        rs.getInt("vda_codigo"),
-                        rs.getInt("pro_codigo"),
-                        rs.getDouble("vep_qtde"),
-                        rs.getDouble("vep_preco"),
-                        rs.getDouble("vep_total")
-                };
+        try {
+            consultaModel.setRowCount(0);
+            for (Object[] row : new VendaController().consultarVendaProduto(filtroConsultaVendaProduto())) {
                 consultaModel.addRow(row);
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro na consulta: " + ex.getMessage());
         }
     }
@@ -684,6 +676,47 @@ public class VendaView extends JPanel {
     private void limparTabelaConsulta(){
         while (consultaModel.getRowCount() > 0) consultaModel.removeRow(0);
     }
+    
+    
+        private void selecionarLinhaConsulta() {
+        int viewSel = tabelaConsulta.getSelectedRow();
+        if (viewSel < 0) return;
+        int modelSel = tabelaConsulta.convertRowIndexToModel(viewSel);
+        int vda = Integer.parseInt(String.valueOf(consultaModel.getValueAt(modelSel, 0))); // vda_codigo
+
+        try {
+            VendaCompletaDTO dto = new VendaController().buscarVendaCompleta(vda);
+
+            if (dto == null || dto.cabecalho == null) {
+                JOptionPane.showMessageDialog(this, "Venda não encontrada.");
+                return;
+            }
+            
+            // limpar tabelas (sem zerar a tela toda):
+            while (itensModel.getRowCount() > 0) itensModel.removeItem(0);
+            while (pgtosModel.getRowCount() > 0) pgtosModel.remove(0);
+
+            // preencher cabeçalho
+            mostrarDados(dto.cabecalho);
+
+            // preencher itens/pgtos nas tabelas:
+            for (VendaProdutoModel it : dto.itens)  itensModel.addItem(it);
+            for (VendaPagtoModel pg : dto.pgtos)    pgtosModel.add(pg);
+
+            // recalcular totais
+            recomputarTotais();
+
+            // ir para a aba "Dados" ou "Itens"
+            tabs.setSelectedComponent(tabDados);
+
+            // marca que estamos olhando um registro existente
+            setOperacao(""); // só troca para "alterar" quando clicar no botão Alterar
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar venda: " + ex.getMessage());
+        }
+    }
+    
 
     // ===== Cabeçalho / Gravação =====
 
@@ -768,7 +801,7 @@ public class VendaView extends JPanel {
     private void selecionarIndice(int idx){
         if (idx < 0 || idx >= listaVendas.size()) return;
         VendaModel v = listaVendas.get(idx);
-        preencherCampos(v);
+        mostrarDados(v);
     }
 
     private void navegar(int delta){
@@ -784,7 +817,23 @@ public class VendaView extends JPanel {
         selecionarIndice(prox);
     }
 
-    private void preencherCampos(VendaModel v){
+
+    // ===== Helpers numéricos =====
+    private int parseInt(String s){
+        try { return Integer.parseInt(s.trim()); } catch (Exception e){ return 0; }
+    }
+    private double parseDouble(String s){
+        try { return Double.parseDouble(s.trim().replace(",", ".")); } catch (Exception e){ return 0.0; }
+    }
+    private String fmt(double d){
+        return String.format(java.util.Locale.US, "%.2f", d);
+    }
+
+    // ==== Seleção -> editores ====
+
+
+    // Preenche os campos do editor de DADOS;
+    private void mostrarDados(VendaModel v){
         edtVdaCodigo.setText(String.valueOf(v.getVDA_CODIGO()));
         edtUsuCodigo.setText(String.valueOf(v.getUSU_CODIGO()));
         edtCliCodigo.setText(String.valueOf(v.getCLI_CODIGO()));
@@ -793,10 +842,28 @@ public class VendaView extends JPanel {
         edtValor.setText(fmt(v.getVDA_VALOR()));
         edtDesc.setText(fmt(v.getVDA_DESCONTO()));
         edtTotal.setText(fmt(v.getVDA_TOTAL()));
-        // itens/pgtos poderiam ser carregados aqui, se desejar
     }
 
-    private void limparTudo(){
+    // Preenche os campos do editor de ITENS com base no modelo
+    private void mostrarItem(VendaProdutoModel it){
+        if (it == null) return;
+        edtProCod.setText(String.valueOf(it.getPRO_CODIGO()));
+        edtProNome.setText(it.getPRO_NOME());
+        edtUn.setText(it.getPRO_UNIDADE());
+        edtQtde.setText(fmt(it.getVEP_QTDE()));
+        edtPreco.setText(fmt(it.getVEP_PRECO()));
+        edtSubTotal.setText(fmt(it.getVEP_TOTAL()));
+    }
+
+    // Preenche os campos do editor de PAGAMENTOS
+    private void mostrarPagamento(VendaPagtoModel pg){
+        if (pg == null) return;
+        // Seleciona o nome no combo (se existir na lista)
+        cbFpgNome.setSelectedItem(pg.getFPG_NOME());
+        edtPgValor.setText(fmt(pg.getVDP_VALOR()));
+    }
+    
+       private void limparTudo(){
         edtVdaCodigo.setText("0");
         edtUsuCodigo.setText("");
         edtCliCodigo.setText("");
@@ -811,53 +878,4 @@ public class VendaView extends JPanel {
         edtPgValor.setText("");
     }
 
-    // ===== Helpers numéricos =====
-    private int parseInt(String s){
-        try { return Integer.parseInt(s.trim()); } catch (Exception e){ return 0; }
-    }
-    private double parseDouble(String s){
-        try { return Double.parseDouble(s.trim().replace(",", ".")); } catch (Exception e){ return 0.0; }
-    }
-    private String fmt(double d){
-        return String.format(java.util.Locale.US, "%.2f", d);
-    }
-
-// ==== Seleção -> editores ====
-
-// Preenche os campos do editor de ITENS com base no modelo
-private void mostrarItem(VendaProdutoModel it){
-    if (it == null) return;
-    edtProCod.setText(String.valueOf(it.getPRO_CODIGO()));
-    edtProNome.setText(it.getPRO_NOME());
-    edtUn.setText(it.getPRO_UNIDADE());
-    edtQtde.setText(fmt(it.getVEP_QTDE()));
-    edtPreco.setText(fmt(it.getVEP_PRECO()));
-    edtSubTotal.setText(fmt(it.getVEP_TOTAL()));
 }
-
-// Preenche os campos do editor de PAGAMENTOS
-private void mostrarPagamento(VendaPagtoModel pg){
-    if (pg == null) return;
-    // Seleciona o nome no combo (se existir na lista)
-    cbFpgNome.setSelectedItem(pg.getFPG_NOME());
-    edtPgValor.setText(fmt(pg.getVDP_VALOR()));
-}
-
-// Quando clicar em uma linha da aba Consulta
-private void mostrarLinhaConsultaNaBusca(int viewRow){
-    if (viewRow < 0) return;
-    int modelRow = tabelaConsulta.convertRowIndexToModel(viewRow);
-    Object vda = consultaModel.getValueAt(modelRow, 0); // vda_codigo
-    Object pro = consultaModel.getValueAt(modelRow, 1); // pro_codigo
-    edtId1.setText(String.valueOf(vda)); // só para facilitar novo filtro
-    edtId2.setText(String.valueOf(vda));
-    // também dá para refrescar os editores de itens, se quiser:
-    edtProCod.setText(String.valueOf(pro));
-    preencherProduto(); // reaproveita para preencher nome/und/preço
-}
-
-
-}
-
-
-

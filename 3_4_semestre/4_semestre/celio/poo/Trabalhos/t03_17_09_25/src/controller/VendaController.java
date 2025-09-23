@@ -1,6 +1,7 @@
 package controller;
 
 import dao.VendaDao;
+import dto.VendaCompletaDTO;
 import model.VendaModel;
 import model.VendaProdutoModel;
 import model.VendaPagtoModel;
@@ -29,8 +30,19 @@ public class VendaController {
         new VendaDao().gravarTransacao(operacao, venda, itens, pgtos);
     }
 
-    /** Para a aba Consulta (venda_produto). */
-    public ResultSet consultarVendaProdutoRS(String filtro) throws SQLException {
-        return new VendaDao().consultarVendaProdutoRS(filtro);
+        /** Para a aba Consulta (venda_produto). */
+    public List<Object[]> consultarVendaProduto(String filtro) throws SQLException {
+        return new VendaDao().consultarVendaProduto(filtro);
     }
+    
+    public VendaCompletaDTO buscarVendaCompleta(int vda) throws SQLException {
+        VendaDao dao = new VendaDao();
+        VendaCompletaDTO dto = new VendaCompletaDTO();
+        dto.cabecalho = dao.buscarCabecalho(vda);
+        dto.itens     = dao.listarItens(vda);
+        dto.pgtos     = dao.listarPgtos(vda);
+        return dto;
+}
+
+
 }

@@ -7,20 +7,27 @@ import model.VendaPagtoModel;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
-/** DAO da Venda: cabeçalho + itens + pagamentos em transação. */
+/**
+ * DAO da Venda: cabeçalho + itens + pagamentos em transação.
+ */
 public class VendaDao {
+
     private final Connection conexao;
 
     public VendaDao() throws SQLException {
         this.conexao = Conexao.getConexao();
     }
 
-    /** Grava (incluir/alterar) venda completa em transação. */
-    public void gravarTransacao(String operacao,
-                                VendaModel venda,
-                                ArrayList<VendaProdutoModel> itens,
-                                ArrayList<VendaPagtoModel> pgtos) throws SQLException {
+    /**
+     * Grava (incluir/alterar) venda completa em transação.
+     */
+    public void gravarTransacao(
+            String operacao,
+            VendaModel venda,
+            ArrayList<VendaProdutoModel> itens,
+            ArrayList<VendaPagtoModel> pgtos) throws SQLException {
         boolean auto = conexao.getAutoCommit();
         try {
             conexao.setAutoCommit(false);
@@ -48,54 +55,37 @@ public class VendaDao {
         }
     }
 
-    /** INSERT do cabeçalho; retorna PK gerada. Suporta PostgreSQL e MySQL. */
+    /**
+     * INSERT do cabeçalho; retorna PK gerada.
+     */
     private int inserirVenda(VendaModel v) throws SQLException {
-        String product = conexao.getMetaData().getDatabaseProductName();
-        boolean isPostgres = product != null && product.toLowerCase().contains("postgres");
+        String sql = "INSERT INTO venda (usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING vda_codigo";
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setInt(1, v.getUSU_CODIGO());
+            ps.setInt(2, v.getCLI_CODIGO());
+            ps.setDate(3, v.getVDA_DATA() == null ? null : java.sql.Date.valueOf(v.getVDA_DATA()));
+            ps.setDouble(4, v.getVDA_VALOR());
+            ps.setDouble(5, v.getVDA_DESCONTO());
+            ps.setDouble(6, v.getVDA_TOTAL());
+            ps.setString(7, v.getVDA_OBS());
 
-        if (isPostgres) {
-            // PostgreSQL: usa RETURNING
-            String sql = "INSERT INTO venda (usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING vda_codigo";
-            try (PreparedStatement ps = conexao.prepareStatement(sql)) {
-                ps.setInt(1, v.getUSU_CODIGO());
-                ps.setInt(2, v.getCLI_CODIGO());
-                ps.setDate(3, v.getVDA_DATA() == null ? null : java.sql.Date.valueOf(v.getVDA_DATA()));
-                ps.setDouble(4, v.getVDA_VALOR());
-                ps.setDouble(5, v.getVDA_DESCONTO());
-                ps.setDouble(6, v.getVDA_TOTAL());
-                ps.setString(7, v.getVDA_OBS());
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) return rs.getInt(1);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // retorna PK gerada
                 }
             }
-            throw new SQLException("Falha ao inserir venda (RETURNING não retornou chave).");
-        } else {
-            // MySQL/MariaDB: usa generated keys
-            String sql = "INSERT INTO venda (usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement ps = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                ps.setInt(1, v.getUSU_CODIGO());
-                ps.setInt(2, v.getCLI_CODIGO());
-                ps.setDate(3, v.getVDA_DATA() == null ? null : java.sql.Date.valueOf(v.getVDA_DATA()));
-                ps.setDouble(4, v.getVDA_VALOR());
-                ps.setDouble(5, v.getVDA_DESCONTO());
-                ps.setDouble(6, v.getVDA_TOTAL());
-                ps.setString(7, v.getVDA_OBS());
-                ps.executeUpdate();
-                try (ResultSet rs = ps.getGeneratedKeys()) {
-                    if (rs.next()) return rs.getInt(1);
-                }
-            }
-            throw new SQLException("Falha ao inserir venda (sem chave gerada).");
         }
+        throw new SQLException("Falha ao inserir venda (RETURNING não retornou chave).");
+
     }
 
-
-    /** UPDATE do cabeçalho. */
+    /**
+     * UPDATE do cabeçalho.
+     */
     private void alterarVenda(VendaModel v) throws SQLException {
-        String sql = "UPDATE venda SET usu_codigo=?, cli_codigo=?, vda_data=?, " +
-                     "vda_valor=?, vda_desconto=?, vda_total=?, vda_obs=? WHERE vda_codigo=?";
+        String sql = "UPDATE venda SET usu_codigo=?, cli_codigo=?, vda_data=?, "
+                + "vda_valor=?, vda_desconto=?, vda_total=?, vda_obs=? WHERE vda_codigo=?";
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setInt(1, v.getUSU_CODIGO());
             ps.setInt(2, v.getCLI_CODIGO());
@@ -126,15 +116,15 @@ public class VendaDao {
     }
 
     private void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws SQLException {
-        String sql = "INSERT INTO venda_produto (vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_desconto, vep_total) " +
-                     "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO venda_produto (vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_desconto, vep_total) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             for (VendaProdutoModel it : itens) {
                 ps.setInt(1, vdaCodigo);
                 ps.setInt(2, it.getPRO_CODIGO());
                 ps.setDouble(3, it.getVEP_QTDE());
                 ps.setDouble(4, it.getVEP_PRECO());
-                ps.setDouble(5, 0.0); // desconto por item não usado na UI
+                ps.setDouble(5, 0.0); // desconto por item não usado 
                 ps.setDouble(6, it.getVEP_TOTAL());
                 ps.addBatch();
             }
@@ -155,14 +145,17 @@ public class VendaDao {
         }
     }
 
-    /** Consulta cabeçalhos por condição livre. */
+    /**
+     * Consulta cabeçalhos por condição livre.
+     */
     public ArrayList<VendaModel> consultar(String cond) throws SQLException {
         ArrayList<VendaModel> lista = new ArrayList<>();
         String sql = "SELECT vda_codigo, usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs FROM venda";
-        if (cond != null && !cond.trim().isEmpty()) sql += " WHERE " + cond;
+        if (cond != null && !cond.trim().isEmpty()) {
+            sql += " WHERE " + cond;
+        }
 
-        try (PreparedStatement ps = conexao.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = conexao.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 VendaModel v = new VendaModel();
                 v.setVDA_CODIGO(rs.getInt("vda_codigo"));
@@ -180,15 +173,32 @@ public class VendaDao {
         return lista;
     }
 
-    /** Consulta para aba "Consulta": RETORNA ResultSet de venda_produto. (Feche o RS no chamador) */
-    public ResultSet consultarVendaProdutoRS(String cond) throws SQLException {
+    /**
+     * Consulta para aba "Consulta": RETORNA ResultSet de venda_produto.
+     */
+    public List<Object[]> consultarVendaProduto(String cond) throws SQLException {
+        List<Object[]> lista = new ArrayList<>();
         String sql = "SELECT vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_total FROM venda_produto";
-        if (cond != null && !cond.trim().isEmpty()) sql += " WHERE " + cond;
-        PreparedStatement ps = conexao.prepareStatement(sql);
-        return ps.executeQuery(); // o chamador deve fechar o ResultSet (fecha o PS junto em muitos drivers)
+        if (cond != null && !cond.trim().isEmpty()) {
+            sql += " WHERE " + cond;
+        }
+        try (PreparedStatement ps = conexao.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                lista.add(new Object[]{
+                    rs.getInt("vda_codigo"),
+                    rs.getInt("pro_codigo"),
+                    rs.getDouble("vep_qtde"),
+                    rs.getDouble("vep_preco"),
+                    rs.getDouble("vep_total")
+                });
+            }
+        }
+        return lista;
     }
 
-    /** Exclui venda inteira (cabeçalho + itens + pgtos). */
+    /**
+     * Exclui venda inteira (cabeçalho + itens + pgtos).
+     */
     public void excluir(VendaModel v) throws SQLException {
         boolean auto = conexao.getAutoCommit();
         try {
@@ -200,11 +210,84 @@ public class VendaDao {
                 ps.executeUpdate();
             }
             conexao.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             conexao.rollback();
             throw e;
         } finally {
             conexao.setAutoCommit(auto);
         }
     }
+
+    /**
+     * para retornas os itens em aba consulta
+     */
+    public VendaModel buscarCabecalho(int vda) throws SQLException {
+        String sql = "SELECT vda_codigo, usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs "
+                + "FROM venda WHERE vda_codigo = ?";
+        
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setInt(1, vda);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                VendaModel v = new VendaModel();
+                v.setVDA_CODIGO(rs.getInt("vda_codigo"));
+                v.setUSU_CODIGO(rs.getInt("usu_codigo"));
+                v.setCLI_CODIGO(rs.getInt("cli_codigo"));
+                v.setVDA_DATA(rs.getDate("vda_data").toLocalDate());
+                v.setVDA_VALOR(rs.getDouble("vda_valor"));
+                v.setVDA_DESCONTO(rs.getDouble("vda_desconto"));
+                v.setVDA_TOTAL(rs.getDouble("vda_total"));
+                v.setVDA_OBS(rs.getString("vda_obs"));
+
+                return v;
+            }
+        }
+    }
+
+    public java.util.List<VendaProdutoModel> listarItens(int vda) throws SQLException {
+        String sql
+                = "SELECT vp.pro_codigo, p.pro_nome, p.pro_unidade, vp.vep_qtde, vp.vep_preco, vp.vep_desconto, vp.vep_total "
+                + "FROM venda_produto vp JOIN produto p USING (pro_codigo) WHERE vp.vda_codigo = ? ORDER BY vp.pro_codigo";
+        java.util.List<VendaProdutoModel> lista = new java.util.ArrayList<>();
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setInt(1, vda);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    VendaProdutoModel it = new VendaProdutoModel();
+                    it.setPRO_CODIGO(rs.getInt("pro_codigo"));
+                    it.setPRO_NOME(rs.getString("pro_nome"));
+                    it.setPRO_UNIDADE(rs.getString("pro_unidade"));
+                    it.setVEP_QTDE(rs.getDouble("vep_qtde"));
+                    it.setVEP_PRECO(rs.getDouble("vep_preco"));
+                    it.setVEP_DESCONTO(rs.getDouble("vep_desconto"));
+                    it.setVEP_TOTAL(rs.getDouble("vep_total"));
+                    lista.add(it);
+                }
+            }
+        }
+        return lista;
+    }
+
+    public java.util.List<VendaPagtoModel> listarPgtos(int vda) throws SQLException {
+        String sql
+                = "SELECT vpg.fpg_codigo, f.fpg_nome, vpg.vdp_valor "
+                + "FROM venda_pagto vpg JOIN formapagto f USING (fpg_codigo) WHERE vpg.vda_codigo = ? ORDER BY vpg.fpg_codigo";
+        java.util.List<VendaPagtoModel> lista = new java.util.ArrayList<>();
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setInt(1, vda);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    VendaPagtoModel pg = new VendaPagtoModel();
+                    pg.setFPG_CODIGO(rs.getInt("fpg_codigo"));
+                    pg.setFPG_NOME(rs.getString("fpg_nome"));
+                    pg.setVDP_VALOR(rs.getDouble("vdp_valor"));
+                    lista.add(pg);
+                }
+            }
+        }
+        return lista;
+    }
+
 }
