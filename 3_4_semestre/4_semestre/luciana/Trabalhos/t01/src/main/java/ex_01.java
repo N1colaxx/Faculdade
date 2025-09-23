@@ -31,56 +31,56 @@ public class ex_01 { // declara a classe pública ex_01 (nome do arquivo deve se
         
         do { // inicia laço do...while para repetir o menu até escolher sair
             // Menu com opções para o User // comentário informativo do menu
-           System.out.println("1 - Inserir no início da lista"); // imprime opção 1
-            System.out.println("2 - Inserir no fim da lista"); // imprime opção 2
-            System.out.println("3 - Consultar toda Lista"); // imprime opção 3
-            System.out.println("4 - Remover da Lista"); // imprime opção 4
-            System.out.println("5 - Esvaziar a Lista"); // imprime opção 5
-            System.out.println("6 - Sair"); // imprime opção 6
+           System.out.println("1 - Inserir no início da lista"); 
+            System.out.println("2 - Inserir no fim da lista"); 
+            System.out.println("3 - Consultar toda Lista"); 
+            System.out.println("4 - Remover da Lista");
+            System.out.println("5 - Esvaziar a Lista"); 
+            System.out.println("6 - Sair");
             System.out.print("Digite sua opção: "); // solicita a opção do usuário
             op = leia.nextInt();  // armazena o valor que o user digitou, somente INT // lê a opção digitada
-            // valida se o numero esta entre 0 e 6, fora isso da erro // validação do intervalo permitido
-            if (op < 1 || op > 6) { // verifica se a opção é inválida
+            if (op < 1 || op > 6) { // valida se o numero esta entre 0 e 6, fora isso da erro  
                 System.out.println("Operação Inválida!"); // Mensagem exibida ao User // informa erro
-            } // fim do if de validação
+            } 
             
             /*
-                O SWITCH recebe o valor de OP e entrega em uma das CASE e  // comentário explicativo do switch
-            executa o codigo dentro dela. // complementa a explicação
-            */ // fim do comentário de bloco
+                O SWITCH recebe o valor de OP e entrega em uma das CASE e
+            */
             switch (op) { // inicia switch para decidir a ação conforme a opção
+                
                 case 1: // caso 1: inserir no início
                     System.out.print("Digite o número a ser inserido no início da lista: "); //exibe um msg ao User // pede o número
                     LISTA novo = new LISTA(); // cria um novo OBJ de LISTA -> novo = [num | prox] // instancia um novo nó
                     novo.num = leia.nextInt(); // add o valor que o User digitou ao --> NUM do obj lista // lê e atribui o valor ao campo num
                     
-                    /* Uma validação simples para ver se o primeiro campo da LISTA -> INICIO esta preenchido ou vazio,  // comentário explicando a validação
-                    se for igual a NULL executa o IF diferente disso executa o ELSE // comportamento do if/else
-                    */ // fim do comentário
-                    if (inicio == null) { // verificaçao simples, somente SE o inicio da lista estiver NULL ele vai executar // lista vazia?
-                        inicio = novo; // armazena o valor de NOVO ao primeiro campo da LISTA, campo -> INICIO // novo vira o primeiro
-                        fim = novo; // armazena o valor de NOVO ao ultimo campo da LISTA, campo -> FIM // e também o último
-                        novo.prox = null; // NOVO esta apontando para nada(null) // não há próximo
-                    } else { // executa se o INICIO da lista estiver diferente de NULL // lista não vazia
+                    /* Uma validação simples para ver se o primeiro campo da LISTA -> INICIO esta preenchido ou vazio, se 
+                    for igual a NULL executa o IF diferente disso executa o ELSE 
+                    */
+                    if (inicio == null) { // verificaçao simples, somente SE o inicio da lista estiver NULL ele vai executar 
+                        inicio = novo; // armazena o valor de NOVO ao primeiro campo da LISTA, campo -> INICIO 
+                        fim = novo; // armazena o valor de NOVO ao ultimo campo da LISTA, campo -> FIM  e também o último
+                        novo.prox = null; // NOVO esta apontando para nada(null) não há próximo
+                    } else { // executa se o INICIO da lista estiver diferente de NULL 
                         novo.prox = inicio; // NOVO aponta para INICIO que é o primeiro campo da LISTA, campo -> INICIO // encadeia antes do antigo início
                         inicio = novo; //INICIO recebe o valor de NOVO e o armazena // atualiza o início para o novo nó
                         
-                    } // fecha o if/else de inserção no início
+                    } 
                     System.out.println("Numero inserido no início da Lista"); // exibe uma msg ao user // confirma a operação
                     break; // para a exucao do bloco caso o CASE for satisfeito  // encerra o case 1
+                    
                 case 2: // caso 2: inserir no fim
                     System.out.println("Digite o numero a ser inserido ao fim da lista: "); // exibe um msg ao user  // pede o número
                     novo = new LISTA();  // cria um novo OBJ de LISTA -> novo = [num | prox ] // instancia novo nó
                     novo.num = leia.nextInt();  // add o valor que o User digitou ao --> NUM do obj lista // lê e atribui o valor
-                    if (inicio == null) { // verificaçao simples, somente SE o inicio da lista estiver NULL ele vai executar // lista vazia?
-                        inicio = novo; // o inicio da lisata vai receber o valor de novo // novo vira o primeiro
-                        fim = novo;  // armazena o valor de NOVO ao ultimo campo da LISTA, campo -> FIM // e também o último
+                    if (inicio == null) { // verificaçao simples, somente SE o inicio da lista estiver NULL ele vai executar 
+                        inicio = novo; // o inicio da lisata vai receber o valor de novo, novo vira o primeiro
+                        fim = novo;  // armazena o valor de NOVO ao ultimo campo da LISTA, campo -> FIM  e também o último
                         novo.prox = null; //  // não há próximo (terminador da lista)
-                    } else { // executa se o INICIO da lista estiver diferente de NULL // lista não vazia
+                    } else { // executa se o INICIO da lista estiver diferente de NULL (lista não vazia)
                         fim.prox = novo; // encadeia o novo nó após o antigo último
                         fim = novo; // atualiza o ponteiro 'fim' para o novo nó
                         fim.prox = null; // garante que o último aponte para null
-                    } // fecha o if/else de inserção no fim
+                    } 
                     System.out.println("Numero Inserido no fim da lista!!"); // confirma a operação de inserção no fim
                     break; // encerra o case 2
                 case 3: // caso 3: consultar/imprimir a lista
