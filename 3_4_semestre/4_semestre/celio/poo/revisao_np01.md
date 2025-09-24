@@ -43,6 +43,25 @@
 
 # JDBC
 
+### Dicas para o DAO
+
+1. DEFAULT no INSERT: 
+    -   VALUES (?, DEFAULT, ?) ou omita a coluna para usar o default.
+
+2. Nunca use coluna = ? dentro da lista de colunas do INSERT no Postgres.
+
+`Resumão:`
+
+-   INSERT → VALUES(...)
+
+-   UPDATE/WHERE → coluna = ?
+
+
+
+
+
+<br><br><br>
+
 ### Conneton 
 
 > Cria a conexao com o banco de dados 
@@ -122,7 +141,7 @@ Connetion conexao = DriveMeneger.getConnetion(BANCO,USUARIO,SENHA);
 
 Exemplo:
 
-    ```java 
+```java 
     public class ClienteDAO {
     private Connection conn;
 
