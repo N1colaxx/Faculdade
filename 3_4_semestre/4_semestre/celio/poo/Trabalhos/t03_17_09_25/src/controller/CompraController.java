@@ -4,6 +4,7 @@ package controller;
 import dao.CompraDao;
 import model.CompraModel;
 import model.CompraProdutoModel;
+import model.CompraCompletaModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,7 +29,19 @@ public class CompraController {
         new CompraDao().gravarTransacao(operacao, compra, itens);
     }
 
-    public ResultSet consultarCompraProdutoRS(String filtro) throws SQLException {
-        return new CompraDao().consultarCompraProdutoRS(filtro);
+    public List<Object[]> consultarCompraProduto(String filtro) throws SQLException {
+        return new CompraDao().consultarCompraProduto(filtro);
+    }
+    
+    
+    public CompraCompletaModel buscarCompraCompleta(int cpr) throws SQLException {
+        System.out.println(" [CompraController] executou -> buscarCompraCompleta");
+        
+        CompraDao dao = new CompraDao();
+        CompraCompletaModel ccm = new CompraCompletaModel();
+        ccm.cabecalho = dao.buscarCabecalho(cpr);
+        ccm.itens = dao.listarIntes(cpr);
+            
+        return ccm;
     }
 }

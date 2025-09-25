@@ -446,15 +446,10 @@ public class CompraView extends JPanel {
 
     private void consultarCompraProduto() {
         limparTabelaConsulta();
-        try (ResultSet rs = new CompraController().consultarCompraProdutoRS(filtroConsultaCompraProduto())){
-            while (rs.next()){
-                Object[] row = new Object[]{
-                        rs.getInt("cpr_codigo"),
-                        rs.getInt("pro_codigo"),
-                        rs.getBigDecimal("cpr_qtde"),
-                        rs.getBigDecimal("cpr_preco"),
-                        rs.getBigDecimal("cpr_total")
-                };
+        
+        try{
+            consultaModel.setRowCount(0);
+            for(Object[] row : new CompraController().consultarCompraProduto(filtroConsultaCompraProduto())) {
                 consultaModel.addRow(row);
             }
         } catch (Exception ex){
@@ -469,7 +464,7 @@ public class CompraView extends JPanel {
     private void mostrarItem(CompraProdutoModel it){
         if (it == null) return;
         edtProCod.setText(String.valueOf(it.getPRO_CODIGO()));
-        edtProNome.setText(""); // não está no modelo; pode re-preencher ao sair do código
+        edtProNome.setText(""); 
         edtUn.setText("");
         edtQtde.setText(fmtBD(it.getCPR_QTDE()));
         edtPreco.setText(fmtBD(it.getCPR_PRECO()));
@@ -581,7 +576,6 @@ public class CompraView extends JPanel {
         edtValor.setText(fmt(c.getCPR_VALOR()));
         edtDesc.setText(fmt(c.getCPR_DESCONTO()));
         edtTotal.setText(fmt(c.getCPR_TOTAL()));
-        // itens poderiam ser carregados aqui se desejar
     }
 
     private void limparTudo(){

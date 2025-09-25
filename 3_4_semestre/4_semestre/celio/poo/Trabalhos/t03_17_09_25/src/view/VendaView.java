@@ -3,7 +3,7 @@ package view;
 import controller.VendaController;
 import controller.ProdutoController;
 import controller.FormapagtoController;
-import dto.VendaCompletaDTO;
+import model.VendaCompletaModel;
 
 import model.VendaModel;
 import model.VendaProdutoModel;
@@ -678,35 +678,33 @@ public class VendaView extends JPanel {
     }
     
     
-        private void selecionarLinhaConsulta() {
+    private void selecionarLinhaConsulta() {
         int viewSel = tabelaConsulta.getSelectedRow();
         if (viewSel < 0) return;
         int modelSel = tabelaConsulta.convertRowIndexToModel(viewSel);
         int vda = Integer.parseInt(String.valueOf(consultaModel.getValueAt(modelSel, 0))); // vda_codigo
 
         try {
-            VendaCompletaDTO dto = new VendaController().buscarVendaCompleta(vda);
+            System.out.println(" [VendaCompletaModel] foi chamado em VendaView");
+            VendaCompletaModel dto = new VendaController().buscarVendaCompleta(vda);
 
             if (dto == null || dto.cabecalho == null) {
                 JOptionPane.showMessageDialog(this, "Venda não encontrada.");
                 return;
             }
             
-            // limpar tabelas (sem zerar a tela toda):
             while (itensModel.getRowCount() > 0) itensModel.removeItem(0);
             while (pgtosModel.getRowCount() > 0) pgtosModel.remove(0);
 
-            // preencher cabeçalho
             mostrarDados(dto.cabecalho);
 
-            // preencher itens/pgtos nas tabelas:
             for (VendaProdutoModel it : dto.itens)  itensModel.addItem(it);
             for (VendaPagtoModel pg : dto.pgtos)    pgtosModel.add(pg);
 
-            // recalcular totais
+            
             recomputarTotais();
 
-            // ir para a aba "Dados" ou "Itens"
+            // ir para a aba "Dados" 
             tabs.setSelectedComponent(tabDados);
 
             // marca que estamos olhando um registro existente
@@ -829,7 +827,7 @@ public class VendaView extends JPanel {
         return String.format(java.util.Locale.US, "%.2f", d);
     }
 
-    // ==== Seleção -> editores ====
+    // ==== Seleção e editores ====
 
 
     // Preenche os campos do editor de DADOS;
@@ -863,7 +861,7 @@ public class VendaView extends JPanel {
         edtPgValor.setText(fmt(pg.getVDP_VALOR()));
     }
     
-       private void limparTudo(){
+    private void limparTudo(){
         edtVdaCodigo.setText("0");
         edtUsuCodigo.setText("");
         edtCliCodigo.setText("");

@@ -1,7 +1,7 @@
-package controller;
+    package controller;
 
 import dao.VendaDao;
-import dto.VendaCompletaDTO;
+import model.VendaCompletaModel;
 import model.VendaModel;
 import model.VendaProdutoModel;
 import model.VendaPagtoModel;
@@ -35,14 +35,14 @@ public class VendaController {
         return new VendaDao().consultarVendaProduto(filtro);
     }
     
-    public VendaCompletaDTO buscarVendaCompleta(int vda) throws SQLException {
+    public VendaCompletaModel buscarVendaCompleta(int vda) throws SQLException {
+        System.out.println(" [VendaController] executou -> buscarVendaCompleta");
+        
         VendaDao dao = new VendaDao();
-        VendaCompletaDTO dto = new VendaCompletaDTO();
+        VendaCompletaModel dto = new VendaCompletaModel();
         dto.cabecalho = dao.buscarCabecalho(vda);
         dto.itens     = dao.listarItens(vda);
         dto.pgtos     = dao.listarPgtos(vda);
-        return dto;
-}
-
-
+        return dto; 
+    }
 }

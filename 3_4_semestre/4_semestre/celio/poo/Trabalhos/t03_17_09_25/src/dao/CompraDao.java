@@ -7,6 +7,7 @@ import model.CompraProdutoModel;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /** DAO de COMPRA: cabeçalho + itens em transação. */
 public class CompraDao {
@@ -17,8 +18,12 @@ public class CompraDao {
     }
 
     /** Transação para incluir/alterar compra  */
-    public void gravarTransacao(String operacao, CompraModel compra, ArrayList<CompraProdutoModel> itens) throws SQLException {
+    public void gravarTransacao(String operacao, 
+                                CompraModel compra, 
+                                ArrayList<CompraProdutoModel> itens) throws SQLException {
+        
         boolean auto = conexao.getAutoCommit();
+        
         try {
             conexao.setAutoCommit(false);
 
@@ -33,7 +38,7 @@ public class CompraDao {
             }
 
             inserirItens(compra.getCPR_CODIGO(), itens);
-
+            
             conexao.commit();
         } catch (SQLException e) {
             conexao.rollback();
@@ -43,7 +48,82 @@ public class CompraDao {
         }
     }
 
-    /** INSERT cabeçalho; retorna PK (PostgreSQL). */
+    
+    public ArrayList<model.CompraModel> consultar(String cond) throws SQLException  {
+        ArrayList<model.CompraModel> lista = new ArrayList<>();
+        
+        String sql = "SELECT cpr_codigo, usu_codigo, for_codigo, cpr_emissao, cpr_valor, cpr_desconto, cpr_total, cpr_dtentrada, cpr_obs FROM compra";
+        
+        if (cond != null && !cond.trim().isEmpty()) {
+            sql += " WHERE " + cond;
+        }
+        
+        sql += " ORDER BY cpr_codigo";
+        
+        try (PreparedStatement ps = conexao.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()){
+            while (rs.next()){
+                model.CompraModel c = new model.CompraModel();
+                c.setCPR_CODIGO(rs.getInt("cpr_codigo"));
+                c.setUSU_CODIGO(rs.getInt("usu_codigo"));
+                c.setFOR_CODIGO(rs.getInt("for_codigo"));
+                Date e = rs.getDate("cpr_emissao");
+                c.setCPR_EMISSAO(e==null?null:e.toLocalDate());
+                c.setCPR_VALOR(rs.getDouble("cpr_valor"));
+                c.setCPR_DESCONTO(rs.getDouble("cpr_desconto"));
+                c.setCPR_TOTAL(rs.getDouble("cpr_total"));
+                Date dte = rs.getDate("cpr_dtentrada");
+                c.setCPR_DTENTRADA(dte==null?null:dte.toLocalDate());
+                c.setCPR_OBS(rs.getString("cpr_obs"));
+                lista.add(c);
+            }
+        }
+        return lista;
+    }
+
+    public List<Object[]> consultarCompraProduto(String cond) throws SQLException {
+        
+        List<Object[]> lista = new ArrayList<>();
+        
+        String sql = "SELECT cpr_codigo, pro_codigo, cpr_qtde, cpr_preco, cpr_total FROM compra_produto";
+        
+        if (cond != null && !cond.trim().isEmpty()) {
+            sql += " WHERE " + cond;
+        }
+        
+        try (PreparedStatement stm = conexao.prepareStatement(sql); ResultSet rs =  stm.executeQuery()) {
+            while (rs.next()) {
+                lista.add(new Object[]{
+                    rs.getInt("cpr_codigo"),
+                    rs.getInt("pro_codigo"),
+                    rs.getBigDecimal("cpr_qtde"),
+                    rs.getBigDecimal("cpr_preco"),
+                    rs.getBigDecimal("cpr_total")
+                });
+            }
+        }
+        
+        return lista;
+    }
+    
+    public void excluir(CompraModel c) throws SQLException {
+        boolean auto = conexao.getAutoCommit();
+        try {
+            conexao.setAutoCommit(false);
+            excluirItens(c.getCPR_CODIGO());
+            try (PreparedStatement ps = conexao.prepareStatement("DELETE FROM compra WHERE cpr_codigo=?")){
+                ps.setInt(1, c.getCPR_CODIGO());
+                ps.executeUpdate();
+            }
+            conexao.commit();
+        } catch (SQLException e){
+            conexao.rollback();
+            throw e;
+        } finally {
+            conexao.setAutoCommit(auto);
+        }
+    }
+
     private int inserirCompra(CompraModel c) throws SQLException {
         String sql = "INSERT INTO compra (usu_codigo, for_codigo, cpr_emissao, cpr_valor, cpr_desconto, cpr_total, cpr_dtentrada, cpr_obs) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING cpr_codigo";
@@ -63,7 +143,6 @@ public class CompraDao {
         throw new SQLException("Falha ao inserir compra (sem retorno de chave).");
     }
 
-    /** UPDATE cabeçalho. */
     private void alterarCompra(CompraModel c) throws SQLException {
         String sql = "UPDATE compra SET usu_codigo=?, for_codigo=?, cpr_emissao=?, " +
                      "cpr_valor=?, cpr_desconto=?, cpr_total=?, cpr_dtentrada=?, cpr_obs=? " +
@@ -106,57 +185,48 @@ public class CompraDao {
             ps.executeBatch();
         }
     }
-
-    /** Consulta cabeçalhos (se quiser usar semelhante a vendas). */
-    public ArrayList<model.CompraModel> consultar(String cond) throws SQLException {
-        ArrayList<model.CompraModel> lista = new ArrayList<>();
-        String sql = "SELECT cpr_codigo, usu_codigo, for_codigo, cpr_emissao, cpr_valor, cpr_desconto, cpr_total, cpr_dtentrada, cpr_obs FROM compra";
-        if (cond != null && !cond.trim().isEmpty()) sql += " WHERE " + cond;
-        try (PreparedStatement ps = conexao.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()){
-            while (rs.next()){
-                model.CompraModel c = new model.CompraModel();
+    
+    
+    
+    /**
+     * Metodos para retornar os itens em cada campo de compra
+     */
+    
+    public CompraModel buscarCabecalho(int cpr) throws SQLException {
+        
+        String sql = "SELECT * FROM compra WHERE cpr_compra = ?";
+        
+        try (PreparedStatement stm = conexao.prepareStatement(sql)) {
+            stm.setInt(1, cpr);
+            
+            try (ResultSet rs = stm.executeQuery()) {
+                
+                if(!rs.next()) {
+                    return null;
+                }
+                
+                CompraModel c = new CompraModel();
                 c.setCPR_CODIGO(rs.getInt("cpr_codigo"));
                 c.setUSU_CODIGO(rs.getInt("usu_codigo"));
                 c.setFOR_CODIGO(rs.getInt("for_codigo"));
-                Date e = rs.getDate("cpr_emissao");
-                c.setCPR_EMISSAO(e==null?null:e.toLocalDate());
+                c.setCPR_EMISSAO(rs.getDate("cpr_emissao").toLocalDate());
                 c.setCPR_VALOR(rs.getDouble("cpr_valor"));
                 c.setCPR_DESCONTO(rs.getDouble("cpr_desconto"));
                 c.setCPR_TOTAL(rs.getDouble("cpr_total"));
-                Date dte = rs.getDate("cpr_dtentrada");
-                c.setCPR_DTENTRADA(dte==null?null:dte.toLocalDate());
+                c.setCPR_DTENTRADA(rs.getDate("cpr_dtentrada").toLocalDate());
                 c.setCPR_OBS(rs.getString("cpr_obs"));
-                lista.add(c);
+                
+                return c;
             }
-        }
+        } 
+        
+    }
+    
+    public java.util.List<CompraProdutoModel> listarIntes(int cpr) throws SQLException {
+        
+        List<CompraProdutoModel> lista = new ArrayList<>();
+        
         return lista;
     }
 
-    /** ResultSet para aba Consulta: compra_produto (fechar no chamador). */
-    public ResultSet consultarCompraProdutoRS(String cond) throws SQLException {
-        String sql = "SELECT cpr_codigo, pro_codigo, cpr_qtde, cpr_preco, cpr_total FROM compra_produto";
-        if (cond != null && !cond.trim().isEmpty()) sql += " WHERE " + cond;
-        PreparedStatement ps = conexao.prepareStatement(sql);
-        return ps.executeQuery();
-    }
-
-    /** Exclusão completa (cabeçalho + itens). */
-    public void excluir(CompraModel c) throws SQLException {
-        boolean auto = conexao.getAutoCommit();
-        try {
-            conexao.setAutoCommit(false);
-            excluirItens(c.getCPR_CODIGO());
-            try (PreparedStatement ps = conexao.prepareStatement("DELETE FROM compra WHERE cpr_codigo=?")){
-                ps.setInt(1, c.getCPR_CODIGO());
-                ps.executeUpdate();
-            }
-            conexao.commit();
-        } catch (SQLException e){
-            conexao.rollback();
-            throw e;
-        } finally {
-            conexao.setAutoCommit(auto);
-        }
-    }
 }

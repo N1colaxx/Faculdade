@@ -55,12 +55,82 @@ public class VendaDao {
         }
     }
 
-    /**
-     * INSERT do cabeçalho; retorna PK gerada.
-     */
+    // consulta a tab VENDA
+    public ArrayList<VendaModel> consultar(String cond) throws SQLException {
+        ArrayList<VendaModel> lista = new ArrayList<>();
+        
+        String sql = "SELECT vda_codigo, usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs FROM venda";
+        
+        if (cond != null && !cond.trim().isEmpty()) {
+            sql += " WHERE " + cond;
+        }
+
+        try (PreparedStatement ps = conexao.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                VendaModel v = new VendaModel();
+                v.setVDA_CODIGO(rs.getInt("vda_codigo"));
+                v.setUSU_CODIGO(rs.getInt("usu_codigo"));
+                v.setCLI_CODIGO(rs.getInt("cli_codigo"));
+                Date d = rs.getDate("vda_data");
+                v.setVDA_DATA(d == null ? null : d.toLocalDate());
+                v.setVDA_VALOR(rs.getDouble("vda_valor"));
+                v.setVDA_DESCONTO(rs.getDouble("vda_desconto"));
+                v.setVDA_TOTAL(rs.getDouble("vda_total"));
+                v.setVDA_OBS(rs.getString("vda_obs"));
+                lista.add(v);
+            }
+        }
+        return lista;
+    }
+
+    // consulta a tab VENDA_PRODUTO
+    public List<Object[]> consultarVendaProduto(String cond) throws SQLException {
+
+        List<Object[]> lista = new ArrayList<>();
+
+        String sql = "SELECT vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_total FROM venda_produto";
+
+        if (cond != null && !cond.trim().isEmpty()) {
+            sql += " WHERE " + cond;
+        }
+
+        try (PreparedStatement ps = conexao.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                lista.add(new Object[]{
+                    rs.getInt("vda_codigo"),
+                    rs.getInt("pro_codigo"),
+                    rs.getDouble("vep_qtde"),
+                    rs.getDouble("vep_preco"),
+                    rs.getDouble("vep_total")
+                });
+            }
+        }
+        return lista;
+    }
+
+    public void excluir(VendaModel v) throws SQLException {
+        boolean auto = conexao.getAutoCommit();
+        try {
+            conexao.setAutoCommit(false);
+            excluirItens(v.getVDA_CODIGO());
+            excluirPgtos(v.getVDA_CODIGO());
+            try (PreparedStatement ps = conexao.prepareStatement("DELETE FROM venda WHERE vda_codigo=?")) {
+                ps.setInt(1, v.getVDA_CODIGO());
+                ps.executeUpdate();
+            }
+            conexao.commit();
+        } catch (SQLException e) {
+            conexao.rollback();
+            throw e;
+        } finally {
+            conexao.setAutoCommit(auto);
+        }
+    }
+    
     private int inserirVenda(VendaModel v) throws SQLException {
         String sql = "INSERT INTO venda (usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING vda_codigo";
+        
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setInt(1, v.getUSU_CODIGO());
             ps.setInt(2, v.getCLI_CODIGO());
@@ -79,10 +149,7 @@ public class VendaDao {
         throw new SQLException("Falha ao inserir venda (RETURNING não retornou chave).");
 
     }
-
-    /**
-     * UPDATE do cabeçalho.
-     */
+    
     private void alterarVenda(VendaModel v) throws SQLException {
         String sql = "UPDATE venda SET usu_codigo=?, cli_codigo=?, vda_data=?, "
                 + "vda_valor=?, vda_desconto=?, vda_total=?, vda_obs=? WHERE vda_codigo=?";
@@ -145,83 +212,13 @@ public class VendaDao {
         }
     }
 
+    
     /**
-     * Consulta cabeçalhos por condição livre.
-     */
-    public ArrayList<VendaModel> consultar(String cond) throws SQLException {
-        ArrayList<VendaModel> lista = new ArrayList<>();
-        String sql = "SELECT vda_codigo, usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs FROM venda";
-        if (cond != null && !cond.trim().isEmpty()) {
-            sql += " WHERE " + cond;
-        }
-
-        try (PreparedStatement ps = conexao.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                VendaModel v = new VendaModel();
-                v.setVDA_CODIGO(rs.getInt("vda_codigo"));
-                v.setUSU_CODIGO(rs.getInt("usu_codigo"));
-                v.setCLI_CODIGO(rs.getInt("cli_codigo"));
-                Date d = rs.getDate("vda_data");
-                v.setVDA_DATA(d == null ? null : d.toLocalDate());
-                v.setVDA_VALOR(rs.getDouble("vda_valor"));
-                v.setVDA_DESCONTO(rs.getDouble("vda_desconto"));
-                v.setVDA_TOTAL(rs.getDouble("vda_total"));
-                v.setVDA_OBS(rs.getString("vda_obs"));
-                lista.add(v);
-            }
-        }
-        return lista;
-    }
-
-    /**
-     * Consulta para aba "Consulta": RETORNA ResultSet de venda_produto.
-     */
-    public List<Object[]> consultarVendaProduto(String cond) throws SQLException {
-        List<Object[]> lista = new ArrayList<>();
-        String sql = "SELECT vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_total FROM venda_produto";
-        if (cond != null && !cond.trim().isEmpty()) {
-            sql += " WHERE " + cond;
-        }
-        try (PreparedStatement ps = conexao.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                lista.add(new Object[]{
-                    rs.getInt("vda_codigo"),
-                    rs.getInt("pro_codigo"),
-                    rs.getDouble("vep_qtde"),
-                    rs.getDouble("vep_preco"),
-                    rs.getDouble("vep_total")
-                });
-            }
-        }
-        return lista;
-    }
-
-    /**
-     * Exclui venda inteira (cabeçalho + itens + pgtos).
-     */
-    public void excluir(VendaModel v) throws SQLException {
-        boolean auto = conexao.getAutoCommit();
-        try {
-            conexao.setAutoCommit(false);
-            excluirItens(v.getVDA_CODIGO());
-            excluirPgtos(v.getVDA_CODIGO());
-            try (PreparedStatement ps = conexao.prepareStatement("DELETE FROM venda WHERE vda_codigo=?")) {
-                ps.setInt(1, v.getVDA_CODIGO());
-                ps.executeUpdate();
-            }
-            conexao.commit();
-        } catch (SQLException e) {
-            conexao.rollback();
-            throw e;
-        } finally {
-            conexao.setAutoCommit(auto);
-        }
-    }
-
-    /**
-     * para retornas os itens em aba consulta
+     * Metodos para retornar os itens em cada campo de venda
      */
     public VendaModel buscarCabecalho(int vda) throws SQLException {
+        System.out.println(" [VendaDao] executou -> buscarCabecalho");
+        
         String sql = "SELECT vda_codigo, usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs "
                 + "FROM venda WHERE vda_codigo = ?";
         
@@ -247,6 +244,8 @@ public class VendaDao {
     }
 
     public java.util.List<VendaProdutoModel> listarItens(int vda) throws SQLException {
+        System.out.println(" [VendaDao] executou -> listarItens");
+
         String sql
                 = "SELECT vp.pro_codigo, p.pro_nome, p.pro_unidade, vp.vep_qtde, vp.vep_preco, vp.vep_desconto, vp.vep_total "
                 + "FROM venda_produto vp JOIN produto p USING (pro_codigo) WHERE vp.vda_codigo = ? ORDER BY vp.pro_codigo";
@@ -271,10 +270,14 @@ public class VendaDao {
     }
 
     public java.util.List<VendaPagtoModel> listarPgtos(int vda) throws SQLException {
+        System.out.println(" [VendaDao] executou -> listarPagtos");
+
         String sql
                 = "SELECT vpg.fpg_codigo, f.fpg_nome, vpg.vdp_valor "
                 + "FROM venda_pagto vpg JOIN formapagto f USING (fpg_codigo) WHERE vpg.vda_codigo = ? ORDER BY vpg.fpg_codigo";
+        
         java.util.List<VendaPagtoModel> lista = new java.util.ArrayList<>();
+        
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setInt(1, vda);
             try (ResultSet rs = ps.executeQuery()) {
