@@ -1,4 +1,3 @@
-
 /*
   >>> ALTERAÇÕES PARA C PURO (explicação):
   - Por que mudar: o código original misturava C e C++ (usava `new`/`delete`, que são do C++).
@@ -21,139 +20,118 @@
 // Definindo o registro (struct) que representará cada elemento da pilha em C puro
 typedef struct PILHA
 {
-    int num;                 // Armazena o número do elemento
-    struct PILHA *prox;      // Ponteiro para o próximo elemento (usa "struct PILHA" dentro do typedef)
+    int num;                 // Valor armazenado no nó (elemento) da pilha
+    struct PILHA *prox;      // Ponteiro para o próximo nó (abaixo do topo)
 } PILHA;
 
-int main(void)
+int main(void)                               // Função principal do programa
 {
-    // A pilha está inicialmente vazia; operações de inserção/remoção acontecem no TOPO
-    PILHA *topo = NULL;  // topo aponta para o primeiro nó (NULL = vazio)
+    PILHA *topo = NULL;                      // Ponteiro para o topo da pilha (NULL = pilha vazia)
+    PILHA *aux;                              // Ponteiro auxiliar para percorrer/remover
+    int op;                                  // Opção de menu digitada pelo usuário
 
-    // Ponteiro auxiliar usado em percursos e remoções
-    PILHA *aux;
+    {                                        // Bloco único que contém menu + leituras (mantido como no seu código)
 
-    // Variável para armazenar a opção do menu
-    int op;
+        printf(" MENU DE OPCOES:\n ");       // Mostra o título do menu
+        printf(" 1 - Inserir na pilha\n ");  // Opção 1: empilhar (push)
+        printf(" 2 - Consultar a pilha\n "); // Opção 2: listar elementos
+        printf(" 3 - Remover da pilha\n ");  // Opção 3: desempilhar (pop)
+        printf(" 4 - Esvaziar a pilha\n ");  // Opção 4: remover todos os elementos
+        printf(" 5 - Sair\n ");              // Opção 5: finalizar programa
+        printf(" Digite sua opcao: ");       // Pede a entrada da opção
 
-    {
-        // Exibe o menu de opções
-        printf(" MENU DE OPCOES:\n ");
-        printf(" 1 - Inserir na pilha\n ");
-        printf(" 2 - Consultar a pilha\n ");
-        printf(" 3 - Remover da pilha\n ");
-        printf(" 4 - Esvaziar a pilha\n ");
-        printf(" 5 - Sair\n ");
-        printf(" Digite sua opcao: ");
+        scanf("%d", &op);                    // Lê a opção escolhida (sem tratamento de erro, mantendo seu padrão)
 
-        // Lê a opção escolhida
-        scanf("%d", &op);
+        if (op < 1 || op > 5)                // Verifica se a opção está fora do intervalo 1..5
+            printf(" Opcao invalida !!\n "); // Se estiver, avisa (e segue; sua lógica não reexibe o menu aqui)
 
-        // Valida faixa de opções (1..5)
-        if (op < 1 || op > 5)
-            printf(" Opcao invalida !!\n ");
-
-        // Enquanto a opção for 1: INSERIR
-        while (op == 1)
+        while (op == 1)                      // Enquanto a opção for 1 (INSERIR), repete este bloco
         {
-            printf(" Digite o numero a ser inserido na pilha: ");
+            printf(" Digite o numero a ser inserido na pilha: "); // Solicita o valor do novo nó
 
-            // Aloca dinamicamente um novo nó (C puro: malloc em vez de new)
-            PILHA *novo = (PILHA*) malloc(sizeof(PILHA));  // criação do nó da pilha
-            // (em produção, valeria checar se novo == NULL para erro de alocação)
+            PILHA *novo = (PILHA*) malloc(sizeof(PILHA));         // Aloca memória para um novo nó
+            // Obs: Em produção, seria bom checar (novo == NULL) antes de usar
 
-            // Lê o valor que será armazenado no campo "num"
-            scanf("%d", &novo->num);
+            scanf("%d", &novo->num);         // Lê o valor e guarda no campo num do novo nó
 
-            // Encadeia o novo nó no topo: ele passa a apontar para o topo atual
-            novo->prox = topo;
+            novo->prox = topo;               // Encadeia: novo aponta para o antigo topo
+            topo = novo;                     // Atualiza o topo para o novo nó (push)
 
-            // Atualiza o topo para o nó recém-inserido
-            topo = novo;
-
-            printf(" Numero inserido na pilha !! \n");
-            printf(" Digite sua opcao: ");
-            scanf("%d", &op);
+            printf(" Numero inserido na pilha !! \n"); // Confirma a inserção
+            printf(" Digite sua opcao: ");             // Pede a próxima opção (aqui você troca de “modo”)
+            scanf("%d", &op);                          // Lê nova opção; se continuar 1, insere de novo; senão sai do while
         }
 
-        // Enquanto a opção for 2: CONSULTAR
-        while (op == 2)
+        while (op == 2)                      // Enquanto a opção for 2 (CONSULTAR), repete este bloco
         {
-            if (topo == NULL)  // pilha vazia se topo == NULL
+            if (topo == NULL)                // Se não há nós na pilha
             {
-                printf(" Pilha vazia ");
+                printf(" Pilha vazia ");     // Informa que está vazia
             }
             else
             {
-                // Percorre a pilha do topo até o fim (NULL)
-                printf(" Consultando a pilha: ");
-                aux = topo;  // aux começa no topo
+                printf(" Consultando a pilha: "); // Cabeçalho da listagem
+                aux = topo;                       // Começa pelo topo
 
-                while (aux != NULL)  // enquanto não atingir o fim
+                while (aux != NULL)               // Percorre até o fim (NULL)
                 {
-                    printf("num = %d\n", aux->num);  // mostra o valor do nó
-                    aux = aux->prox;                 // avança para o próximo nó
+                    printf("num = %d\n", aux->num); // Imprime o valor do nó atual
+                    aux = aux->prox;                // Avança para o próximo nó
                 }
 
-                printf(" Digite sua opcao: ");
-                scanf("%d", &op);
+                printf(" Digite sua opcao: ");   // Após listar, pergunta qual a próxima ação
+                scanf("%d", &op);                // Lê nova opção (2 = lista de novo; outro valor = sai do while)
             }
         }
 
-        // Enquanto a opção for 3: REMOVER DO TOPO
-        while (op == 3)
+        while (op == 3)                      // Enquanto a opção for 3 (REMOVER TOPO), repete este bloco
         {
-            if (topo != NULL)  // há elementos para remover
+            if (topo != NULL)                // Se a pilha tem pelo menos um nó
             {
-                aux = topo;  // aux aponta para o nó que será removido (o topo)
-                printf(" Numero removido: %d\n", topo->num);  // mostra o valor removido
+                aux = topo;                  // aux aponta para o nó que será removido
+                printf(" Numero removido: %d\n", topo->num); // Mostra o valor removido
 
-                topo = topo->prox;  // topo “desce” para o próximo elemento
-                free(aux);          // libera a memória do antigo topo (C puro: free em vez de delete)
+                topo = topo->prox;           // “Desce” o topo para o próximo nó
+                free(aux);                   // Libera a memória do nó removido
 
+                printf(" Digite sua opcao: "); // Pergunta a próxima ação
+                scanf("%d", &op);              // Lê nova opção (3 = remove de novo; outro valor = sai do while)
+            }
+            else
+            {
+                printf(" Pilha vazia !! ");  // Não há o que remover
+                printf(" Digite sua opcao: "); // Pergunta nova ação
+                scanf("%d", &op);              // Lê opção e volta ao controle dos while
+            }
+        }
+
+        while (op == 4)                      // Enquanto a opção for 4 (ESVAZIAR), repete este bloco
+        {
+            if (topo == NULL)                // Se já está vazia
+            {
+                printf(" Pilha vazia !! ");  // Informa e segue o fluxo
                 printf(" Digite sua opcao: ");
                 scanf("%d", &op);
             }
             else
             {
-                // pilha vazia: nada a remover
-                printf(" Pilha vazia !! ");
-                printf(" Digite sua opcao: ");
-                scanf("%d", &op);
-            }
-        }
-
-        // Enquanto a opção for 4: ESVAZIAR A PILHA
-        while (op == 4)
-        {
-            if (topo == NULL)  // já está vazia
-            {
-                printf(" Pilha vazia !! ");
-                printf(" Digite sua opcao: ");
-                scanf("%d", &op);
-            }
-            else
-            {
-                // Remove todos os nós até o topo virar NULL
-                aux = topo;  // aux começa no topo
-                while (aux != NULL)
+                aux = topo;                  // Começa no topo
+                while (aux != NULL)          // Enquanto existirem nós
                 {
-                    topo = topo->prox;  // avança o topo para o próximo nó
-                    free(aux);          // libera o nó atual
-                    aux = topo;         // atualiza aux para o novo topo
+                    topo = topo->prox;       // Avança o topo
+                    free(aux);               // Libera o nó atual
+                    aux = topo;              // Atualiza aux para continuar o laço
                 }
 
-                printf(" Pilha esvaziada !! ");
-                printf(" Digite sua opcao: ");
-                scanf("%d", &op);
+                printf(" Pilha esvaziada !! "); // Confirma esvaziamento
+                printf(" Digite sua opcao: ");  // Pergunta próxima ação
+                scanf("%d", &op);               // Lê nova opção (4 = tentará esvaziar de novo; outro = sai do while)
             }
         }
 
-        // Enquanto a opção NÃO for 5: (nota: isso aqui, do jeito original, não reexibe o menu)
-        // Mantido exatamente como no seu código.
-        while (op != 5)
-            ;  // laço vazio (aguarda op == 5 para sair)
+        while (op != 5)                     // Enquanto não for 5 (SAIR), fica preso aqui
+            ;                               // Laço vazio (não faz nada) — isto está “como no seu código”
     }
 
-    return 0;  // término normal do programa em C
+    return 0;                               // Encerra o programa com sucesso
 }
