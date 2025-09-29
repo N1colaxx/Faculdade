@@ -26,10 +26,10 @@
 ### DCL - Data Control Language
 
 -   GRANT
-    > Permite dar permições a UM ou MAIS usuarios
+    > Permite dar permiÃ§Ãµes a UM ou MAIS usuarios
 
 -   REVOKE
-    > Negar as permição dadas pelo GRANK
+    > Negar as permiÃ§Ã£o dadas pelo GRANK
 
 
 
