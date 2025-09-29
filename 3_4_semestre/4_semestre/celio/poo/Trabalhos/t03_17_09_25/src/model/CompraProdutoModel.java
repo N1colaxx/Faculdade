@@ -8,6 +8,8 @@ public class CompraProdutoModel {
             CPP_CODIGO,
             CPR_CODIGO,
             PRO_CODIGO;
+    private String PRO_NOME;    // exibição
+    private String PRO_UNIDADE; // exibição
     private BigDecimal 
             CPR_QTDE,
             CPR_PRECO,
@@ -33,11 +35,14 @@ public class CompraProdutoModel {
     // Getters
     public int getCPP_CODIGO() { return CPP_CODIGO; }
     public int getCPR_CODIGO() { return CPR_CODIGO; }
+    public String getPRO_NOME() { return PRO_NOME; }
+    public String getPRO_UNIDADE() { return PRO_UNIDADE; }
     public int getPRO_CODIGO() { return PRO_CODIGO; }
     public BigDecimal getCPR_QTDE() { return CPR_QTDE; }
     public BigDecimal getCPR_PRECO() { return CPR_PRECO; }
     public BigDecimal getCPR_DESCONTO() { return CPR_DESCONTO; }
     public BigDecimal getCPR_TOTAL() { return CPR_TOTAL; }
+
 
     // Setters
     public void setCPP_CODIGO(int CPP_CODIGO) {
@@ -50,6 +55,14 @@ public class CompraProdutoModel {
 
     public void setPRO_CODIGO(int PRO_CODIGO) {
         this.PRO_CODIGO = PRO_CODIGO;
+    }
+    
+    public void setPRO_NOME(String PRO_NOME) {
+        PRO_NOME = PRO_NOME;
+    }
+    
+    public void setPRO_UNIDADE(String PRO_UNIDADE) {
+        PRO_UNIDADE = PRO_UNIDADE;
     }
 
     public void setCPR_QTDE(BigDecimal CPR_QTDE) {

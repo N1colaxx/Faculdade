@@ -6,7 +6,6 @@ import model.VendaModel;
 import model.VendaProdutoModel;
 import model.VendaPagtoModel;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +38,11 @@ public class VendaController {
         System.out.println(" [VendaController] executou -> buscarVendaCompleta");
         
         VendaDao dao = new VendaDao();
-        VendaCompletaModel dto = new VendaCompletaModel();
-        dto.cabecalho = dao.buscarCabecalho(vda);
-        dto.itens     = dao.listarItens(vda);
-        dto.pgtos     = dao.listarPgtos(vda);
-        return dto; 
+        VendaCompletaModel vcm = new VendaCompletaModel();
+        vcm.cabecalho = dao.buscarCabecalho(vda);
+        vcm.itens     = dao.listarItens(vda);
+        vcm.pgtos     = dao.listarPgtos(vda);
+        
+        return vcm; 
     }
 }

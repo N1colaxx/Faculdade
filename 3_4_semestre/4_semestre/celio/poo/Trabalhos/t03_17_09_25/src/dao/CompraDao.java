@@ -8,6 +8,7 @@ import model.CompraProdutoModel;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import model.ProdutoModel;
 
 /** DAO de COMPRA: cabeçalho + itens em transação. */
 public class CompraDao {
@@ -18,7 +19,8 @@ public class CompraDao {
     }
 
     /** Transação para incluir/alterar compra  */
-    public void gravarTransacao(String operacao, 
+    public void gravarTransacao(
+                                String operacao, 
                                 CompraModel compra, 
                                 ArrayList<CompraProdutoModel> itens) throws SQLException {
         
@@ -48,7 +50,7 @@ public class CompraDao {
         }
     }
 
-    
+    // consulta tab COMPRA
     public ArrayList<model.CompraModel> consultar(String cond) throws SQLException  {
         ArrayList<model.CompraModel> lista = new ArrayList<>();
         
@@ -81,6 +83,8 @@ public class CompraDao {
         return lista;
     }
 
+    
+    // consulta tab COMPRA_PRODUTO
     public List<Object[]> consultarCompraProduto(String cond) throws SQLException {
         
         List<Object[]> lista = new ArrayList<>();
@@ -108,10 +112,13 @@ public class CompraDao {
     
     public void excluir(CompraModel c) throws SQLException {
         boolean auto = conexao.getAutoCommit();
+        
+        String sql = "DELETE FROM compra WHERE cpr_codigo = ?";
+        
         try {
             conexao.setAutoCommit(false);
             excluirItens(c.getCPR_CODIGO());
-            try (PreparedStatement ps = conexao.prepareStatement("DELETE FROM compra WHERE cpr_codigo=?")){
+            try (PreparedStatement ps = conexao.prepareStatement(sql)){
                 ps.setInt(1, c.getCPR_CODIGO());
                 ps.executeUpdate();
             }
@@ -136,11 +143,11 @@ public class CompraDao {
             ps.setDouble(6, c.getCPR_TOTAL());
             ps.setDate(7, c.getCPR_DTENTRADA()==null?null:Date.valueOf(c.getCPR_DTENTRADA()));
             ps.setString(8, c.getCPR_OBS());
+            
             try (ResultSet rs = ps.executeQuery()){
                 if (rs.next()) return rs.getInt(1);
             }
-        }
-        throw new SQLException("Falha ao inserir compra (sem retorno de chave).");
+        } throw new SQLException("Falha ao inserir compra (sem retorno de chave).");
     }
 
     private void alterarCompra(CompraModel c) throws SQLException {
@@ -157,13 +164,15 @@ public class CompraDao {
             ps.setDate(7, c.getCPR_DTENTRADA()==null?null:Date.valueOf(c.getCPR_DTENTRADA()));
             ps.setString(8, c.getCPR_OBS());
             ps.setInt(9, c.getCPR_CODIGO());
+            
             ps.executeUpdate();
         }
     }
 
     private void excluirItens(int cprCodigo) throws SQLException {
-        try (PreparedStatement ps = conexao.prepareStatement(
-                "DELETE FROM compra_produto WHERE cpr_codigo=?")) {
+        String sql = "DELETE FROM compra_produto WHERE cpr_codigo=?";
+        
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setInt(1, cprCodigo);
             ps.executeUpdate();
         }
@@ -172,6 +181,7 @@ public class CompraDao {
     private void inserirItens(int cprCodigo, ArrayList<CompraProdutoModel> itens) throws SQLException {
         String sql = "INSERT INTO compra_produto (cpr_codigo, pro_codigo, cpr_qtde, cpr_preco, cpr_desconto, cpr_total) " +
                      "VALUES (?, ?, ?, ?, ?, ?)";
+        
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             for (CompraProdutoModel it : itens) {
                 ps.setInt(1, cprCodigo);
@@ -192,9 +202,11 @@ public class CompraDao {
      * Metodos para retornar os itens em cada campo de compra
      */
     
+    // aba DADOS
     public CompraModel buscarCabecalho(int cpr) throws SQLException {
-        
-        String sql = "SELECT * FROM compra WHERE cpr_compra = ?";
+        System.out.println(" [CompraDao] executou -> buscarCabecalho");
+
+        String sql = "SELECT * FROM compra WHERE cpr_codigo = ?";
         
         try (PreparedStatement stm = conexao.prepareStatement(sql)) {
             stm.setInt(1, cpr);
@@ -222,11 +234,37 @@ public class CompraDao {
         
     }
     
-    public java.util.List<CompraProdutoModel> listarIntes(int cpr) throws SQLException {
+    public List<CompraProdutoModel> listarIntes(int cpr) throws SQLException {
+        System.out.println(" [CompraDao] executou -> listarItens");
+        
+        final String sql = "SELECT cp.pro_codigo, p.pro_nome, p.pro_unidade, cp.cpr_qtde, cp.cpr_qtde, cp.cpr_preco, cp.cpr_desconto, cp.cpr_total "
+                + " FROM compra_produto cp"
+                + " JOIN produto p USING (pro_codigo) "
+                + " WHERE cp.pro_codigo = ? "
+                + " ORDER BY cp.pro_codigo ";
         
         List<CompraProdutoModel> lista = new ArrayList<>();
         
+        try (PreparedStatement stm = conexao.prepareStatement(sql)) {
+            stm.setInt(1, cpr); 
+            
+            try (ResultSet rs = stm.executeQuery()) { 
+                while (rs.next()) {
+                    CompraProdutoModel it = new CompraProdutoModel();
+
+                    it.setPRO_CODIGO(rs.getInt("pro_codigo"));
+                    it.setPRO_NOME(rs.getString("pro_nome"));
+                    it.setPRO_UNIDADE(rs.getString("pro_unidade"));
+                    it.setCPR_QTDE(rs.getBigDecimal("cpr_qtde"));
+                    it.setCPR_PRECO(rs.getBigDecimal("cpr_preco"));
+                    it.setCPR_DESCONTO(rs.getBigDecimal("cpr_desconto"));
+                    it.setCPR_TOTAL(rs.getBigDecimal("cpr_total"));
+                    
+                    lista.add(it);
+                }
+            }
+        }
+        
         return lista;
     }
-
 }

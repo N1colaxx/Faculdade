@@ -16,9 +16,9 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.math.BigDecimal;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import model.CompraCompletaModel;
 
 /**
  * Tela de Cadastro de COMPRAS (espelho da VendaView, sem Pagamentos).
@@ -338,10 +338,16 @@ public class CompraView extends JPanel {
                 mostrarItem(itensModel.getItem(modelSel));
             }
         });
+        
+        // Consulta: ao selecionar linha, joga para filtros/editores
         tabelaConsulta.getSelectionModel().addListSelectionListener(e -> {
-            if (e.getValueIsAdjusting()) return;
-            int viewSel = tabelaConsulta.getSelectedRow();
-            if (viewSel >= 0) { mostrarLinhaConsultaNaBusca(viewSel); }
+            if (e.getValueIsAdjusting()) {
+                return;
+            }
+            if (!e.getValueIsAdjusting()) { 
+                selecionarLinhaConsulta();
+            }
+            
         });
     }
 
@@ -350,16 +356,24 @@ public class CompraView extends JPanel {
     private void preencherProduto() {
         try {
             int cod = parseInt(edtProCod.getText());
-            if (cod <= 0) { limparCamposProduto(); return; }
+            if (cod <= 0) { 
+                limparCamposProduto(); 
+                return; 
+            }
+            
             ItemCompraModel p = new ProdutoController().buscarPorCodigoCompra(cod);
+           
             if (p == null) {
                 JOptionPane.showMessageDialog(this, "Produto não encontrado/ativo.");
                 limparCamposProduto();
+            
                 return;
             }
+            
             edtProNome.setText(p.getPRO_NOME());
             edtUn.setText(p.getPRO_UNIDADE());
             edtPreco.setText(fmt(p.getPRO_CUSTO())); // custo sugerido
+            
             recalcSubtotal();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Falha ao buscar produto: " + ex.getMessage());
@@ -420,6 +434,9 @@ public class CompraView extends JPanel {
         edtTotal.setText(fmt(s - desc));
     }
 
+    
+    
+    
     // ==== Consulta ====
     private String filtroConsultaCompraProduto() {
         StringBuilder cond = new StringBuilder();
@@ -470,18 +487,50 @@ public class CompraView extends JPanel {
         edtPreco.setText(fmtBD(it.getCPR_PRECO()));
         edtSubTotal.setText(fmtBD(it.getCPR_TOTAL()));
     }
+    
+    private void selecionarLinhaConsulta() {
+        int viewSel = tabelaConsulta.getSelectedRow();
+        
+        if (viewSel < 0) return;
+        
+        int modelSel = tabelaConsulta.convertRowIndexToModel(viewSel);
+        int cpr = Integer.parseInt(String.valueOf(consultaModel.getValueAt(modelSel, 0))); // cpr_codigo
 
-    private void mostrarLinhaConsultaNaBusca(int viewRow){
-        if (viewRow < 0) return;
-        int modelRow = tabelaConsulta.convertRowIndexToModel(viewRow);
-        Object cpr = consultaModel.getValueAt(modelRow, 0); // cpr_codigo
-        Object pro = consultaModel.getValueAt(modelRow, 1); // pro_codigo
-        edtId1.setText(String.valueOf(cpr));
-        edtId2.setText(String.valueOf(cpr));
-        edtProCod.setText(String.valueOf(pro));
-        preencherProduto();
+        try {
+            System.out.println("\n [CompraCompletaModel] foi chamado em VendaView");
+            CompraCompletaModel ccm = new CompraController().buscarCompraCompleta(cpr);
+
+            if (ccm == null || ccm.cabecalho == null) {
+                JOptionPane.showMessageDialog(this, "Compra não encontrada.");
+                return;
+            }
+            
+            while (itensModel.getRowCount() > 0) {
+                itensModel.removeItem(0);
+            }
+   
+            preencherCampos(ccm.cabecalho);
+
+            for (CompraProdutoModel it : ccm.itens) {
+                itensModel.addItem(it);
+            }
+            
+            recomputarTotais();
+
+            // ir para a aba "Dados" 
+            tabs.setSelectedComponent(tabDados);
+
+            /** Marca que estamos olhando um registro existente 
+            *  só troca para "alterar" quando clicar no botão Alterar
+            */
+            setOperacao(""); 
+            
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar venda: " + ex.getMessage());
+        }
     }
-
+    
+        
     // ==== Cabeçalho / Gravação ====
 
     private void novo() {
@@ -550,6 +599,7 @@ public class CompraView extends JPanel {
     private void selecionarIndice(int idx){
         if (idx < 0 || idx >= listaCompras.size()) return;
         CompraModel c = listaCompras.get(idx);
+        
         preencherCampos(c);
     }
 
@@ -570,14 +620,14 @@ public class CompraView extends JPanel {
         edtCprCodigo.setText(String.valueOf(c.getCPR_CODIGO()));
         edtUsuCodigo.setText(String.valueOf(c.getUSU_CODIGO()));
         edtForCodigo.setText(String.valueOf(c.getFOR_CODIGO()));
-        edtEmissao.setText(c.getCPR_EMISSAO()==null?"":c.getCPR_EMISSAO().toString());
-        edtDtEntrada.setText(c.getCPR_DTENTRADA()==null?"":c.getCPR_DTENTRADA().toString());
+        edtEmissao.setText(c.getCPR_EMISSAO() == null ? "" : c.getCPR_EMISSAO().toString());
+        edtDtEntrada.setText(c.getCPR_DTENTRADA()==null ? "" : c.getCPR_DTENTRADA().toString());
         edtObs.setText(c.getCPR_OBS()==null?"":c.getCPR_OBS());
         edtValor.setText(fmt(c.getCPR_VALOR()));
         edtDesc.setText(fmt(c.getCPR_DESCONTO()));
         edtTotal.setText(fmt(c.getCPR_TOTAL()));
     }
-
+    
     private void limparTudo(){
         edtCprCodigo.setText("0");
         edtUsuCodigo.setText("");

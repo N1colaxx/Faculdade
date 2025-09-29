@@ -6,7 +6,6 @@ import model.CompraModel;
 import model.CompraProdutoModel;
 import model.CompraCompletaModel;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,8 @@ public class CompraController {
         new CompraDao().excluir(compra);
     }
 
-    public void gravar(String operacao, CompraModel compra,
+    public void gravar(String operacao, 
+                       CompraModel compra,
                        ArrayList<CompraProdutoModel> itens) throws SQLException {
         new CompraDao().gravarTransacao(operacao, compra, itens);
     }
@@ -41,7 +41,7 @@ public class CompraController {
         CompraCompletaModel ccm = new CompraCompletaModel();
         ccm.cabecalho = dao.buscarCabecalho(cpr);
         ccm.itens = dao.listarIntes(cpr);
-            
+        
         return ccm;
     }
 }

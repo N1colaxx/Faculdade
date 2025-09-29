@@ -12,7 +12,7 @@ public class VendaProdutoModel {
     private String PRO_UNIDADE; // exibição
     private double VEP_QTDE;
     private double VEP_PRECO;
-    private double VEP_DESCONTO; // mantido por compat.; UI usa 0
+    private double VEP_DESCONTO; // mantido por compat.; usa 0
     private double VEP_TOTAL;    // qtde * preco
 
     public VendaProdutoModel() {

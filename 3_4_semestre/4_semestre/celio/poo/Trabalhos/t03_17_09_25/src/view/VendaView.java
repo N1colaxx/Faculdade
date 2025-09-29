@@ -19,7 +19,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -30,6 +29,7 @@ import java.util.ArrayList;
  * - Pagamentos: até 2; combo com formas ativas; regra de rateio
  * - Consulta: filtros (id1..id2, valor>=, valor<=) em venda_produto
  */
+
 public class VendaView extends JPanel {
     
     private JLabel lblTitulo;
@@ -413,8 +413,12 @@ public class VendaView extends JPanel {
 
         // Consulta: ao selecionar linha, joga para filtros/editores
         tabelaConsulta.getSelectionModel().addListSelectionListener(e -> {
-            if (e.getValueIsAdjusting()) return;            
-            if (!e.getValueIsAdjusting()) selecionarLinhaConsulta();
+            if (e.getValueIsAdjusting()) {
+                return;
+            }            
+            if (!e.getValueIsAdjusting()) {
+                selecionarLinhaConsulta();
+            }
         });
 
     }
@@ -677,15 +681,16 @@ public class VendaView extends JPanel {
         while (consultaModel.getRowCount() > 0) consultaModel.removeRow(0);
     }
     
-    
     private void selecionarLinhaConsulta() {
         int viewSel = tabelaConsulta.getSelectedRow();
+        
         if (viewSel < 0) return;
+        
         int modelSel = tabelaConsulta.convertRowIndexToModel(viewSel);
         int vda = Integer.parseInt(String.valueOf(consultaModel.getValueAt(modelSel, 0))); // vda_codigo
 
         try {
-            System.out.println(" [VendaCompletaModel] foi chamado em VendaView");
+            System.out.println("\n [VendaCompletaModel] foi chamado em VendaView");
             VendaCompletaModel dto = new VendaController().buscarVendaCompleta(vda);
 
             if (dto == null || dto.cabecalho == null) {
@@ -693,23 +698,32 @@ public class VendaView extends JPanel {
                 return;
             }
             
-            while (itensModel.getRowCount() > 0) itensModel.removeItem(0);
-            while (pgtosModel.getRowCount() > 0) pgtosModel.remove(0);
+            while (itensModel.getRowCount() > 0) {
+                itensModel.removeItem(0);
+            }
+            while (pgtosModel.getRowCount() > 0) {
+                pgtosModel.remove(0);
+            }
 
             mostrarDados(dto.cabecalho);
 
-            for (VendaProdutoModel it : dto.itens)  itensModel.addItem(it);
-            for (VendaPagtoModel pg : dto.pgtos)    pgtosModel.add(pg);
-
+            for (VendaProdutoModel it : dto.itens) {
+                itensModel.addItem(it);
+            }
+            for (VendaPagtoModel pg : dto.pgtos) {
+                pgtosModel.add(pg);
+            }
             
             recomputarTotais();
 
             // ir para a aba "Dados" 
             tabs.setSelectedComponent(tabDados);
 
-            // marca que estamos olhando um registro existente
-            setOperacao(""); // só troca para "alterar" quando clicar no botão Alterar
-
+            /** Marca que estamos olhando um registro existente
+            *   só troca para "alterar" quando clicar no botão Alterar
+            */
+            setOperacao("");
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar venda: " + ex.getMessage());
         }
@@ -827,8 +841,10 @@ public class VendaView extends JPanel {
         return String.format(java.util.Locale.US, "%.2f", d);
     }
 
+    
+    
+    
     // ==== Seleção e editores ====
-
 
     // Preenche os campos do editor de DADOS;
     private void mostrarDados(VendaModel v){

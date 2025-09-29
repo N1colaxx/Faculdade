@@ -110,11 +110,14 @@ public class VendaDao {
 
     public void excluir(VendaModel v) throws SQLException {
         boolean auto = conexao.getAutoCommit();
+        
+        String sql = "DELETE FROM venda WHERE vda_codigo = ?";
+        
         try {
             conexao.setAutoCommit(false);
             excluirItens(v.getVDA_CODIGO());
             excluirPgtos(v.getVDA_CODIGO());
-            try (PreparedStatement ps = conexao.prepareStatement("DELETE FROM venda WHERE vda_codigo=?")) {
+            try (PreparedStatement ps = conexao.prepareStatement(sql)) {
                 ps.setInt(1, v.getVDA_CODIGO());
                 ps.executeUpdate();
             }
@@ -145,8 +148,7 @@ public class VendaDao {
                     return rs.getInt(1); // retorna PK gerada
                 }
             }
-        }
-        throw new SQLException("Falha ao inserir venda (RETURNING não retornou chave).");
+        } throw new SQLException("Falha ao inserir venda (RETURNING não retornou chave).");
 
     }
     
@@ -162,21 +164,24 @@ public class VendaDao {
             ps.setDouble(6, v.getVDA_TOTAL());
             ps.setString(7, v.getVDA_OBS());
             ps.setInt(8, v.getVDA_CODIGO());
+            
             ps.executeUpdate();
         }
     }
 
     private void excluirItens(int vdaCodigo) throws SQLException {
-        try (PreparedStatement ps = conexao.prepareStatement(
-                "DELETE FROM venda_produto WHERE vda_codigo = ?")) {
+        String sql = "DELETE FROM venda_produto WHERE vda_codigo = ?";
+        
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setInt(1, vdaCodigo);
             ps.executeUpdate();
         }
     }
 
     private void excluirPgtos(int vdaCodigo) throws SQLException {
-        try (PreparedStatement ps = conexao.prepareStatement(
-                "DELETE FROM venda_pagto WHERE vda_codigo = ?")) {
+        String sql = "DELETE FROM venda_pagto WHERE vda_codigo = ?";
+        
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setInt(1, vdaCodigo);
             ps.executeUpdate();
         }
@@ -185,6 +190,7 @@ public class VendaDao {
     private void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws SQLException {
         String sql = "INSERT INTO venda_produto (vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_desconto, vep_total) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
+        
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             for (VendaProdutoModel it : itens) {
                 ps.setInt(1, vdaCodigo);
@@ -243,18 +249,24 @@ public class VendaDao {
         }
     }
 
-    public java.util.List<VendaProdutoModel> listarItens(int vda) throws SQLException {
+    public List<VendaProdutoModel> listarItens(int vda) throws SQLException {
         System.out.println(" [VendaDao] executou -> listarItens");
 
         String sql
-                = "SELECT vp.pro_codigo, p.pro_nome, p.pro_unidade, vp.vep_qtde, vp.vep_preco, vp.vep_desconto, vp.vep_total "
-                + "FROM venda_produto vp JOIN produto p USING (pro_codigo) WHERE vp.vda_codigo = ? ORDER BY vp.pro_codigo";
-        java.util.List<VendaProdutoModel> lista = new java.util.ArrayList<>();
+                = "SELECT  vp.pro_codigo, p.pro_nome, p.pro_unidade, vp.vep_qtde, vp.vep_preco, vp.vep_desconto, vp.vep_total "
+                + " FROM venda_produto vp "
+                + " JOIN produto p USING (pro_codigo) "
+                + " WHERE vp.vda_codigo = ? "
+                + " ORDER BY vp.pro_codigo";
+        
+        List<VendaProdutoModel> lista = new ArrayList<>();
+        
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {
             ps.setInt(1, vda);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     VendaProdutoModel it = new VendaProdutoModel();
+                    
                     it.setPRO_CODIGO(rs.getInt("pro_codigo"));
                     it.setPRO_NOME(rs.getString("pro_nome"));
                     it.setPRO_UNIDADE(rs.getString("pro_unidade"));
@@ -274,7 +286,10 @@ public class VendaDao {
 
         String sql
                 = "SELECT vpg.fpg_codigo, f.fpg_nome, vpg.vdp_valor "
-                + "FROM venda_pagto vpg JOIN formapagto f USING (fpg_codigo) WHERE vpg.vda_codigo = ? ORDER BY vpg.fpg_codigo";
+                + "FROM venda_pagto vpg "
+                + "JOIN formapagto f USING (fpg_codigo) "
+                + "WHERE vpg.vda_codigo = ? "
+                + "ORDER BY vpg.fpg_codigo";
         
         java.util.List<VendaPagtoModel> lista = new java.util.ArrayList<>();
         
