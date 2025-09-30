@@ -567,11 +567,11 @@ EACH -> separa cada mapa em linhas individuais
 		LOOP
 			-- Registrando cada alteração
 			PERFORM Func_Gravar_Log (
-				'ALTERACAO',
-				TG_TABLE_NAME, -- Variável especial de triggers no PostgreSQ
-				key,
-				old_val,
-				new_val
+				'ALTERACAO'::varchar,
+				TG_TABLE_NAME::varchar, -- Variável especial de triggers no PostgreSQ
+				key::varchar,
+				old_val::varchar,
+				new_val::varchar
 			);
 		END LOOP;
 
@@ -850,31 +850,31 @@ EXECUTE FUNCTION trg_log_venda_produto_upd();
    DELETE - TODAS AS TABELAS
    ========================================================== */
 
-
 CREATE OR REPLACE FUNCTION trg_log_generic_del()
 RETURNS TRIGGER AS
 $$
 DECLARE
-    key varchar;
-    old_val varchar;
+    v_col  varchar;
+    v_old  varchar;
 BEGIN
     -- Itera por todas as colunas da linha antiga
-    FOR key, old_val IN
-        SELECT key, value::varchar
-        FROM each(hstore(OLD))
+    FOR v_col, v_old IN
+        SELECT k::varchar, v::varchar          -- usa os aliases k, v
+        FROM each(hstore(OLD)) AS e(k, v)      -- define os aliases aqui
     LOOP
-        PERFORM Func_Gravar_Log(
-            'EXCLUSAO',       -- tipo de operação
-            TG_TABLE_NAME,    -- nome da tabela
-            key,              -- nome da coluna
-            old_val,          -- valor antigo
-            NULL              -- valor novo (sempre NULL em DELETE)
+        PERFORM func_gravar_log(
+            'EXCLUSAO'::varchar,               -- tipo de operação
+            TG_TABLE_NAME::varchar,            -- 'name' -> varchar
+            v_col,                             -- nome da coluna
+            v_old,                             -- valor antigo
+            NULL::varchar                      -- valor novo (DELETE)
         );
     END LOOP;
 
     RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
+
 
 -- CLIENTE
 CREATE TRIGGER after_delete_cliente
