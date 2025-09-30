@@ -7,7 +7,7 @@ CREATE TABLE log (
 	log_id serial NOT NULL,
 	log_data date,
 	log_operacao varchar(10),
-	log_tabel varchar(30),
+	log_tabela varchar(30),
 	log_campo varchar(30),
 	log_old varchar(400),
 	log_new varchar(400)
