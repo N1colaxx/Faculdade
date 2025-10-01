@@ -1,3 +1,5 @@
+SELECT CURRENT_database();
+
 -- extensão hstore -> para transformar linhas em mapas chave-valor
 CREATE EXTENSION IF NOT EXISTS hstore;
 
