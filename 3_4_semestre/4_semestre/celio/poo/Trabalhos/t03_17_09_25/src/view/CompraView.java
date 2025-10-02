@@ -157,10 +157,10 @@ public class CompraView extends JPanel {
         paneConsultaDados = new JPanel(null);
         paneConsultaTabela = new JPanel(null);
 
-        lblId1 = new JLabel("id1");
+        lblId1 = new JLabel("COD 1");
         edtId1 = new JTextField();
         lblATxt = new JLabel("à");
-        lblId2 = new JLabel("id2");
+        lblId2 = new JLabel("COD 2");
         edtId2 = new JTextField();
         lblValorGe = new JLabel("valor >=");
         edtValorGe = new JTextField();
@@ -192,6 +192,16 @@ public class CompraView extends JPanel {
         add(paneCentro);
         paneCentro.add(lblTitulo);
         paneCentro.add(tabs);
+
+        // Aba Consulta
+        tabConsulta.add(paneConsultaDados); tabConsulta.add(paneConsultaTabela);
+        paneConsultaDados.add(lblId1); paneConsultaDados.add(edtId1);
+        paneConsultaDados.add(lblATxt); paneConsultaDados.add(lblId2); paneConsultaDados.add(edtId2);
+        paneConsultaDados.add(lblValorGe); paneConsultaDados.add(edtValorGe);
+        paneConsultaDados.add(lblValorLe); paneConsultaDados.add(edtValorLe);
+        paneConsultaDados.add(btnConsultar); paneConsultaDados.add(btnLimpar);
+        paneConsultaTabela.add(scrollConsulta);
+        tabs.addTab("Consulta", tabConsulta);
         
         // Aba Dados
         tabDados.add(lblCprCodigo); tabDados.add(edtCprCodigo);
@@ -217,15 +227,6 @@ public class CompraView extends JPanel {
         paneItemTabela.add(new JScrollPane(tabItensGrid));
         tabs.addTab("Itens (Produtos)", tabItens);
 
-        // Aba Consulta
-        tabConsulta.add(paneConsultaDados); tabConsulta.add(paneConsultaTabela);
-        paneConsultaDados.add(lblId1); paneConsultaDados.add(edtId1);
-        paneConsultaDados.add(lblATxt); paneConsultaDados.add(lblId2); paneConsultaDados.add(edtId2);
-        paneConsultaDados.add(lblValorGe); paneConsultaDados.add(edtValorGe);
-        paneConsultaDados.add(lblValorLe); paneConsultaDados.add(edtValorLe);
-        paneConsultaDados.add(btnConsultar); paneConsultaDados.add(btnLimpar);
-        paneConsultaTabela.add(scrollConsulta);
-        tabs.addTab("Consulta", tabConsulta);
     }
 
     private void posicionar() {
@@ -324,12 +325,13 @@ public class CompraView extends JPanel {
         btnAlterar.addActionListener(e -> setOperacao("alterar"));
         btnGravar.addActionListener(e -> gravar());
         btnExcluir.addActionListener(e -> excluirSelecionada());
+        
         btnPrimeiro.addActionListener(e -> selecionarIndice(0));
         btnAnterior.addActionListener(e -> navegar(-1));
         btnProximo.addActionListener(e -> navegar(+1));
         btnUltimo.addActionListener(e -> selecionarIndice(listaCompras.size()-1));
 
-        // seleção nas tabelas (espelho do que pediu)
+        // seleção nas tabelas
         tabItensGrid.getSelectionModel().addListSelectionListener(e -> {
             if (e.getValueIsAdjusting()) return;
             int viewSel = tabItensGrid.getSelectedRow();
@@ -510,7 +512,8 @@ public class CompraView extends JPanel {
             }
    
             preencherCampos(ccm.cabecalho);
-
+            
+            
             for (CompraProdutoModel it : ccm.itens) {
                 itensModel.addItem(it);
             }
@@ -536,8 +539,11 @@ public class CompraView extends JPanel {
     private void novo() {
         setOperacao("incluir");
         limparTudo();
+        edtCprCodigo.setText("0");       
         edtEmissao.setText(LocalDate.now().toString());
         edtDtEntrada.setText(LocalDate.now().toString());
+        tabs.setSelectedComponent(tabDados);
+
     }
 
     private void setOperacao(String op){ this.operacao = op==null?"":op; }
@@ -550,12 +556,17 @@ public class CompraView extends JPanel {
             }
 
             CompraModel c = new CompraModel();
+            
             // inclusão força 0; alteração exige >0
             String op = operacao.isEmpty() ? "incluir" : operacao;
             int codTela = parseInt(edtCprCodigo.getText());
-            if ("incluir".equals(op)) c.setCPR_CODIGO(0);
-            else {
-                if (codTela <= 0) { JOptionPane.showMessageDialog(this,"Código inválido para alteração."); return; }
+            if ("incluir".equals(op)){
+                c.setCPR_CODIGO(0);
+            } else {
+                if (codTela <= 0) {
+                    JOptionPane.showMessageDialog(this,"Código inválido para alteração.");
+                    return; 
+                }
                 c.setCPR_CODIGO(codTela);
             }
 
@@ -572,11 +583,14 @@ public class CompraView extends JPanel {
             if (c.getFOR_CODIGO()<=0){ JOptionPane.showMessageDialog(this,"Informe Fornecedor."); return; }
 
             ArrayList<CompraProdutoModel> itens = new ArrayList<>(itensModel.getLinhas());
+            
             new CompraController().gravar(op, c, itens);
 
             edtCprCodigo.setText(String.valueOf(c.getCPR_CODIGO()));
             JOptionPane.showMessageDialog(this, "Compra gravada.");
             setOperacao("");
+            limparTudo();
+                
         } catch (Exception ex){
             JOptionPane.showMessageDialog(this, "Falha ao gravar: " + ex.getMessage());
         }

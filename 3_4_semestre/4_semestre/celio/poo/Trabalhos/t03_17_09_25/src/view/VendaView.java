@@ -226,6 +226,18 @@ public class VendaView extends JPanel {
          paneCentro.add(lblTitulo);   // << ADICIONE
         paneCentro.add(tabs);
 
+        
+
+        // Aba Consulta
+        tabConsulta.add(paneConsultaDados); tabConsulta.add(paneConsultaTabela);
+        paneConsultaDados.add(lblId1); paneConsultaDados.add(edtId1);
+        paneConsultaDados.add(lblATxt); paneConsultaDados.add(lblId2); paneConsultaDados.add(edtId2);
+        paneConsultaDados.add(lblValorGe); paneConsultaDados.add(edtValorGe);
+        paneConsultaDados.add(lblValorLe); paneConsultaDados.add(edtValorLe);
+        paneConsultaDados.add(btnConsultar); paneConsultaDados.add(btnLimpar);
+        paneConsultaTabela.add(scrollConsulta);
+        tabs.addTab("Consulta", tabConsulta);
+        
         // Aba Dados
         tabDados.add(lblVdaCodigo); tabDados.add(edtVdaCodigo);
         tabDados.add(lblUsuCodigo); tabDados.add(edtUsuCodigo);
@@ -256,16 +268,6 @@ public class VendaView extends JPanel {
         panePgEditor.add(btnAddPg); panePgEditor.add(btnUpdPg); panePgEditor.add(btnDelPg);
         panePgTabela.add(new JScrollPane(tabPgtosGrid));
         tabs.addTab("Pagamentos", tabPgtos);
-
-        // Aba Consulta
-        tabConsulta.add(paneConsultaDados); tabConsulta.add(paneConsultaTabela);
-        paneConsultaDados.add(lblId1); paneConsultaDados.add(edtId1);
-        paneConsultaDados.add(lblATxt); paneConsultaDados.add(lblId2); paneConsultaDados.add(edtId2);
-        paneConsultaDados.add(lblValorGe); paneConsultaDados.add(edtValorGe);
-        paneConsultaDados.add(lblValorLe); paneConsultaDados.add(edtValorLe);
-        paneConsultaDados.add(btnConsultar); paneConsultaDados.add(btnLimpar);
-        paneConsultaTabela.add(scrollConsulta);
-        tabs.addTab("Consulta", tabConsulta);
     }
 
     /** Posições fixas (frame 1500x850). */
@@ -381,6 +383,7 @@ public class VendaView extends JPanel {
         btnAlterar.addActionListener(e -> setOperacao("alterar"));
         btnGravar.addActionListener(e -> gravar());
         btnExcluir.addActionListener(e -> excluirSelecionada());
+        
         btnPrimeiro.addActionListener(e -> selecionarIndice(0));
         btnAnterior.addActionListener(e -> navegar(-1));
         btnProximo.addActionListener(e -> navegar(+1));
@@ -650,6 +653,7 @@ public class VendaView extends JPanel {
         String le  = edtValorLe.getText().trim().replace(",", ".");
 
         if (!id1.isEmpty()) cond.append("(vda_codigo >= ").append(id1).append(")");
+        
         if (!id2.isEmpty()){
             if (cond.length()>0) cond.append(" AND ");
             cond.append("(vda_codigo <= ").append(id2).append(")");
@@ -737,6 +741,7 @@ public class VendaView extends JPanel {
         limparTudo();
         edtVdaCodigo.setText("0");                 // mostra 0
         edtData.setText(LocalDate.now().toString());
+        tabs.setSelectedComponent(tabDados);
     }
 
 

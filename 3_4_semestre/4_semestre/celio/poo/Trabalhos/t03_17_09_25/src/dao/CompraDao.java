@@ -237,10 +237,12 @@ public class CompraDao {
     public List<CompraProdutoModel> listarIntes(int cpr) throws SQLException {
         System.out.println(" [CompraDao] executou -> listarItens");
         
-        final String sql = "SELECT cp.pro_codigo, p.pro_nome, p.pro_unidade, cp.cpr_qtde, cp.cpr_qtde, cp.cpr_preco, cp.cpr_desconto, cp.cpr_total "
+        
+        final String sql =
+                  "SELECT  cp.pro_codigo, p.pro_nome, p.pro_unidade, cp.cpr_qtde, cp.cpr_preco, cp.cpr_desconto, cp.cpr_total "
                 + " FROM compra_produto cp"
                 + " JOIN produto p USING (pro_codigo) "
-                + " WHERE cp.pro_codigo = ? "
+                + " WHERE cp.cpr_codigo = ? "
                 + " ORDER BY cp.pro_codigo ";
         
         List<CompraProdutoModel> lista = new ArrayList<>();

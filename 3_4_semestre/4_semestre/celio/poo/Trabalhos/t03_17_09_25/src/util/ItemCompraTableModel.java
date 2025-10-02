@@ -8,8 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
- * TableModel dos ITENS da COMPRA (usa CompraProdutoModel existente).
- * Colunas: cpr_codigo, pro_codigo, qtde, preco, total
+ * TableModel dos ITENS da COMPRA (usa CompraProdutoModel ).
  */
 public class ItemCompraTableModel extends AbstractTableModel {
     private final String[] colunas = { "Compra", "Cód Prod", "Qtde", "Preço", "Total" };
