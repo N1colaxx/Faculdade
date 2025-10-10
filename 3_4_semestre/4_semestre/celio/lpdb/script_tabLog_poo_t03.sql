@@ -465,6 +465,33 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- nova
+CREATE OR REPLACE FUNCTION trg_log_generic_del()
+RETURNS TRIGGER AS
+$$
+DECLARE
+    v_col  varchar;
+    v_old  varchar;
+BEGIN
+    -- Itera por todas as colunas da linha antiga
+    FOR v_col, v_old IN
+        SELECT col_name::varchar, col_val::varchar
+        FROM each(hstore(OLD)) AS e(col_name, col_val)
+    LOOP
+        PERFORM func_gravar_log(
+            'EXCLUSAO'::varchar,              
+            TG_TABLE_NAME::varchar,           
+            v_col,                            
+            v_old,                            
+            NULL::varchar                     
+        );
+    END LOOP;
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+
 
 -- CLIENTE
 CREATE TRIGGER after_delete_cliente

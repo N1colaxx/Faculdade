@@ -9,6 +9,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+
+/**
+ * Representa tabela cliente
+ */
+
 @Entity
 @Table(name = "CLIENTE")
 public class ClienteModel implements java.io.Serializable {

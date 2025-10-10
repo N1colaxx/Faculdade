@@ -9,6 +9,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 
+/**
+ * Representa tabela fornecedor
+ */
+
 @Entity
 @Table(name = "FORNECEDOR")
 public class FornecedorModel implements java.io.Serializable {

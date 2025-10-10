@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 /**
- * Representa uma forma de pagamento (tabela formapagto).
+ * Representa tabela formapagto
  */
 @Entity
 @Table(name = "FORMAPAGTO")
@@ -17,45 +17,50 @@ public class FormaPagtoModel implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FPG_CODIGO")
-    private int FPG_CODIGO;
+    private int fpg_codigo;
 
-    private String FPG_NOME;
-    private String FPG_ATIVO; // "S" / "N"
+    private String fpg_nome;
+    private String fpg_ativo; // "S" / "N"
 
     public FormaPagtoModel() {
     }
 
     public FormaPagtoModel(int FPG_CODIGO, String FPG_NOME, String FPG_ATIVO) {
-        this.FPG_CODIGO = FPG_CODIGO;
-        this.FPG_NOME = FPG_NOME;
-        this.FPG_ATIVO = FPG_ATIVO;
+        this.fpg_codigo = FPG_CODIGO;
+        this.fpg_nome = FPG_NOME;
+        this.fpg_ativo = FPG_ATIVO;
     }
 
+    /**
+     * GETTERS
+     */
     public int getFPG_CODIGO() {
-        return FPG_CODIGO;
+        return fpg_codigo;
     }
 
-    public void setFPG_CODIGO(int v) {
-        FPG_CODIGO = v;
-    }
-
-
+    ;
     @Column(name = "FPG_NOME", nullable = false, length = 80)
     public String getFPG_NOME() {
-        return FPG_NOME;
+        return fpg_nome;
+    }
+
+    @Column(name = "FPG_ATIVO", nullable = true, length = 1)
+    public String getFPG_ATIVO() {
+        return fpg_ativo;
+    }
+
+    /**
+     * SETTERS
+     */
+    public void setFPG_CODIGO(int v) {
+        fpg_codigo = v;
     }
 
     public void setFPG_NOME(String v) {
-        FPG_NOME = v;
-    }
-
-    
-    @Column(name = "FPG_ATIVO", nullable = true, length = 1)
-    public String getFPG_ATIVO() {
-        return FPG_ATIVO;
+        fpg_nome = v;
     }
 
     public void setFPG_ATIVO(String v) {
-        FPG_ATIVO = v;
+        fpg_ativo = v;
     }
 }

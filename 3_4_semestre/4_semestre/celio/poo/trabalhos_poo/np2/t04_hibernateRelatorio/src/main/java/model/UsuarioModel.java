@@ -7,6 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+
+/**
+ * Representa tabela usuario
+ */
+
 @Entity
 @Table(name = "USUARIO")
 public class UsuarioModel implements java.io.Serializable {

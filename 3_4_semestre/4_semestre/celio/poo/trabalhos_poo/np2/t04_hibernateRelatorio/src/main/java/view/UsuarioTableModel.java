@@ -42,7 +42,7 @@ public class UsuarioTableModel extends AbstractTableModel {
             case 2:
                 return objModel.getUSU_LOGIN();
             case 3:
-                return objModel.getUSU_ATIVO() == '1' ? "Sim" : "Não";               
+                return objModel.getUSU_ATIVO() == 1 ? "Sim" : "Não";               
             default:
                 return null;
         }

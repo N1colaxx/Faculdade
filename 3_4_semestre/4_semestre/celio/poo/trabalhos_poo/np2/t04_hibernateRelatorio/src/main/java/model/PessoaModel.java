@@ -12,6 +12,10 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Representa tabela pessoa
+ */
+
 @Entity
 @Table(name = "PESSOA")
 public class PessoaModel implements java.io.Serializable {
