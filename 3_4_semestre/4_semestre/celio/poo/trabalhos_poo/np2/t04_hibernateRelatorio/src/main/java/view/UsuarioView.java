@@ -9,10 +9,12 @@ import controller.UsuarioController;
 import model.UsuarioModel;
 
 public class UsuarioView extends JPanel {
+    
+    private UsuarioController ctrl;
 
     // Botões
     private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
-    private JButton btnNovo, btnAlterar, btnExcluir, btnGravar;
+    private JButton btnNovo, btnAlterar, btnExcluir, btnImprimir, btnGravar;
 
     // Campos – Dados do Cadastro
     private JLabel lblCodigo, lblNome, lblLogin, lblSenha, lblAtivo;
@@ -56,6 +58,8 @@ public class UsuarioView extends JPanel {
     }
 
     private void instanciar() {
+        ctrl = new UsuarioController();
+
         // Botões
         btnPrimeiro = new JButton("Primeiro");
         btnAnterior = new JButton("Anterior");
@@ -64,6 +68,7 @@ public class UsuarioView extends JPanel {
         btnNovo = new JButton("Novo");
         btnAlterar = new JButton("Alterar");
         btnExcluir = new JButton("Excluir");
+        btnImprimir = new JButton("Imprimir");
         btnGravar = new JButton("Gravar");
 
         // Título
@@ -146,6 +151,7 @@ public class UsuarioView extends JPanel {
         paneCabecario.add(btnNovo);
         paneCabecario.add(btnAlterar);
         paneCabecario.add(btnExcluir);
+        paneCabecario.add(btnImprimir);
         paneCabecario.add(btnGravar);
         add(paneCabecario);
 
@@ -198,6 +204,7 @@ public class UsuarioView extends JPanel {
         btnNovo.setBounds(430, 7, 90, 25);
         btnAlterar.setBounds(520, 7, 90, 25);
         btnExcluir.setBounds(610, 7, 90, 25);
+        btnImprimir.setBounds(745, 7, 90, 25);
         btnGravar.setBounds(835, 7, 90, 25);
 
         // Centro
@@ -274,12 +281,19 @@ public class UsuarioView extends JPanel {
         });
 
         btnAlterar.addActionListener(e -> setOperacao("alterar"));
-
+        
+        btnImprimir.addActionListener(e -> {                                            
+            Exception retorno = ctrl.imprimir();
+            if (retorno != null) {
+                JOptionPane.showMessageDialog(null, "Erro no Relatório de Usuários /n" + retorno.getMessage());
+            }
+        });
+                
         btnGravar.addActionListener(e -> {
             if (JOptionPane.showConfirmDialog(this, "Confirma Gravação deste Usuário ?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
                     UsuarioModel u = montarUsuarioDosCampos();
-                    UsuarioController ctrl = new UsuarioController();
+                    ctrl = new UsuarioController();
                     ctrl.gravar(u, getOperacao());
                     JOptionPane.showMessageDialog(this, "Dados Gravados com Sucesso");
                     consultar();
