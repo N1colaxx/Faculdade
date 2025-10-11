@@ -1,0 +1,73 @@
+package controller;
+
+import model.ClienteModel;
+import dao.ClienteDao;
+import relatorios.ClienteRelatorio;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
+public class ClienteController implements GenericController<ClienteModel> {
+
+    ClienteDao clienteDao;
+
+    public ClienteController() {
+        clienteDao = new ClienteDao();
+    }
+
+    @Override
+    public void incluir(ClienteModel obj) throws Exception {
+        clienteDao.incluir(obj);
+    }
+
+    @Override
+    public void alterar(ClienteModel obj) throws Exception {
+        clienteDao.alterar(obj);
+    }
+
+    @Override
+    public void excluir(ClienteModel obj) throws Exception {
+        clienteDao.excluir(obj);
+    }
+
+    @Override
+    public ArrayList<ClienteModel> consultar(String filtro) {
+        return clienteDao.consultar(filtro);
+    }
+
+    @Override
+    public void gravar(ClienteModel obj, String operacao) throws Exception {
+        if (operacao.equals("incluir")) {
+            incluir(obj);
+        } else {
+            alterar(obj);
+        }
+    }
+
+    @Override
+    public Exception imprimir() {
+        Exception retorno = null;
+        try {
+            ClienteRelatorio relatorio = new ClienteRelatorio();
+
+            Map<String, Object> parametros = new HashMap<>();
+
+            // Adicione parâmetros necessários se houver
+            // parametros.put("PARAMETRO_EXEMPLO", "valor");
+            List<ClienteModel> dados = consultar("");
+
+            relatorio.gerarRelatorio(dados);
+
+        } catch (Exception ex) {
+            retorno = ex;
+            ex.printStackTrace(); // Para debug
+        }
+
+        return retorno;
+    }
+
+}
+

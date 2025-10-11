@@ -27,7 +27,7 @@ public class PessoaModel implements java.io.Serializable {
     
 //    Join 1:N -> (Pessoa) | <==>  o|< (Cliente)
 //    Join 1:N -> (Pessoa) | <==>  o|< (Fornecedor)
-    @OneToMany (mappedBy = "pessoa") // ele acessa dentro da outra class onde tem -> PessoaModel PESSOA;
+    @OneToMany (mappedBy = "pessoa") // ele acessa dentro da outra class onde tem -> PessoaModel pessoa;
     private List<ClienteModel> clientes;
     
     @OneToMany (mappedBy = "pessoa")
@@ -35,7 +35,7 @@ public class PessoaModel implements java.io.Serializable {
     
 
     private String pes_nome;
-    private String pes_fantazia; // somente do fonecedor
+    private String pes_fantasia; // somente do fonecedor
     private String pes_fisica;
     private String pes_cpfcnpj;
     private String pes_rgie;
@@ -52,7 +52,7 @@ public class PessoaModel implements java.io.Serializable {
     private String pes_celular;
     private String pes_site;
     private String pes_email;
-    private String pes_ativo;
+    private Integer pes_ativo;
 
     public PessoaModel() {
 
@@ -62,7 +62,7 @@ public class PessoaModel implements java.io.Serializable {
     public PessoaModel(
             int PES_CODIGO, String PES_NOME, String PES_FISICA, String PES_CPFCNPJ,
             String PES_RGIE, LocalDate PES_CADASTRO, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
-            String PES_CIDADE, String PES_UF, String PES_CEP, String PES_CELULAR, String PES_SITE, String PES_EMAIL, String PES_ATIVO
+            String PES_CIDADE, String PES_UF, String PES_CEP, String PES_CELULAR, String PES_SITE, String PES_EMAIL, Integer PES_ATIVO
     ) {
         this.pes_codigo = PES_CODIGO;
         this.pes_nome = PES_NOME;
@@ -85,14 +85,14 @@ public class PessoaModel implements java.io.Serializable {
 
     // Construtor de Fornecedor
     public PessoaModel(
-            int PES_CODIGO, String PES_NOME, String PES_FANTAZIA, String PES_FISICA, String PES_CPFCNPJ,
+            int PES_CODIGO, String PES_NOME, String PES_FANTASIA, String PES_FISICA, String PES_CPFCNPJ,
             String PES_RGIE, LocalDate PES_CADASTRO, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
             String PES_CIDADE, String PES_UF, String PES_CEP, String PES_FONE1, String PES_FONE2,
-            String PES_CELULAR, String PES_SITE, String PES_EMAIL, String PES_ATIVO
+            String PES_CELULAR, String PES_SITE, String PES_EMAIL, Integer PES_ATIVO
     ) {
         this.pes_codigo = PES_CODIGO;
         this.pes_nome = PES_NOME;
-        this.pes_fantazia = PES_FANTAZIA;
+        this.pes_fantasia = PES_FANTASIA;
         this.pes_fisica = PES_FISICA;
         this.pes_cpfcnpj = PES_CPFCNPJ;
         this.pes_rgie = PES_RGIE;
@@ -133,9 +133,9 @@ public class PessoaModel implements java.io.Serializable {
     }
 
     
-    @Column(name = "PES_FANTAZIA", nullable = true, length = 80)
-    public String getPES_FANTAZIA() {
-        return pes_fantazia;
+    @Column(name = "PES_FANTASIA", nullable = true, length = 80)
+    public String getPES_FANTASIA() {
+        return pes_fantasia;
     }
 
     
@@ -238,7 +238,7 @@ public class PessoaModel implements java.io.Serializable {
 
     
     @Column(name = "PES_ATIVO", nullable = true, length = 1)
-    public String getPES_ATIVO() {
+    public Integer getPES_ATIVO() {
         return pes_ativo;
     }
 
@@ -262,8 +262,8 @@ public class PessoaModel implements java.io.Serializable {
         this.pes_nome = PES_NOME;
     }
 
-    public void setPES_FANTAZIA(String PES_FANTAZIA) {
-        this.pes_fantazia = PES_FANTAZIA;
+    public void setPES_FANTASIA(String PES_FANTASIA) {
+        this.pes_fantasia = PES_FANTASIA;
     }
 
     public void setPES_FISICA(String PES_FISICA) {
@@ -330,7 +330,7 @@ public class PessoaModel implements java.io.Serializable {
         this.pes_email = PES_EMAIL;
     }
 
-    public void setPES_ATIVO(String PES_ATIVO) {
+    public void setPES_ATIVO(Integer PES_ATIVO) {
         this.pes_ativo = PES_ATIVO;
     }
 

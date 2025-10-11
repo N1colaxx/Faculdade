@@ -14,7 +14,7 @@ public class AppView extends JFrame{
     private LoginView loginView;
     private MenuView menuView;
     // ItensCadastro
-//    private ClienteView clienteView;
+    private ClienteView clienteView;
 //    private FornecedorView fornecedorView;
     private ProdutoView produtoView;
     private FormapagtoView formapagtoView;
@@ -71,8 +71,8 @@ public class AppView extends JFrame{
                 System.out.println(" Menu");
                 
 //            // Cadastro
-//            clienteView = new ClienteView();
-//                System.out.println(" Cliente");
+            clienteView = new ClienteView();
+                System.out.println(" Cliente");
 //            fornecedorView = new FornecedorView();
 //                System.out.println(" Fronecedor");
             produtoView = new ProdutoView();
@@ -102,8 +102,8 @@ public class AppView extends JFrame{
             loginView.setPreferredSize(log);
             System.out.println(" Login");
                 
-//            AppUI.applyDefaultSize(clienteView);
-//            System.out.println(" Cliente");
+            AppUI.applyDefaultSize(clienteView);
+            System.out.println(" Cliente");
 //                
 //            AppUI.applyDefaultSize(fornecedorView);
 //            System.out.println(" Fornecedor");
@@ -143,8 +143,8 @@ public class AppView extends JFrame{
             System.out.println(" Login");
 
             // Cadastro
-//            contendPanel.add(clienteView, "Cliente");
-//            System.out.println(" Cliente");
+            contendPanel.add(clienteView, "Cliente");
+            System.out.println(" Cliente");
 //            
 //            contendPanel.add(fornecedorView, "Fornecedor");
 //            System.out.println(" Fornecedor");

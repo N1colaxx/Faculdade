@@ -21,7 +21,7 @@ public class ClienteModel implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cli_codigo")
-    private int cli_codigo;
+    private Integer cli_codigo;
     
     @ManyToOne
     @JoinColumn (name = "PES_CODIGO")
@@ -32,7 +32,7 @@ public class ClienteModel implements java.io.Serializable {
     public ClienteModel() {
     }
 
-    public ClienteModel(int cli_codigo, PessoaModel pessoa, double cli_limitecred) {
+    public ClienteModel(Integer cli_codigo, PessoaModel pessoa, double cli_limitecred) {
         this.cli_codigo = cli_codigo;
         this.pessoa = pessoa;
         this.cli_limitecred = cli_limitecred;
@@ -41,11 +41,11 @@ public class ClienteModel implements java.io.Serializable {
     /** 
      * GETTERS
      */
-    public int getcli_codigo() {
+    public Integer getCLI_CODIGO() {
         return cli_codigo;
     }
     
-    public PessoaModel getpessoa() {
+    public PessoaModel getPessoa_Cliente() {
         return pessoa;
     }
     
@@ -58,11 +58,11 @@ public class ClienteModel implements java.io.Serializable {
      * SETTERS
      */
     
-    public void setcli_codigo(int cli_codigo) {
+    public void setCLI_CODIGO(Integer cli_codigo) {
         this.cli_codigo = cli_codigo;
     }
     
-    public void setPES_CODIGO(PessoaModel pessoa) {
+    public void setPessoa_Cliente(PessoaModel pessoa) {
         this.pessoa = pessoa;
     }
     

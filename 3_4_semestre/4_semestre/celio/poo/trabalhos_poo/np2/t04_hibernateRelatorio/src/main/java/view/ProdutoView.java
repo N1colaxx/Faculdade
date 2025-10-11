@@ -567,7 +567,7 @@ public class ProdutoView extends JPanel {
 
     // Formata Double para exibição simples (sem casas desnecessárias)
     private static String fmtDou(Double v) {
-        if (v == null) return "";
+        if (v == null) return "0.0";
         if (v == v.longValue()) {
             // Se for número inteiro, remove casas decimais
             return String.format("%d", v.longValue());
