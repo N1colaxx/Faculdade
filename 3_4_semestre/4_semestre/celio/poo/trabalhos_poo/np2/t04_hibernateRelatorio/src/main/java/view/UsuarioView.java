@@ -288,6 +288,11 @@ public class UsuarioView extends JPanel {
         });
                 
         btnGravar.addActionListener(e -> {
+            if(getOperacao().equals("")) {
+                JOptionPane.showConfirmDialog(this,
+                        "Selecione uma OPERAÇÂO antes de gravar! ex: NOVO"
+                );
+            }
             if (JOptionPane.showConfirmDialog(this, "Confirma Gravação deste Usuário ?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
                     UsuarioModel u = montarUsuarioDosCampos();
@@ -295,6 +300,7 @@ public class UsuarioView extends JPanel {
                     ctrl.gravar(u, getOperacao());
                     JOptionPane.showMessageDialog(this, "Dados Gravados com Sucesso");
                     consultar();
+                    setOperacao("");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Erro na Gravação \n" + ex.getMessage());
                 }
@@ -306,7 +312,7 @@ public class UsuarioView extends JPanel {
             if (JOptionPane.showConfirmDialog(this, "Confirma Exclusão deste Registro ?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
                     UsuarioModel u = montarUsuarioDosCampos();
-                    UsuarioController ctrl = new UsuarioController();
+                    ctrl = new UsuarioController();
                     ctrl.excluir(u);
                     JOptionPane.showMessageDialog(this, "Registro Excluído com Sucesso");
                     consultar();
@@ -385,7 +391,9 @@ public class UsuarioView extends JPanel {
 
     private void consultar() {
         try {
-            UsuarioController ctrl = new UsuarioController();
+            setOperacao("");
+            
+            ctrl = new UsuarioController();
             lista = ctrl.consultar(filtroConsulta());
             if (lista == null) {
                 lista = new ArrayList<>();

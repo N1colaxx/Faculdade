@@ -4,16 +4,16 @@ import view.AppView;
 
 import javax.swing.*;
 
-public class App {
+public class AppT04 {
     
     private AppView appView;
     
-    public App() {
+    public AppT04() {
         appView = new AppView();
     }
     
     public static void main(String[] args) {
-        App obj_app = new App();
+        AppT04 obj_app = new AppT04();
     }
 
 }                                                                                       

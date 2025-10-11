@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,17 +24,8 @@ public class PessoaModel implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PES_CODIGO")
-    private int pes_codigo;
+    private Integer pes_codigo;
     
-//    Join 1:N -> (Pessoa) | <==>  o|< (Cliente)
-//    Join 1:N -> (Pessoa) | <==>  o|< (Fornecedor)
-    @OneToMany (mappedBy = "pessoa") // ele acessa dentro da outra class onde tem -> PessoaModel pessoa;
-    private List<ClienteModel> clientes;
-    
-    @OneToMany (mappedBy = "pessoa")
-    private List<FornecedorModel> fornecedores;
-    
-
     private String pes_nome;
     private String pes_fantasia; // somente do fonecedor
     private String pes_fisica;
@@ -60,7 +52,7 @@ public class PessoaModel implements java.io.Serializable {
 
     // Construtor de Cliente 
     public PessoaModel(
-            int PES_CODIGO, String PES_NOME, String PES_FISICA, String PES_CPFCNPJ,
+            Integer PES_CODIGO, String PES_NOME, String PES_FISICA, String PES_CPFCNPJ,
             String PES_RGIE, LocalDate PES_CADASTRO, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
             String PES_CIDADE, String PES_UF, String PES_CEP, String PES_CELULAR, String PES_SITE, String PES_EMAIL, Integer PES_ATIVO
     ) {
@@ -85,7 +77,7 @@ public class PessoaModel implements java.io.Serializable {
 
     // Construtor de Fornecedor
     public PessoaModel(
-            int PES_CODIGO, String PES_NOME, String PES_FANTASIA, String PES_FISICA, String PES_CPFCNPJ,
+            Integer PES_CODIGO, String PES_NOME, String PES_FANTASIA, String PES_FISICA, String PES_CPFCNPJ,
             String PES_RGIE, LocalDate PES_CADASTRO, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
             String PES_CIDADE, String PES_UF, String PES_CEP, String PES_FONE1, String PES_FONE2,
             String PES_CELULAR, String PES_SITE, String PES_EMAIL, Integer PES_ATIVO
@@ -112,20 +104,16 @@ public class PessoaModel implements java.io.Serializable {
         this.pes_ativo = PES_ATIVO;
     }
 
+
+
+    
     /**
      * GETTERS
      */
-    public int getPES_CODIGO() {
+    public Integer getPES_CODIGO() {
         return pes_codigo;
     }
     
-    public List<ClienteModel> getListClientes() {
-        return clientes;
-    }
-    
-    public List<FornecedorModel> getListFornecedores() {
-        return fornecedores;
-    }
 
     @Column(name = "PES_NOME", nullable = false, length = 80)
     public String getPES_NOME() {
@@ -245,17 +233,8 @@ public class PessoaModel implements java.io.Serializable {
     /**
      * SETTERS
      */ 
-    public void setPES_CODIGO(int PES_CODIGO) {
+    public void setPES_CODIGO(Integer PES_CODIGO) {
         this.pes_codigo = PES_CODIGO;
-    }
-    
-    
-    public void setListClientes(List<ClienteModel> listClientes) {
-        this.clientes = listClientes;
-    }
-    
-    public void setListFornecedores(List<FornecedorModel> lisFornecedores) {
-        this.fornecedores = lisFornecedores;
     }
 
     public void setPES_NOME(String PES_NOME) {

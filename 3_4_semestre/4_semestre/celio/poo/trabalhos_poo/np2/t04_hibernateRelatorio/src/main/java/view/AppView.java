@@ -204,7 +204,7 @@ public class AppView extends JFrame{
         System.out.println("\n Entrando em Menu...");
         
         setJMenuBar(menuView);
-        mostrarTela("Usuario");
+        mostrarTela("Cliente");
         System.out.println(" Entrando em Menu(SUCESSO)");
     }
     

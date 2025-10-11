@@ -2,6 +2,7 @@ package view;
 
 import controller.ClienteController;
 import model.ClienteModel;
+import model.PessoaModel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -10,7 +11,6 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import model.PessoaModel;
 
 public class ClienteView extends JPanel {
     
@@ -75,9 +75,11 @@ public class ClienteView extends JPanel {
         adicionar();
         posicionar();
         configurarAcoes();
+               
+        setOperacao("");
     }
 
-    //  esse metodo é para: criar/instanciar todos os componentes visuais (botões, labels, campos, combos, tabela, painéis).
+    
     private void instanciar() {
         // Botões topo
         btnPrimeiro = new JButton("Primeiro");
@@ -96,7 +98,7 @@ public class ClienteView extends JPanel {
         lblTitulo.setForeground(new Color(30,30,120));
 
         // Dados do Cliente (Pessoa + Cliente)
-        lblCliCodigo     = new JLabel("Código:");       edtCliCodigo     = new JTextField();
+        lblCliCodigo     = new JLabel("Código:");       edtCliCodigo     = new JTextField();        
         lblNome          = new JLabel("Nome:");         edtNome          = new JTextField(30);
         
         lblPesFisica     = new JLabel("Pessoa Física?");        
@@ -122,16 +124,16 @@ public class ClienteView extends JPanel {
                 "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"
         });
 
-        lblCEP           = new JLabel("CEP:");      edtCEP           = new JTextField(10);
-        lblCelular       = new JLabel("Celular:");  edtCelular       = new JTextField(16);
-        lblSite          = new JLabel("Site:");     edtSite          = new JTextField(30);
-        lblEmail         = new JLabel("E-mail:");   edtEmail         = new JTextField(30);
+        lblCEP           = new JLabel("CEP:");      edtCEP      = new JTextField(10);
+        lblCelular       = new JLabel("Celular:");  edtCelular  = new JTextField(16);
+        lblSite          = new JLabel("Site:");     edtSite     = new JTextField(30);
+        lblEmail         = new JLabel("E-mail:");   edtEmail    = new JTextField(30);
 
         lblAtivo         = new JLabel("Ativo:");    
         chkAtivo         = new JCheckBox(); 
         chkAtivo.setBackground(new Color(245,250,255));
 
-        lblLimiteCred    = new JLabel("Limite Crédito:");   edtLimiteCred    = new JTextField(12);
+        lblLimiteCred    = new JLabel("Limite Crédito:");   edtLimiteCred = new JTextField(12);
         
         // Consulta (filtros)
         lblId1                = new JLabel("ID");
@@ -170,7 +172,7 @@ public class ClienteView extends JPanel {
                 mostrar(lista.get(sel));
             }
         });
-
+        
         // Contêineres
         paneCabecario      = new JPanel(null);
         paneCentro         = new JPanel(null);
@@ -183,7 +185,6 @@ public class ClienteView extends JPanel {
         paneConsultaTabela = new JPanel(null);
     }
 
-    //  esse metodo é para: adicionar todos os componentes instanciados aos painéis e configurar a aba de consulta/tabela.
     private void adicionar() {
         // Cabeçalho
         paneCabecario.add(btnPrimeiro); paneCabecario.add(btnAnterior);
@@ -239,7 +240,6 @@ public class ClienteView extends JPanel {
         paneCentro.add(paneDadosConsulta);
     }
 
-    //  esse metodo é para: posicionar todos os componentes na tela usando coordenadas absolutas (layout fixo).
     private void posicionar() {
         // Cabeçalho
         paneCabecario.setBounds(10, 10, 1470, 40);
@@ -309,12 +309,12 @@ public class ClienteView extends JPanel {
         btnLimpar.setBounds(1190, 10, 100, 25);
 
         // Tabela
-        paneConsultaTabela.setBounds(10, 130, 1440, 300);
-        scrollTabela.setBounds(0, 0, 1440, 300);
+        paneConsultaTabela.setBounds(10, 120, 1440, 245);
+        scrollTabela.setBounds(0, 0, 1440, 245);
         paneConsultaTabela.add(scrollTabela);
+
     }
 
-    //  esse metodo é para: declarar e registrar todas as ações (listeners) dos botões da tela.
     private void configurarAcoes() {
         btnPrimeiro.addActionListener(e -> {
             if (lista == null || lista.isEmpty()) {
@@ -350,6 +350,7 @@ public class ClienteView extends JPanel {
             setOperacao("incluir");
             chkAtivo.setSelected(true);
             edtNome.requestFocusInWindow();
+   
         });
 
         btnAlterar.addActionListener(e -> setOperacao("alterar"));
@@ -362,6 +363,11 @@ public class ClienteView extends JPanel {
         });
         
         btnGravar.addActionListener(e -> {
+            if(getOperacao().equals("")) {
+                JOptionPane.showConfirmDialog(this,
+                        "Selecione uma OPERAÇÂO antes de gravar! ex: NOVO"
+                );
+            }
             if (JOptionPane.showConfirmDialog(this,
                     "Confirma Gravação deste Cliente ?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
@@ -370,6 +376,7 @@ public class ClienteView extends JPanel {
                     ctrl.gravar(c, getOperacao());
                     JOptionPane.showMessageDialog(this, "Dados Gravados com Sucesso");
                     consultar(); // recarrega tabela
+                    setOperacao("");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Erro na Gravação \n" + ex.getMessage());
                 }
@@ -413,7 +420,8 @@ public class ClienteView extends JPanel {
     }
 
     private void limparCampos() {
-        edtCliCodigo.setText("0");
+        
+        edtCliCodigo.setText("0");                
         edtNome.setText("");
         chkPesFisica.setSelected(true);
         edtCPFCNPJ.setText("");
@@ -433,11 +441,10 @@ public class ClienteView extends JPanel {
         edtLimiteCred.setText("");
     }
 
-    //  esse metodo é para: mostrar nos campos da tela os dados do ClienteModel selecionado.
     private void mostrar(ClienteModel c) {
         PessoaModel pessoa = c.getPessoa_Cliente();
         
-        edtCliCodigo.setText(String.valueOf(pessoa.getPES_CODIGO())); // chave da pessoa
+        edtCliCodigo.setText(String.valueOf(c.getCLI_CODIGO()));
         edtNome.setText(pessoa.getPES_NOME());
         chkPesFisica.setSelected("1".equalsIgnoreCase(pessoa.getPES_FISICA()));
         edtCPFCNPJ.setText(pessoa.getPES_CPFCNPJ());
@@ -458,17 +465,22 @@ public class ClienteView extends JPanel {
         edtLimiteCred.setText(c.getCLI_LIMITECRED() == 0.0 ? String.valueOf("0.0") : String.valueOf(c.getCLI_LIMITECRED()));
     }
 
-    //  esse metodo é para: ler os valores dos campos da tela e montar um ClienteModel (usado para gravar/alterar/excluir).
     private ClienteModel montarClienteDosCampos() {
         PessoaModel pessoa = new PessoaModel();
         ClienteModel c = new ClienteModel();
-        
+           
         // Código (pes_codigo)
-        int cod = 0;
-        try { cod = Integer.parseInt(edtCliCodigo.getText().trim()); } catch (Exception ignored) {}
-        pessoa.setPES_CODIGO(cod);
-
+        Integer cod = null; 
+        if (getOperacao().equals("alterar")) {
+            try {
+                cod = Integer.valueOf(edtCliCodigo.getText().trim());
+                System.out.println("\n [ClienteView] montarClienteDosCampos -> pes_cod = " + cod + "\n");
+            } catch (NumberFormatException e) {
+            }
+        }
+        
         // Pessoa
+        pessoa.setPES_CODIGO(cod);
         pessoa.setPES_NOME(edtNome.getText().trim());
         pessoa.setPES_FISICA(chkPesFisica.isSelected() ? "1" : "0"); 
         pessoa.setPES_CPFCNPJ(edtCPFCNPJ.getText().trim());
@@ -493,7 +505,6 @@ public class ClienteView extends JPanel {
         return c;
     }
 
-    //  esse metodo é para: montar a string de filtro (WHERE) com base nos campos da aba Consulta.
     private String filtroConsulta() {
         String cond = "";
 
@@ -525,6 +536,8 @@ public class ClienteView extends JPanel {
 
     private void consultar() {
         try {
+            setOperacao("");
+            
             String cond = filtroConsulta();
             ctrl = new ClienteController();
             lista = ctrl.consultar(cond); // retorna ArrayList<ClienteModel>
@@ -533,7 +546,7 @@ public class ClienteView extends JPanel {
             tableModel = new ClienteTableModel(lista);
             tabela.setModel(tableModel);
             tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+            
             if (!lista.isEmpty()) {
                 mostrarRegistro(0);
             } else {
@@ -547,6 +560,7 @@ public class ClienteView extends JPanel {
 
     //  esse metodo é para: navegar e exibir um registro específico da lista, sincronizando a seleção da tabela (view x model).
     private void mostrarRegistro(int registro) {
+        setOperacao("");
         if (lista == null || lista.isEmpty()) return;
         if (registro < 0 || registro >= lista.size()) return;
 
@@ -558,7 +572,6 @@ public class ClienteView extends JPanel {
 
     // ===== Utils =====
 
-    //  esse metodo é para: converter String no formato yyyy-MM-dd em LocalDate (retorna null se inválida).
     private static LocalDate parseDate(String s) {
         try {
             if (s == null || s.isEmpty()) return null;
@@ -569,12 +582,10 @@ public class ClienteView extends JPanel {
         }
     }
 
-    //  esse metodo é para: formatar LocalDate em String yyyy-MM-dd (ou vazio se null).
     private static String fmtDate(LocalDate d) {
         return d == null ? "" : d.format(DF);
     }
 
-    //  esse metodo é para: converter String para double aceitando vírgula como separador decimal (retorna 0.0 se inválido).
     private static double parseDouble(String s) {
         try {
             if (s == null) return 0.0;

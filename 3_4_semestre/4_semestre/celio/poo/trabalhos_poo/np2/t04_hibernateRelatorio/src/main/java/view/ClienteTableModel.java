@@ -8,7 +8,7 @@ import model.ClienteModel;
 public class ClienteTableModel extends AbstractTableModel {
 
     private ArrayList<ClienteModel> linhas;
-    String[] colunas = {"Código", "Nome", "Limiete Credito"};
+    String[] colunas = {"Código Cliente", "Nome", "Limiete Credito"};
 
     public ClienteTableModel(ArrayList<ClienteModel> lista) {
         linhas = lista;

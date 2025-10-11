@@ -46,6 +46,12 @@ public class ClienteController implements GenericController<ClienteModel> {
             alterar(obj);
         }
     }
+    
+    public ClienteModel buscarPorCodigo(Integer cod) throws Exception {
+        ClienteDao dao = new ClienteDao();
+        return dao.get(cod); 
+    }
+
 
     @Override
     public Exception imprimir() {
