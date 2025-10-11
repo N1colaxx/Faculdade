@@ -16,8 +16,8 @@ public class AppView extends JFrame{
     // ItensCadastro
 //    private ClienteView clienteView;
 //    private FornecedorView fornecedorView;
-//    private ProdutoView produtoView;
-//    private FormaPagamentoView formaPagaView;
+    private ProdutoView produtoView;
+    private FormapagtoView formapagtoView;
     private UsuarioView usuario1View;
     // ItensMovimentos
 //    private VendaView vendaView;
@@ -75,10 +75,10 @@ public class AppView extends JFrame{
 //                System.out.println(" Cliente");
 //            fornecedorView = new FornecedorView();
 //                System.out.println(" Fronecedor");
-//            produtoView = new ProdutoView();
-//                System.out.println(" Produto");
-//            formaPagaView = new FormaPagamentoView();
-//                System.out.println(" FormaPaga");
+            produtoView = new ProdutoView();
+                System.out.println(" Produto");
+            formapagtoView = new FormapagtoView();
+                System.out.println(" Formapagto");
             usuario1View = new UsuarioView();
                 System.out.println(" Usuario");
             // Movimentos
@@ -108,12 +108,12 @@ public class AppView extends JFrame{
 //            AppUI.applyDefaultSize(fornecedorView);
 //            System.out.println(" Fornecedor");
 //                
-//            AppUI.applyDefaultSize(produtoView);
-//            System.out.println(" Produto");
+            AppUI.applyDefaultSize(produtoView);
+            System.out.println(" Produto");
 //                
-//            forpag = new Dimension(1000, 850);
-//            AppUI.applySize(formaPagaView, forpag);
-//            System.out.println(" FormaPaga");
+            forpag = new Dimension(1000, 850);
+            AppUI.applySize(formapagtoView, forpag);
+            System.out.println(" Formapagto");
                 
             usu = new Dimension(950, 650);
             AppUI.applySize(usuario1View, usu);
@@ -149,11 +149,11 @@ public class AppView extends JFrame{
 //            contendPanel.add(fornecedorView, "Fornecedor");
 //            System.out.println(" Fornecedor");
 //            
-//            contendPanel.add(produtoView, "Produto");
-//            System.out.println(" Produto");
+            contendPanel.add(produtoView, "Produto");
+            System.out.println(" Produto");
 //            
-//            contendPanel.add(formaPagaView, "FormaPaga");
-//            System.out.println(" FormaPaga");
+            contendPanel.add(formapagtoView, "Formapagto");
+            System.out.println(" Formapagto");
             
             contendPanel.add(usuario1View, "Usuario");
             System.out.println(" Usuario");

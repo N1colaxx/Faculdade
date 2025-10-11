@@ -15,11 +15,11 @@
         <property name="hibernate.current_session_context_class">jta</property>
 
         <mapping class="model.UsuarioModel"/>
-<!--        <mapping class="model.PessoaModel"/>
+        <mapping class="model.PessoaModel"/>
         <mapping class="model.ClienteModel"/>
         <mapping class="model.FornecedorModel"/>
         <mapping class="model.ProdutoModel"/>
-        <mapping class="model.FormaPagtoModel"/>-->
+        <mapping class="model.FormapagtoModel"/>
         
     </session-factory>
 </hibernate-configuration>

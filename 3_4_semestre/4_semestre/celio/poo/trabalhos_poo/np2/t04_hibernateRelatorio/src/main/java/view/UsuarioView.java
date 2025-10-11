@@ -53,8 +53,6 @@ public class UsuarioView extends JPanel {
         adicionar();
         posicionar();
         configurarAcoes();
-
-        consultar();
     }
 
     private void instanciar() {

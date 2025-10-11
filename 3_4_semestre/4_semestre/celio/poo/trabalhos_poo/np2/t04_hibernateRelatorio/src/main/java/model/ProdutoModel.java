@@ -20,7 +20,8 @@ public class ProdutoModel implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRO_CODIGO")
-    private int pro_codigo;
+    
+    private Integer pro_codigo;
     private String pro_nome;
     private double  pro_estoque;
     private String pro_unidade;
@@ -33,14 +34,14 @@ public class ProdutoModel implements java.io.Serializable {
     private double  pro_peso;
     private LocalDate pro_cadastro;
     private String pro_obs;
-    private String pro_ativo;
+    private int pro_ativo;
 
     public ProdutoModel() {
     }
 
-    public ProdutoModel(int PRO_CODIGO, String PRO_NOME, double  PRO_ESTOQUE, String PRO_UNIDADE, double  PRO_PRECO, 
+    public ProdutoModel(Integer PRO_CODIGO, String PRO_NOME, double  PRO_ESTOQUE, String PRO_UNIDADE, double  PRO_PRECO, 
             double  PRO_CUSTO, double  PRO_ATACADO, double  PRO_MIN, double  PRO_MAX, double  PRO_EMBALAGEM,
-            double  PRO_PESO, LocalDate PRO_CADASTRO, String PRO_OBS, String PRO_ATIVO) {
+            double  PRO_PESO, LocalDate PRO_CADASTRO, String PRO_OBS, int PRO_ATIVO) {
         this.pro_codigo = PRO_CODIGO;
         this.pro_nome = PRO_NOME;
         this.pro_estoque = PRO_ESTOQUE;
@@ -60,7 +61,7 @@ public class ProdutoModel implements java.io.Serializable {
     /** 
      * GETTERS
      */
-    public int getPRO_CODIGO() {
+    public Integer getPRO_CODIGO() {
         return pro_codigo;
     }
     
@@ -136,14 +137,14 @@ public class ProdutoModel implements java.io.Serializable {
 
     
     @Column(name = "PRO_ATIVO", nullable = true, length = 1)
-    public String getPRO_ATIVO() {
+    public int getPRO_ATIVO() {
         return pro_ativo;
     }
 
     /**
      *  SETTERS
      */
-    public void setPRO_CODIGO(int PRO_CODIGO) {
+    public void setPRO_CODIGO(Integer PRO_CODIGO) {
         this.pro_codigo = PRO_CODIGO;
     }
     
@@ -197,7 +198,7 @@ public class ProdutoModel implements java.io.Serializable {
         this.pro_obs = PRO_OBS;
     }
 
-    public void setPRO_ATIVO(String PRO_ATIVO) {
+    public void setPRO_ATIVO(int PRO_ATIVO) {
         this.pro_ativo = PRO_ATIVO;
     }
 }
