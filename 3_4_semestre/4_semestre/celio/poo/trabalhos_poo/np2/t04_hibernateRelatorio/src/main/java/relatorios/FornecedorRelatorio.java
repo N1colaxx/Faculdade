@@ -1,23 +1,26 @@
 package relatorios;
 
+
+import model.FornecedorModel;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import java.util.List;
-import model.UsuarioModel;
 
-public class UsuarioRelatorio {
 
-    private String nomeArquivo = "relatorioUsuario.pdf";
-    private String titulo = "Relatório de Usuários";
+public class FornecedorRelatorio {
+   
+    private String nomeArquivo = "relatorioFornecedor.pdf";
+    private String titulo = "Relatório de Fornecedor";
     private PDDocument doc;
     private PDPage pagina;
     private PDPageContentStream cs;
     private int numeroPagina = 0;
 
-    public void gerarRelatorio(List<UsuarioModel> dados) {
+    public void gerarRelatorio(List<FornecedorModel> dados) {
         try {
             doc = new PDDocument();
             gerarPagina();
@@ -63,7 +66,7 @@ public class UsuarioRelatorio {
         cs.endText();
     }
 
-    private void gerarTabela(List<UsuarioModel> dados) throws Exception {
+    private void gerarTabela(List<FornecedorModel> dados) throws Exception {
         int y = 750; // posição vertical inicial
 
         // Cabeçalho da tabela
@@ -71,15 +74,15 @@ public class UsuarioRelatorio {
         cs.setFont(PDType1Font.COURIER_BOLD, 12);
         cs.newLineAtOffset(50, y);
 
-        String cabecalho = String.format("%-10s %-50s %-10s",
+        String cabecalho = String.format("%-10s %-30s %-40s",
                 "Código",
                 "Nome",
-                "Status");
+                "Ativo");
         cs.showText(cabecalho);
         cs.endText();
 
         cs.setFont(PDType1Font.COURIER, 12);
-        for (UsuarioModel objModel : dados) {
+        for (FornecedorModel objModel : dados) {
             y -= 18; // espaço entre linhas
 
             // Se chegou no final da página, cria nova página
@@ -91,12 +94,19 @@ public class UsuarioRelatorio {
             }
             cs.beginText();
             cs.newLineAtOffset(50, y);
+            
+            String nomePessoa = objModel.getPESSOA_FORNECEDOR().getPES_NOME();
+            
+            // Limitar o nome a 50 caracteres para não quebrar o layout
+            if (nomePessoa.length() > 48) {
+                nomePessoa = nomePessoa.substring(0, 48) + "...";
+            }
 
             // String formatada com os dados para impressão
             String linha = String.format("%-10d %-50s %-10s",
-                    objModel.getUSU_CODIGO(),
-                    objModel.getUSU_NOME(),
-                    objModel.getUSU_ATIVO() == 1 ? "Ativo" : "Inativo"
+                    objModel.getFOR_CODIGO(),
+                    objModel.getPESSOA_FORNECEDOR().getPES_NOME(),
+                    objModel.getPESSOA_FORNECEDOR().getPES_ATIVO() == 1 ? "Ativo" : "Inativo"
             );
 
             cs.showText(linha);
@@ -105,3 +115,5 @@ public class UsuarioRelatorio {
     }
 
 }
+
+

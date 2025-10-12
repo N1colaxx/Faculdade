@@ -1,5 +1,6 @@
 package model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,10 +21,10 @@ public class FornecedorModel implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "FOR_CODIGO")
-    private int for_codigo;
+    private Integer for_codigo;
 
 //  JOIN com pessoa -> pessoa 1:N fornecedor
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "PES_CODIGO")
     private PessoaModel pessoa;
 
@@ -32,7 +33,7 @@ public class FornecedorModel implements java.io.Serializable {
     public FornecedorModel() {
     }
 
-    public FornecedorModel(int for_codigo, PessoaModel pessoa, String for_contato) {
+    public FornecedorModel(Integer for_codigo, PessoaModel pessoa, String for_contato) {
         this.for_codigo = for_codigo;
         this.pessoa = pessoa;
         this.for_contato = for_contato;
@@ -41,11 +42,11 @@ public class FornecedorModel implements java.io.Serializable {
     /**
      * GETTERS
      */
-    public int getFOR_CODIGO() {
+    public Integer getFOR_CODIGO() {
         return for_codigo;
     }
 
-    public PessoaModel getPESSOA() {
+    public PessoaModel getPESSOA_FORNECEDOR() {
         return pessoa;
     }
 
@@ -57,11 +58,11 @@ public class FornecedorModel implements java.io.Serializable {
     /**
      * SETTERS
      */
-    public void setFOR_CODIGO(int for_codigo) {
+    public void setFOR_CODIGO(Integer for_codigo) {
         this.for_codigo = for_codigo;
     }
 
-    public void setPES_CODIGO(PessoaModel pessoa) {
+    public void setPESSOA_FORNECEDOR(PessoaModel pessoa) {
         this.pessoa = pessoa;
     }
 

@@ -10,12 +10,17 @@ public class LoginView extends JPanel {
     private JPasswordField edtSenha;
     private JButton btnEntrar;
     private GridBagConstraints gbc;
+    private String emailLogado;
+    private String senhaLogado;
+
 
     public LoginView() {
         setLayout(new GridBagLayout());
         instanciar();
         cfgPane();
         adicionar();
+        
+        emailLogado = null;
     }
 
     private void instanciar() {
@@ -87,7 +92,7 @@ public class LoginView extends JPanel {
         add(btnEntrar, gbc);
     }
     
-    // lógica de login (controller)
+    // lógica de login 
     public void setOnLogin(java.util.function.BiConsumer<String,String> handler) {
         btnEntrar.addActionListener(e -> {
             // Validação simples no formulário
@@ -109,6 +114,7 @@ public class LoginView extends JPanel {
                 return;
             }
 
+            emailLogado = email;
             // Se passou na validação da View, chama o handler (controller)
             handler.accept(email, senha);
         });
@@ -120,6 +126,5 @@ public class LoginView extends JPanel {
     public JButton getBtnEntrar(){ return btnEntrar; }
     public String getEmail() { return edtEmail.getText().trim(); }
     public String getSenha() { return new String(edtSenha.getPassword()); }
-
-
+    public String gerUserLogado () { return emailLogado; }
 }

@@ -73,6 +73,8 @@ public class ProdutoView extends JPanel {
         adicionar();
         posicionar();
         configurarAcoes();
+        
+        ctrl = new ProdutoController();
     }
 
     //  instancia todos os componentes visuais (labels, inputs, painéis, tabela)
@@ -362,7 +364,6 @@ public class ProdutoView extends JPanel {
                     "Confirma Gravação deste Produto ?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
                     ProdutoModel p = montarProdutoDosCampos();
-                    ctrl = new ProdutoController();
                     ctrl.gravar(p, getOperacao());
                     JOptionPane.showMessageDialog(this, "Dados Gravados com Sucesso");
                     consultar();
@@ -378,7 +379,6 @@ public class ProdutoView extends JPanel {
                     "Confirma Exclusão deste Registro ?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
                     ProdutoModel p = montarProdutoDosCampos();
-                    ctrl = new ProdutoController();
                     ctrl.excluir(p);
                     JOptionPane.showMessageDialog(this, "Registro Excluído com Sucesso");
                     consultar();

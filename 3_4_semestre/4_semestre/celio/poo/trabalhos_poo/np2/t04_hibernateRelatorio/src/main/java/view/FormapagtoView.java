@@ -57,6 +57,9 @@ public class FormapagtoView extends JPanel {
         instanciar();
         adicionar();
         posicionar();
+        
+        ctrl = new FormapagtoController();
+        
         configurarAcoes();
     }
 
@@ -139,7 +142,8 @@ public class FormapagtoView extends JPanel {
         paneCabecario.add(btnPrimeiro); paneCabecario.add(btnAnterior);
         paneCabecario.add(btnProximo);  paneCabecario.add(btnUltimo);
         paneCabecario.add(btnNovo);     paneCabecario.add(btnAlterar);
-        paneCabecario.add(btnExcluir);  paneCabecario.add(btnGravar);
+        paneCabecario.add(btnExcluir);  paneCabecario.add(btnImprimir);
+        paneCabecario.add(btnGravar);
         add(paneCabecario);
 
         // Centro
@@ -178,8 +182,8 @@ public class FormapagtoView extends JPanel {
         btnNovo    .setBounds(430, 7, 90, 25);
         btnAlterar .setBounds(520, 7, 90, 25);
         btnExcluir .setBounds(610, 7, 90, 25);
-        btnImprimir  .setBounds(845, 7, 90, 25);
-        btnGravar  .setBounds(835, 7, 90, 25);
+        btnImprimir  .setBounds(770, 7, 90, 25);
+        btnGravar  .setBounds(870, 7, 90, 25);
 
         // Centro
         paneCentro.setBounds(10, 60, 970, 770);
@@ -263,7 +267,6 @@ public class FormapagtoView extends JPanel {
                     "Confirma Gravação desta Forma de Pagamento ?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
                     FormapagtoModel f = montarFormapagtoDosCampos();
-                    ctrl = new FormapagtoController();
                     ctrl.gravar(f, getOperacao());
                     JOptionPane.showMessageDialog(this, "Dados Gravados com Sucesso");
                     consultar();
@@ -279,7 +282,6 @@ public class FormapagtoView extends JPanel {
                     "Confirma Exclusão desta Forma de Pagamento ?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
                     FormapagtoModel f = montarFormapagtoDosCampos();
-                    ctrl = new FormapagtoController();
                     ctrl.excluir(f);
                     JOptionPane.showMessageDialog(this, "Registro Excluído com Sucesso");
                     consultar();
@@ -351,7 +353,6 @@ public class FormapagtoView extends JPanel {
     private void consultar() {
         try {
             String cond = filtroConsulta();
-            ctrl = new FormapagtoController();
             lista = ctrl.consultar(cond);
             if (lista == null) lista = new ArrayList<>();
 

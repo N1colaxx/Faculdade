@@ -15,7 +15,7 @@ public class AppView extends JFrame{
     private MenuView menuView;
     // ItensCadastro
     private ClienteView clienteView;
-//    private FornecedorView fornecedorView;
+    private FornecedorView fornecedorView;
     private ProdutoView produtoView;
     private FormapagtoView formapagtoView;
     private UsuarioView usuario1View;
@@ -70,11 +70,11 @@ public class AppView extends JFrame{
             menuView = new MenuView();
                 System.out.println(" Menu");
                 
-//            // Cadastro
+            // Cadastro
             clienteView = new ClienteView();
                 System.out.println(" Cliente");
-//            fornecedorView = new FornecedorView();
-//                System.out.println(" Fronecedor");
+            fornecedorView = new FornecedorView();
+                System.out.println(" Fronecedor");
             produtoView = new ProdutoView();
                 System.out.println(" Produto");
             formapagtoView = new FormapagtoView();
@@ -104,13 +104,13 @@ public class AppView extends JFrame{
                 
             AppUI.applyDefaultSize(clienteView);
             System.out.println(" Cliente");
-//                
-//            AppUI.applyDefaultSize(fornecedorView);
-//            System.out.println(" Fornecedor");
-//                
+                
+            AppUI.applyDefaultSize(fornecedorView);
+            System.out.println(" Fornecedor");
+                
             AppUI.applyDefaultSize(produtoView);
             System.out.println(" Produto");
-//                
+
             forpag = new Dimension(1000, 850);
             AppUI.applySize(formapagtoView, forpag);
             System.out.println(" Formapagto");
@@ -145,13 +145,13 @@ public class AppView extends JFrame{
             // Cadastro
             contendPanel.add(clienteView, "Cliente");
             System.out.println(" Cliente");
-//            
-//            contendPanel.add(fornecedorView, "Fornecedor");
-//            System.out.println(" Fornecedor");
-//            
+          
+            contendPanel.add(fornecedorView, "Fornecedor");
+            System.out.println(" Fornecedor");
+          
             contendPanel.add(produtoView, "Produto");
             System.out.println(" Produto");
-//            
+          
             contendPanel.add(formapagtoView, "Formapagto");
             System.out.println(" Formapagto");
             
@@ -204,7 +204,7 @@ public class AppView extends JFrame{
         System.out.println("\n Entrando em Menu...");
         
         setJMenuBar(menuView);
-        mostrarTela("Cliente");
+        mostrarTela("Fornecedor");
         System.out.println(" Entrando em Menu(SUCESSO)");
     }
     

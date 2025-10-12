@@ -4,6 +4,7 @@ import controller.ClienteController;
 import model.ClienteModel;
 import model.PessoaModel;
 import util.UtilsUI;
+import view.LoginView;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 public class ClienteView extends JPanel {
     
     private ClienteController ctrl = null;
-    private ClienteModel clienteAtual = null;
-    private LocalDate dataFiltroConsulta = null;
+    private ClienteModel clienteAtual;
+    private LocalDate dataFiltroConsulta;
     
     // Botões (cabeçalho)
     private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
@@ -76,7 +77,9 @@ public class ClienteView extends JPanel {
                
         setOperacao("");
         ctrl = new ClienteController();
-                
+        clienteAtual = null;
+        dataFiltroConsulta = null;
+        
         configurarAcoes();
     }
 
