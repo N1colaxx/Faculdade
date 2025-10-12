@@ -84,30 +84,7 @@ public class VendaDao {
     }
 
     // consulta a tab VENDA_PRODUTO
-    public List<Object[]> consultarVendaProduto(String cond) throws SQLException {
-
-        List<Object[]> lista = new ArrayList<>();
-
-        String sql = "SELECT vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_total FROM venda_produto";
-
-        if (cond != null && !cond.trim().isEmpty()) {
-            sql += " WHERE " + cond;
-        }
-
-        try (PreparedStatement ps = conexao.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                lista.add(new Object[]{
-                    rs.getInt("vda_codigo"),
-                    rs.getInt("pro_codigo"),
-                    rs.getDouble("vep_qtde"),
-                    rs.getDouble("vep_preco"),
-                    rs.getDouble("vep_total")
-                });
-            }
-        }
-        return lista;
-    }
-
+  
     public void excluir(VendaModel v) throws SQLException {
         boolean auto = conexao.getAutoCommit();
         
@@ -169,6 +146,33 @@ public class VendaDao {
         }
     }
 
+    /**
+     * tab Venda_Produto
+     */
+    public List<Object[]> consultarVendaProduto(String cond) throws SQLException {
+
+        List<Object[]> lista = new ArrayList<>();
+
+        String sql = "SELECT vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_total FROM venda_produto";
+
+        if (cond != null && !cond.trim().isEmpty()) {
+            sql += " WHERE " + cond;
+        }
+
+        try (PreparedStatement ps = conexao.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                lista.add(new Object[]{
+                    rs.getInt("vda_codigo"),
+                    rs.getInt("pro_codigo"),
+                    rs.getDouble("vep_qtde"),
+                    rs.getDouble("vep_preco"),
+                    rs.getDouble("vep_total")
+                });
+            }
+        }
+        return lista;
+    }
+
     private void excluirItens(int vdaCodigo) throws SQLException {
         String sql = "DELETE FROM venda_produto WHERE vda_codigo = ?";
         
@@ -177,16 +181,6 @@ public class VendaDao {
             ps.executeUpdate();
         }
     }
-
-    private void excluirPgtos(int vdaCodigo) throws SQLException {
-        String sql = "DELETE FROM venda_pagto WHERE vda_codigo = ?";
-        
-        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
-            ps.setInt(1, vdaCodigo);
-            ps.executeUpdate();
-        }
-    }
-
     private void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws SQLException {
         String sql = "INSERT INTO venda_produto (vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_desconto, vep_total) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -205,6 +199,19 @@ public class VendaDao {
         }
     }
 
+    
+    /**
+     * VendaPagato
+     */
+    private void excluirPgtos(int vdaCodigo) throws SQLException {
+        String sql = "DELETE FROM venda_pagto WHERE vda_codigo = ?";
+        
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setInt(1, vdaCodigo);
+            ps.executeUpdate();
+        }
+    }
+ 
     private void inserirPgtos(int vdaCodigo, ArrayList<VendaPagtoModel> pgtos) throws SQLException {
         String sql = "INSERT INTO venda_pagto (vda_codigo, fpg_codigo, vdp_valor) VALUES (?, ?, ?)";
         try (PreparedStatement ps = conexao.prepareStatement(sql)) {

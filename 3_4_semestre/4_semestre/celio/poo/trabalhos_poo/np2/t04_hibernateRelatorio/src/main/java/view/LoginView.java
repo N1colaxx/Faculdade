@@ -11,9 +11,7 @@ public class LoginView extends JPanel {
     private JButton btnEntrar;
     private GridBagConstraints gbc;
     private String emailLogado;
-    private String senhaLogado;
-
-
+    
     public LoginView() {
         setLayout(new GridBagLayout());
         instanciar();
