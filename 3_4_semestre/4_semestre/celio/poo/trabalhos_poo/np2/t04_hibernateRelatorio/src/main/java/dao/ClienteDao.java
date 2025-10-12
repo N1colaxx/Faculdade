@@ -16,10 +16,9 @@ public class ClienteDao implements GenericDao<ClienteModel> {
     @Override
     public void incluir(ClienteModel objModel) throws Exception {
         System.out.println("\n [ClienteDao] INCLUIR iniciado \n");
-        
-        Integer cod_pessoa = objModel.getPessoa_Cliente().getPES_CODIGO();
-        System.out.println(" [ClienteDao] void INCLUIR pes_codigo = " + cod_pessoa + " \n");
-            
+        System.out.println(" pes_codigo = " + objModel.getPessoa_Cliente().getPES_CODIGO());
+        System.out.println(" cli_codigo = " + objModel.getCLI_CODIGO());
+         
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction t = session.beginTransaction();
             
@@ -32,21 +31,36 @@ public class ClienteDao implements GenericDao<ClienteModel> {
     }
 
     @Override
-    public void alterar(ClienteModel objModel) throws Exception {
+    public void alterar(ClienteModel c) throws Exception {
         System.out.println("\n [ClienteDao] ALTERAR iniciado");
+        // Cliente com dados NOVOS
+        Integer cod_new_c = c.getCLI_CODIGO();
+        System.out.println(" pes_codigo (cod_new_c) = " + c.getPessoa_Cliente().getPES_CODIGO());
+        System.out.println(" cli_codigo (cod_new_c) = " + c.getCLI_CODIGO());
         
-        Integer cod_pessoa = objModel.getPessoa_Cliente().getPES_CODIGO();
-        System.out.println(" [ClienteDao] void INCLUIR pes_codigo = " + cod_pessoa + " \n");
-            
+        // Cliente com dados ANTIGOS;
+        ClienteModel old_c = get(cod_new_c);
+        Integer cod_old_c = old_c.getCLI_CODIGO();
         
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction t = session.beginTransaction();
-            
-            session.merge(objModel);
-            t.commit();
+        if (old_c == null) {
+            throw new Exception("Cliente não encontrado no banco para atualização!");
         }
-    }
+        
+        if (cod_new_c != cod_old_c) return;
+        
+        System.out.println(" pes_codigo (old_c) = " + old_c.getPessoa_Cliente().getPES_CODIGO());
+        System.out.println(" cli_codigo (old_c) = " + cod_old_c);
+        
+        
+       try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+           Transaction t = session.beginTransaction();
 
+           session.merge(c); // MERGE vai atualizar tanto pessoa quanto cliente
+           t.commit();
+       }
+    }
+    
+    
     @Override
     public ArrayList<ClienteModel> consultar(String filtro) {
         System.out.println("\n [ClienteDao] CONSULTAR iniciado \n");

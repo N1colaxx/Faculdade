@@ -15,7 +15,9 @@ import java.util.ArrayList;
 public class ClienteView extends JPanel {
     
     private ClienteController ctrl;
-    
+    private ClienteModel clienteAtual = null;
+    private ClienteModel cliente;
+
     // Botões (cabeçalho)
     private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
     private JButton btnNovo, btnAlterar, btnExcluir, btnImprimir, btnGravar;
@@ -77,6 +79,8 @@ public class ClienteView extends JPanel {
         configurarAcoes();
                
         setOperacao("");
+        ctrl = new ClienteController();
+        cliente = new ClienteModel();
     }
 
     
@@ -317,6 +321,7 @@ public class ClienteView extends JPanel {
 
     private void configurarAcoes() {
         btnPrimeiro.addActionListener(e -> {
+            System.out.println("\n [ClienteView] btnPrimeiro clicado \n ");
             if (lista == null || lista.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Não Existem Clientes Cadastrados !");
                 return;
@@ -325,18 +330,21 @@ public class ClienteView extends JPanel {
         });
 
         btnAnterior.addActionListener(e -> {
+            System.out.println("\n [ClienteView] btnAnterior clicado \n ");
             int viewSel = tabela.getSelectedRow();
             int sel = (viewSel < 0 ? 0 : tabela.convertRowIndexToModel(viewSel)) - 1;
             mostrarRegistro(sel);
         });
 
         btnProximo.addActionListener(e -> {
+            System.out.println("\n [ClienteView] btnProximo clicado \n ");
             int viewSel = tabela.getSelectedRow();
             int sel = (viewSel < 0 ? -1 : tabela.convertRowIndexToModel(viewSel)) + 1;
             mostrarRegistro(sel);
         });
 
         btnUltimo.addActionListener(e -> {
+            System.out.println("\n [ClienteView] btnUltimo clicado \n ");
             if (lista == null || lista.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Não Existem Clientes Cadastrados !");
                 return;
@@ -345,6 +353,7 @@ public class ClienteView extends JPanel {
         });
 
         btnNovo.addActionListener(e -> {
+            System.out.println("\n [ClienteView] btnNovo clicado \n ");
             limparCampos();
             edtDataCadastro.setText(java.time.LocalDate.now().toString()); // yyyy-MM-dd
             setOperacao("incluir");
@@ -353,9 +362,14 @@ public class ClienteView extends JPanel {
    
         });
 
-        btnAlterar.addActionListener(e -> setOperacao("alterar"));
+        btnAlterar.addActionListener(e -> {
+                System.out.println("\n [ClienteView] btnAlterar clicado \n ");
+                setOperacao("alterar");
+        });
         
         btnImprimir.addActionListener(e -> {
+            System.out.println("\n [ClienteView] btnImprimir clicado \n ");
+
             Exception retorno = ctrl.imprimir();
             if(retorno != null) {
                 JOptionPane.showMessageDialog(null, "Erro no Relatório de Cliente /n" + retorno.getMessage());     
@@ -363,6 +377,8 @@ public class ClienteView extends JPanel {
         });
         
         btnGravar.addActionListener(e -> {
+            System.out.println("\n [ClienteView] btnGravar clicado \n ");
+
             if(getOperacao().equals("")) {
                 JOptionPane.showConfirmDialog(this,
                         "Selecione uma OPERAÇÂO antes de gravar! ex: NOVO"
@@ -371,11 +387,20 @@ public class ClienteView extends JPanel {
             if (JOptionPane.showConfirmDialog(this,
                     "Confirma Gravação deste Cliente ?", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
-                    ClienteModel c = montarClienteDosCampos();
-                    ctrl = new ClienteController();
-                    ctrl.gravar(c, getOperacao());
+                    
+                    ClienteModel c;
+                    if (getOperacao().equals("incluir")) {
+                        c = montarClienteDosCampos();
+                        ctrl.gravar(c, getOperacao());
+                    } 
+                    
+                    if (getOperacao().equals("alterar")) {
+                        c =  montarClienteDosCampos();
+                        ctrl.alterar(c);
+                    }
+                    
                     JOptionPane.showMessageDialog(this, "Dados Gravados com Sucesso");
-                    consultar(); // recarrega tabela
+                    consultar();
                     setOperacao("");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Erro na Gravação \n" + ex.getMessage());
@@ -384,25 +409,30 @@ public class ClienteView extends JPanel {
         });
 
         btnExcluir.addActionListener(e -> {
-            setOperacao("");
+            System.out.println("\n [ClienteView] btnExcluir clicado \n ");
+            setOperacao("excluir");
+            
             if (JOptionPane.showConfirmDialog(this,
-                    "Confirma Exclusão deste Cliente ? (somente vínculo cliente)",
-                    "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    "Confirma Exclusão deste Cliente ? (somente vínculo cliente)", "Confirmação", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 try {
                     ClienteModel c = montarClienteDosCampos();
-                    ctrl = new ClienteController();
                     ctrl.excluir(c);
                     JOptionPane.showMessageDialog(this, "Registro Excluído com Sucesso");
                     consultar();
+                    setOperacao("");
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, "Erro na Exclusão de Registro \n" + ex.getMessage());
                 }
             }
         });
 
-        btnConsultar.addActionListener(e -> consultar());
+        btnConsultar.addActionListener(e -> {
+            System.out.println("\n [ClienteView] btnConsultar clicado \n ");
+            consultar(); 
+        });
         
         btnLimpar.addActionListener(e -> {
+            System.out.println("\n [ClienteView] btnLimpar clicado \n ");
             edtId1.setText("");
             edtId2.setText("");
             edtNomeFiltro.setText("");
@@ -441,7 +471,26 @@ public class ClienteView extends JPanel {
         edtLimiteCred.setText("");
     }
 
+     //  esse metodo é para: navegar e exibir um registro específico da lista, sincronizando a seleção da tabela (view x model).
+    private void mostrarRegistro(int registro) {
+        System.out.println("\n [ClienteView] void MOSTRAR iniciado");
+        setOperacao("");
+        if (lista == null || lista.isEmpty()) return;
+        if (registro < 0 || registro >= lista.size()) return;
+
+        mostrar(lista.get(registro));
+
+        int viewIndex = tabela.convertRowIndexToView(registro);
+        tabela.changeSelection(viewIndex, 0, false, false);
+    }
+    
     private void mostrar(ClienteModel c) {
+        clienteAtual = c;
+        
+        System.out.println(" Cliente atual -> pes_cod = " + clienteAtual.getPessoa_Cliente().getPES_CODIGO());
+        System.out.println(" Cliente atual -> cli_cod = " + clienteAtual.getCLI_CODIGO());
+
+        
         PessoaModel pessoa = c.getPessoa_Cliente();
         
         edtCliCodigo.setText(String.valueOf(c.getCLI_CODIGO()));
@@ -465,24 +514,34 @@ public class ClienteView extends JPanel {
         edtLimiteCred.setText(c.getCLI_LIMITECRED() == 0.0 ? String.valueOf("0.0") : String.valueOf(c.getCLI_LIMITECRED()));
     }
 
-    private ClienteModel montarClienteDosCampos() {
-        PessoaModel pessoa = new PessoaModel();
-        ClienteModel c = new ClienteModel();
-           
-        // Código (pes_codigo)
-        Integer cod = null; 
-        if (getOperacao().equals("alterar")) {
-            try {
-                cod = Integer.valueOf(edtCliCodigo.getText().trim());
-                System.out.println("\n [ClienteView] montarClienteDosCampos -> pes_cod = " + cod + "\n");
-            } catch (NumberFormatException e) {
+    private ClienteModel montarClienteDosCampos() throws Exception {
+        PessoaModel pessoa = null;
+        ClienteModel c = null;
+        Integer cod = null; // Código (pes_codigo)
+
+        if(getOperacao().equals("incluir")) {
+            pessoa = new PessoaModel();
+            c = new ClienteModel();
+            cod = null;
+        } 
+        
+        if (getOperacao().equals("alterar") || getOperacao().equals("excluir")){
+            if (clienteAtual == null) {
+                throw new Exception (" ClienteAtual esta NULL");
             }
+            
+            c = clienteAtual;
+            pessoa = c.getPessoa_Cliente();
+            cod = pessoa.getPES_CODIGO();
         }
         
+        System.out.println("\n [ClienteView] void montarClienteDosCampos inciado com Operacao = " + getOperacao());
+        System.out.println(" PES_CODIGO = " + cod);
+
         // Pessoa
         pessoa.setPES_CODIGO(cod);
         pessoa.setPES_NOME(edtNome.getText().trim());
-        pessoa.setPES_FISICA(chkPesFisica.isSelected() ? "1" : "0"); 
+        pessoa.setPES_FISICA(chkPesFisica.isSelected() ? "1" : "0");  
         pessoa.setPES_CPFCNPJ(edtCPFCNPJ.getText().trim());
         pessoa.setPES_RGIE(edtRgie.getText().trim());
         pessoa.setPES_CADASTRO(parseDate(edtDataCadastro.getText().trim()));
@@ -539,7 +598,6 @@ public class ClienteView extends JPanel {
             setOperacao("");
             
             String cond = filtroConsulta();
-            ctrl = new ClienteController();
             lista = ctrl.consultar(cond); // retorna ArrayList<ClienteModel>
             if (lista == null) lista = new ArrayList<>();
 
@@ -558,17 +616,6 @@ public class ClienteView extends JPanel {
         }
     }
 
-    //  esse metodo é para: navegar e exibir um registro específico da lista, sincronizando a seleção da tabela (view x model).
-    private void mostrarRegistro(int registro) {
-        setOperacao("");
-        if (lista == null || lista.isEmpty()) return;
-        if (registro < 0 || registro >= lista.size()) return;
-
-        mostrar(lista.get(registro));
-
-        int viewIndex = tabela.convertRowIndexToView(registro);
-        tabela.changeSelection(viewIndex, 0, false, false);
-    }
 
     // ===== Utils =====
 

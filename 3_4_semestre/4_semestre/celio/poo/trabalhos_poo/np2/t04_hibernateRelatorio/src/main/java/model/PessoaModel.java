@@ -26,6 +26,7 @@ public class PessoaModel implements java.io.Serializable {
     @Column(name = "PES_CODIGO")
     private Integer pes_codigo;
     
+
     private String pes_nome;
     private String pes_fantasia; // somente do fonecedor
     private String pes_fisica;
