@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ClienteRelatorio {
     
-    private String nomeArquivo = "relatorioUsuario.pdf";
+    private String nomeArquivo = "relatorioCliente.pdf";
     private String titulo = "Relatório de Cliente";
     private PDDocument doc;
     private PDPage pagina;
@@ -72,7 +72,7 @@ public class ClienteRelatorio {
         cs.setFont(PDType1Font.COURIER_BOLD, 12);
         cs.newLineAtOffset(50, y);
 
-        String cabecalho = String.format("%-10s %-50s %-10s",
+        String cabecalho = String.format("%-10s %-30s %-40s",
                 "Código",
                 "Nome",
                 "Limete Credito");
@@ -82,7 +82,8 @@ public class ClienteRelatorio {
         cs.setFont(PDType1Font.COURIER, 12);
         for (ClienteModel objModel : dados) {
             y -= 18; // espaço entre linhas
-
+            
+            
             // Se chegou no final da página, cria nova página
             if (y < 50) {
                 cs.close();
@@ -101,7 +102,7 @@ public class ClienteRelatorio {
                 nomePessoa = nomePessoa.substring(0, 48) + "...";
             }
             
-            String linha = String.format("%-10d %-50s R$ %12.2f",
+            String linha = String.format("%-10d %-30s R$ %12.2f",
                     objModel.getCLI_CODIGO(),
                     nomePessoa,  
                     objModel.getCLI_LIMITECRED());

@@ -3,19 +3,20 @@ package view;
 import controller.ClienteController;
 import model.ClienteModel;
 import model.PessoaModel;
+import util.UtilsUI;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.ListSelectionModel;
 import java.awt.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ClienteView extends JPanel {
     
     private ClienteController ctrl = null;
     private ClienteModel clienteAtual = null;
+    private LocalDate dataFiltroConsulta = null;
     
     // Botões (cabeçalho)
     private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
@@ -63,10 +64,7 @@ public class ClienteView extends JPanel {
     private String operacao = "";
     private ArrayList<ClienteModel> lista = new ArrayList<>();
 
-    // Utils data
-    private static final DateTimeFormatter DF = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    //  esse metodo é para: configurar o painel (layout, tamanho) e chamar os passos de construção da tela (instanciar, adicionar, posicionar, ações).
     public ClienteView() {
         setLayout(null);
         setBackground(Color.BLACK);
@@ -150,7 +148,7 @@ public class ClienteView extends JPanel {
         edtId1                = new JTextField();
         edtId2                = new JTextField();
         edtNomeFiltro         = new JTextField();
-        edtDataCadastroFiltro = new JTextField(); // yyyy-MM-dd
+        edtDataCadastroFiltro = new JTextField(""); // yyyy-MM-dd
         edtLimiteCredFiltro   = new JTextField();
         
         cbUFFiltro            = new JComboBox<>(new String[]{
@@ -464,7 +462,7 @@ public class ClienteView extends JPanel {
         chkPesFisica.setSelected(true);
         edtCPFCNPJ.setText("");
         edtRgie.setText("");
-        edtDataCadastro.setText(""); // yyyy-MM-dd
+        edtDataCadastro.setText("");
         edtEndereco.setText("");
         edtNumero.setText("");
         edtComplemento.setText("");
@@ -506,7 +504,7 @@ public class ClienteView extends JPanel {
         chkPesFisica.setSelected("1".equalsIgnoreCase(pessoa.getPES_FISICA()));
         edtCPFCNPJ.setText(pessoa.getPES_CPFCNPJ());
         edtRgie.setText(pessoa.getPES_RGIE());
-        edtDataCadastro.setText(fmtDate(c.getPessoa_Cliente().getPES_CADASTRO()));
+        edtDataCadastro.setText(UtilsUI.fmtDate(c.getPessoa_Cliente().getPES_CADASTRO()));
         edtEndereco.setText(pessoa.getPES_ENDERECO());
         edtNumero.setText(pessoa.getPES_NUMERO());
         edtComplemento.setText(pessoa.getPES_COMPLEMENTO());
@@ -556,7 +554,7 @@ public class ClienteView extends JPanel {
         pessoa.setPES_FISICA(chkPesFisica.isSelected() ? "1" : "0");  
         pessoa.setPES_CPFCNPJ(edtCPFCNPJ.getText().trim());
         pessoa.setPES_RGIE(edtRgie.getText().trim());
-        pessoa.setPES_CADASTRO(parseDate(edtDataCadastro.getText().trim()));
+        pessoa.setPES_CADASTRO(UtilsUI.parseDate(edtDataCadastro.getText().trim()));
         pessoa.setPES_ENDERECO(edtEndereco.getText().trim());
         pessoa.setPES_NUMERO(edtNumero.getText().trim());
         pessoa.setPES_COMPLEMENTO(edtComplemento.getText().trim());
@@ -571,13 +569,14 @@ public class ClienteView extends JPanel {
 
         // Cliente
         c.setPessoa_Cliente(pessoa);
-        c.setCLI_LIMITECRED(parseDouble(edtLimiteCred.getText().trim()));
+        c.setCLI_LIMITECRED(UtilsUI.parseDouble(edtLimiteCred.getText().trim()));
 
         return c;
     }
 
     private String filtroConsulta() {
         String cond = "";
+        String s = "";
 
         if (!edtId1.getText().trim().isEmpty()) {
             cond += "(p.pes_codigo >= " + edtId1.getText().trim() + ")";
@@ -591,8 +590,21 @@ public class ClienteView extends JPanel {
             cond += "(p.pes_nome LIKE ('%" + edtNomeFiltro.getText().trim() + "%'))";
         }
         if (!edtDataCadastroFiltro.getText().trim().isEmpty()) {
-            if (!cond.isEmpty()) cond += " AND ";
-            cond += "(p.pes_cadastro >= '" + edtDataCadastroFiltro.getText().trim() + "')";
+            java.time.LocalDate data = UtilsUI.parseDate(edtDataCadastroFiltro.getText().trim());
+           
+            if (data != null) {
+                dataFiltroConsulta = data;
+
+                if (!cond.isEmpty()) cond += " AND ";
+                cond += "(p.pes_cadastro >= :dataFiltro)"; //  parametro nomeado
+
+                System.out.println(" [ClienteView] filtroConsulta() valor da edtDataCliente = " + data + " , tipo = "+ data.getClass().getName());
+            } else {
+                dataFiltroConsulta = null;
+                s = "null";
+            }
+            
+            System.out.println(" [ClienteView] filtroConsulta() valor da COND em if(data) = " + cond);
         }
         if (!edtLimiteCredFiltro.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
@@ -602,12 +614,22 @@ public class ClienteView extends JPanel {
             if (!cond.isEmpty()) cond += " AND ";
             cond += "(p.pes_uf = '" + cbUFFiltro.getSelectedItem() + "')";
         }
+        
+        if (cond.isEmpty() || cond.equals("")) s = "NULL";
+        System.out.println(" [ClienteView] filtroConsulta() valor final da COND: " + s);
+        System.out.println(  cond);
+
         return cond;
     }
 
     private void consultar() {
         try {            
             String cond = filtroConsulta();
+            
+            if (dataFiltroConsulta != null ) {
+                ctrl.setDataFiltro(dataFiltroConsulta);
+                System.out.println(" [ClienteView] consultar() valor da dataFiltroConsulta = " + dataFiltroConsulta + " , tipo = "+ dataFiltroConsulta.getClass().getName());
+            }
             
             lista = ctrl.consultar(cond); // retorna ArrayList<ClienteModel>
             if (lista == null) lista = new ArrayList<>();
@@ -628,46 +650,9 @@ public class ClienteView extends JPanel {
             JOptionPane.showMessageDialog(this, "Erro na Consulta do Cliente \n" + ex.getMessage());
         }
     }
-
-
-    // ===== Utils =====
-
-    private static LocalDate parseDate(String s) {
-        try {
-            if (s == null || s.isEmpty()) return null;
-            return LocalDate.parse(s, DF);
-        } catch (Exception e) {
-            System.out.println("Data inválida: '" + s + "'. Esperado yyyy-MM-dd.");
-            return null;
-        }
+    
+    public LocalDate getDataFiltroConsulta() {
+        return dataFiltroConsulta;
     }
-
-    private static String fmtDate(LocalDate d) {
-        return d == null ? "" : d.format(DF);
-    }
-
-
-
-    private static double parseDouble(String old_val_s) {
-      System.out.println("\n[ClienteView] parseDouble, valor atual de Limite credito = " + old_val_s);
-
-      try {
-          if (old_val_s == null || old_val_s.trim().isEmpty()) return 0.0;
-
-          // Remove pontos (separador de milhar) e troca vírgula por ponto (decimal)
-          String val_s = old_val_s.trim().replace(",", ".");
-          
-          if (val_s.isEmpty()) return 0.0;
-
-          double val_double = Double.parseDouble(val_s);
-
-          return val_double;
-      } catch (Exception e) {
-          System.out.println("Falha ao converter double: '" + old_val_s + "': " + e.getMessage());
-          return 0.0;
-      }
-  }
-
-
 }
 

@@ -11,8 +11,8 @@ import java.util.List;
 
 public class ProdutoRelatorio {
 
-    private String nomeArquivo = "relatorioUsuario.pdf";
-    private String titulo = "Relatório de Usuários";
+    private String nomeArquivo = "relatorioProduto.pdf";
+    private String titulo = "Relatório de Produtos";
     private PDDocument doc;
     private PDPage pagina;
     private PDPageContentStream cs;

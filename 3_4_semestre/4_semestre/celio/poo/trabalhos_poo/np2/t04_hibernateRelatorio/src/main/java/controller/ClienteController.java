@@ -2,6 +2,7 @@ package controller;
 
 import model.ClienteModel;
 import dao.ClienteDao;
+import java.time.LocalDate;
 import relatorios.ClienteRelatorio;
 
 import java.util.ArrayList;
@@ -13,7 +14,9 @@ import java.util.Map;
 public class ClienteController implements GenericController<ClienteModel> {
 
     ClienteDao clienteDao;
-
+    private LocalDate dataFiltroConsulta = null;
+    
+    
     public ClienteController() {
         clienteDao = new ClienteDao();
     }
@@ -35,6 +38,7 @@ public class ClienteController implements GenericController<ClienteModel> {
 
     @Override
     public ArrayList<ClienteModel> consultar(String filtro) {
+        clienteDao.setDataFiltroTemp(dataFiltroConsulta);
         return clienteDao.consultar(filtro);
     }
 
@@ -75,5 +79,14 @@ public class ClienteController implements GenericController<ClienteModel> {
         return retorno;
     }
 
+    
+       
+    public ClienteDao getDao() {
+        return clienteDao;
+    }
+    
+    public void setDataFiltro(LocalDate data) {
+        this.dataFiltroConsulta = data;
+    }
 }
 

@@ -1,8 +1,9 @@
 package dao;
 
 
+import java.time.LocalDate;
 import model.ClienteModel;
-import model.PessoaModel;
+
 
 
 import java.util.ArrayList;
@@ -12,6 +13,12 @@ import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 public class ClienteDao implements GenericDao<ClienteModel> {
+    
+    private LocalDate dataFiltroTemp;
+
+    public void setDataFiltroTemp(LocalDate dataFiltroTemp) {
+        this.dataFiltroTemp = dataFiltroTemp;
+    }
 
     @Override
     public void incluir(ClienteModel objModel) throws Exception {
@@ -64,18 +71,27 @@ public class ClienteDao implements GenericDao<ClienteModel> {
     @Override
     public ArrayList<ClienteModel> consultar(String filtro) {
         System.out.println("\n [ClienteDao] CONSULTAR iniciado \n");
+        
         String tabCliente = ClienteModel.class.getName();
-        String tabPessoa  = PessoaModel.class.getName();
         String hql = "FROM " + tabCliente + " c JOIN FETCH c.pessoa"; // Isso carrega a pessoa junto!
         
         if (filtro != null && !filtro.trim().isEmpty()) {
             hql =   " FROM " + tabCliente + " c JOIN FETCH c.pessoa p "
                   + " WHERE " + filtro;
         }
-
+        
+        System.out.println(" [ClienteDao] query HQL executada:");
+        System.out.println(   hql + " \n");
+        
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            var query = session.createQuery(hql, ClienteModel.class);
+            
+            if (dataFiltroTemp != null && hql.contains(":dataFiltro")) {
+                query.setParameter("dataFiltro", dataFiltroTemp);
+                System.out.println(" [ClienteDao] parâmetro dataFiltro = " + dataFiltroTemp);
+            }
             // Removida transação desnecessária para operação de leitura
-            List<ClienteModel> resultList = session.createQuery(hql, ClienteModel.class).getResultList();
+            List<ClienteModel> resultList = query.getResultList();
             return new ArrayList<>(resultList);
         }
     }
