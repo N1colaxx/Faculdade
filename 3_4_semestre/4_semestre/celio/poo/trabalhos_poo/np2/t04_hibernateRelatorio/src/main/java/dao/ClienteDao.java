@@ -65,10 +65,12 @@ public class ClienteDao implements GenericDao<ClienteModel> {
     public ArrayList<ClienteModel> consultar(String filtro) {
         System.out.println("\n [ClienteDao] CONSULTAR iniciado \n");
         String tabCliente = ClienteModel.class.getName();
+        String tabPessoa  = PessoaModel.class.getName();
         String hql = "FROM " + tabCliente + " c JOIN FETCH c.pessoa"; // Isso carrega a pessoa junto!
         
         if (filtro != null && !filtro.trim().isEmpty()) {
-            hql += " " + filtro;
+            hql =   " FROM " + tabCliente + " c JOIN FETCH c.pessoa p "
+                  + " WHERE " + filtro;
         }
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

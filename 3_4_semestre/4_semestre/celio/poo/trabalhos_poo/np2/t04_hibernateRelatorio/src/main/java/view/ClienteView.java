@@ -14,10 +14,9 @@ import java.util.ArrayList;
 
 public class ClienteView extends JPanel {
     
-    private ClienteController ctrl;
+    private ClienteController ctrl = null;
     private ClienteModel clienteAtual = null;
-    private ClienteModel cliente;
-
+    
     // Botões (cabeçalho)
     private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
     private JButton btnNovo, btnAlterar, btnExcluir, btnImprimir, btnGravar;
@@ -76,15 +75,15 @@ public class ClienteView extends JPanel {
         instanciar();
         adicionar();
         posicionar();
-        configurarAcoes();
                
         setOperacao("");
         ctrl = new ClienteController();
-        cliente = new ClienteModel();
+                
+        configurarAcoes();
     }
 
     
-    private void instanciar() {
+    private void instanciar() {        
         // Botões topo
         btnPrimeiro = new JButton("Primeiro");
         btnAnterior = new JButton("Anterior");
@@ -140,12 +139,12 @@ public class ClienteView extends JPanel {
         lblLimiteCred    = new JLabel("Limite Crédito:");   edtLimiteCred = new JTextField(12);
         
         // Consulta (filtros)
-        lblId1                = new JLabel("ID");
-        lblText               = new JLabel("à");
-        lblId2                = new JLabel(); // apenas placeholder para manter a estrutura
+        lblId1                = new JLabel("Cod 1");
+        lblText               = new JLabel("até");
+        lblId2                = new JLabel("Cod 2"); // apenas placeholder para manter a estrutura
         lblNomeFiltro         = new JLabel("Nome");
-        lblDataCadastroFiltro = new JLabel("Cadastro ≥");
-        lblLimiteCredFiltro   = new JLabel("Limite ≥");
+        lblDataCadastroFiltro = new JLabel("Data de Cadastro ≥");
+        lblLimiteCredFiltro   = new JLabel("Limite Credito ≥");
         lblUFFiltro           = new JLabel("UF");
 
         edtId1                = new JTextField();
@@ -153,8 +152,11 @@ public class ClienteView extends JPanel {
         edtNomeFiltro         = new JTextField();
         edtDataCadastroFiltro = new JTextField(); // yyyy-MM-dd
         edtLimiteCredFiltro   = new JTextField();
-        cbUFFiltro            = new JComboBox<>(new String[]{"", "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
-                "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"});
+        
+        cbUFFiltro            = new JComboBox<>(new String[]{
+            "", "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
+            "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"
+        });
 
         btnConsultar          = new JButton("Consulta");
         btnLimpar             = new JButton("Limpa");
@@ -301,16 +303,22 @@ public class ClienteView extends JPanel {
         // Filtros (topo)
         paneConsultaDados.setBounds(10, 10, 1440, 110);
 
-        lblId1.setBounds(10, 10, 20, 25);                edtId1.setBounds(35, 10, 100, 25);
-        lblText.setBounds(140, 10, 10, 25);              edtId2.setBounds(155, 10, 100, 25);
+        lblId1.setBounds(10, 10, 40, 25);               edtId1.setBounds(60, 10, 100, 25);
+        
+        lblText.setBounds(170, 10, 30, 25);             
+        
+        edtId2.setBounds(210, 10, 100, 25);
 
-        lblNomeFiltro.setBounds(270, 10, 40, 25);        edtNomeFiltro.setBounds(315, 10, 200, 25);
-        lblUFFiltro.setBounds(525, 10, 25, 25);          cbUFFiltro.setBounds(555, 10, 70, 25);
-        lblDataCadastroFiltro.setBounds(635, 10, 100, 25); edtDataCadastroFiltro.setBounds(740, 10, 120, 25);
-        lblLimiteCredFiltro.setBounds(870, 10, 70, 25);  edtLimiteCredFiltro.setBounds(945, 10, 120, 25);
+        lblNomeFiltro.setBounds(10, 50, 40, 25);        edtNomeFiltro.setBounds(60, 50, 200, 25);
+        
+        lblUFFiltro.setBounds(330, 10, 30, 25);          cbUFFiltro.setBounds(370, 10, 70, 25);
+        
+        lblDataCadastroFiltro.setBounds(460, 10, 150, 25); edtDataCadastroFiltro.setBounds(620, 10, 120, 25);
+        
+        lblLimiteCredFiltro.setBounds(460, 50, 150, 25);  edtLimiteCredFiltro.setBounds(620, 50, 120, 25);
 
-        btnConsultar.setBounds(1080, 10, 100, 25);
-        btnLimpar.setBounds(1190, 10, 100, 25);
+        btnConsultar.setBounds(780, 10, 100, 25);
+        btnLimpar.setBounds(890, 10, 100, 25);
 
         // Tabela
         paneConsultaTabela.setBounds(10, 120, 1440, 245);
@@ -319,7 +327,7 @@ public class ClienteView extends JPanel {
 
     }
 
-    private void configurarAcoes() {
+    private void configurarAcoes() {        
         btnPrimeiro.addActionListener(e -> {
             System.out.println("\n [ClienteView] btnPrimeiro clicado \n ");
             if (lista == null || lista.isEmpty()) {
@@ -537,7 +545,11 @@ public class ClienteView extends JPanel {
         
         System.out.println("\n [ClienteView] void montarClienteDosCampos inciado com Operacao = " + getOperacao());
         System.out.println(" PES_CODIGO = " + cod);
-
+        
+        if (pessoa == null){
+            throw new Exception (" ClienteAtual esta NULL");
+        }
+        
         // Pessoa
         pessoa.setPES_CODIGO(cod);
         pessoa.setPES_NOME(edtNome.getText().trim());
@@ -594,10 +606,9 @@ public class ClienteView extends JPanel {
     }
 
     private void consultar() {
-        try {
-            setOperacao("");
-            
+        try {            
             String cond = filtroConsulta();
+            
             lista = ctrl.consultar(cond); // retorna ArrayList<ClienteModel>
             if (lista == null) lista = new ArrayList<>();
 
@@ -611,6 +622,8 @@ public class ClienteView extends JPanel {
                 JOptionPane.showMessageDialog(this, "Não Existem Clientes Cadastrados !");
                 limparCampos();
             }
+            
+            setOperacao("");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro na Consulta do Cliente \n" + ex.getMessage());
         }
@@ -633,16 +646,28 @@ public class ClienteView extends JPanel {
         return d == null ? "" : d.format(DF);
     }
 
-    private static double parseDouble(String s) {
-        try {
-            if (s == null) return 0.0;
-            String t = s.trim().replace(",", ".");
-            if (t.isEmpty()) return 0.0;
-            return Double.parseDouble(t);
-        } catch (Exception e) {
-            System.out.println("Falha ao converter double: '" + s + "': " + e.getMessage());
-            return 0.0;
-        }
-    }
+
+
+    private static double parseDouble(String old_val_s) {
+      System.out.println("\n[ClienteView] parseDouble, valor atual de Limite credito = " + old_val_s);
+
+      try {
+          if (old_val_s == null || old_val_s.trim().isEmpty()) return 0.0;
+
+          // Remove pontos (separador de milhar) e troca vírgula por ponto (decimal)
+          String val_s = old_val_s.trim().replace(",", ".");
+          
+          if (val_s.isEmpty()) return 0.0;
+
+          double val_double = Double.parseDouble(val_s);
+
+          return val_double;
+      } catch (Exception e) {
+          System.out.println("Falha ao converter double: '" + old_val_s + "': " + e.getMessage());
+          return 0.0;
+      }
+  }
+
+
 }
 

@@ -30,7 +30,7 @@ As 4 interfaces principais:
 
 4. 
 
-### Comandos
+### Session Comandos
 
 **`persist(Object entity)`**  -> INSERT INTO 
 
@@ -42,19 +42,22 @@ As 4 interfaces principais:
     ---
     <br>
 
-**`merge(Object entity)`** -> UPDATE
+**`merge(Object entity)`** 
+-   UPDATE se o obj ja existir
+-   INSERT INTO se o obj não existir
+
 -   ```java
     Pessoa p = new Pessoa("João");
-    session.persist(p);
+    session.merge(p);
     ```
 
     ---
     <br>
 
-**`remove   (Object entity)`** -> UPDATE
+**`remove   (Object entity)`** -> DELETE
 -   ```java
     Pessoa p = new Pessoa("João");
-    session.persist(p);
+    session.remove(p);
     ```
 
 
