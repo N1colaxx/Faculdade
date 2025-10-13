@@ -9,11 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
-public class VemdaProdutoDao implements GenericDao<VendaProdutoModel> {
+public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
     
-    private LocalDate dataFiltroTemp;
-
-
     @Override
     public void incluir(VendaProdutoModel objModel) throws Exception {
         System.out.println("\n [VendaProdutoDao] INCLUIR iniciado \n");
@@ -93,10 +90,6 @@ public class VemdaProdutoDao implements GenericDao<VendaProdutoModel> {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             var query = session.createQuery(hql, VendaProdutoModel.class);
             
-            if (dataFiltroTemp != null && hql.contains(":dataFiltro")) {
-                query.setParameter("dataFiltro", dataFiltroTemp);
-                System.out.println(" [VendaProdutoDao] parâmetro dataFiltro = " + dataFiltroTemp);
-            }
             // Removida transação desnecessária para operação de leitura
             List<VendaProdutoModel> resultList = query.getResultList();
             return new ArrayList<>(resultList);
@@ -123,13 +116,69 @@ public class VemdaProdutoDao implements GenericDao<VendaProdutoModel> {
         return (VendaProdutoModel) session.getReference(VendaProdutoModel.class, id);
     }
     
-    /**
-     * SETTERS
-     */
     
-    public void setDataFiltroTemp(LocalDate dataFiltroTemp) {
-        this.dataFiltroTemp = dataFiltroTemp;
+    public VendaProdutoModel buscarPorCodigoVenda(Integer codProduto) throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "FROM VendaProdutoModel vp "
+                       + "JOIN FETCH vp.produto_VendaProduto p "
+                       + "WHERE p.PRO_CODIGO = :cod";
+
+            return session.createQuery(hql, VendaProdutoModel.class)
+                          .setParameter("cod", codProduto)
+                          .uniqueResult();
+        }
     }
+
+    
+    public List<VendaProdutoModel> consultarPorVenda(int vdaCodigo) throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "FROM VendaProdutoModel vp "
+                       + "JOIN FETCH vp.produto_VendaProduto p "
+                       + "WHERE vp.venda_VendaProduto.vda_codigo = :vda";
+
+            List<VendaProdutoModel> resultList = session.createQuery(hql, VendaProdutoModel.class)
+                                                        .setParameter("vda", vdaCodigo)
+                                                        .getResultList();
+            return new ArrayList<>(resultList);
+        }
+    }
+    
+    public List<VendaProdutoModel> consultarPorVendaa(int vdaCodigo) throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "FROM VendaProdutoModel vp "
+                       + "JOIN FETCH vp.produto_VendaProduto p "
+                       + "WHERE vp.venda_VendaProduto.vda_codigo = :vda";
+
+            List<VendaProdutoModel> resultList = session.createQuery(hql, VendaProdutoModel.class)
+                                                        .setParameter("vda", vdaCodigo)
+                                                        .getResultList();
+
+            return new ArrayList<>(resultList);
+        }
+    }
+    
+    
+        public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
+        Transaction tx = null;
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+
+            for (VendaProdutoModel item : itens) {
+                // vincula o código da venda ao item
+                item.getVenda_VendaProduto().setVda_codigo(vdaCodigo);
+
+                // persiste o item
+                session.persist(item);
+            }
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            throw new Exception("Erro ao inserir itens da venda: " + e.getMessage(), e);
+        }
+    }
+
 }
 
 

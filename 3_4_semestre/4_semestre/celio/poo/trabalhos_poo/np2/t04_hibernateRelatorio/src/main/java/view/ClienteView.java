@@ -451,13 +451,6 @@ public class ClienteView extends JPanel {
         });
     }
 
-    private String getOperacao() { return operacao; }
-
-    private void setOperacao(String operacao) {
-        this.operacao = operacao;
-        btnGravar.setEnabled(!operacao.isEmpty());
-    }
-
     private void limparCampos() {
         
         edtCliCodigo.setText("0");                
@@ -654,8 +647,26 @@ public class ClienteView extends JPanel {
         }
     }
     
+       
+    /**
+     * Getters
+     */
+    private String getOperacao() { return operacao; }
+
+        
     public LocalDate getDataFiltroConsulta() {
         return dataFiltroConsulta;
     }
+    
+    /**
+     * Setters
+     */
+    
+    private void setOperacao(String operacao) {
+        this.operacao = operacao;
+        btnGravar.setEnabled(!operacao.isEmpty());
+    }
+
+    
 }
 

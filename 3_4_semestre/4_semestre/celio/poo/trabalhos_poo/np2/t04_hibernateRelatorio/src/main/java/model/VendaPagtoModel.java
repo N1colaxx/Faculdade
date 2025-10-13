@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-public class VendaPagtoModel {
+public class VendapagtoModel {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -19,22 +19,22 @@ public class VendaPagtoModel {
     
     @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn (name = "VDA_CODIGO")
-    private VendaModel vda_codigo; // tab venda
+    private VendaModel venda; // tab venda
 
     @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn (name = "FPG_CODIGO")
-    private FormapagtoModel pfg_codigo; // tab Forma de Pagamento
+    private FormapagtoModel formapagto; // tab Forma de Pagamento
     
     private double vdp_valor;
     
-    public VendaPagtoModel() {    
+    public VendapagtoModel() {    
     }
  
     
-    public VendaPagtoModel(Integer vdp_codigo, VendaModel vda_codigo, FormapagtoModel pfg_codigo, double vdp_valor) {
+    public VendapagtoModel(Integer vdp_codigo, VendaModel venda, FormapagtoModel pfg_codigo, double vdp_valor) {
         this.vdp_codigo = vdp_codigo;
-        this.vda_codigo = vda_codigo;
-        this.pfg_codigo = pfg_codigo;
+        this.venda = venda;
+        this.formapagto = pfg_codigo;
         this.vdp_valor = vdp_valor;
     }
 
@@ -46,12 +46,12 @@ public class VendaPagtoModel {
         return vdp_codigo;
     }
 
-    public VendaModel getVda_codigo() {
-        return vda_codigo;
+    public VendaModel getVenda_Vendapagto() {
+        return venda;
     }
 
-    public FormapagtoModel getPfg_codigo() {
-        return pfg_codigo;
+    public FormapagtoModel getFormapagto_Vendapagto() {
+        return formapagto;
     }
 
     @Column (name = "VDP_VALOR", nullable = true, precision = 18, scale = 2)
@@ -67,12 +67,12 @@ public class VendaPagtoModel {
         this.vdp_codigo = vdp_codigo;
     }
 
-    public void setVda_codigo(VendaModel vda_codigo) {
-        this.vda_codigo = vda_codigo;
+    public void setVenda_Vendapagto(VendaModel vda_codigo) {
+        this.venda = vda_codigo;
     }
 
-    public void setPfg_codigo(FormapagtoModel pfg_codigo) {
-        this.pfg_codigo = pfg_codigo;
+    public void setFormapagto_Vendapagto(FormapagtoModel pfg_codigo) {
+        this.formapagto = pfg_codigo;
     }
 
     public void setVdp_valor(double vdp_valor) {

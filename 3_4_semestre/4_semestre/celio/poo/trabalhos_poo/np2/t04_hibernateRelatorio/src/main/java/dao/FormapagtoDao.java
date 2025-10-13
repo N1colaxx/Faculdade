@@ -65,5 +65,35 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
         return (FormapagtoModel) session.getReference(FormapagtoModel.class, id);
     }
     
+
+    /**
+     * Retorna uma lista de nomes de formas de pagamento ativas (fpg_ativo = 'S').
+     */
+    public ArrayList<String> listarNomesAtivos() throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT f.fpg_nome FROM FormapagtoModel f " +
+                         "WHERE COALESCE(f.fpg_ativo, 'S') = 'S' ORDER BY f.fpg_nome";
+
+            List<String> resultList = session.createQuery(hql, String.class).getResultList();
+            return new ArrayList<>(resultList);
+        }
+    }
+
+    /**
+     * Retorna o código (PK) da forma de pagamento dado o nome.
+     * Retorna -1 se não encontrar.
+     */
+    public int obterCodigoPorNome(String nome) throws Exception {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            String hql = "SELECT f.fpg_codigo FROM FormapagtoModel f WHERE f.fpg_nome = :nome";
+            Integer codigo = session.createQuery(hql, Integer.class)
+                                    .setParameter("nome", nome)
+                                    .uniqueResult();
+            return (codigo != null) ? codigo : -1;
+        }
+    }
     
+   
 }
+    
+

@@ -23,7 +23,7 @@ public class VendaDao {
     /**
      * Grava (incluir/alterar) venda completa em transação.
      */
-    public void gravarTransacao(
+    public void gravarTransacao( 
             String operacao,
             VendaModel venda,
             ArrayList<VendaProdutoModel> itens,
@@ -35,6 +35,7 @@ public class VendaDao {
             if ("incluir".equalsIgnoreCase(operacao)) {
                 int vdaCodigo = inserirVenda(venda);
                 venda.setVDA_CODIGO(vdaCodigo);
+                
             } else if ("alterar".equalsIgnoreCase(operacao)) {
                 alterarVenda(venda);
                 excluirItens(venda.getVDA_CODIGO());
@@ -55,7 +56,6 @@ public class VendaDao {
         }
     }
 
-    // consulta a tab VENDA
     public ArrayList<VendaModel> consultar(String cond) throws SQLException {
         ArrayList<VendaModel> lista = new ArrayList<>();
         
@@ -82,8 +82,33 @@ public class VendaDao {
         }
         return lista;
     }
+    
+    public VendaModel buscarCabecalho(int vda) throws SQLException {
+        System.out.println(" [VendaDao] executou -> buscarCabecalho");
+        
+        String sql = "SELECT vda_codigo, usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs "
+                + "FROM venda WHERE vda_codigo = ?";
+        
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setInt(1, vda);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+                VendaModel v = new VendaModel();
+                v.setVDA_CODIGO(rs.getInt("vda_codigo"));
+                v.setUSU_CODIGO(rs.getInt("usu_codigo"));
+                v.setCLI_CODIGO(rs.getInt("cli_codigo"));
+                v.setVDA_DATA(rs.getDate("vda_data").toLocalDate());
+                v.setVDA_VALOR(rs.getDouble("vda_valor"));
+                v.setVDA_DESCONTO(rs.getDouble("vda_desconto"));
+                v.setVDA_TOTAL(rs.getDouble("vda_total"));
+                v.setVDA_OBS(rs.getString("vda_obs"));
 
-    // consulta a tab VENDA_PRODUTO
+                return v;
+            }
+        }
+    }
   
     public void excluir(VendaModel v) throws SQLException {
         boolean auto = conexao.getAutoCommit();
@@ -181,6 +206,7 @@ public class VendaDao {
             ps.executeUpdate();
         }
     }
+    
     private void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws SQLException {
         String sql = "INSERT INTO venda_produto (vda_codigo, pro_codigo, vep_qtde, vep_preco, vep_desconto, vep_total) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -198,64 +224,6 @@ public class VendaDao {
             ps.executeBatch();
         }
     }
-
-    
-    /**
-     * VendaPagato
-     */
-    private void excluirPgtos(int vdaCodigo) throws SQLException {
-        String sql = "DELETE FROM venda_pagto WHERE vda_codigo = ?";
-        
-        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
-            ps.setInt(1, vdaCodigo);
-            ps.executeUpdate();
-        }
-    }
- 
-    private void inserirPgtos(int vdaCodigo, ArrayList<VendaPagtoModel> pgtos) throws SQLException {
-        String sql = "INSERT INTO venda_pagto (vda_codigo, fpg_codigo, vdp_valor) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
-            for (VendaPagtoModel p : pgtos) {
-                ps.setInt(1, vdaCodigo);
-                ps.setInt(2, p.getFPG_CODIGO());
-                ps.setDouble(3, p.getVDP_VALOR());
-                ps.addBatch();
-            }
-            ps.executeBatch();
-        }
-    }
-
-    
-    /**
-     * Metodos para retornar os itens em cada campo de venda
-     */
-    public VendaModel buscarCabecalho(int vda) throws SQLException {
-        System.out.println(" [VendaDao] executou -> buscarCabecalho");
-        
-        String sql = "SELECT vda_codigo, usu_codigo, cli_codigo, vda_data, vda_valor, vda_desconto, vda_total, vda_obs "
-                + "FROM venda WHERE vda_codigo = ?";
-        
-        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
-            ps.setInt(1, vda);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) {
-                    return null;
-                }
-                VendaModel v = new VendaModel();
-                v.setVDA_CODIGO(rs.getInt("vda_codigo"));
-                v.setUSU_CODIGO(rs.getInt("usu_codigo"));
-                v.setCLI_CODIGO(rs.getInt("cli_codigo"));
-                v.setVDA_DATA(rs.getDate("vda_data").toLocalDate());
-                v.setVDA_VALOR(rs.getDouble("vda_valor"));
-                v.setVDA_DESCONTO(rs.getDouble("vda_desconto"));
-                v.setVDA_TOTAL(rs.getDouble("vda_total"));
-                v.setVDA_OBS(rs.getString("vda_obs"));
-
-                return v;
-            }
-        }
-    }
-
     public List<VendaProdutoModel> listarItens(int vda) throws SQLException {
         System.out.println(" [VendaDao] executou -> listarItens");
 
@@ -287,7 +255,18 @@ public class VendaDao {
         }
         return lista;
     }
-
+    
+    /**
+     * VendaPagato
+     */
+    private void excluirPgtos(int vdaCodigo) throws SQLException {
+        String sql = "DELETE FROM venda_pagto WHERE vda_codigo = ?";
+        
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+            ps.setInt(1, vdaCodigo);
+            ps.executeUpdate();
+        }
+    }
     public java.util.List<VendaPagtoModel> listarPgtos(int vda) throws SQLException {
         System.out.println(" [VendaDao] executou -> listarPagtos");
 
@@ -314,5 +293,17 @@ public class VendaDao {
         }
         return lista;
     }
-
+    private void inserirPgtos(int vdaCodigo, ArrayList<VendaPagtoModel> pgtos) throws SQLException {
+        String sql = "INSERT INTO venda_pagto (vda_codigo, fpg_codigo, vdp_valor) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = conexao.prepareStatement(sql)) {
+            for (VendaPagtoModel p : pgtos) {
+                ps.setInt(1, vdaCodigo);
+                ps.setInt(2, p.getFPG_CODIGO());
+                ps.setDouble(3, p.getVDP_VALOR());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        }
+    }
+    
 }

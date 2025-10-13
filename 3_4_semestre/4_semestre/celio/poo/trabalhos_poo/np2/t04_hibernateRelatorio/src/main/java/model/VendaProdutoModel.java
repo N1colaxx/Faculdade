@@ -110,7 +110,4 @@ public class VendaProdutoModel {
         this.vep_total = vep_total;
     }
     
-    
-    
-    
 }

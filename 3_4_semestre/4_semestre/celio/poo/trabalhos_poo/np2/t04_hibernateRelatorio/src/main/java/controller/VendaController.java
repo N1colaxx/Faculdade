@@ -3,21 +3,17 @@ package controller;
 
 import model.VendaModel;
 import dao.VendaDao;
-import java.time.LocalDate;
 import relatorios.VendaRelatorio;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.ItensVendaModel;
 
 
 public class VendaController implements GenericController<VendaModel> {
 
-    VendaDao vendaDao;
-    private LocalDate dataFiltroConsulta = null;
-    
+    VendaDao vendaDao; 
     
     public VendaController() {
         vendaDao = new VendaDao();
@@ -40,7 +36,6 @@ public class VendaController implements GenericController<VendaModel> {
 
     @Override
     public ArrayList<VendaModel> consultar(String filtro) {
-        vendaDao.setDataFiltroTemp(dataFiltroConsulta);
         return vendaDao.consultar(filtro);
     }
 
@@ -84,9 +79,6 @@ public class VendaController implements GenericController<VendaModel> {
         return vendaDao;
     }
     
-    public void setDataFiltro(LocalDate data) {
-        this.dataFiltroConsulta = data;
-    }
 }
 
 

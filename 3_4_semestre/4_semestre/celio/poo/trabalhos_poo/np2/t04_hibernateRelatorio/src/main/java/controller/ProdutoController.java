@@ -36,6 +36,7 @@ public class ProdutoController implements GenericController<ProdutoModel> {
     public ArrayList<ProdutoModel> consultar(String filtro) {
         return produtoDao.consultar(filtro);
     }
+    
 
     @Override
     public void gravar(ProdutoModel obj, String operacao) throws Exception {
@@ -67,5 +68,6 @@ public class ProdutoController implements GenericController<ProdutoModel> {
 
         return retorno;
     }
+    
 
 }

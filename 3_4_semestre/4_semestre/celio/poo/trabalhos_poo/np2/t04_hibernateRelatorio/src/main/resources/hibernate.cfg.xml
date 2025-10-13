@@ -14,12 +14,19 @@
         <!--<property name="hibernate.hbm2ddl.auto">update</property>-->
         <property name="hibernate.current_session_context_class">jta</property>
 
+        <!-- Cadastros -->
         <mapping class="model.UsuarioModel"/>
         <mapping class="model.PessoaModel"/>
         <mapping class="model.ClienteModel"/>
         <mapping class="model.FornecedorModel"/>
         <mapping class="model.ProdutoModel"/>
         <mapping class="model.FormapagtoModel"/>
+        
+        <!-- Movimentos VENDA-->
+        <mapping class="model.VendaModel"/>
+        <mapping class="model.VendapagtoModel"/>
+        <mapping class="model.VendaProdutoModel"/>
+        
         
     </session-factory>
 </hibernate-configuration>

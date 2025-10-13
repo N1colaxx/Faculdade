@@ -20,7 +20,7 @@ public class AppView extends JFrame{
     private FormapagtoView formapagtoView;
     private UsuarioView usuario1View;
     // ItensMovimentos
-//    private VendaView vendaView;
+    private VendaView vendaView;
 //    private CompraView compraView;
     // Variaveis
     private JPanel contendPanel;
@@ -84,8 +84,8 @@ public class AppView extends JFrame{
             // Movimentos
 //            compraView = new CompraView();
 //                System.out.println(" Compra");
-//            vendaView = new VendaView();
-//                System.out.println(" Venda");
+            vendaView = new VendaView();
+                System.out.println(" Venda");
                                
             System.out.println(" Instanciando View (SUCESSO)");
         } catch (Exception e) {
@@ -122,8 +122,8 @@ public class AppView extends JFrame{
 //            AppUI.applyDefaultSize(compraView);
 //            System.out.println(" Compra");
 //            
-//            AppUI.applyDefaultSize(vendaView);
-//            System.out.println(" venda");
+            AppUI.applyDefaultSize(vendaView);
+            System.out.println(" venda");
                 
             System.out.println(" Aplicando Tamanho Padrao nas VIEW (SUCESSO)");
         } catch (Exception e) {
@@ -159,8 +159,8 @@ public class AppView extends JFrame{
             System.out.println(" Usuario");
             
             // Movimentos
-//            contendPanel.add(vendaView, "Venda");
-//            System.out.println(" Venda");
+            contendPanel.add(vendaView, "Venda");
+            System.out.println(" Venda");
 //            
 //            contendPanel.add(compraView, "Compra");
 //            System.out.println(" Compra");
@@ -204,7 +204,7 @@ public class AppView extends JFrame{
         System.out.println("\n Entrando em Menu...");
         
         setJMenuBar(menuView);
-        mostrarTela("Fornecedor");
+        mostrarTela("Venda");
         System.out.println(" Entrando em Menu(SUCESSO)");
     }
     
