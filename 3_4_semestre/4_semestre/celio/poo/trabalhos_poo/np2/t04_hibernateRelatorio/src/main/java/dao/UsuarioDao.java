@@ -32,11 +32,16 @@ public class UsuarioDao implements GenericDao<UsuarioModel> {
         }
     }
 
+    
+//         String sql = "SELECT USU_CODIGO, USU_NOME, USU_LOGIN, USU_ATIVO " +
+//                     "FROM USUARIO WHERE USU_LOGIN = ? AND USU_SENHA = ?";   
+    
     @Override
     public ArrayList<UsuarioModel> consultar(String filtro) {
         String hql = "from " + UsuarioModel.class.getName();
+        
         if (filtro != null && !filtro.trim().isEmpty()) {
-            hql += " " + filtro;
+            hql += " WHERE " + filtro;
         }
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -64,4 +69,5 @@ public class UsuarioDao implements GenericDao<UsuarioModel> {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (UsuarioModel) session.getReference(UsuarioModel.class, id);
     }
+    
 }

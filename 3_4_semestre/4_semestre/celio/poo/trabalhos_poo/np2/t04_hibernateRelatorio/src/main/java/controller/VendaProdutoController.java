@@ -37,8 +37,6 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
         return vendaProdutoDao.consultar(filtro);
     }
 
-
-    
     @Override
     public void gravar(VendaProdutoModel obj, String operacao) throws Exception {
         if (operacao.equals("incluir")) {
@@ -48,7 +46,6 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
         }
     }
     
-
     @Override
     public Exception imprimir() {
         Exception retorno = null;
@@ -71,6 +68,9 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
         return retorno;
     }
     
+    public VendaProdutoModel buscarPorCodProd(int cod) throws Exception {
+        return vendaProdutoDao.get(cod);
+    }
     
     public VendaProdutoModel buscarPrimeiroPorVenda(Integer cod) throws Exception {
         ArrayList<VendaProdutoModel> lista = new ArrayList<>(vendaProdutoDao.consultarPorVenda(cod));

@@ -116,7 +116,6 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
         return (VendaProdutoModel) session.getReference(VendaProdutoModel.class, id);
     }
     
-    
     public VendaProdutoModel buscarPorCodigoVenda(Integer codProduto) throws Exception {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             String hql = "FROM VendaProdutoModel vp "
@@ -128,7 +127,6 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
                           .uniqueResult();
         }
     }
-
     
     public List<VendaProdutoModel> consultarPorVenda(int vdaCodigo) throws Exception {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -157,8 +155,7 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
         }
     }
     
-    
-        public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
+    public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
         Transaction tx = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

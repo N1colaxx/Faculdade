@@ -35,6 +35,7 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
     @Override
     public ArrayList<FormapagtoModel> consultar(String filtro) {
         String hql = "FROM " + FormapagtoModel.class.getName();
+        
         if (filtro != null && !filtro.trim().isEmpty()) {
             hql += " " + filtro;
         }
@@ -72,7 +73,7 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
     public ArrayList<String> listarNomesAtivos() throws Exception {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             String hql = "SELECT f.fpg_nome FROM FormapagtoModel f " +
-                         "WHERE COALESCE(f.fpg_ativo, 'S') = 'S' ORDER BY f.fpg_nome";
+                         "WHERE f.fpg_ativo = 1 ORDER BY f.fpg_nome";
 
             List<String> resultList = session.createQuery(hql, String.class).getResultList();
             return new ArrayList<>(resultList);

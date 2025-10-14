@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import model.SessionModel;
 import model.UsuarioModel;
 import relatorios.UsuarioRelatorio;
 
 public class UsuarioController implements GenericController<UsuarioModel> {
-
+    
     UsuarioDao usuariodao;
 
     public UsuarioController() {
@@ -66,5 +67,17 @@ public class UsuarioController implements GenericController<UsuarioModel> {
 
         return retorno;
     }
-
+    
+    public boolean autenticar(String email, String senha) {
+        String filtro = "usu_email = :email AND usu_senha = :senha"; 
+        
+        try {
+            UsuarioModel u = usuariodao.consultar(filtro);
+            return (u != null && u.getUSU_ATIVO() == 1); // << ativo = 1
+        } catch (Exception e) {
+            System.out.println("Erro ao autenticar: " + e.getMessage());
+            return false;
+        }
+    }
+    
 }
