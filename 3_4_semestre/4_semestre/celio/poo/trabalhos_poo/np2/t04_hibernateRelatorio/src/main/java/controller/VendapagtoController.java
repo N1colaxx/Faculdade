@@ -12,9 +12,11 @@ import java.util.Map;
 public class VendapagtoController implements GenericController<VendapagtoModel> {
 
     VendapagtoDao vendapagtoDao; 
+    private String operacao;
     
     public VendapagtoController() {
         vendapagtoDao = new VendapagtoDao();
+        operacao = null;
     }
 
     @Override
@@ -77,8 +79,13 @@ public class VendapagtoController implements GenericController<VendapagtoModel> 
         return vendapagtoDao;
     }
     
-    public ArrayList<VendapagtoModel> buscarPorCodigoVenda (int cod) throws Exception {
-        return new ArrayList<>(vendapagtoDao.consultarPorVenda(cod));
+    public ArrayList<VendapagtoModel> buscarPorVdaCodigo(Integer VDA_CODIGO, String op) throws Exception {
+        
+        if (!op.isEmpty() && op.equals("consultaPorVdaCodigo")) {
+            operacao = op;
+        }
+        String cond = " v.vda_codigo = :vda_codigo";
+        return new ArrayList<>(vendapagtoDao.consultar(cond));
     }
     
     
@@ -89,6 +96,10 @@ public class VendapagtoController implements GenericController<VendapagtoModel> 
         }
 
         vendapagtoDao.inserirPgtos(vdaCodigo, pgtos);
+    }
+    
+    public String getOperacao(){
+        return operacao;
     }
     
 }

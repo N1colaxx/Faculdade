@@ -2,8 +2,6 @@ package main;
 
 import view.AppView;
 
-import javax.swing.*;
-
 public class AppT04 {
     
     private AppView appView;

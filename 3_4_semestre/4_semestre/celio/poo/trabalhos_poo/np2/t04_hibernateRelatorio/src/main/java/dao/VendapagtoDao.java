@@ -10,7 +10,12 @@ import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 public class VendapagtoDao implements GenericDao<VendapagtoModel> {
-
+    
+    private String operacao;
+    
+    public VendapagtoDao() {
+        operacao = null;
+    }
     
     @Override
     public void incluir(VendapagtoModel objModel) throws Exception {
@@ -74,15 +79,15 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
         System.out.println("\n [VendapagtoDao] CONSULTAR iniciado \n");
         
         String tabVendapagto = VendapagtoModel.class.getName();
-        String hql = " FROM " + tabVendapagto + " venpag " 
-                +    " JOIN FETCH venpag.venda "
-                +    " JOIN FETCH venpag.formapagto";
+        String hql = " FROM " + tabVendapagto + " vpg " 
+                +    " JOIN FETCH venpag.venda v "
+                +    " JOIN FETCH venpag.formapagto fpg";
         
         if (filtro != null && !filtro.trim().isEmpty()) {
-            hql = " FROM " + tabVendapagto + " venpag " 
-                + " JOIN FETCH venpag.venda "
-                + " JOIN FETCH venpag.formapagto"
-                + " WHERE " + filtro;
+            hql =  " FROM " + tabVendapagto + " vpg " 
+                +  " JOIN FETCH venpag.venda v "
+                +  " JOIN FETCH venpag.formapagto fpg"
+                +  " WHERE " + filtro;
         }
         
         System.out.println(" [VendapagtoDao] query HQL executada:");
@@ -91,6 +96,11 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             var query = session.createQuery(hql, VendapagtoModel.class);
             
+            if(operacao.equals("consultaPorVdaCodigo") && hql.contains(":vda_codigo")) {
+                query.setParameter("vda_codigo", operacao);
+                System.out.println(" [VendaProdutoDao] parâmetro da consulta (consultaPorVdaCodigo) = tem que compara por VDA_CODIGO");
+            }
+                        
             List<VendapagtoModel> resultList = query.getResultList();
             return new ArrayList<>(resultList);
         }
@@ -116,16 +126,24 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
     }
     
     
-    public List<VendapagtoModel> consultarPorVenda(int vdaCodigo) throws Exception {
+    // Pesquisa por VDA_CODIGO
+    public List<VendapagtoModel> consultarPorVenda(Integer VDA_CODIGO) throws Exception {
+        String tabVendapagto = VendapagtoModel.class.getName();
+        
+        String hql = " FROM " + tabVendapagto + " vpg " 
+                +    " JOIN FETCH venpag.venda v "
+                +    " JOIN FETCH venpag.formapagto fpg"
+                +    " WHERE vda_codigo = :vda_codigo";
+        
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "FROM VendapagtoModel vp "
-                       + "JOIN FETCH vp.venda v "
-                       + "JOIN FETCH vp.formapagto fp "
-                       + "WHERE vp.venda.vda_codigo = :vda";
+            var query = session.createQuery(hql, VendapagtoModel.class);
+            
+            if (VDA_CODIGO != null && hql.contains(":vda_codigo")) {
+                query.setParameter(":vda_codigo", hql);
+            }
 
-            List<VendapagtoModel> resultList = session.createQuery(hql, VendapagtoModel.class)
-                                                        .setParameter("vda", vdaCodigo)
-                                                        .getResultList();
+            List<VendapagtoModel> resultList = query.getResultList();
+            
             return new ArrayList<>(resultList);
         }
     }

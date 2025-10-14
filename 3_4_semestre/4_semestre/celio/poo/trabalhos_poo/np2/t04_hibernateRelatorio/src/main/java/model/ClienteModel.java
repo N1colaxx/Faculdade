@@ -21,7 +21,7 @@ public class ClienteModel implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cli_codigo")
+    @Column(name = "CLI_CODIGO")
     private Integer cli_codigo;
     
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // aqui o hibernate que fica responsavel para criar a pessoa no dao/DB

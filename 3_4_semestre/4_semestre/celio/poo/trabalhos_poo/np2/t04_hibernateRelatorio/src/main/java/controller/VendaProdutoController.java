@@ -13,8 +13,11 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
 
     VendaProdutoDao vendaProdutoDao; 
     
+    private String operacao;
+    
     public VendaProdutoController() {
         vendaProdutoDao = new VendaProdutoDao();
+        operacao = null;
     }
 
     @Override
@@ -68,20 +71,27 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
         return retorno;
     }
     
-    public VendaProdutoModel buscarPorCodProd(int cod) throws Exception {
+    public VendaProdutoModel buscarProduto_ProCodigo(int cod) throws Exception {
         return vendaProdutoDao.get(cod);
     }
     
-    public VendaProdutoModel buscarPrimeiroPorVenda(Integer cod) throws Exception {
-        ArrayList<VendaProdutoModel> lista = new ArrayList<>(vendaProdutoDao.consultarPorVenda(cod));
+       
+    // busca um lista completa
+    public ArrayList<VendaProdutoModel> buscarPorVdaCodigo(Integer vda_cod, String op) throws Exception {
+        if (!op.isEmpty() && op.equals("consultaPorVdaCodigo")) {
+            operacao = op;
+        }
+        
+        String cond = " v.vda_codigo = :vda_codigo";
+        return new ArrayList<>(vendaProdutoDao.consultar(cond));
+    }
+    
+    //busca o 1 item da lista
+    public VendaProdutoModel buscarPrimeiroPorVdaCodigo(Integer cod) throws Exception {
+        ArrayList<VendaProdutoModel> lista = new ArrayList<>(vendaProdutoDao.consultarPorVdaCodigo(cod));
         return lista.isEmpty() ? null : lista.get(0);
     }
     
-    public ArrayList<VendaProdutoModel> buscarPorCodigoVenda(Integer cod) throws Exception {
-        return new ArrayList<>(vendaProdutoDao.consultarPorVenda(cod));
-    }
-
-
     
     public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
         if (itens == null || itens.isEmpty()) {
@@ -92,8 +102,16 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
     }
 
     
+    /**
+     * Getters
+     */
+    
     public VendaProdutoDao getDao() {
         return vendaProdutoDao;
+    }
+    
+    public String getOperacao() {
+        return operacao;
     }
     
 }
