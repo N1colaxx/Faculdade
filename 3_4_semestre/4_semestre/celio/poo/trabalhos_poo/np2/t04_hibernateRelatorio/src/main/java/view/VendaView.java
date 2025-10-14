@@ -1,6 +1,7 @@
 package view;
 
 import controller.FormapagtoController;
+import controller.ProdutoController;
 import controller.VendaController;
 import controller.VendaProdutoController;
 import controller.VendapagtoController;
@@ -10,6 +11,7 @@ import model.VendaProdutoModel;
 import model.VendapagtoModel;
 import model.SessionModel;
 import model.UsuarioModel;
+import model.ProdutoModel;
 
 import util.UtilsUI;
 
@@ -529,7 +531,7 @@ public class VendaView extends JPanel {
         });
         // Subtotal ao sair da qtde
         edtProQtde.addFocusListener(new FocusAdapter() {
-            @Override public void focusLost(FocusEvent e) { recalcSubtotal(); }
+            @Override public void focusLost(FocusEvent e) { recalcProTotal(); }
         });
 
         // Itens
@@ -672,13 +674,11 @@ public class VendaView extends JPanel {
             }
             
             recomputarTotais();
-
+     
+            
             // ir para a aba "Dados" 
             tabs.setSelectedComponent(tabDados);
 
-            /** Marca que estamos olhando um registro existente
-            *   só troca para "alterar" quando clicar no botão Alterar
-            */
             setOperacao("");
             
         } catch (Exception ex) {
@@ -687,54 +687,67 @@ public class VendaView extends JPanel {
     }
    
  
-    // ===== Itens =====
+    /** 
+     * ===== Itens =====
+     */
 
     private void preencherProduto() {
         try {
+            setOperacao("consultaPorVdaCodigo");
+            
             int cod = parseInt(edtProCod.getText());
             if (cod <= 0) { limparCamposProduto(); return; }
-            VendaProdutoModel p = new VendaProdutoController().buscarPrimeiroPorVdaCodigo(cod);
+            
+            ProdutoModel p = new ProdutoController().buscarPorCodigo(cod);
 
             if (p == null) {
                 JOptionPane.showMessageDialog(this, "Produto não encontrado/ativo.");
                 limparCamposProduto();
                 return;
             }
-            edtProNome.setText(p.getProduto_VendaProduto().getPRO_NOME());
-            edtProUn.setText(p.getProduto_VendaProduto().getPRO_UNIDADE());
-            edtProPreco.setText(fmt(p.getProduto_VendaProduto().getPRO_PRECO())); // ftm -> converte double em string
-            recalcSubtotal();
+            edtProNome.setText(p.getPRO_NOME());
+            edtProUn.setText(p.getPRO_UNIDADE());
+//            edtProQtde -> o user que seta 
+            edtProPreco.setText(fmt(p.getPRO_PRECO())); // ftm -> converte double em string
+//            edtProDesconto -> o user que seta
+            recalcProTotal();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Falha ao buscar produto: " + ex.getMessage());
         }
     }
 
-    private void recalcSubtotal() {
+    private void recalcProTotal() {
         double qt = parseDouble(edtProQtde.getText());
         double pr = parseDouble(edtProPreco.getText());
-        edtProTotal.setText(fmt(qt * pr));
+        double desc = parseDouble(edtProDesconto.getText());
+        edtProTotal.setText(fmt((qt * pr) - desc));
     }
 
     private void adicionarItem() {
         int pro = parseInt(edtProCod.getText());
-        if (pro <= 0) { JOptionPane.showMessageDialog(this, "Informe o código do produto."); return; }
         double qt = parseDouble(edtProQtde.getText());
         double pr = parseDouble(edtProPreco.getText());
+        double desc = parseDouble(edtProDesconto.getText());
+    
+        if (pro <= 0) { JOptionPane.showMessageDialog(this, "Informe o código do produto."); return; }
+        
         if (qt <= 0 || pr <= 0) { JOptionPane.showMessageDialog(this, "Qtde e Preço precisam ser > 0."); return; }
 
+        
         VendaProdutoModel it = new VendaProdutoModel();
-        it.getProduto_VendaProduto().setPRO_CODIGO(pro);
-        it.getProduto_VendaProduto().setPRO_NOME(edtProNome.getText().trim());
-        it.getProduto_VendaProduto().setPRO_UNIDADE(edtProUn.getText().trim());
-        it.setVep_qtde(qt);
-        it.setVep_preco(pr);
-        it.setVep_desconto(0.0);
-        double total = UtilsUI.recalc(it.getVep_qtde(), it.getVep_preco(), it.getVep_desconto());
-        it.setVep_total(total);
+            it.getProduto_VendaProduto().setPRO_CODIGO(pro);
+            it.getProduto_VendaProduto().setPRO_NOME(edtProNome.getText().trim());
+            it.getProduto_VendaProduto().setPRO_UNIDADE(edtProUn.getText().trim());
+            it.setVep_qtde(qt);
+            it.setVep_preco(pr);
+            it.setVep_desconto(desc);
+            double total = ((qt * pr) - desc);
+            it.setVep_total(total);
 
         itensModel.addItem(it);
-        limparCamposProduto();
+        
         recomputarTotais();
+        limparCamposProduto();
     }
 
     private void removerItemSelecionado() {
@@ -754,44 +767,80 @@ public class VendaView extends JPanel {
         edtProTotal.setText("");
     }
 
+ 
+    
+    
+    /**
+     * ===== Pagamentos =====
+     */
+
     private void recomputarTotais() {
         double soma = 0.0;
-        for (VendaProdutoModel it : itensModel.getLinhas()) soma += it.getVep_total();
-        edtValorVenda.setText(fmt(soma));
-        double desc = parseDouble(edtDescontoVenda.getText());
-        if (desc < 0) desc = 0;
-        if (desc > soma) desc = soma;
-        edtDescontoVenda.setText(fmt(desc));
-        edtTotalVenda.setText(fmt(soma - desc));
+        String totalPro = "0.0";
+        double descV = parseDouble(edtDescontoVenda.getText());
 
-        // se não há pagamentos, sugere o total no campo de valor
-        if (pgtosModel.getLinhas().isEmpty())
-            edtValorPagamento.setText(edtTotalVenda.getText());
-        else if (pgtosModel.getRowCount() == 1) {
-            // mantém 1ª forma = total atual
-            VendapagtoModel pg1 = pgtosModel.get(0);
-            pg1.setVdp_valor(parseDouble(edtTotalVenda.getText()));
-            pgtosModel.set(0, pg1);
-        } else if (pgtosModel.getRowCount() == 2) {
-            // reajusta a 1ª para (total - 2ª)
-            VendapagtoModel pg2 = pgtosModel.get(1);
+        /** 
+         * Total da VENDA -> op = 3
+         */
+
+        for (VendaProdutoModel it : itensModel.getLinhas()) {
+            soma += it.getVep_total();
+        }
+
+        if (descV < 0) {
+            JOptionPane.showMessageDialog(this, "Desconto precisa ser >= 0."); 
+            return; 
+        }
+        
+        if (descV > soma){
+            JOptionPane.showMessageDialog(this, "Desconto NÂO pode ser > que Valor Venda."); 
+            return; 
+        }
+ 
+        edtValorVenda.setText(fmt(soma));
+        edtDescontoVenda.setText(fmt(descV));
+        edtTotalVenda.setText(fmt(soma - descV));
+
+        
+        /** 
+         * Total da Formapagto -> op = 2
+         */
+        
+       
+        if (pgtosModel.getLinhas().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Tabela Forma de Pagamento esta Vazia!"); 
+        } 
+        
+        if (pgtosModel.getRowCount() == 1) {
+            // mantém 1ª formapag = total atual
+            VendapagtoModel vpd = pgtosModel.get(0);
+            vpd.setVdp_valor(parseDouble(edtTotalVenda.getText()));
+            pgtosModel.set(0, vpd);
+        } 
+        
+        if (pgtosModel.getRowCount() == 2) {
+            // reajusta a 1ª para (total - 2ªformapag)
+            VendapagtoModel vdp2 = pgtosModel.get(1);
+            
             double total = parseDouble(edtTotalVenda.getText());
-            double val2 = pg2.getVdp_valor();
+            double val2 = vdp2.getVdp_valor();
+            
             if (val2 <= 0 || val2 >= total) {
                 val2 = Math.max(0, Math.min(total, val2));
-                pg2.setVdp_valor(val2);
-                pgtosModel.set(1, pg2);
+                vdp2.setVdp_valor(val2);
+                pgtosModel.set(1, vdp2);
             }
+            
             VendapagtoModel pg1 = pgtosModel.get(0);
             pg1.setVdp_valor(total - val2);
             pgtosModel.set(0, pg1);
         }
+        
     }
 
-    // ===== Pagamentos =====
-    
     private void carregarFormasPagamento() {
         try {
+            System.out.println("\n [VendaView] carregarFormasPagamento() iniciado...");
             ArrayList<String> nomes = new FormapagtoController().listarNomesAtivos();
             cbFpgNome.removeAllItems();
             for (String n : nomes) {
@@ -819,22 +868,28 @@ public class VendaView extends JPanel {
 
             if (pgtosModel.getRowCount() == 0) {
                 double valor1 = total;
+                
                 if (!edtValorPagamento.getText().isBlank()) {
                     valor1 = parseDouble(edtValorPagamento.getText());
+                    
                     if (valor1 <= 0) valor1 = total;
                     if (valor1 > total) valor1 = total;
                 }
+                
                 VendapagtoModel  pg = new VendapagtoModel();
                 pg.getFormapagto_Vendapagto().setFPG_CODIGO(fpgCodigo);
                 pg.getFormapagto_Vendapagto().setFPG_NOME(nome);
                 pg.setVdp_valor(valor1);
                 pgtosModel.add(pg);
+                    
             } else {
                 double valor2 = parseDouble(edtValorPagamento.getText());
+               
                 if (valor2 <= 0 || valor2 >= total) {
                     JOptionPane.showMessageDialog(this, "Para 2ª forma informe valor > 0 e < total.");
                     return;
                 }
+                
                 VendapagtoModel  pg2 = new VendapagtoModel();
                 pg2.getFormapagto_Vendapagto().setFPG_CODIGO(fpgCodigo);
                 pg2.getFormapagto_Vendapagto().setFPG_NOME(nome);
@@ -915,6 +970,7 @@ public class VendaView extends JPanel {
         edtVdaCodigo.setText("0");                 // mostra 0
         edtData.setText(LocalDate.now().toString());
         tabs.setSelectedComponent(tabDados);
+        
         carregarFormasPagamento();
     }
     

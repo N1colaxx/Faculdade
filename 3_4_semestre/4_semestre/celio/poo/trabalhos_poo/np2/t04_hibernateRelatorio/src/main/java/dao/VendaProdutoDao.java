@@ -75,7 +75,6 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
        }
     }
     
-    
     @Override
     public ArrayList<VendaProdutoModel> consultar(String filtro) {
         System.out.println("\n [VendaProdutoDao] CONSULTAR iniciado \n");
@@ -139,33 +138,6 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
                           .uniqueResult();
         }
     }
-    
-
-    
-    
-    // Consulta por VDA_CODIGO;
-    public List<VendaProdutoModel> consultarPorVdaCodigo(Integer VDA_CODIGO) throws Exception {
-        String tabVendaProduto = VendaProdutoModel.class.getName();
-  
-        
-        String hql = " FROM " + tabVendaProduto + " vp "
-                   + " JOIN FETCH vp.venda v"
-                   + " JOIN FETCH vp.produto p"
-                   + " WHERE vp.vda_codigo = :vda";
-        
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            var quey = session.createQuery(hql, VendaProdutoModel.class);
-            
-            if(VDA_CODIGO != null &&  hql.contains(":vda_codigo")) {
-               quey.setParameter(":vda_codigo", VDA_CODIGO);
-                System.out.println(" [VendaProduto] parametro da consulta = " + VDA_CODIGO);
-            }
-            
-            List<VendaProdutoModel> resultList = quey.getResultList();
-            return new ArrayList<>(resultList);
-        }
-    }
-    
     
     public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
         Transaction tx = null;

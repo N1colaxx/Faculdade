@@ -46,6 +46,10 @@ public class ProdutoController implements GenericController<ProdutoModel> {
             alterar(obj);
         }
     }
+    
+    public ProdutoModel buscarPorCodigo(Integer cod) throws Exception {
+        return produtoDao.get(cod); 
+    }
 
     @Override
     public Exception imprimir() {

@@ -19,8 +19,7 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
     
     @Override
     public void incluir(VendapagtoModel objModel) throws Exception {
-        System.out.println("\n [VendapagtoDao] INCLUIR iniciado \n");
-        
+        System.out.println("\n [VendapagtoDao] INCLUIR iniciado \n"); 
         System.out.println(" vdp_codigo = " + objModel.getVdp_codigo() );
         System.out.println(" vda_codigo = " + objModel.getVenda_Vendapagto().getVda_codigo());        
         System.out.println(" pfg_codigo = " + objModel.getFormapagto_Vendapagto().getFPG_CODIGO());
@@ -143,12 +142,11 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
             }
 
             List<VendapagtoModel> resultList = query.getResultList();
-            
             return new ArrayList<>(resultList);
         }
     }
     
-        public void inserirPgtos(int vdaCodigo, ArrayList<VendapagtoModel> pgtos) throws Exception {
+     public void inserirPgtos(int vdaCodigo, ArrayList<VendapagtoModel> pgtos) throws Exception {
         Transaction tx = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

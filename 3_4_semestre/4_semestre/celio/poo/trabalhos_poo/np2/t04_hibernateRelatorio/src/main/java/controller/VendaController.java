@@ -75,6 +75,10 @@ public class VendaController implements GenericController<VendaModel> {
         return vendaDao.get(cod); 
     }
     
+    /**
+     * Getters
+     */
+    
     public VendaDao getDao() {
         return vendaDao;
     }

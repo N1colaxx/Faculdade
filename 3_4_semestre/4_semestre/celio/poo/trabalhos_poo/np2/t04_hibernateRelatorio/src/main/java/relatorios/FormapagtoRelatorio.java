@@ -97,7 +97,7 @@ public class FormapagtoRelatorio {
             String linha = String.format("%-10d %-50s %-10s",
                     objModel.getFPG_CODIGO(),
                     objModel.getFPG_NOME(),
-                    objModel.getFPG_ATIVO() == 1 ? "Ativo" : "Inativo");
+                    objModel.getFPG_ATIVO() == "1" ? "Ativo" : "Inativo");
 
             cs.showText(linha);
             cs.endText();

@@ -34,10 +34,11 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
 
     @Override
     public ArrayList<FormapagtoModel> consultar(String filtro) {
-        String hql = "FROM " + FormapagtoModel.class.getName();
-        
+        String tabFormapagto = FormapagtoModel.class.getName();
+        String hql = "FROM " + tabFormapagto + " fpg";
+         
         if (filtro != null && !filtro.trim().isEmpty()) {
-            hql += " " + filtro;
+            hql += " WEHER" + filtro;
         }
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -67,18 +68,25 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
     }
     
 
-    /**
-     * Retorna uma lista de nomes de formas de pagamento ativas (fpg_ativo = 'S').
-     */
+    
+//    Retorna uma lista de nomes de formas de pagamento ativas (fpg_ativo = 1).
     public ArrayList<String> listarNomesAtivos() throws Exception {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "SELECT f.fpg_nome FROM FormapagtoModel f " +
-                         "WHERE f.fpg_ativo = 1 ORDER BY f.fpg_nome";
+        System.out.println("\n[FormapagtoDao] listarNomesAtivos() foi iniciado...");
+        String tabFormapagto = FormapagtoModel.class.getName();
+        String hql = "SELECT f.fpg_nome FROM " + tabFormapagto + " f WHERE f.fpg_ativo = '1'";
 
-            List<String> resultList = session.createQuery(hql, String.class).getResultList();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            var query = session.createQuery(hql, String.class);
+            
+            System.out.println("Query sendo executada = \n" + hql );
+
+            List<String> resultList = query.getResultList();
             return new ArrayList<>(resultList);
         }
     }
+
+    
+    
 
     /**
      * Retorna o código (PK) da forma de pagamento dado o nome.

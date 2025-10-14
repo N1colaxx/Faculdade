@@ -319,7 +319,7 @@ public class FormapagtoView extends JPanel {
     private void mostrar(FormapagtoModel f) {
         edtCodigo.setText(String.valueOf(f.getFPG_CODIGO()));
         edtNome.setText(f.getFPG_NOME());
-        chkAtivo.setSelected(f.getFPG_ATIVO() == 1);
+        chkAtivo.setSelected(f.getFPG_ATIVO() == "1");
     }
 
     private FormapagtoModel montarFormapagtoDosCampos() {
@@ -331,7 +331,7 @@ public class FormapagtoView extends JPanel {
         }
         f.setFPG_CODIGO(cod);
         f.setFPG_NOME(edtNome.getText().trim());
-        f.setFPG_ATIVO(chkAtivo.isSelected() ? 1 : 0);
+        f.setFPG_ATIVO(chkAtivo.isSelected() ? "1" : "0");
         return f;
     }
 

@@ -40,7 +40,7 @@ public class FormapagtoTableModel extends AbstractTableModel {
             case 1:
                 return objModel.getFPG_NOME();
             case 2:
-                return objModel.getFPG_ATIVO() == 1 ? "Sim" : "Não";               
+                return objModel.getFPG_ATIVO() == "1" ? "Sim" : "Não";               
             default:
                 return null;
         }

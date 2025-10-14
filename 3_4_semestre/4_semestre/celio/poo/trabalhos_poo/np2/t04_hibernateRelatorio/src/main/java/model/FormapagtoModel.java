@@ -20,12 +20,12 @@ public class FormapagtoModel implements java.io.Serializable {
     private Integer fpg_codigo;
 
     private String fpg_nome;
-    private Integer fpg_ativo;
+    private String fpg_ativo;
 
     public FormapagtoModel() {
     }
 
-    public FormapagtoModel(Integer FPG_CODIGO, String FPG_NOME, Integer FPG_ATIVO) {
+    public FormapagtoModel(Integer FPG_CODIGO, String FPG_NOME, String FPG_ATIVO) {
         this.fpg_codigo = FPG_CODIGO;
         this.fpg_nome = FPG_NOME;
         this.fpg_ativo = FPG_ATIVO;
@@ -45,7 +45,7 @@ public class FormapagtoModel implements java.io.Serializable {
     }
 
     @Column(name = "FPG_ATIVO", nullable = true, length = 1)
-    public int getFPG_ATIVO() {
+    public String getFPG_ATIVO() {
         return fpg_ativo;
     }
 
@@ -61,7 +61,7 @@ public class FormapagtoModel implements java.io.Serializable {
         fpg_nome = v;
     }
 
-    public void setFPG_ATIVO(Integer v) {
+    public void setFPG_ATIVO(String v) {
         fpg_ativo = v;
     }
 }

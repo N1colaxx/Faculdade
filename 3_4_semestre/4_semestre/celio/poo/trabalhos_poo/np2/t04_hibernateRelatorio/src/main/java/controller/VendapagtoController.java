@@ -48,7 +48,6 @@ public class VendapagtoController implements GenericController<VendapagtoModel> 
         }
     }
     
-
     @Override
     public Exception imprimir() {
         Exception retorno = null;
@@ -75,10 +74,8 @@ public class VendapagtoController implements GenericController<VendapagtoModel> 
         return vendapagtoDao.get(cod); 
     }
     
-    public VendapagtoDao getDao() {
-        return vendapagtoDao;
-    }
-    
+ 
+    // Lista completa por VDA_CODIGO
     public ArrayList<VendapagtoModel> buscarPorVdaCodigo(Integer VDA_CODIGO, String op) throws Exception {
         
         if (!op.isEmpty() && op.equals("consultaPorVdaCodigo")) {
@@ -88,14 +85,21 @@ public class VendapagtoController implements GenericController<VendapagtoModel> 
         return new ArrayList<>(vendapagtoDao.consultar(cond));
     }
     
-    
-    
     public void inserirPgtos(int vdaCodigo, ArrayList<VendapagtoModel> pgtos) throws Exception {
         if (pgtos == null || pgtos.isEmpty()) {
             throw new Exception("Nenhum pagamento para inserir.");
         }
 
         vendapagtoDao.inserirPgtos(vdaCodigo, pgtos);
+    }
+    
+    
+    /**
+     * Getters
+     */
+    
+    public VendapagtoDao getDao() {
+        return vendapagtoDao;
     }
     
     public String getOperacao(){

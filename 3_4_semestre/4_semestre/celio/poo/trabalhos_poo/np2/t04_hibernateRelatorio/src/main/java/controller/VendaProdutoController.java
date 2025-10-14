@@ -87,11 +87,16 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
     }
     
     //busca o 1 item da lista
-    public VendaProdutoModel buscarPrimeiroPorVdaCodigo(Integer cod) throws Exception {
-        ArrayList<VendaProdutoModel> lista = new ArrayList<>(vendaProdutoDao.consultarPorVdaCodigo(cod));
-        return lista.isEmpty() ? null : lista.get(0);
+    public VendaProdutoModel buscarPrimeiroPorVdaCodigo(Integer vda_cod, String op) throws Exception {
+        if (!op.isEmpty() && op.equals("consultaPorVdaCodigo")) {
+            operacao = op;
+        }
+        
+        String cond = " v.vda_codigo = :vda_codigo";
+        
+        ArrayList<VendaProdutoModel> lista = new ArrayList<>(vendaProdutoDao.consultar(cond));
+        return (lista == null || lista.isEmpty()) ? null : lista.get(0);
     }
-    
     
     public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
         if (itens == null || itens.isEmpty()) {
