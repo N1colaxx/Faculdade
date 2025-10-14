@@ -4,7 +4,6 @@ import controller.ClienteController;
 import model.ClienteModel;
 import model.PessoaModel;
 import util.UtilsUI;
-import view.LoginView;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -67,6 +66,8 @@ public class ClienteView extends JPanel {
 
 
     public ClienteView() {
+        System.out.println(" [ClienteView] entrou");
+        
         setLayout(null);
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(1500, 850));

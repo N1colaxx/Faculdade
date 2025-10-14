@@ -46,6 +46,8 @@ public class UsuarioView extends JPanel {
     private ArrayList<UsuarioModel> lista = new ArrayList<>();
 
     public UsuarioView() {
+        System.out.println(" [UsuarioView] entrou");
+        
         setLayout(null);
         setBackground(Color.BLACK);
 

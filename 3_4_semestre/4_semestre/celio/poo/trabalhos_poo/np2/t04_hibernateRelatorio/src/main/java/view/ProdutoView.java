@@ -65,6 +65,8 @@ public class ProdutoView extends JPanel {
 
     //  construtor: configura layout base e liga tudo
     public ProdutoView() {
+        System.out.println(" [ProdutoView] entrou");
+        
         setLayout(null);
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(1500, 850)); // garante o tamanho do frame

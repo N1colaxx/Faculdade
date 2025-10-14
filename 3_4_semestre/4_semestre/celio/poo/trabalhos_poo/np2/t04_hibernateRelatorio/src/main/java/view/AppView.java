@@ -66,27 +66,19 @@ public class AppView extends JFrame{
             System.out.println("\n Instanciando View (...)");
             
             loginView = new LoginView();
-                System.out.println(" Login");
             menuView = new MenuView();
-                System.out.println(" Menu");
                 
             // Cadastro
             clienteView = new ClienteView();
-                System.out.println(" Cliente");
             fornecedorView = new FornecedorView();
-                System.out.println(" Fronecedor");
             produtoView = new ProdutoView();
-                System.out.println(" Produto");
             formapagtoView = new FormapagtoView();
-                System.out.println(" Formapagto");
             usuario1View = new UsuarioView();
-                System.out.println(" Usuario");
-                
+            
             // Movimentos
 //            compraView = new CompraView();
 //                System.out.println(" Compra");
             vendaView = new VendaView();
-                System.out.println(" Venda");
                                
             System.out.println(" Instanciando View (SUCESSO)");
         } catch (Exception e) {
@@ -199,6 +191,7 @@ public class AppView extends JFrame{
                 );
             }
         });
+        
     }
 
     

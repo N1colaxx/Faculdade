@@ -11,6 +11,8 @@ public class MenuView extends JMenuBar{
             jmiSair; // itens de menuSair
     
     public MenuView(){
+        System.out.println(" [MenuView] entrou");
+        
         instanciar();
         adicionar();
     }

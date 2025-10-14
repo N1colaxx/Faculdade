@@ -87,6 +87,7 @@ public class VendaView extends JPanel {
 
     public VendaView() {
         System.out.println(" [VendaView] entrou");
+        
         setLayout(null);
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(1500, 850));

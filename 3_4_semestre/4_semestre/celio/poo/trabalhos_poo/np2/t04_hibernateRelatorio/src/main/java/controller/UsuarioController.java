@@ -1,13 +1,18 @@
 package controller;
 
 import dao.UsuarioDao;
+
+import model.SessionModel;
+import model.UsuarioModel;
+
+import relatorios.UsuarioRelatorio;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.SessionModel;
-import model.UsuarioModel;
-import relatorios.UsuarioRelatorio;
+
+
 
 public class UsuarioController implements GenericController<UsuarioModel> {
     
@@ -68,14 +73,19 @@ public class UsuarioController implements GenericController<UsuarioModel> {
         return retorno;
     }
     
+
     public boolean autenticar(String email, String senha) {
-        String filtro = "usu_email = :email AND usu_senha = :senha"; 
-        
         try {
-            UsuarioModel u = usuariodao.consultar(filtro);
-            return (u != null && u.getUSU_ATIVO() == 1); // << ativo = 1
+            UsuarioModel user = usuariodao.buscarPorEmailSenha(email, senha);
+            if (user != null) {
+                SessionModel.setCurrentUser(user); // guarda o usuário logado
+                System.out.println("\n [UsuarioController] Usuário autenticado: " + user.getUSU_NOME());
+                return true;
+            }
+            
+            return false;
         } catch (Exception e) {
-            System.out.println("Erro ao autenticar: " + e.getMessage());
+            System.out.println("\n [UsuarioController] Erro ao autenticar: " + e.getMessage());
             return false;
         }
     }

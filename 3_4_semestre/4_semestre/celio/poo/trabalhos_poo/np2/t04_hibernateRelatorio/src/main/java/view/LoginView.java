@@ -1,8 +1,5 @@
 package view;
 
-import model.UsuarioModel;
-import model.SessionModel;
-
 import java.awt.*;
 import javax.swing.*;
 
@@ -14,17 +11,14 @@ public class LoginView extends JPanel {
     private JPasswordField edtSenha;
     private JButton btnEntrar;
     private GridBagConstraints gbc;
-    private UsuarioModel userLogado;
-    private SessionModel Session;
     
     public LoginView() {
+        System.out.println(" [LoginView] entrou");
+        
         setLayout(new GridBagLayout());
         instanciar();
         cfgPane();
         adicionar();
-        
-        Session = null;
-        userLogado = null;
     }
 
     private void instanciar() {
@@ -107,28 +101,14 @@ public class LoginView extends JPanel {
                 JOptionPane.showMessageDialog(this, "Informe e-mail e senha.");
                 return;
             }
-            // Formato básico de e-mail (bem simples)
-            if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
-                JOptionPane.showMessageDialog(this, "E-mail inválido.");
-                return;
-            }
+            
             // Regras mínimas de senha (opcional)
-            if (senha.length() < 4) {
+            if (senha.length() < 3) {
                 JOptionPane.showMessageDialog(this, "Senha muito curta.");
                 return;
             }
-
             
-            if (userLogado != null) {
-                Session.setCurrentUser(userLogado);
-
-                            
-                // Se passou na validação da View, chama o handler (controller)
                 handler.accept(email, senha);
-            }
-
-            
-
         });
     }
 

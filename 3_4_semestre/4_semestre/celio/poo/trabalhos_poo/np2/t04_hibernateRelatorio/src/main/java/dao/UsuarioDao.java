@@ -69,5 +69,33 @@ public class UsuarioDao implements GenericDao<UsuarioModel> {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (UsuarioModel) session.getReference(UsuarioModel.class, id);
     }
+   
     
+    public UsuarioModel buscarPorEmailSenha(String email, String senha) {
+            System.out.println("\n [UsuarioDao] buscarPorEmailSenha iniciado...");
+            
+            String tabUsuario = UsuarioModel.class.getName();            
+            String hql = "FROM " + tabUsuario + " u WHERE u.USU_LOGIN = :email AND u.USU_SENHA = :senha";
+            
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            var query = session.createQuery(hql, UsuarioModel.class);
+            query.setParameter("email", email);
+            query.setParameter("senha", senha);
+            
+            System.out.println(" [UsuarioDao] query HQL executada:");
+            System.out.println(   hql + " \n");
+
+            List<UsuarioModel> result = query.getResultList();
+            if (result.isEmpty()) {
+                return null;
+            }
+
+            return result.get(0);
+
+        } catch (Exception e) {
+            System.out.println("[UsuarioDao] Erro ao buscar usuário: " + e.getMessage());
+            throw e; // repassa o erro pro controller
+        }
+    }
+        
 }

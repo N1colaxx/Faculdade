@@ -9,7 +9,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.ListSelectionModel;
 import java.awt.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import model.PessoaModel;
 import util.UtilsUI;
@@ -66,6 +65,8 @@ public class FornecedorView extends JPanel {
 
 
     public FornecedorView() {
+        System.out.println(" [FornecedorView] entrou");
+        
         setLayout(null);
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(1500, 850));

@@ -50,6 +50,8 @@ public class FormapagtoView extends JPanel {
     private ArrayList<FormapagtoModel> lista = new ArrayList<>();
 
     public FormapagtoView() {
+        System.out.println(" [FormapagtoView] entrou");
+        
         setLayout(null);
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(1000, 850));
