@@ -12,6 +12,8 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
 
     @Override
     public void incluir(FormapagtoModel objModel) throws Exception {
+        System.out.println(" [FormapagtoDao] incluir() foi iniciado... \n");
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction t = session.beginTransaction();
 
@@ -25,6 +27,8 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
 
     @Override
     public void alterar(FormapagtoModel objModel) throws Exception {
+        System.out.println(" [FormapagtoDao] alterar() foi iniciado... \n");
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction t = session.beginTransaction();
             session.merge(objModel); // Mudar persist para merge para atualização
@@ -34,6 +38,8 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
 
     @Override
     public ArrayList<FormapagtoModel> consultar(String filtro) {
+        System.out.println(" [FormapagtoDao] consultar() foi iniciado... \n");
+
         String tabFormapagto = FormapagtoModel.class.getName();
         String hql = "FROM " + tabFormapagto + " fpg";
          
@@ -50,19 +56,23 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
 
     @Override
     public void excluir(FormapagtoModel objModel) throws Exception {
-    try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-        Transaction t = session.beginTransaction();
-        
-        // Para garantir que o objeto está no contexto de persistência
-        FormapagtoModel managedEntity = session.merge(objModel);
-        session.remove(managedEntity);
-        
-        t.commit();
-    }
+        System.out.println(" [FormapagtoDao] excluir() foi iniciado... \n");
+
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Transaction t = session.beginTransaction();
+
+            // Para garantir que o objeto está no contexto de persistência
+            FormapagtoModel managedEntity = session.merge(objModel);
+            session.remove(managedEntity);
+
+            t.commit();
+        }
     }
 
     @Override
     public FormapagtoModel get(Integer id) {
+        System.out.println(" [FormapagtoDao] get() foi iniciado... \n");
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (FormapagtoModel) session.getReference(FormapagtoModel.class, id);
     }
@@ -71,14 +81,15 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
     
 //    Retorna uma lista de nomes de formas de pagamento ativas (fpg_ativo = 1).
     public ArrayList<String> listarNomesAtivos() throws Exception {
-        System.out.println("\n[FormapagtoDao] listarNomesAtivos() foi iniciado...");
+        System.out.println(" [FormapagtoDao] listarNomesAtivos() foi iniciado... \n");
+        
         String tabFormapagto = FormapagtoModel.class.getName();
         String hql = "SELECT f.fpg_nome FROM " + tabFormapagto + " f WHERE f.fpg_ativo = '1'";
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             var query = session.createQuery(hql, String.class);
             
-            System.out.println("Query sendo executada = \n" + hql );
+            System.out.println("\n QUERY SEM EXECUTADA: \n" + hql );
 
             List<String> resultList = query.getResultList();
             return new ArrayList<>(resultList);
@@ -88,17 +99,23 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
     
     
 
-    /**
-     * Retorna o código (PK) da forma de pagamento dado o nome.
-     * Retorna -1 se não encontrar.
-     */
-    public int obterCodigoPorNome(String nome) throws Exception {
+
+    public FormapagtoModel obterCodigoPorNome(String nome) throws Exception {
+        System.out.println(" [FormapagtoDao] obterCodigoPorNome() foi iniciado...");
+        System.out.println(" [FormapagtoDao] nome que esta procurando = " + nome);
+        
+        String tabFormapagto = FormapagtoModel.class.getName();
+        String hql = "FROM  " + tabFormapagto + " f WHERE f.fpg_nome = :nome";
+
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "SELECT f.fpg_codigo FROM FormapagtoModel f WHERE f.fpg_nome = :nome";
-            Integer codigo = session.createQuery(hql, Integer.class)
-                                    .setParameter("nome", nome)
-                                    .uniqueResult();
-            return (codigo != null) ? codigo : -1;
+            var query = session.createQuery(hql, FormapagtoModel.class);
+            
+            if(hql.contains(":nome")) {
+                query.setParameter("nome", nome);
+            }
+            
+            List<FormapagtoModel> list = query.getResultList();
+            return list.getFirst();
         }
     }
     

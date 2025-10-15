@@ -5,6 +5,8 @@ import util.MenuUI;
 
 import java.awt.*;
 import javax.swing.*;
+import model.SessionModel;
+import model.UsuarioModel;
 
 public class AppView extends JFrame{
 //     Util
@@ -171,42 +173,53 @@ public class AppView extends JFrame{
     }
     
     
-    private void mostrandoLogin(){
-        mostrarTela("Venda");
-        loginView.getBtnEntrar().addActionListener(e -> entrarMenu());
-    }
-    
 //    private void mostrandoLogin(){
 //        mostrarTela("Login");
-//
-//        // Usa a validação da view e chama o controller
-//        loginView.setOnLogin((email, senha) -> {
-//            controller.UsuarioController ctrl = new controller.UsuarioController();
-//            boolean ok = ctrl.autenticar(email, senha);
-//            if (ok) {
-//                entrarMenu();
-//            } else {
-//                javax.swing.JOptionPane.showMessageDialog(
-//                    this, "Usuário ou senha inválidos, ou usuário inativo."
-//                );
-//            }
-//        });
-//        
+//        loginView.getBtnEntrar().addActionListener(e -> entrarMenu());
 //    }
+    
+    private void mostrandoLogin(){
+        mostrarTela("Login");
+
+        // Usa a validação da view e chama o controller
+        loginView.setOnLogin((email, senha) -> {
+            controller.UsuarioController ctrl = new controller.UsuarioController();
+            boolean ok = ctrl.autenticar(email, senha);
+            if (ok) {
+                entrarMenu();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(
+                    this, "Usuário ou senha inválidos, ou usuário inativo."
+                );
+            }
+        });
+        
+    }
 
     
     private void entrarMenu() {
-        System.out.println("\n Entrando em Menu...");
+        System.out.println("\n [AppView] void entrarMenu() iniciado...");
         
         setJMenuBar(menuView);
-        mostrarTela("Usuario");
-        System.out.println(" Entrando em Menu(SUCESSO)");
+        mostrarTela("Venda");
+        System.out.println("\n [AppView] void entrarMenu() concluido.");
+        
+        UsuarioModel u = SessionModel.getCurrentUser();
+        if (u != null) {
+            System.out.println("\n [AppView] Usuário atual: " + u.getUSU_NOME());
+        } else {
+            System.out.println(" [AppView] Usuário atual = NULL");
+        }
     }
     
     public void mostrarTela(String nome){
+        System.out.println("\n [AppView] void mostraTela() iniciado...");
         cardLayout.show(contendPanel, nome);
         // empacota respeitando o card visível (CardPanelView)
         AppUI.packToVisibleCard(this, contendPanel);
+        
+        System.out.println(" [AppView] abrindo tela -> " + nome);
+        System.out.println(" [AppView] void mostraTela() concluido.");
     }
 
     // Getters 

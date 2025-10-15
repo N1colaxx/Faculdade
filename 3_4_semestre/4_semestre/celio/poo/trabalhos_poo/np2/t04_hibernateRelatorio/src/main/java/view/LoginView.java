@@ -93,6 +93,7 @@ public class LoginView extends JPanel {
     // lógica de login 
     public void setOnLogin(java.util.function.BiConsumer<String,String> handler) {
         btnEntrar.addActionListener(e -> {
+            System.out.println("\n [LoginView] btnEntrar clicado");
             // Validação simples no formulário
             String email = getEmail();
             String senha = getSenha();

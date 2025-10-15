@@ -34,6 +34,16 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
             t.commit();
         }   
     }
+    
+    public void incluir(VendapagtoModel objModel, Session session) throws Exception {
+        System.out.println("\n [VendapagtoDao] INCLUIR iniciado"); 
+        System.out.println(" vdp_codigo = " + objModel.getVdp_codigo() );
+        System.out.println(" vda_codigo = " + objModel.getVenda_Vendapagto().getVda_codigo());        
+        System.out.println(" pfg_codigo = " + objModel.getFormapagto_Vendapagto().getFPG_CODIGO());
+
+        objModel.setVdp_codigo(null);
+        session.merge(objModel); 
+    }
 
     @Override
     public void alterar(VendapagtoModel objModel) throws Exception {

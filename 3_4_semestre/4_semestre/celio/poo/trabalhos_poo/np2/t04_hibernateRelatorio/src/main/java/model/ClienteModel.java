@@ -70,4 +70,8 @@ public class ClienteModel implements java.io.Serializable {
     public void setCLI_LIMITECRED(double cli_limitecred) {
         this.cli_limitecred = cli_limitecred;
     }
+
+    public void parseInt(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

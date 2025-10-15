@@ -31,6 +31,7 @@ public class VendaModel {
     @JoinColumn (name = "CLI_CODIGO")
     private ClienteModel cliente;
     
+    
     private LocalDate vda_data;
     private double vda_valor;
     private double vda_desconto;

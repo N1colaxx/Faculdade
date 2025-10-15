@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table (name = "VENDAPAGTO")
+@Table (name = "VENDA_PAGTO")
 public class VendapagtoModel {
 
     @Id

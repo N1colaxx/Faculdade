@@ -74,12 +74,15 @@ public class UsuarioController implements GenericController<UsuarioModel> {
     }
     
 
+    
     public boolean autenticar(String email, String senha) {
+            System.out.println("\n [UsuarioController] void autenticar() iniciado...");
         try {
             UsuarioModel user = usuariodao.buscarPorEmailSenha(email, senha);
+            
             if (user != null) {
                 SessionModel.setCurrentUser(user); // guarda o usuário logado
-                System.out.println("\n [UsuarioController] Usuário autenticado: " + user.getUSU_NOME());
+                System.out.println("\n [UsuarioController] Usuário autenticado: " + user.getUSU_NOME() + "\n");
                 return true;
             }
             
@@ -88,6 +91,10 @@ public class UsuarioController implements GenericController<UsuarioModel> {
             System.out.println("\n [UsuarioController] Erro ao autenticar: " + e.getMessage());
             return false;
         }
+    }
+    
+    public UsuarioModel buscarPorUsuCodigo(Integer usu_cod) {
+            return usuariodao.get(usu_cod);
     }
     
 }

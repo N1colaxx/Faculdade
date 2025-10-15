@@ -1,6 +1,9 @@
 package dao;
 
 import model.VendaModel;
+import model.ClienteModel;
+import model.UsuarioModel;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,18 @@ public class VendaDao implements GenericDao<VendaModel> {
             
             t.commit();
         }   
+    }
+    
+    public void incluir(VendaModel objModel, Session session) throws Exception {
+        System.out.println("\n [VendaDao] INCLUIR iniciado");
+        
+        System.out.println(" venda_codigo = " + objModel.getVda_codigo());
+        System.out.println(" usu_codigo = " + objModel.getUsu_venda().getUSU_CODIGO() );
+        System.out.println(" cli_codigo = " + objModel.getCli_venda().getCLI_CODIGO() );        
+        
+        // Garante que o ID seja nulo para nova inserção
+        objModel.setVda_codigo(null);
+        session.merge(objModel);
     }
 
     @Override
@@ -66,7 +81,6 @@ public class VendaDao implements GenericDao<VendaModel> {
            t.commit();
        }
     }
-    
     
     @Override
     public ArrayList<VendaModel> consultar(String filtro) {
@@ -110,6 +124,8 @@ public class VendaDao implements GenericDao<VendaModel> {
 
     @Override
     public VendaModel get(Integer id) {
+        System.out.println(" [VendaDao] get() foi iniciado... \n");
+        
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (VendaModel) session.getReference(VendaModel.class, id);
     }

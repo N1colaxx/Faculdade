@@ -21,8 +21,7 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
     
     @Override
     public void incluir(VendaProdutoModel objModel) throws Exception {
-        System.out.println("\n [VendaProdutoDao] INCLUIR iniciado \n");
-        
+        System.out.println("\n [VendaProdutoDao] INCLUIR iniciado");
         System.out.println(" vep_codigo = " + objModel.getVep_codigo());
         System.out.println(" vda_codigo = " + objModel.getVenda_VendaProduto().getVda_codigo());        
         System.out.println(" pro_codigo = " + objModel.getProduto_VendaProduto().getPRO_CODIGO());
@@ -36,6 +35,16 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
             
             t.commit();
         }   
+    }
+    
+        public void incluir(VendaProdutoModel objModel, Session session) throws Exception {
+        System.out.println("\n [VendaProdutoDao] INCLUIR iniciado");
+        System.out.println(" vep_codigo = " + objModel.getVep_codigo());
+        System.out.println(" vda_codigo = " + objModel.getVenda_VendaProduto().getVda_codigo());        
+        System.out.println(" pro_codigo = " + objModel.getProduto_VendaProduto().getPRO_CODIGO());
+
+        objModel.setVep_codigo(null);
+        session.merge(objModel);       
     }
 
     @Override
@@ -110,6 +119,7 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
     @Override
     public void excluir(VendaProdutoModel objModel) throws Exception {
         System.out.println("\n [VendaProdutoDao] EXCLUIR iniciado \n");
+        
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction t = session.beginTransaction();
 
@@ -123,11 +133,15 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
 
     @Override
     public VendaProdutoModel get(Integer id) {
+        System.out.println(" [VendaProdutoDao] get() foi iniciado... \n");
+        
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (VendaProdutoModel) session.getReference(VendaProdutoModel.class, id);
     }
     
     public VendaProdutoModel buscarPorCodigoVenda(Integer codProduto) throws Exception {
+        System.out.println(" [ProdutoDao] buscarPorCodigoVenda() foi iniciado... \n");
+        
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             String hql = "FROM VendaProdutoModel vp "
                        + "JOIN FETCH vp.produto_VendaProduto p "
@@ -140,6 +154,12 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
     }
     
     public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
+        System.out.println(" [ProdutoDao] inserrirItens() foi iniciado... ");
+        System.out.println(" vda_codigo = " + vdaCodigo);
+        System.out.println(" ---------------------------");
+        System.out.println("    ITENS ");
+        System.out.println("");
+        
         Transaction tx = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

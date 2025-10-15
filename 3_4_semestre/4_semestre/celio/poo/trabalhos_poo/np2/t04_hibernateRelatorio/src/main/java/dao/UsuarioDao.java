@@ -72,7 +72,7 @@ public class UsuarioDao implements GenericDao<UsuarioModel> {
    
     
     public UsuarioModel buscarPorEmailSenha(String email, String senha) {
-            System.out.println("\n [UsuarioDao] buscarPorEmailSenha iniciado...");
+            System.out.println(" [UsuarioDao] buscarPorEmailSenha iniciado... \n");
             
             String tabUsuario = UsuarioModel.class.getName();            
             String hql = "FROM " + tabUsuario + " u WHERE u.USU_LOGIN = :email AND u.USU_SENHA = :senha";

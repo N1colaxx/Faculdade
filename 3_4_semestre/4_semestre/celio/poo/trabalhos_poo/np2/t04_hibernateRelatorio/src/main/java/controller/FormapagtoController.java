@@ -78,7 +78,7 @@ public class FormapagtoController implements GenericController<FormapagtoModel> 
      * Retorna o código (PK) da forma de pagamento com base no nome.
      * Retorna -1 se não encontrar.
      */
-    public int obterCodigoPorNome(String nome) throws Exception {
+    public FormapagtoModel obterCodigoPorNome(String nome) throws Exception {
         return formapagtoDao.obterCodigoPorNome(nome);
     }
     

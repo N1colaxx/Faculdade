@@ -91,7 +91,7 @@ public class VendaProdutoModel {
         this.vep_codigo = vep_codigo;
     }
 
-    public void setVenda(VendaModel venda) {
+    public void setVenda_VendaProduto(VendaModel venda) {
         this.venda = venda;
     }
 

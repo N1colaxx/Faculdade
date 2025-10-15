@@ -1,20 +1,30 @@
 package controller;
 
-
-import model.VendaModel;
-import dao.VendaDao;
-import relatorios.VendaRelatorio;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import relatorios.VendaRelatorio;
+
+import dao.VendaDao;
+import dao.VendaProdutoDao;
+import dao.VendapagtoDao;
+
+import model.VendaModel;
+import model.VendaProdutoModel;
+import model.VendapagtoModel;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
+
 
 public class VendaController implements GenericController<VendaModel> {
 
-    VendaDao vendaDao; 
-    
+    private VendaDao vendaDao; 
+    private VendaProdutoDao vendaProdutoDao;
+    private VendapagtoDao vendapagtoDao;
+            
     public VendaController() {
         vendaDao = new VendaDao();
     }
@@ -48,7 +58,6 @@ public class VendaController implements GenericController<VendaModel> {
         }
     }
     
-
     @Override
     public Exception imprimir() {
         Exception retorno = null;
@@ -74,6 +83,51 @@ public class VendaController implements GenericController<VendaModel> {
     public VendaModel buscarPorCodigo(Integer cod) throws Exception {
         return vendaDao.get(cod); 
     }
+    
+    public void incluir(VendaModel venda, List<VendaProdutoModel> itens, List<VendapagtoModel> pagtos) throws Exception {
+        System.out.println("\n [VendaController] void inclui(venda, itens, pagtos) iniciou...");
+        
+        vendaProdutoDao = new VendaProdutoDao();
+        vendapagtoDao = new VendapagtoDao();
+        vendaDao = new VendaDao();
+
+        Session session = HibernateUtil.getSessionFactory().openSession(); 
+        Transaction transacao = null;
+
+        try {
+            transacao = session.beginTransaction();
+
+            vendaDao.incluir(venda, session); // session.merge(venda)
+            // Após o merge/save, o Hibernate já preenche o ID
+            System.out.println("\n [VendaController] Venda salva com ID: " + venda.getVda_codigo());
+
+
+            if (itens != null) {
+                for (VendaProdutoModel p : itens) {
+                    p.setVenda_VendaProduto(venda); // vincula o objeto venda, não só o ID
+                    vendaProdutoDao.incluir(p, session);
+                }
+            }
+
+            // 3️⃣ Grava os pagamentos
+            if (pagtos != null) {
+                for (VendapagtoModel pg : pagtos) {
+                    pg.setVenda_Vendapagto(venda);
+                    vendapagtoDao.incluir(pg, session);
+                }
+            }
+
+            transacao.commit(); //
+        } catch (Exception e) {
+            if (transacao != null) transacao.rollback();
+            throw e;
+        } finally {
+            session.close(); // fecha só aqui
+        }
+        
+        System.out.println("\n [VendaController] void inclui() terminou");;
+    }
+
     
     /**
      * Getters

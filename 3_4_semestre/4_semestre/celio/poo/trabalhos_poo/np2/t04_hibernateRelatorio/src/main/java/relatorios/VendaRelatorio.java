@@ -95,7 +95,7 @@ public class VendaRelatorio {
             cs.newLineAtOffset(50, y);
             
                        
-            String linha = String.format("%-10d %-30s %-10",
+            String linha = String.format("%-10d %-30s %-10d",
                     objModel.getVda_codigo(),
                     objModel.getUsu_venda().getUSU_CODIGO(),  
                     objModel.getCli_venda().getCLI_CODIGO()
