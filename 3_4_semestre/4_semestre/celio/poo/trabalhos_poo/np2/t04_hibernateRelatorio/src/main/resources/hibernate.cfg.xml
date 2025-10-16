@@ -24,7 +24,7 @@
         
         <!-- Movimentos VENDA-->
         <mapping class="model.VendaModel"/>
-        <mapping class="model.VendapagtoModel"/>
+        <mapping class="model.VendaPagtoModel"/>
         <mapping class="model.VendaProdutoModel"/>
         
         

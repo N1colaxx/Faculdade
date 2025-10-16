@@ -69,6 +69,10 @@ public class UsuarioDao implements GenericDao<UsuarioModel> {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (UsuarioModel) session.getReference(UsuarioModel.class, id);
     }
+    
+    public UsuarioModel get(int id, Session session) {
+        return (UsuarioModel) session.getReference(UsuarioModel.class, id);
+    }
    
     
     public UsuarioModel buscarPorEmailSenha(String email, String senha) {

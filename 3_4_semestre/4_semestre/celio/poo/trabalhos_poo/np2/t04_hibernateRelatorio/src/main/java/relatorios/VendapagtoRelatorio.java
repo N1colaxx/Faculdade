@@ -1,6 +1,6 @@
 package relatorios;
 
-import model.VendapagtoModel;
+import model.VendaPagtoModel;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -18,7 +18,7 @@ public class VendapagtoRelatorio {
     private PDPageContentStream cs;
     private int numeroPagina = 0;
 
-    public void gerarRelatorio(List<VendapagtoModel> dados) {
+    public void gerarRelatorio(List<VendaPagtoModel> dados) {
         try {
             doc = new PDDocument();
             gerarPagina();
@@ -64,7 +64,7 @@ public class VendapagtoRelatorio {
         cs.endText();
     }
 
-    private void gerarTabela(List<VendapagtoModel> dados) throws Exception {
+    private void gerarTabela(List<VendaPagtoModel> dados) throws Exception {
         int y = 750; // posição vertical inicial
 
         // Cabeçalho da tabela
@@ -80,7 +80,7 @@ public class VendapagtoRelatorio {
         cs.endText();
 
         cs.setFont(PDType1Font.COURIER, 12);
-        for (VendapagtoModel objModel : dados) {
+        for (VendaPagtoModel objModel : dados) {
             y -= 18; // espaço entre linhas
             
             

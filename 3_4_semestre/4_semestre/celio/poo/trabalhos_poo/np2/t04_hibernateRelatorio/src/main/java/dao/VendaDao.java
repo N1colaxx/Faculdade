@@ -33,7 +33,7 @@ public class VendaDao implements GenericDao<VendaModel> {
         }   
     }
     
-    public void incluir(VendaModel objModel, Session session) throws Exception {
+    public VendaModel incluir(VendaModel objModel, Session session) throws Exception {
         System.out.println("\n [VendaDao] INCLUIR iniciado");
         
         System.out.println(" venda_codigo = " + objModel.getVda_codigo());
@@ -41,8 +41,12 @@ public class VendaDao implements GenericDao<VendaModel> {
         System.out.println(" cli_codigo = " + objModel.getCli_venda().getCLI_CODIGO() );        
         
         // Garante que o ID seja nulo para nova inserção
-        objModel.setVda_codigo(null);
-        session.merge(objModel);
+        session.persist(objModel);
+        session.flush();   // força o insert AGORA
+        session.refresh(objModel); // agora recarregar do banco
+
+        System.out.println("Venda salva com ID: " + objModel.getVda_codigo());
+        return objModel;
     }
 
     @Override

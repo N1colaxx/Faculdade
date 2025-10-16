@@ -3,13 +3,13 @@ package view;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
-import model.VendapagtoModel;
+import model.VendaPagtoModel;
 
 public class VendapagtoTableModel extends AbstractTableModel {
     String[] colunas = {"Código Venda", "Forma de Pagamento", "Valor"};
-    private ArrayList<VendapagtoModel>linhas;
+    private ArrayList<VendaPagtoModel>linhas;
 
-    public VendapagtoTableModel(ArrayList<VendapagtoModel>lista) {
+    public VendapagtoTableModel(ArrayList<VendaPagtoModel>lista) {
         this.linhas = lista;
     }
 
@@ -33,7 +33,7 @@ public class VendapagtoTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int row, int col) {
-        VendapagtoModel objModel = (VendapagtoModel)linhas.get(row);
+        VendaPagtoModel objModel = (VendaPagtoModel)linhas.get(row);
         switch (col) {
             case 0:
                 return objModel.getVenda_Vendapagto().getVda_codigo();
@@ -48,7 +48,7 @@ public class VendapagtoTableModel extends AbstractTableModel {
     }
 
     //Adicionamos várias linhas na tabela de uma vez, recebendo um List de Venda
-    public void addLista(ArrayList<VendapagtoModel> lstModel) {
+    public void addLista(ArrayList<VendaPagtoModel> lstModel) {
         int tamanhoAntigo = getRowCount();
 
         //Adiciona os usuários
@@ -59,12 +59,12 @@ public class VendapagtoTableModel extends AbstractTableModel {
     }
     
     
-     public void add(VendapagtoModel v){
+     public void add(VendaPagtoModel v){
         linhas.add(v);
         int i = linhas.size()-1;
         fireTableRowsInserted(i, i);
     }
-    public void set(int row, VendapagtoModel v){
+    public void set(int row, VendaPagtoModel v){
         linhas.set(row, v);
         fireTableRowsUpdated(row, row);
     }
@@ -72,7 +72,7 @@ public class VendapagtoTableModel extends AbstractTableModel {
         linhas.remove(row);
         fireTableRowsDeleted(row, row);
     }
-    public ArrayList<VendapagtoModel> getLinhas(){ return linhas; }
-    public VendapagtoModel get(int row){ return linhas.get(row); }
+    public ArrayList<VendaPagtoModel> getLinhas(){ return linhas; }
+    public VendaPagtoModel get(int row){ return linhas.get(row); }
 }
 

@@ -13,28 +13,28 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table (name = "VENDA_PAGTO")
-public class VendapagtoModel {
+public class VendaPagtoModel {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column (name = "VDP_CODIGO")
     private Integer vdp_codigo;
     
-    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn (name = "VDA_CODIGO")
     private VendaModel venda; // tab venda
 
-    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne 
     @JoinColumn (name = "FPG_CODIGO")
     private FormapagtoModel formapagto; // tab Forma de Pagamento
     
     private double vdp_valor;
     
-    public VendapagtoModel() {    
+    public VendaPagtoModel() {    
     }
  
     
-    public VendapagtoModel(Integer vdp_codigo, VendaModel venda, FormapagtoModel pfg_codigo, double vdp_valor) {
+    public VendaPagtoModel(Integer vdp_codigo, VendaModel venda, FormapagtoModel pfg_codigo, double vdp_valor) {
         this.vdp_codigo = vdp_codigo;
         this.venda = venda;
         this.formapagto = pfg_codigo;

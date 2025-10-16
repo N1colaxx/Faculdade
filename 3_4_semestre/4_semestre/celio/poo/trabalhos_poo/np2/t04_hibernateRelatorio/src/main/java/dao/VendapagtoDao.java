@@ -1,7 +1,7 @@
 package dao;
 
 
-import model.VendapagtoModel;
+import model.VendaPagtoModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
-public class VendapagtoDao implements GenericDao<VendapagtoModel> {
+public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
     
     private String operacao;
     
@@ -18,7 +18,7 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
     }
     
     @Override
-    public void incluir(VendapagtoModel objModel) throws Exception {
+    public void incluir(VendaPagtoModel objModel) throws Exception {
         System.out.println("\n [VendapagtoDao] INCLUIR iniciado \n"); 
         System.out.println(" vdp_codigo = " + objModel.getVdp_codigo() );
         System.out.println(" vda_codigo = " + objModel.getVenda_Vendapagto().getVda_codigo());        
@@ -35,25 +35,24 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
         }   
     }
     
-    public void incluir(VendapagtoModel objModel, Session session) throws Exception {
-        System.out.println("\n [VendapagtoDao] INCLUIR iniciado"); 
-        System.out.println(" vdp_codigo = " + objModel.getVdp_codigo() );
-        System.out.println(" vda_codigo = " + objModel.getVenda_Vendapagto().getVda_codigo());        
-        System.out.println(" pfg_codigo = " + objModel.getFormapagto_Vendapagto().getFPG_CODIGO());
-
-        objModel.setVdp_codigo(null);
-        session.merge(objModel); 
+    public void incluir(VendaPagtoModel objModel, Session session) throws Exception {
+        System.out.println("\n [VendaPagtoModel] INCLUIR iniciado");
+        System.out.println(" vdp_codigo = " + objModel.getVdp_codigo() );        
+        System.out.println(" vda_codigo = " + objModel.getVenda_Vendapagto().getVda_codigo());
+        System.out.println(" fpg_codigo = " + objModel.getFormapagto_Vendapagto().getFPG_CODIGO());
+        
+        session.persist(objModel);
     }
 
     @Override
-    public void alterar(VendapagtoModel objModel) throws Exception {
+    public void alterar(VendaPagtoModel objModel) throws Exception {
         System.out.println("\n [VendapagtoDao] ALTERAR iniciado");
         
         // VendaPagto com dados NOVOS
         Integer new_cod_vdp = objModel.getVdp_codigo();
         
         // Cliente com dados ANTIGOS;
-        VendapagtoModel old_vdp = get(new_cod_vdp);
+        VendaPagtoModel old_vdp = get(new_cod_vdp);
         Integer old_cod_vdp   = old_vdp.getVdp_codigo();
         
         if (old_vdp == null) {
@@ -84,10 +83,10 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
     
     
     @Override
-    public ArrayList<VendapagtoModel> consultar(String filtro) {
+    public ArrayList<VendaPagtoModel> consultar(String filtro) {
         System.out.println("\n [VendapagtoDao] CONSULTAR iniciado \n");
         
-        String tabVendapagto = VendapagtoModel.class.getName();
+        String tabVendapagto = VendaPagtoModel.class.getName();
         String hql = " FROM " + tabVendapagto + " vpg " 
                 +    " JOIN FETCH venpag.venda v "
                 +    " JOIN FETCH venpag.formapagto fpg";
@@ -103,25 +102,25 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
         System.out.println(   hql + " \n");
         
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            var query = session.createQuery(hql, VendapagtoModel.class);
+            var query = session.createQuery(hql, VendaPagtoModel.class);
             
             if(operacao.equals("consultaPorVdaCodigo") && hql.contains(":vda_codigo")) {
                 query.setParameter("vda_codigo", operacao);
                 System.out.println(" [VendaProdutoDao] parâmetro da consulta (consultaPorVdaCodigo) = tem que compara por VDA_CODIGO");
             }
                         
-            List<VendapagtoModel> resultList = query.getResultList();
+            List<VendaPagtoModel> resultList = query.getResultList();
             return new ArrayList<>(resultList);
         }
     }
 
     @Override
-    public void excluir(VendapagtoModel objModel) throws Exception {
+    public void excluir(VendaPagtoModel objModel) throws Exception {
         System.out.println("\n [VendapagtoDao] EXCLUIR iniciado \n");
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction t = session.beginTransaction();
 
-           VendapagtoModel managedEntity = session.merge(objModel);
+           VendaPagtoModel managedEntity = session.merge(objModel);
             session.remove(managedEntity);
 
             t.commit();
@@ -129,15 +128,15 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
     }
 
     @Override
-    public VendapagtoModel get(Integer id) {
+    public VendaPagtoModel get(Integer id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        return (VendapagtoModel) session.getReference(VendapagtoModel.class, id);
+        return (VendaPagtoModel) session.getReference(VendaPagtoModel.class, id);
     }
     
     
     // Pesquisa por VDA_CODIGO
-    public List<VendapagtoModel> consultarPorVenda(Integer VDA_CODIGO) throws Exception {
-        String tabVendapagto = VendapagtoModel.class.getName();
+    public List<VendaPagtoModel> consultarPorVenda(Integer VDA_CODIGO) throws Exception {
+        String tabVendapagto = VendaPagtoModel.class.getName();
         
         String hql = " FROM " + tabVendapagto + " vpg " 
                 +    " JOIN FETCH venpag.venda v "
@@ -145,24 +144,24 @@ public class VendapagtoDao implements GenericDao<VendapagtoModel> {
                 +    " WHERE vda_codigo = :vda_codigo";
         
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            var query = session.createQuery(hql, VendapagtoModel.class);
+            var query = session.createQuery(hql, VendaPagtoModel.class);
             
             if (VDA_CODIGO != null && hql.contains(":vda_codigo")) {
                 query.setParameter(":vda_codigo", hql);
             }
 
-            List<VendapagtoModel> resultList = query.getResultList();
+            List<VendaPagtoModel> resultList = query.getResultList();
             return new ArrayList<>(resultList);
         }
     }
     
-     public void inserirPgtos(int vdaCodigo, ArrayList<VendapagtoModel> pgtos) throws Exception {
+     public void inserirPgtos(int vdaCodigo, ArrayList<VendaPagtoModel> pgtos) throws Exception {
         Transaction tx = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
 
-            for (VendapagtoModel pagto : pgtos) {
+            for (VendaPagtoModel pagto : pgtos) {
                 // garante que a venda esteja associada
                 pagto.getVenda_Vendapagto().setVda_codigo(vdaCodigo);
 

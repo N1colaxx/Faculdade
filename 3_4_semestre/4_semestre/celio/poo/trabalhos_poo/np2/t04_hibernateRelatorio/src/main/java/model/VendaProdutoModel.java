@@ -19,11 +19,11 @@ public class VendaProdutoModel {
     @Column (name = "VEP_CODIGO")
     private Integer vep_codigo;
     
-    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn (name = "VDA_CODIGO")
     private VendaModel venda;
     
-    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn (name = "PRO_CODIGO")
     private ProdutoModel produto;
     

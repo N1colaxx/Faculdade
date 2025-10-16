@@ -10,7 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table (name = "VENDA")
@@ -22,15 +25,20 @@ public class VendaModel {
     private Integer vda_codigo;
 
     // Venda 1:N -> {} 1 <- Usuario
-    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     @JoinColumn (name = "USU_CODIGO")
     private UsuarioModel usuario;
     
     // Venda 1:N -> {} <- 1 Cliente
-    @ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne 
     @JoinColumn (name = "CLI_CODIGO")
     private ClienteModel cliente;
     
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VendaProdutoModel> listItens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VendaPagtoModel> listPagtos = new ArrayList<>();
     
     private LocalDate vda_data;
     private double vda_valor;
@@ -39,7 +47,6 @@ public class VendaModel {
     private String vda_obs;
     
     public VendaModel () {
-        
     }
 
     public VendaModel(Integer vda_codigo, UsuarioModel usu_codigo, ClienteModel cli_codigo, LocalDate vda_data, double vda_valor, double vda_desconto, double vda_total, String vda_obs) {
@@ -69,6 +76,14 @@ public class VendaModel {
     public ClienteModel getCli_venda() {
         return cliente;
     }
+    
+    public List<VendaProdutoModel> getListItens_venda() {
+        return listItens;
+    }
+    
+    public List<VendaPagtoModel> getListPagtos_venda() {
+        return listPagtos;
+    }
 
     @Column (name = "VDA_DATA", nullable = false)
     public LocalDate getVda_data() {
@@ -96,7 +111,7 @@ public class VendaModel {
     }
     
     /**
-     * SETTERS
+     * Setters
      */
 
     public void setVda_codigo(Integer vda_codigo) {
@@ -110,7 +125,15 @@ public class VendaModel {
     public void setCli_venda(ClienteModel cli_codigo) {
         this.cliente = cli_codigo;
     }
+    
+    public void setListItens_venda(List<VendaProdutoModel> itens) {
+        this.listItens = itens;
+    }
 
+    public void setListPagtos_venda(List<VendaPagtoModel> pagtos) {        
+        this.listPagtos = pagtos;
+    }
+    
     public void setVda_data(LocalDate vda_data) {
         this.vda_data = vda_data;
     }

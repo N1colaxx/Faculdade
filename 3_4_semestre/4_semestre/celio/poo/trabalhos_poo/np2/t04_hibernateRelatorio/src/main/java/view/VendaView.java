@@ -10,7 +10,7 @@ import controller.VendapagtoController;
 
 import model.VendaModel;
 import model.VendaProdutoModel;
-import model.VendapagtoModel;
+import model.VendaPagtoModel;
 import model.SessionModel;
 import model.UsuarioModel;
 import model.ProdutoModel;
@@ -88,7 +88,7 @@ public class VendaView extends JPanel {
     // Estado (listas em memória)
     private String operacao = "";
     private final ArrayList<VendaProdutoModel> listaItens = new ArrayList<>();
-    private final ArrayList<VendapagtoModel> listaPgtos = new ArrayList<>();
+    private final ArrayList<VendaPagtoModel> listaPgtos = new ArrayList<>();
     private final ArrayList<VendaModel> listaVendas = new ArrayList<>();
 
     public VendaView() {
@@ -606,14 +606,20 @@ public class VendaView extends JPanel {
             int viewSel = tabPgtosGrid.getSelectedRow();
             if (viewSel >= 0) {
                 int modelSel = tabPgtosGrid.convertRowIndexToModel(viewSel);
-                VendapagtoModel pg = pgtosModel.get(modelSel);
+                VendaPagtoModel pg = pgtosModel.get(modelSel);
                 mostrarPagamento(pg);
             }
         });
     }
 
-        // ===== Consulta =====
+        
 
+
+    
+    /**
+     * ===== Consulta =====
+     */
+    
     private String filtroConsultaVenda() {
         String cond = "";
         
@@ -685,7 +691,7 @@ public class VendaView extends JPanel {
             
             VendaModel venda = new VendaController().buscarPorCodigo(vda);
             ArrayList<VendaProdutoModel> vendaProduto = new VendaProdutoController().buscarPorVdaCodigo(vda, operacao);
-            ArrayList<VendapagtoModel> vendaFormapagto = new VendapagtoController().buscarPorVdaCodigo(vda, operacao);
+            ArrayList<VendaPagtoModel> vendaFormapagto = new VendapagtoController().buscarPorVdaCodigo(vda, operacao);
                     
             if (venda == null) {
                 JOptionPane.showMessageDialog(this, "Venda não encontrada.");
@@ -704,7 +710,7 @@ public class VendaView extends JPanel {
             for (VendaProdutoModel it : vendaProduto) {
                 itensModel.addItem(it);
             }
-            for (VendapagtoModel pg : vendaFormapagto) {
+            for (VendaPagtoModel pg : vendaFormapagto) {
                 pgtosModel.add(pg);
             }
             
@@ -743,6 +749,12 @@ public class VendaView extends JPanel {
         selecionarIndice(prox);
     }
  
+    
+    
+    
+    
+    
+    
     /** 
      * ===== Itens =====
      */
@@ -880,14 +892,14 @@ public class VendaView extends JPanel {
                
         if (pgtosModel.getRowCount() == 1) {
             // mantém 1ª formapag = total atual
-            VendapagtoModel vpd = pgtosModel.get(0);
+            VendaPagtoModel vpd = pgtosModel.get(0);
             vpd.setVdp_valor(parseDouble(edtTotalVenda.getText()));
             pgtosModel.set(0, vpd);
         } 
         
         if (pgtosModel.getRowCount() == 2) {
             // reajusta a 1ª para (total - 2ªformapag)
-            VendapagtoModel vdp2 = pgtosModel.get(1);
+            VendaPagtoModel vdp2 = pgtosModel.get(1);
             
             double total = parseDouble(edtTotalVenda.getText());
             double val2 = vdp2.getVdp_valor();
@@ -898,7 +910,7 @@ public class VendaView extends JPanel {
                 pgtosModel.set(1, vdp2);
             }
             
-            VendapagtoModel pg1 = pgtosModel.get(0);
+            VendaPagtoModel pg1 = pgtosModel.get(0);
             pg1.setVdp_valor(total - val2);
             pgtosModel.set(0, pg1);
         }
@@ -974,7 +986,7 @@ public class VendaView extends JPanel {
                     fpg.setFPG_CODIGO(fpg_codigo);
                     fpg.setFPG_NOME(chk_nome);
 
-                    VendapagtoModel  pg = new VendapagtoModel();
+                    VendaPagtoModel  pg = new VendaPagtoModel();
                     pg.setVdp_codigo(0);
                     pg.setVenda_Vendapagto(v);
                     pg.setFormapagto_Vendapagto(fpg);
@@ -1003,14 +1015,14 @@ public class VendaView extends JPanel {
             fpg.setFPG_NOME(chk_nome);
             System.out.println(" [VendaView] pegando fpg_codigo da 2 formapagto = " + fpg_codigo);
 
-            VendapagtoModel  pg2 = new VendapagtoModel();
+            VendaPagtoModel  pg2 = new VendaPagtoModel();
             pg2.setVdp_codigo(0);
             pg2.setFormapagto_Vendapagto(fpg);
             pg2.setVenda_Vendapagto(v);
             pg2.setVdp_valor(total_venda2);
             pgtosModel.add(pg2);
 
-            VendapagtoModel pg1 = pgtosModel.get(0);
+            VendaPagtoModel pg1 = pgtosModel.get(0);
             pg1.setVdp_valor(total_venda - total_venda2);
             pgtosModel.set(0, pg1);
         } catch (Exception ex) {
@@ -1018,7 +1030,7 @@ public class VendaView extends JPanel {
         }
     }
     
-    /** Atualiza somente a 2ª forma (valor/forma) e o restante na 1ª. */
+    //Atualiza somente a 2ª forma (valor/forma) e o restante na 1ª.
     private void atualizarPagamentoSelecionado() {
         int row = tabPgtosGrid.getSelectedRow();
         if (row < 0) { JOptionPane.showMessageDialog(this, "Selecione um pagamento."); return; }
@@ -1052,14 +1064,14 @@ public class VendaView extends JPanel {
                 return;
             }
 
-            VendapagtoModel sel = pgtosModel.get(modelRow);
+            VendaPagtoModel sel = pgtosModel.get(modelRow);
             sel.getFormapagto_Vendapagto().setFPG_CODIGO(fpgCod);
             sel.getFormapagto_Vendapagto().setFPG_NOME(nome);
             sel.setVdp_valor(val2);
             pgtosModel.set(modelRow, sel);
 
             int other = modelRow == 0 ? 0 : 1;
-            VendapagtoModel o = pgtosModel.get(other);
+            VendaPagtoModel o = pgtosModel.get(other);
             o.setVdp_valor(total - val2);
             pgtosModel.set(other, o);
 
@@ -1078,7 +1090,7 @@ public class VendaView extends JPanel {
         pgtosModel.remove(modelRow);
 
         if (pgtosModel.getRowCount() == 1){
-            VendapagtoModel pg1 = pgtosModel.get(0);
+            VendaPagtoModel pg1 = pgtosModel.get(0);
             pg1.setVdp_valor(parseDouble(edtTotalVenda.getText()));
             pgtosModel.set(0, pg1);
         }
@@ -1086,12 +1098,16 @@ public class VendaView extends JPanel {
 
  
 
-    // ===== Cabeçalho / Gravação =====
-
+    
+    
+    /**
+     * ===== Cabeçalho / Gravação =====
+     */
+    
     private void novo() {
         System.out.println(" [VendaView] void novo() iniciado");
         
-        setOperacao("incluir");
+        setOperacao("gerar_venda");
         limparTudo();
         
         edtData.setText(LocalDate.now().toString());
@@ -1102,12 +1118,13 @@ public class VendaView extends JPanel {
         edtVdaCodigo.setText("0");                 // mostra 0
 	edtVdaCodigo.setFocusable(false);
         edtValorVenda.setEditable(false);
+        
+        userLogado = SessionModel.getCurrentUser();
+        String cod_UserLogado = String.valueOf(userLogado.getUSU_CODIGO());
+        System.out.println(" [VendaView] void novo() -> Codigo user logado = " + cod_UserLogado);
 
-        String nomeUserLogado = userLogado.getUSU_NOME();
-        System.out.println(" [VendaView] void novo() -> nome user logado = " + nomeUserLogado);
-
-        edtUsuCodigo.setText(nomeUserLogado);
-	edtUsuCodigo.setFocusable(false);
+        edtUsuCodigo.setText(cod_UserLogado);
+	edtUsuCodigo.setFocusable(true);
 
 
 	edtCliCodigo.setFocusable(true);
@@ -1126,88 +1143,40 @@ public class VendaView extends JPanel {
         carregarFormasPagamento();
     }
     
-    private void incluir(){
-        System.out.println("\n [VendaView] void incluir() iniciado");
-        setOperacao("incluir");
+    private void gerar_venda(){
+        System.out.println("\n [VendaView] void gerar_venda() iniciado...");
+        setOperacao("gerar_venda");
         
         try {
-            if (itensModel.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(this, "Inclua ao menos 1 item.");
-                return;
-            }
-            
-            if (pgtosModel.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(this, "Inclua ao menos 1 forma de pagamento.");
-                return;
-            }
-            
-            System.out.println(" [VendaView] criando User da Venda");
-            userLogado = SessionModel.getCurrentUser();
-            
-            String nomeUserLogado = userLogado.getUSU_NOME();
-            edtUsuCodigo.setText(nomeUserLogado);
-            
-            Integer cod_user_logado = userLogado.getUSU_CODIGO();        
-            Integer cod_user_v = cod_user_logado;
+            int usu_cod = parseInt(edtUsuCodigo.getText().trim());
+            int cli_cod = parseInt(edtCliCodigo.getText().trim());
+            LocalDate data_v = (LocalDate.parse(edtData.getText()));
+            double valor_v = (parseDouble(edtValorVenda.getText()));
+            double desc_v = (parseDouble(edtDescontoVenda.getText()));
+            double total_v = (parseDouble(edtTotalVenda.getText()));
+            String obs_v = (edtObs.getText());
 
-            System.out.println(" [VendaView] Nome   -> User da Venda = " + nomeUserLogado);
-            System.out.println(" [VendaView] Codigo -> User da Venda = " + cod_user_v);
-                           
-            UsuarioModel usu_v;
-            UsuarioController u_ctrl = new UsuarioController();
-            usu_v = u_ctrl.buscarPorUsuCodigo(cod_user_v);
-            
-            if(usu_v == null) {
-                System.out.println(" [VendView] ERRO! ao criar Usuario da venda");
-                JOptionPane.showMessageDialog(this, "ERRO! Usuario venda INVALIDO!");
-                return;
-            }
-            
-            System.out.println(" [VendaView] criando Venda...");
-            
-            ClienteModel cod_cli_v;
-            ClienteController c_ctrl = new ClienteController();
-            int cod_cli = parseInt(edtCliCodigo.getText());
-            cod_cli_v = c_ctrl.buscarPorCodigo(cod_cli);
-                
-            if(cod_cli_v == null){
-                System.out.println(" [VendView] ERRO! ao criar cliente da venda");
-                JOptionPane.showMessageDialog(this, "ERRO! Cliente venda INVALIDO!");
-                return;
-            }
-                
-            
-            VendaModel v_nova = new VendaModel();
-            v_nova.setVda_codigo(0);
-            v_nova.setUsu_venda(usu_v);
-            v_nova.setCli_venda(cod_cli_v);
-            v_nova.setVda_data(LocalDate.parse(edtData.getText()));
-            v_nova.setVda_valor(parseDouble(edtValorVenda.getText()));
-            v_nova.setVda_desconto(parseDouble(edtDescontoVenda.getText()));
-            v_nova.setVda_total(parseDouble(edtTotalVenda.getText()));
-            v_nova.setVda_obs(edtObs.getText());
+            ArrayList<VendaProdutoModel> itens = (itensModel.getLinhas());
+            ArrayList<VendaPagtoModel> pgtos = (pgtosModel.getLinhas());
 
             // validações mínimas 
-            if (v_nova.getUsu_venda().getUSU_CODIGO() <= 0) { JOptionPane.showMessageDialog(this,"Informe o usuário."); return; }
-            if (v_nova.getCli_venda().getCLI_CODIGO() <= 0) { JOptionPane.showMessageDialog(this,"Informe o cliente."); return; }
+            if (usu_cod <= 0) { JOptionPane.showMessageDialog(this,"Informe o usuário."); return; }
+            if (cli_cod <= 0) { JOptionPane.showMessageDialog(this,"Informe o cliente."); return; }
 
-            // VDA_CODIGO nos itens/pgtos (preenche na gravação se incluir)
-            ArrayList<VendaProdutoModel> itens = new ArrayList<>(itensModel.getLinhas());
-            ArrayList<VendapagtoModel> pgtos = new ArrayList<>(pgtosModel.getLinhas());
-
-            if(itens == null && pgtos == null) {
+            if(itens == null) {
+                JOptionPane.showMessageDialog(this, "Preencha os campos de Itens e Pagamento");
+                return;
+            }
+            
+            if(pgtos == null) {
                 JOptionPane.showMessageDialog(this, "Preencha os campos de Itens e Pagamento");
                 return;
             }
             
             // Gravando a Venda
-            new VendaController().incluir(v_nova, itens, pgtos);
+            new VendaController().incluir(usu_cod, cli_cod, data_v, valor_v, desc_v, total_v, obs_v, itens, pgtos);
 
-            // DB gerou o código: o DAO preencheu em v.setVDA_CODIGO(...)
-            edtVdaCodigo.setText(String.valueOf(v_nova.getVda_codigo()));
-            
             JOptionPane.showMessageDialog(this, "Venda gravada.");
-
             limparTudo();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Falha ao gravar: " + ex.getMessage());
@@ -1265,8 +1234,8 @@ public class VendaView extends JPanel {
             JOptionPane.showMessageDialog(this, "Selecione uma Operação! exempo: NOVO");
         }
         
-        if (operacao.equals("incluir")) {
-            incluir();
+        if (operacao.equals("gerar_venda")) {
+            gerar_venda();
         }
         
         if (operacao.equals("alterar")) {
@@ -1293,7 +1262,13 @@ public class VendaView extends JPanel {
     }
 
     
-    // ==== Seleção e editores ====
+    
+    
+    
+    
+    /**
+     * ==== Seleção e editores ====
+     */
 
     // Preenche os campos do editor de DADOS;
     private void mostrarDados(VendaModel v){
@@ -1319,7 +1294,7 @@ public class VendaView extends JPanel {
     }
 
     // Preenche os campos do editor de PAGAMENTOS
-    private void mostrarPagamento(VendapagtoModel pg){
+    private void mostrarPagamento(VendaPagtoModel pg){
         if (pg == null) return;
         
         // Seleciona o nome no combo (se existir na lista)
@@ -1342,7 +1317,12 @@ public class VendaView extends JPanel {
         edtValorPagamento.setText("");
     }
 
-        // ===== Helpers numéricos =====
+    
+    
+    
+    /**
+     * ===== Helpers numéricos =====
+     */
     private int parseInt(String s){
         try { return Integer.parseInt(s.trim()); } catch (Exception e){ return 0; }
     }
@@ -1350,10 +1330,14 @@ public class VendaView extends JPanel {
     private double parseDouble(String s){
         try { return Double.parseDouble(s.trim().replace(",", ".")); } catch (Exception e){ return 0.0; }
     }
+   
     private String fmt(double d){
         return String.format(java.util.Locale.US, "%.2f", d);
     }
 
+    
+    
+    
     /**
      * Setters
      */

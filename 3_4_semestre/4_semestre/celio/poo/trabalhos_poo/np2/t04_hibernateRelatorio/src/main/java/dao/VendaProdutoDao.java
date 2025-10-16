@@ -37,16 +37,17 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
         }   
     }
     
-        public void incluir(VendaProdutoModel objModel, Session session) throws Exception {
-        System.out.println("\n [VendaProdutoDao] INCLUIR iniciado");
-        System.out.println(" vep_codigo = " + objModel.getVep_codigo());
-        System.out.println(" vda_codigo = " + objModel.getVenda_VendaProduto().getVda_codigo());        
+    public void incluir(VendaProdutoModel objModel, Session session) throws Exception {
+        System.out.println("\n [VendaProdutoModel] INCLUIR iniciado");
+        System.out.println(" vep_codigo = " + objModel.getVep_codigo() );        
+        System.out.println(" vda_codigo = " + objModel.getVenda_VendaProduto().getVda_codigo());
         System.out.println(" pro_codigo = " + objModel.getProduto_VendaProduto().getPRO_CODIGO());
-
-        objModel.setVep_codigo(null);
-        session.merge(objModel);       
+        
+        session.persist(objModel);
     }
-
+    
+    
+    
     @Override
     public void alterar(VendaProdutoModel objModel) throws Exception {
         System.out.println("\n [VendaProdutoDao] ALTERAR iniciado");

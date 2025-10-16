@@ -116,6 +116,10 @@ public class ClienteDao implements GenericDao<ClienteModel> {
         return (ClienteModel) session.getReference(ClienteModel.class, id);
     }
     
+    public ClienteModel get(Integer id, Session session) {
+        return (ClienteModel) session.getReference(ClienteModel.class, id);
+    }
+    
     
     
 }

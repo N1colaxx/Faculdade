@@ -1,6 +1,6 @@
 package controller;
 
-import model.VendapagtoModel;
+import model.VendaPagtoModel;
 import dao.VendapagtoDao;
 import relatorios.VendapagtoRelatorio;
 
@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VendapagtoController implements GenericController<VendapagtoModel> {
+public class VendapagtoController implements GenericController<VendaPagtoModel> {
 
     VendapagtoDao vendapagtoDao; 
     private String operacao;
@@ -20,27 +20,27 @@ public class VendapagtoController implements GenericController<VendapagtoModel> 
     }
 
     @Override
-    public void incluir(VendapagtoModel obj) throws Exception {
+    public void incluir(VendaPagtoModel obj) throws Exception {
         vendapagtoDao.incluir(obj);
     }
 
     @Override
-    public void alterar(VendapagtoModel obj) throws Exception {
+    public void alterar(VendaPagtoModel obj) throws Exception {
         vendapagtoDao.alterar(obj);
     }
 
     @Override
-    public void excluir(VendapagtoModel obj) throws Exception {
+    public void excluir(VendaPagtoModel obj) throws Exception {
         vendapagtoDao.excluir(obj);
     }
 
     @Override
-    public ArrayList<VendapagtoModel> consultar(String filtro) {
+    public ArrayList<VendaPagtoModel> consultar(String filtro) {
         return vendapagtoDao.consultar(filtro);
     }
 
     @Override
-    public void gravar(VendapagtoModel obj, String operacao) throws Exception {
+    public void gravar(VendaPagtoModel obj, String operacao) throws Exception {
         if (operacao.equals("incluir")) {
             incluir(obj);
         } else {
@@ -58,7 +58,7 @@ public class VendapagtoController implements GenericController<VendapagtoModel> 
 
             // Adicione parâmetros necessários se houver
             // parametros.put("PARAMETRO_EXEMPLO", "valor");
-            List<VendapagtoModel> dados = consultar("");
+            List<VendaPagtoModel> dados = consultar("");
 
             relatorio.gerarRelatorio(dados);
 
@@ -70,13 +70,13 @@ public class VendapagtoController implements GenericController<VendapagtoModel> 
         return retorno;
     }
 
-    public VendapagtoModel buscarPorCodigo(Integer cod) throws Exception {
+    public VendaPagtoModel buscarPorCodigo(Integer cod) throws Exception {
         return vendapagtoDao.get(cod); 
     }
     
  
     // Lista completa por VDA_CODIGO
-    public ArrayList<VendapagtoModel> buscarPorVdaCodigo(Integer VDA_CODIGO, String op) throws Exception {
+    public ArrayList<VendaPagtoModel> buscarPorVdaCodigo(Integer VDA_CODIGO, String op) throws Exception {
         
         if (!op.isEmpty() && op.equals("consultaPorVdaCodigo")) {
             operacao = op;
@@ -85,7 +85,7 @@ public class VendapagtoController implements GenericController<VendapagtoModel> 
         return new ArrayList<>(vendapagtoDao.consultar(cond));
     }
     
-    public void inserirPgtos(int vdaCodigo, ArrayList<VendapagtoModel> pgtos) throws Exception {
+    public void inserirPgtos(int vdaCodigo, ArrayList<VendaPagtoModel> pgtos) throws Exception {
         if (pgtos == null || pgtos.isEmpty()) {
             throw new Exception("Nenhum pagamento para inserir.");
         }

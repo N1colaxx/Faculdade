@@ -101,7 +101,7 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
 
 
     public FormapagtoModel obterCodigoPorNome(String nome) throws Exception {
-        System.out.println(" [FormapagtoDao] obterCodigoPorNome() foi iniciado...");
+        System.out.println("\n [FormapagtoDao] obterCodigoPorNome() foi iniciado...");
         System.out.println(" [FormapagtoDao] nome que esta procurando = " + nome);
         
         String tabFormapagto = FormapagtoModel.class.getName();
