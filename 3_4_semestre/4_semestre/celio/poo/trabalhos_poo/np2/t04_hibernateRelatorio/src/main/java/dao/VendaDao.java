@@ -7,6 +7,7 @@ import model.UsuarioModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -35,55 +36,38 @@ public class VendaDao implements GenericDao<VendaModel> {
     
     public VendaModel incluir(VendaModel objModel, Session session) throws Exception {
         System.out.println("\n [VendaDao] INCLUIR iniciado");
-        
         System.out.println(" venda_codigo = " + objModel.getVda_codigo());
         System.out.println(" usu_codigo = " + objModel.getUsu_venda().getUSU_CODIGO() );
-        System.out.println(" cli_codigo = " + objModel.getCli_venda().getCLI_CODIGO() );        
+        System.out.println(" cli_codigo = " + objModel.getCli_venda().getCLI_CODIGO() );
         
-        // Garante que o ID seja nulo para nova inserção
-        session.persist(objModel);
-        session.flush();   // força o insert AGORA
-        session.refresh(objModel); // agora recarregar do banco
+        try {
+            session.persist(objModel);
+        } catch (Exception e) {
+            if(objModel.getVda_codigo() == null) {
+                System.out.println(" [VendaDao] ERRO! ao gravar a venda");
+                JOptionPane.showMessageDialog(null, "ERRO! ao gravar Venda, ID = " + objModel.getVda_codigo());
+                return  null;
+            }
+        }
 
-        System.out.println("Venda salva com ID: " + objModel.getVda_codigo());
+        System.out.println(" [VendaDao] Sucesso! Venda salva com (objModel) ID =  " + objModel.getVda_codigo());
         return objModel;
     }
 
     @Override
     public void alterar(VendaModel objModel) throws Exception {
-        System.out.println("\n [VendaDao] ALTERAR iniciado");
-        
-        // Venda com dados NOVOS
-        Integer new_cod_venda = objModel.getVda_codigo();
-        
-        // Cliente com dados ANTIGOS;
-        VendaModel old_venda = get(new_cod_venda);
-        Integer old_cod_venda   = old_venda.getVda_codigo();
-        
-        if (old_venda == null) {
-            throw new Exception("  Venda não encontrada no banco para atualização!");
+    }
+    
+    public void atualizar(VendaModel objModel, Session session) {
+        try {
+            session.merge(objModel);
+        } catch(Exception ex) {
+            if(objModel.getVda_codigo() == null) {
+                System.out.println(" [VendaDao] ERRO! ao Atualizar a Venda");
+            }
         }
         
-        if (new_cod_venda != old_cod_venda) return;
-        
-        System.out.println(" |---------------------------------");
-        System.out.println(" |      Venda com dados NOOVOS     ");
-        System.out.println(" |usu_codigo   = " + objModel.getUsu_venda().getUSU_CODIGO() );
-        System.out.println(" |usu_codigo   = " + objModel.getCli_venda().getCLI_CODIGO() );        
-        System.out.println(" |venda_codigo = " + objModel.getVda_codigo());
-        System.out.println(" |----------------------------------");
-        System.out.println(" |      VEnda com dados ANTIGOS     ");
-        System.out.println(" |usu_codigo   = " + old_venda.getUsu_venda().getUSU_CODIGO() );
-        System.out.println(" |usu_codigo   = " + old_venda.getCli_venda().getCLI_CODIGO() );        
-        System.out.println(" |venda_codigo = " + old_venda.getVda_codigo());
-        System.out.println(" |----------------------------------\n");
-        
-       try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-           Transaction t = session.beginTransaction();
-
-           session.merge(objModel); // MERGE vai atualizar tanto pessoa quanto cliente
-           t.commit();
-       }
+        System.out.println(" [VendaDao] Sucesso! ao Atualizar a Venda = " + objModel.getVda_codigo());
     }
     
     @Override

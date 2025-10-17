@@ -988,7 +988,7 @@ public class VendaView extends JPanel {
 
                     VendaPagtoModel  pg = new VendaPagtoModel();
                     pg.setVdp_codigo(0);
-                    pg.setVenda_Vendapagto(v);
+                    pg.setVenda_VendaPagto(v);
                     pg.setFormapagto_Vendapagto(fpg);
                     pg.setVdp_valor(valor1);
                     pgtosModel.add(pg);
@@ -1018,7 +1018,7 @@ public class VendaView extends JPanel {
             VendaPagtoModel  pg2 = new VendaPagtoModel();
             pg2.setVdp_codigo(0);
             pg2.setFormapagto_Vendapagto(fpg);
-            pg2.setVenda_Vendapagto(v);
+            pg2.setVenda_VendaPagto(v);
             pg2.setVdp_valor(total_venda2);
             pgtosModel.add(pg2);
 
@@ -1065,8 +1065,8 @@ public class VendaView extends JPanel {
             }
 
             VendaPagtoModel sel = pgtosModel.get(modelRow);
-            sel.getFormapagto_Vendapagto().setFPG_CODIGO(fpgCod);
-            sel.getFormapagto_Vendapagto().setFPG_NOME(nome);
+            sel.getFormapagto_VendaPagto().setFPG_CODIGO(fpgCod);
+            sel.getFormapagto_VendaPagto().setFPG_NOME(nome);
             sel.setVdp_valor(val2);
             pgtosModel.set(modelRow, sel);
 
@@ -1298,7 +1298,7 @@ public class VendaView extends JPanel {
         if (pg == null) return;
         
         // Seleciona o nome no combo (se existir na lista)
-        cbFpgNome.setSelectedItem(pg.getFormapagto_Vendapagto().getFPG_NOME());
+        cbFpgNome.setSelectedItem(pg.getFormapagto_VendaPagto().getFPG_NOME());
         edtValorPagamento.setText(fmt(pg.getVdp_valor()));
     }
     

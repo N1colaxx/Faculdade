@@ -36,9 +36,9 @@ public class VendapagtoTableModel extends AbstractTableModel {
         VendaPagtoModel objModel = (VendaPagtoModel)linhas.get(row);
         switch (col) {
             case 0:
-                return objModel.getVenda_Vendapagto().getVda_codigo();
+                return objModel.getVenda_VendaPagto().getVda_codigo();
             case 1:
-                return objModel.getFormapagto_Vendapagto().getFPG_NOME();
+                return objModel.getFormapagto_VendaPagto().getFPG_NOME();
             case 2:
                 return objModel.getVdp_valor();
 

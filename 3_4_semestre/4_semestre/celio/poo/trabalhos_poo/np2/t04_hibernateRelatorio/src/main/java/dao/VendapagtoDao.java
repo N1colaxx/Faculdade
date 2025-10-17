@@ -5,6 +5,7 @@ import model.VendaPagtoModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -21,8 +22,8 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
     public void incluir(VendaPagtoModel objModel) throws Exception {
         System.out.println("\n [VendapagtoDao] INCLUIR iniciado \n"); 
         System.out.println(" vdp_codigo = " + objModel.getVdp_codigo() );
-        System.out.println(" vda_codigo = " + objModel.getVenda_Vendapagto().getVda_codigo());        
-        System.out.println(" pfg_codigo = " + objModel.getFormapagto_Vendapagto().getFPG_CODIGO());
+        System.out.println(" vda_codigo = " + objModel.getVenda_VendaPagto().getVda_codigo());        
+        System.out.println(" pfg_codigo = " + objModel.getFormapagto_VendaPagto().getFPG_CODIGO());
          
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction t = session.beginTransaction();
@@ -36,12 +37,24 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
     }
     
     public void incluir(VendaPagtoModel objModel, Session session) throws Exception {
-        System.out.println("\n [VendaPagtoModel] INCLUIR iniciado");
+        System.out.println("\n [VendaPagtoDao] INCLUIR iniciado");
         System.out.println(" vdp_codigo = " + objModel.getVdp_codigo() );        
-        System.out.println(" vda_codigo = " + objModel.getVenda_Vendapagto().getVda_codigo());
-        System.out.println(" fpg_codigo = " + objModel.getFormapagto_Vendapagto().getFPG_CODIGO());
+        System.out.println(" vda_codigo = " + objModel.getVenda_VendaPagto().getVda_codigo());
+        System.out.println(" fpg_codigo = " + objModel.getFormapagto_VendaPagto().getFPG_CODIGO());
         
-        session.persist(objModel);
+        Transaction tx = session.beginTransaction();
+        try{
+            session.persist(objModel);
+        }catch (Exception ex) {
+            if(objModel.getVdp_codigo() == null) {
+                System.out.println(" [VendaPagtoDao] ERRO! ao incluir Venda_Pagto");
+                JOptionPane.showMessageDialog(null, "ERRO! ao gravar Venda_Pagto, ID = " + objModel.getVdp_codigo()); 
+                tx.rollback();
+            }
+        }
+        
+        tx.commit();
+        System.out.println(" [VendaPagtoDao] Sucesso! Venda_Pagto INCLUIDA ID = " + objModel.getVdp_codigo());
     }
 
     @Override
@@ -64,13 +77,13 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
         System.out.println(" |---------------------------------");
         System.out.println(" |  Vendapagto com dados NOVOS     ");
         System.out.println(" vdp_codigo = " + objModel.getVdp_codigo() );
-        System.out.println(" vda_codigo = " + objModel.getVenda_Vendapagto().getVda_codigo());        
-        System.out.println(" pfg_codigo = " + objModel.getFormapagto_Vendapagto().getFPG_CODIGO());
+        System.out.println(" vda_codigo = " + objModel.getVenda_VendaPagto().getVda_codigo());        
+        System.out.println(" pfg_codigo = " + objModel.getFormapagto_VendaPagto().getFPG_CODIGO());
         System.out.println(" |----------------------------------");
         System.out.println(" | Vendapagto com dados ANTIGOS     ");
         System.out.println(" vdp_codigo = " + old_vdp.getVdp_codigo() );
-        System.out.println(" vda_codigo = " + old_vdp.getVenda_Vendapagto().getVda_codigo());        
-        System.out.println(" pfg_codigo = " + old_vdp.getFormapagto_Vendapagto().getFPG_CODIGO());
+        System.out.println(" vda_codigo = " + old_vdp.getVenda_VendaPagto().getVda_codigo());        
+        System.out.println(" pfg_codigo = " + old_vdp.getFormapagto_VendaPagto().getFPG_CODIGO());
         System.out.println(" |----------------------------------\n");
         
        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -163,7 +176,7 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
 
             for (VendaPagtoModel pagto : pgtos) {
                 // garante que a venda esteja associada
-                pagto.getVenda_Vendapagto().setVda_codigo(vdaCodigo);
+                pagto.getVenda_VendaPagto().setVda_codigo(vdaCodigo);
 
                 // persiste o pagamento
                 session.persist(pagto);

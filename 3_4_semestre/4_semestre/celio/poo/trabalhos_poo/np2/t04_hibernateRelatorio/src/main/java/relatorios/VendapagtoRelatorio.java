@@ -97,8 +97,8 @@ public class VendapagtoRelatorio {
                        
             String linha = String.format("%-10d %-30s %-10",
                     objModel.getVdp_codigo(),
-                    objModel.getVenda_Vendapagto().getVda_codigo(),  
-                    objModel.getFormapagto_Vendapagto().getFPG_CODIGO()
+                    objModel.getVenda_VendaPagto().getVda_codigo(),  
+                    objModel.getFormapagto_VendaPagto().getFPG_CODIGO()
             );
             
 

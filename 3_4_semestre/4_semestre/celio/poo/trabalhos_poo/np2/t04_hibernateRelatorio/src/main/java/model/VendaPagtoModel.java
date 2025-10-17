@@ -22,7 +22,7 @@ public class VendaPagtoModel {
     
     @ManyToOne
     @JoinColumn (name = "VDA_CODIGO")
-    private VendaModel venda; // tab venda
+    private VendaModel venda_vendaPagto; // tab venda
 
     @ManyToOne 
     @JoinColumn (name = "FPG_CODIGO")
@@ -34,9 +34,9 @@ public class VendaPagtoModel {
     }
  
     
-    public VendaPagtoModel(Integer vdp_codigo, VendaModel venda, FormapagtoModel pfg_codigo, double vdp_valor) {
+    public VendaPagtoModel(Integer vdp_codigo, VendaModel venda_pg, FormapagtoModel pfg_codigo, double vdp_valor) {
         this.vdp_codigo = vdp_codigo;
-        this.venda = venda;
+        this.venda_vendaPagto = venda_pg;
         this.formapagto = pfg_codigo;
         this.vdp_valor = vdp_valor;
     }
@@ -49,11 +49,11 @@ public class VendaPagtoModel {
         return vdp_codigo;
     }
 
-    public VendaModel getVenda_Vendapagto() {
-        return venda;
+    public VendaModel getVenda_VendaPagto() {
+        return venda_vendaPagto;
     }
 
-    public FormapagtoModel getFormapagto_Vendapagto() {
+    public FormapagtoModel getFormapagto_VendaPagto() {
         return formapagto;
     }
 
@@ -70,8 +70,8 @@ public class VendaPagtoModel {
         this.vdp_codigo = vdp_codigo;
     }
 
-    public void setVenda_Vendapagto(VendaModel vda_codigo) {
-        this.venda = vda_codigo;
+    public void setVenda_VendaPagto(VendaModel vda_codigo) {
+        this.venda_vendaPagto = vda_codigo;
     }
 
     public void setFormapagto_Vendapagto(FormapagtoModel pfg_codigo) {

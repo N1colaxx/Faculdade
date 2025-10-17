@@ -5,6 +5,7 @@ import model.VendaProdutoModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -38,12 +39,25 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
     }
     
     public void incluir(VendaProdutoModel objModel, Session session) throws Exception {
-        System.out.println("\n [VendaProdutoModel] INCLUIR iniciado");
+        System.out.println("\n [VendaProdutoDao] INCLUIR iniciado");
         System.out.println(" vep_codigo = " + objModel.getVep_codigo() );        
         System.out.println(" vda_codigo = " + objModel.getVenda_VendaProduto().getVda_codigo());
         System.out.println(" pro_codigo = " + objModel.getProduto_VendaProduto().getPRO_CODIGO());
         
-        session.persist(objModel);
+        Transaction tx = session. beginTransaction();
+        try{
+            session.persist(objModel);
+        } catch(Exception ex) {
+            if(objModel.getVep_codigo() == null) {
+                System.out.println(" [VendaProdutoDao] ERRO! ao gravar VendaProduto!");
+                JOptionPane.showMessageDialog(null, "ERRO! ao gravar Venda_Produto, ID = " + objModel.getVep_codigo());
+                tx.rollback();
+                return;
+            }
+        }
+
+        tx.commit();
+        System.out.println(" [VendaProdutoDao] Sucesso! Venda_Produto INCLUIDA ID = " + objModel.getVep_codigo());
     }
     
     

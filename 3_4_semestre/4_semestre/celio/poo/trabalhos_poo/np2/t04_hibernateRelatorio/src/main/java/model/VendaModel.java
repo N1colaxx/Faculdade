@@ -34,10 +34,10 @@ public class VendaModel {
     @JoinColumn (name = "CLI_CODIGO")
     private ClienteModel cliente;
     
-    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "venda_vendaPro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VendaProdutoModel> listItens = new ArrayList<>();
 
-    @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "venda_vendaPagto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VendaPagtoModel> listPagtos = new ArrayList<>();
     
     private LocalDate vda_data;
@@ -59,6 +59,19 @@ public class VendaModel {
         this.vda_total = vda_total;
         this.vda_obs = vda_obs;
     }
+    
+      // Método auxiliar para adicionar produtos
+    public void adicionarVendaProduto(VendaProdutoModel vp) {
+        this.listItens.add(vp);
+        vp.setVenda_VendaProduto(this);
+    }
+    
+    // Método auxiliar para adicionar pagamentos
+    public void adicionarVendaPagto(VendaPagtoModel vp) {
+        this.listPagtos.add(vp);
+//        vp.setVenda_VendaPagto(this);
+    }
+    
     
     /**
      *  GETTERS
@@ -126,11 +139,11 @@ public class VendaModel {
         this.cliente = cli_codigo;
     }
     
-    public void setListItens_venda(List<VendaProdutoModel> itens) {
+    public void setVenda_vendaPro(List<VendaProdutoModel> itens) {
         this.listItens = itens;
     }
 
-    public void setListPagtos_venda(List<VendaPagtoModel> pagtos) {        
+    public void setVenda_vendaPagto(List<VendaPagtoModel> pagtos) {        
         this.listPagtos = pagtos;
     }
     
