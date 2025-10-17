@@ -1,9 +1,8 @@
 package view;
 
-import controller.ClienteController;
+
 import controller.FormapagtoController;
 import controller.ProdutoController;
-import controller.UsuarioController;
 import controller.VendaController;
 import controller.VendaProdutoController;
 import controller.VendapagtoController;
@@ -14,6 +13,7 @@ import model.VendaPagtoModel;
 import model.SessionModel;
 import model.UsuarioModel;
 import model.ProdutoModel;
+import model.FormapagtoModel;
 
 import util.UtilsUI;
 
@@ -24,15 +24,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import model.ClienteModel;
-import model.FormapagtoModel;
 
-/**
- * Tela de Cadastro de Vendas (MVC+DAO), seguindo seu TXT: - Dados: mantém
- * visual atual - Itens: sem desconto por item; add/remover; subtotal =
- * qtde*preço - Pagamentos: até 2; combo com formas ativas; regra de rateio -
- * Consulta: filtros (id1..id2, valor>=, valor<=) em venda_produto
- */
+
 public class VendaView extends JPanel {
 
     private JLabel lblTitulo;
@@ -516,6 +509,7 @@ public class VendaView extends JPanel {
             userLogado = SessionModel.getCurrentUser();
             novo(); 
         });
+        
         btnAlterar.addActionListener(e -> alterar());
         btnGravar.addActionListener(e -> gravar());
         btnExcluir.addActionListener(e -> excluirSelecionada());
@@ -539,6 +533,7 @@ public class VendaView extends JPanel {
         
         // Consulta
         btnConsultar.addActionListener(e -> consultarVenda());
+        
         btnLimpar.addActionListener(e -> {
             edtId1.setText(""); edtId2.setText("");
             edtValorConsulta1.setText(""); 
@@ -624,31 +619,29 @@ public class VendaView extends JPanel {
         String cond = "";
         
         if (!edtId1.getText().trim().isEmpty()) {
-            cond += "(vda_codigo >= " + edtId1.getText().trim() + ")";
+            cond += "(v.vda_codigo >= " + edtId1.getText().trim() + ")";
         }
         
         if (!edtId2.getText().trim().isEmpty()){
-            if(!cond.isEmpty()) {
-                cond += " AND vda_codigo <=" + edtId2.getText().trim() + " )";
-            }
+            cond += (!cond.isEmpty() ? " AND " : "") + "(v.vda_codigo <= " + edtId2.getText().trim() + ")";
         }
         
-        if (!edtTotalVenda.getText().trim().isEmpty()) {
-            if(!cond.isEmpty()) {
-                cond += " AND vda_total >= " + edtTotalVenda.getText().trim() + " )";
-            }
+        if (!edtValorConsulta1.getText().trim().isEmpty()) {
+            cond += (!cond.isEmpty() ? " AND " : "") + "(v.vda_total >= " + edtValorConsulta1.getText().trim() + ")";
         }
         
-        if (!edtTotalVenda.getText().trim().isEmpty()){
-            if (!cond.isEmpty()) {
-                cond += " AND vda_total <= " + edtTotalVenda.getText().trim() + " )";
-            }
+        if (!edtValorConsulta2.getText().trim().isEmpty()){
+            cond += (!cond.isEmpty() ? " AND " : "") + "(v.vda_total <= " + edtValorConsulta2.getText().trim() + ")";
         }
+        
+
+        System.out.println(" [VendaView] filtro da consulta = " + cond);
         
         return cond;
     }
 
     private void consultarVenda() {
+        System.out.println("\n [VendaView] void consultarVenda() iniciado...");
         try {
             // Limpa a tabela
             limparTabelaConsulta();
@@ -670,12 +663,13 @@ public class VendaView extends JPanel {
     }
     
     private void limparTabelaConsulta() {
+         System.out.println(" [VendaView] limpando tabela.");
         consultaModel = new VendaTableModel(new ArrayList<>());
         tabelaConsulta.setModel(consultaModel);
     }
 
     private void selecionarLinhaConsulta() {
-        System.out.println(" [VendaView] void selecionarLinhaConsulta() iniciou...");
+        System.out.println("\n [VendaView] void selecionarLinhaConsulta() iniciou...");
         int viewSel = tabelaConsulta.getSelectedRow();
         
         if (viewSel < 0) return;
@@ -684,14 +678,10 @@ public class VendaView extends JPanel {
         int vda = Integer.parseInt(String.valueOf(consultaModel.getValueAt(modelSel, 0))); // vda_codigo
 
         try {
-            System.out.println("\n [selecionarLinhaConsulta] foi chamado em VendaView");
-            
-            
-            setOperacao("consultaPorVdaCodigo");
-            
+            String cond = "(v.vda_codigo = " + vda + ")";
             VendaModel venda = new VendaController().buscarPorCodigo(vda);
-            ArrayList<VendaProdutoModel> vendaProduto = new VendaProdutoController().buscarPorVdaCodigo(vda, operacao);
-            ArrayList<VendaPagtoModel> vendaFormapagto = new VendapagtoController().buscarPorVdaCodigo(vda, operacao);
+            ArrayList<VendaProdutoModel> vendaProduto = new VendaProdutoController().consultar(cond);
+            ArrayList<VendaPagtoModel> vendaFormapagto = new VendapagtoController().consultar(cond);
                     
             if (venda == null) {
                 JOptionPane.showMessageDialog(this, "Venda não encontrada.");
@@ -715,7 +705,6 @@ public class VendaView extends JPanel {
             }
             
             recomputarTotais();
-     
             
             // ir para a aba "Dados" 
             tabs.setSelectedComponent(tabDados);
@@ -723,8 +712,7 @@ public class VendaView extends JPanel {
             setOperacao("incluir");
             System.out.println(" [VendaView] void selecionarLinhaConsulta() terminou.");
             System.out.println(" [VendaView] Operacao = " + getOperacao());
-
-
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar venda: " + ex.getMessage());
         }
@@ -1183,8 +1171,7 @@ public class VendaView extends JPanel {
         }
     }
     
-    private void alterar(){ 
-        System.out.println("\n [VendaView] void alterar() iniciado");
+    private void alterar(){
         setOperacao("alterar");
         
         // btn DADOS
@@ -1204,13 +1191,18 @@ public class VendaView extends JPanel {
 
         //btn Pagtos
         edtValorPagamento.setFocusable(true);
+    }
+    
+    private void alterar_gravar(){
+        System.out.println(" [VendaView] void alterar_gravar() iniciado...");
+        System.out.println(" [VendaView] Operacoa atual = " + getOperacao());
+        
         try {
             System.out.println(" [VendaView] verificando VDA_CODIGO..");
             int edt_vda_codigo = parseInt(edtVdaCodigo.getText());
             
-            VendaModel v = new VendaModel();
             VendaController v_ctrl = new VendaController();
-            v = v_ctrl.buscarPorCodigo(edt_vda_codigo);
+            VendaModel v = v_ctrl.buscarPorCodigo(edt_vda_codigo);
             
             if(v == null || v.getVda_codigo() < 0) {
                 JOptionPane.showMessageDialog(this, "Codigo da Venda informado INVALIDO!"); 
@@ -1303,14 +1295,14 @@ public class VendaView extends JPanel {
     }
     
     private void limparTudo(){
-        edtVdaCodigo.setText("0");
+        edtVdaCodigo.setText("");
         edtUsuCodigo.setText("");
         edtCliCodigo.setText("");
         edtData.setText(LocalDate.now().toString());
         edtObs.setText("");
-        edtValorVenda.setText("0");
-        edtDescontoVenda.setText("0");
-        edtTotalVenda.setText("0");
+        edtValorVenda.setText("");
+        edtDescontoVenda.setText("");
+        edtTotalVenda.setText("");
         // limpa listas
         while (itensModel.getRowCount() > 0) itensModel.removeItem(0);
         while (pgtosModel.getRowCount() > 0) pgtosModel.remove(0);

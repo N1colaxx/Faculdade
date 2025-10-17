@@ -97,19 +97,18 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
     
     @Override
     public ArrayList<VendaPagtoModel> consultar(String filtro) {
-        System.out.println("\n [VendapagtoDao] CONSULTAR iniciado \n");
+        System.out.println("\n [VendapagtoDao] CONSULTAR iniciado");
         
         String tabVendapagto = VendaPagtoModel.class.getName();
         String hql = " FROM " + tabVendapagto + " vpg " 
-                +    " JOIN FETCH venpag.venda v "
-                +    " JOIN FETCH venpag.formapagto fpg";
+                +    " JOIN FETCH vpg.venda_vendaPagto v "
+                +    " JOIN FETCH vpg.formapagto f";
         
         if (filtro != null && !filtro.trim().isEmpty()) {
-            hql =  " FROM " + tabVendapagto + " vpg " 
-                +  " JOIN FETCH venpag.venda v "
-                +  " JOIN FETCH venpag.formapagto fpg"
-                +  " WHERE " + filtro;
+            hql += " WHERE " + filtro;
         }
+        
+        hql += " ORDER BY v.vda_codigo";
         
         System.out.println(" [VendapagtoDao] query HQL executada:");
         System.out.println(   hql + " \n");
@@ -117,9 +116,9 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             var query = session.createQuery(hql, VendaPagtoModel.class);
             
-            if(operacao.equals("consultaPorVdaCodigo") && hql.contains(":vda_codigo")) {
+            if(filtro != null && filtro.contains(":vda_codigo")) {
                 query.setParameter("vda_codigo", operacao);
-                System.out.println(" [VendaProdutoDao] parâmetro da consulta (consultaPorVdaCodigo) = tem que compara por VDA_CODIGO");
+                System.out.println(" [VendaProdutoDao] parâmetro da consulta = " + operacao);
             }
                         
             List<VendaPagtoModel> resultList = query.getResultList();

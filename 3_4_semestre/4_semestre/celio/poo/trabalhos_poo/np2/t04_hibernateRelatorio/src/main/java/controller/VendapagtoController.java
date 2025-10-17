@@ -81,7 +81,7 @@ public class VendapagtoController implements GenericController<VendaPagtoModel> 
         if (!op.isEmpty() && op.equals("consultaPorVdaCodigo")) {
             operacao = op;
         }
-        String cond = " v.vda_codigo = :vda_codigo";
+        String cond = " vda.vda_codigo = :vda_codigo";
         return new ArrayList<>(vendapagtoDao.consultar(cond));
     }
     

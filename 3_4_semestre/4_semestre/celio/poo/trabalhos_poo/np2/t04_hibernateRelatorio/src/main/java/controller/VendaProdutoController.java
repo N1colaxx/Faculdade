@@ -78,8 +78,9 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
        
     // busca um lista completa
     public ArrayList<VendaProdutoModel> buscarPorVdaCodigo(Integer vda_cod, String op) throws Exception {
-        if (!op.isEmpty() && op.equals("consultaPorVdaCodigo")) {
-            operacao = op;
+        if (op.equals("consultaPorVdaCodigo")) {
+            System.out.println(" [VendaProdutoController] Operacao recebida = " + op);
+            this.operacao = op;
         }
         
         String cond = " v.vda_codigo = :vda_codigo";

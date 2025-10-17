@@ -60,60 +60,23 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
         System.out.println(" [VendaProdutoDao] Sucesso! Venda_Produto INCLUIDA ID = " + objModel.getVep_codigo());
     }
     
-    
-    
     @Override
     public void alterar(VendaProdutoModel objModel) throws Exception {
-        System.out.println("\n [VendaProdutoDao] ALTERAR iniciado");
-        
-        // VendaProduto com dados NOVOS
-        Integer new_cod_vendaPro = objModel.getVep_codigo();
-        
-        // VendaProduto com dados ANTIGOS;
-        VendaProdutoModel old_vendaPro = get(new_cod_vendaPro);
-        Integer old_cod_vendaPro   = old_vendaPro.getVep_codigo();
-        
-        if (old_vendaPro == null) {
-            throw new Exception("  VendaProduto não encontrada no banco para atualização!");
-        }
-        
-        if (new_cod_vendaPro != old_cod_vendaPro) return;
-        
-        System.out.println(" |---------------------------------");
-        System.out.println(" |      Venda com dados NOOVOS     ");
-        System.out.println(" |vep_codigo   = " + objModel.getVep_codigo());
-        System.out.println(" |vda_codigo   = " + objModel.getVenda_VendaProduto().getVda_codigo());        
-        System.out.println(" |pro_codigo = " + objModel.getProduto_VendaProduto().getPRO_CODIGO());
-        System.out.println(" |----------------------------------");
-        System.out.println(" |      VEnda com dados ANTIGOS     ");
-        System.out.println(" |vep_codigo   = " + old_vendaPro.getVep_codigo());
-        System.out.println(" |vda_codigo   = " + old_vendaPro.getVenda_VendaProduto().getVda_codigo());        
-        System.out.println(" |pro_codigo   = " + old_vendaPro.getProduto_VendaProduto().getPRO_CODIGO());
-        System.out.println(" |----------------------------------\n");
-        
-       try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-           Transaction t = session.beginTransaction();
-
-           session.merge(objModel); // MERGE vai atualizar tanto pessoa quanto cliente
-           t.commit();
-       }
     }
     
     @Override
     public ArrayList<VendaProdutoModel> consultar(String filtro) {
-        System.out.println("\n [VendaProdutoDao] CONSULTAR iniciado \n");
+        System.out.println("\n [VendaProdutoDao] CONSULTAR iniciado");
         
         String tabVendaPro = VendaProdutoModel.class.getName();
-        String hql = " FROM " + tabVendaPro + " vp " 
-                +    " JOIN FETCH vda.compra v "
-                +    " JOIN FETCH pro.produto p ";
+        String hql = " FROM " + tabVendaPro + " vep " 
+                +    " JOIN FETCH vep.venda_vendaPro v "
+                +    " JOIN FETCH vep.produto_vendaPro p ";
         
         if (filtro != null && !filtro.trim().isEmpty()) {
-            hql = " FROM " + tabVendaPro + " vp " 
-                + " JOIN FETCH vp.venda v "
-                + " JOIN FETCH vp.produto p "
-                + " WHERE " + filtro;
+            hql += " WHERE " + filtro;
         }
+        hql += " ORDER BY v.vda_codigo";
         
         System.out.println(" [VendaProdutoDao] query HQL executada:");
         System.out.println(   hql + " \n");
@@ -121,10 +84,6 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             var query = session.createQuery(hql, VendaProdutoModel.class);
             
-            if(operacao.equals("consultaPorVdaCodigo") && hql.contains(":vda_codigo")) {
-                query.setParameter("vda_codigo", operacao);
-                System.out.println(" [VendaProdutoDao] parâmetro da consulta (consultaPorVdaCodigo) = tem que compara por VDA_CODIGO");
-            }
             // Removida transação desnecessária para operação de leitura
             List<VendaProdutoModel> resultList = query.getResultList();
             return new ArrayList<>(resultList);

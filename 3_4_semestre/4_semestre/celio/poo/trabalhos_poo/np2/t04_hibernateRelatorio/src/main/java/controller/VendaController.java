@@ -1,27 +1,25 @@
 package controller;
 
+import model.ClienteModel;
+import model.ProdutoModel;
+import model.UsuarioModel;
+import model.VendaModel;
+import model.VendaProdutoModel;
+import model.VendaPagtoModel;
+
 import dao.ClienteDao;
 import dao.UsuarioDao;
+import dao.VendaDao;
+
+import relatorios.VendaRelatorio;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import relatorios.VendaRelatorio;
-
-import dao.VendaDao;
-import dao.VendaProdutoDao;
-import dao.VendapagtoDao;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
-import model.ClienteModel;
-import model.FormapagtoModel;
-import model.ProdutoModel;
-import model.UsuarioModel;
 
-import model.VendaModel;
-import model.VendaProdutoModel;
-import model.VendaPagtoModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -142,7 +140,18 @@ public class VendaController implements GenericController<VendaModel> {
 
     @Override
     public void excluir(VendaModel obj) throws Exception {
-        vendaDao.excluir(obj);
+        int resposta = JOptionPane.showConfirmDialog(
+            null,
+            "Deseja realmente EXCLUIR a Venda ? confirmar a ação?", // mensagem
+            "Confirmação", // título da janela
+            JOptionPane.YES_NO_OPTION, // opções de botões
+            JOptionPane.QUESTION_MESSAGE // ícone
+        );
+        
+        if (resposta == JOptionPane.YES_OPTION) {
+            vendaDao.excluir(obj);
+            System.out.println("Ação confirmada!");
+        }
     }
 
     @Override

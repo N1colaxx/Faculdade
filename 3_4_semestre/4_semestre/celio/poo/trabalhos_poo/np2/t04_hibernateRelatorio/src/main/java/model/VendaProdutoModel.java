@@ -25,7 +25,7 @@ public class VendaProdutoModel {
     
     @ManyToOne
     @JoinColumn (name = "PRO_CODIGO")
-    private ProdutoModel produto;
+    private ProdutoModel produto_vendaPro;
     
     private double vep_qtde;
     private double vep_preco;
@@ -36,10 +36,10 @@ public class VendaProdutoModel {
         
     }
 
-    public VendaProdutoModel(Integer vep_codigo, VendaModel venda_pro, ProdutoModel produto, double vep_qtde, double vep_preco, double vep_desconto, double vep_total) {
+    public VendaProdutoModel(Integer vep_codigo, VendaModel venda_pro, ProdutoModel produto_vend, double vep_qtde, double vep_preco, double vep_desconto, double vep_total) {
         this.vep_codigo = vep_codigo;
         this.venda_vendaPro= venda_pro;
-        this.produto = produto;
+        this.produto_vendaPro = produto_vend;
         this.vep_qtde = vep_qtde;
         this.vep_preco = vep_preco;
         this.vep_desconto = vep_desconto;
@@ -60,7 +60,7 @@ public class VendaProdutoModel {
     }
 
     public ProdutoModel getProduto_VendaProduto() {
-        return produto;
+        return produto_vendaPro;
     }
 
     @Column (name = "VEP_QTDE", nullable = true, precision = 14, scale = 4)
@@ -96,7 +96,7 @@ public class VendaProdutoModel {
     }
 
     public void setProduto_VendaProduto(ProdutoModel produto) {
-        this.produto = produto;
+        this.produto_vendaPro = produto;
     }
 
     public void setVep_qtde(double vep_qtde) {

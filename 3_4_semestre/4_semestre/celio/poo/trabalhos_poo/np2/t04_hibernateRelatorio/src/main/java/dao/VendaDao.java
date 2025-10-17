@@ -16,22 +16,31 @@ public class VendaDao implements GenericDao<VendaModel> {
 
     
     @Override
-    public void incluir(VendaModel objModel) throws Exception {
-        System.out.println("\n [VendaDao] INCLUIR iniciado \n");
+    public void incluir(VendaModel objModel) throws Exception { 
+    }
+    
+    @Override
+    public void alterar(VendaModel objModel) throws Exception {
+        System.out.println("\n [VendaDao] ALTERAR iniciado...");
+        System.out.println("\n [VendaDao] alterando Venda ID = " + objModel.getVda_codigo());
         
-        System.out.println(" usu_codigo = " + objModel.getUsu_venda().getUSU_CODIGO() );
-        System.out.println(" cli_codigo = " + objModel.getCli_venda().getCLI_CODIGO() );        
-        System.out.println(" venda_codigo = " + objModel.getVda_codigo());
-         
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Transaction t = session.beginTransaction();
-            
-            // Garante que o ID seja nulo para nova inserção
-            objModel.setVda_codigo(null);
-            session.persist(objModel);
-            
-            t.commit();
-        }   
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            session.merge(objModel);
+            tx.commit();
+        } catch(Exception ex) {
+            if(tx != null) {
+                System.out.println(" [VendaDao] ERRO! ao Alterar a Venda");
+                JOptionPane.showMessageDialog(null, "[VendaDao] ERRO! ao Alterar a Venda");
+                tx.rollback();
+            }
+        } finally {
+            session.close();
+            System.out.println(" [VendaDao] SESSION fechada.");
+        }
+        
+        System.out.println(" [VendaDao] Sucesso! ao Alterar a Venda = " + objModel.getVda_codigo());
     }
     
     public VendaModel incluir(VendaModel objModel, Session session) throws Exception {
@@ -53,10 +62,6 @@ public class VendaDao implements GenericDao<VendaModel> {
         System.out.println(" [VendaDao] Sucesso! Venda salva com (objModel) ID =  " + objModel.getVda_codigo());
         return objModel;
     }
-
-    @Override
-    public void alterar(VendaModel objModel) throws Exception {
-    }
     
     public void atualizar(VendaModel objModel, Session session) {
         try {
@@ -72,19 +77,18 @@ public class VendaDao implements GenericDao<VendaModel> {
     
     @Override
     public ArrayList<VendaModel> consultar(String filtro) {
-        System.out.println("\n [VendaDao] CONSULTAR iniciado \n");
+        System.out.println("\n [VendaDao] CONSULTAR iniciado...");
         
         String tabVenda = VendaModel.class.getName();
         String hql = " FROM " + tabVenda + " v " 
-                +    " JOIN FETCH v.usuario "
-                +    " JOIN FETCH v.cliente ";
+                +    " JOIN FETCH v.usuario u "
+                +    " JOIN FETCH v.cliente c ";
         
         if (filtro != null && !filtro.trim().isEmpty()) {
-            hql = " FROM " + tabVenda + " v " 
-                +    " JOIN FETCH v.usuario "
-                +    " JOIN FETCH v.cliente "
-                + " WHERE " + filtro;
+            hql += " WHERE " + filtro;
         }
+        
+        hql +=  "ORDER BY v.vda_codigo";
         
         System.out.println(" [VendaDao] query HQL executada:");
         System.out.println(   hql + " \n");
@@ -100,6 +104,7 @@ public class VendaDao implements GenericDao<VendaModel> {
     @Override
     public void excluir(VendaModel objModel) throws Exception {
         System.out.println("\n [VendaDao] EXCLUIR iniciado \n");
+        
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction t = session.beginTransaction();
 
@@ -112,7 +117,7 @@ public class VendaDao implements GenericDao<VendaModel> {
 
     @Override
     public VendaModel get(Integer id) {
-        System.out.println(" [VendaDao] get() foi iniciado... \n");
+        System.out.println("\n [VendaDao] GET() foi iniciado...");
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (VendaModel) session.getReference(VendaModel.class, id);
