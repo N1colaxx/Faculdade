@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
 public class VendaProdutoController implements GenericController<VendaProdutoModel> {
 
@@ -26,10 +30,12 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
     }
 
     @Override
-    public void alterar(VendaProdutoModel obj) throws Exception {
-        vendaProdutoDao.alterar(obj);
+    public void alterar(VendaProdutoModel vp) throws Exception {
+        vendaProdutoDao.alterar(vp);
     }
 
+    
+    
     @Override
     public void excluir(VendaProdutoModel obj) throws Exception {
         vendaProdutoDao.excluir(obj);
@@ -71,42 +77,23 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
         return retorno;
     }
     
-    public VendaProdutoModel buscarProduto_ProCodigo(int cod) throws Exception {
+    public VendaProdutoModel get(int cod) throws Exception {
         return vendaProdutoDao.get(cod);
     }
     
-       
-    // busca um lista completa
-    public ArrayList<VendaProdutoModel> buscarPorVdaCodigo(Integer vda_cod, String op) throws Exception {
-        if (op.equals("consultaPorVdaCodigo")) {
-            System.out.println(" [VendaProdutoController] Operacao recebida = " + op);
-            this.operacao = op;
+        
+    public VendaProdutoModel get(int id, Session session) throws Exception {
+        System.out.println(" [VendaProdutoController] validar_VendaProduto() iniciado...");
+        
+        VendaProdutoModel vp_valido = vendaProdutoDao.get(id, session);
+        if(vp_valido.getVenda_VendaProduto().getVda_codigo() == null  ||
+            vp_valido.getVenda_VendaProduto().getVda_codigo() < 0) {
+            JOptionPane.showMessageDialog(null, "ERRO! Não encontramos Venda de produtos com esse Codigo da Venda.");
+            return null;
         }
         
-        String cond = " v.vda_codigo = :vda_codigo";
-        return new ArrayList<>(vendaProdutoDao.consultar(cond));
+        return vp_valido;
     }
-    
-    //busca o 1 item da lista
-    public VendaProdutoModel buscarPrimeiroPorVdaCodigo(Integer vda_cod, String op) throws Exception {
-        if (!op.isEmpty() && op.equals("consultaPorVdaCodigo")) {
-            operacao = op;
-        }
-        
-        String cond = " v.vda_codigo = :vda_codigo";
-        
-        ArrayList<VendaProdutoModel> lista = new ArrayList<>(vendaProdutoDao.consultar(cond));
-        return (lista == null || lista.isEmpty()) ? null : lista.get(0);
-    }
-    
-    public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
-        if (itens == null || itens.isEmpty()) {
-            throw new Exception("Nenhum item para inserir.");
-        }
-
-        vendaProdutoDao.inserirItens(vdaCodigo, itens);
-    }
-
     
     /**
      * Getters

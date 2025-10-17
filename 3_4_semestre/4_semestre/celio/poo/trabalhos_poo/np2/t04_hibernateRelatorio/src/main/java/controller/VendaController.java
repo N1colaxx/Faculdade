@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
-import org.apache.pdfbox.cos.COSName;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -132,57 +131,146 @@ public class VendaController implements GenericController<VendaModel> {
         
         System.out.println("\n [VendaController] void inclui() terminou");
     }
-
-    
-    
     
     @Override
-    public void alterar(VendaModel obj) throws Exception {
-        System.out.println(" [VendaController] ALTERAR iniciado...");
-
-        VendaProdutoDao vendaProdutoDao = new VendaProdutoDao();
-        VendapagtoDao  vendaPagtoDao = new VendapagtoDao();
-
-        System.out.println(" [VendaController] buscando os Itens e Pagto");
-        String cond = "v.vda_codigo = " + obj.getVda_codigo();
-        ArrayList<VendaProdutoModel> listItensVenda = vendaProdutoDao.consultar(cond);
-        ArrayList<VendaPagtoModel> listPagtos = vendaPagtoDao.consultar(cond);
- 
-        // Atualiza os campos da venda
-        System.out.println(" [VendaController] limpando as Listas:");
+    public void alterar(VendaModel objec) throws Exception {
         
-        obj.getListItens_venda().clear();
-        for(VendaProdutoModel item :obj.getListItens_venda()){
-            System.out.println(" Lista Itens = " + item);
-        }
-        obj.getListPagtos_venda().clear();
-        for(VendaPagtoModel pagto :obj.getListPagtos_venda()){
-            System.out.println(" Lista Itens = " + pagto);
-        }
+    }
+    
+    
+    public void alterar (
+        int vda_cod, int usu_cod, int cli_cod, LocalDate data_v, double valor_v, double desc_v, double total_v, String obs_v, 
+        ArrayList<VendaProdutoModel> itens, 
+        ArrayList<VendaPagtoModel> pgtos) throws Exception {
         
-        try{
+        System.out.println("\n [VendaController] void ALTERAR...");
+
+        VendaProdutoController vp_ctrl = new VendaProdutoController();
+        VendapagtoController pg_ctrl = new VendapagtoController();
+        
+        System.out.println(" [VendaController] Verificando Venda...");
+        VendaModel new_venda = vendaDao.get(vda_cod);
+        if (new_venda == null) { JOptionPane.showMessageDialog(null, "ERRO! Venda Invalido!");
+            return;
+        }
+        System.out.println(" [VendaController] VendaAPROVADO!");
+
+        
+        System.out.println(" [VendaController] Verificando User...");
+        UsuarioModel new_user_v = new UsuarioDao().get(usu_cod);
+        if (new_user_v == null) { JOptionPane.showMessageDialog(null, "ERRO! Usuario Invalido!");
+            return;
+        }
+        System.out.println(" [VendaController] User APROVADO!");
+
+        
+        System.out.println(" [VendaController] Verificando Cliente...");
+        ClienteModel new_cli_v = new ClienteDao().get(cli_cod);
+        if (new_cli_v == null) {JOptionPane.showMessageDialog(null, "ERRO! Cliente Invalido!");
+            return;
+        }
+        System.out.println(" [VendaController] Cliente APROVADO!");
+
+        System.out.println(" [VendaController] Verificando Codigo da Venda dos Itens...");
+        for(int i =0; i < 0; i++){
+            for (VendaProdutoModel item : itens) {
+                item = vp_ctrl.get(item.getVep_codigo());
+            }
+        }
+        System.out.println(" [VendaController] Item APROVADO!");
+
+        System.out.println(" [VendaController] Verificando Codigo da Venda das Formas de Pagamento...");
+        for(int i =0; i < 0; i++){
+            for (VendaPagtoModel pagto : pgtos) {
+                pagto = pg_ctrl.get(pagto.getVdp_codigo());
+            }
+        }
+        System.out.println(" [VendaController] Item APROVADO!");
+
+        
+        
+        Session session = HibernateUtil.getSessionFactory().openSession(); 
+        Transaction transacao = null;
+        
+        try {
+            transacao = session.beginTransaction();
             
-            for(VendaProdutoModel item : listItensVenda){
-                 item.setVenda_VendaProduto(obj);
-                obj.adicionarVendaProduto(item);
+            // Recarrega os objetos nesta sessão
+            new_venda = vendaDao.get(vda_cod, session);
+            new_user_v = new UsuarioDao().get(usu_cod, session);
+            new_cli_v = new ClienteDao().get(cli_cod, session);
+
+            for(int i =0; i < 0; i++){
+                for (VendaProdutoModel item : itens) {
+                    item = vp_ctrl.get(item.getVep_codigo());
+                }
             }
             
-            for(VendaPagtoModel pagto : listPagtos) {
-                pagto.setVenda_VendaPagto(obj);
-                obj.adicionarVendaPagto(pagto);
-            }    
-            
-            System.out.println("\n Listas populadas: ");
-            for(int i = 0; i <= 1; i++){
-                System.out.println(" Lista Itens = " + obj.getListItens_venda().getFirst());
-                System.out.println(" Lista Pagtos = " + obj.getListPagtos_venda().getFirst());
+            for(int i =0; i < 0; i++){
+                for (VendaPagtoModel pagto : pgtos) {
+                    pagto = pg_ctrl.get(pagto.getVdp_codigo());
+                }
             }
+
+            
+            new_venda.setVda_codigo(vda_cod);
+            new_venda.setUsu_venda(new_user_v);
+            new_venda.setCli_venda(new_cli_v);
+            new_venda.setVda_data(data_v);
+            new_venda.setVda_valor(valor_v);
+            new_venda.setVda_desconto(desc_v);
+            new_venda.setVda_total(total_v);
+            new_venda.setVda_obs(obs_v);
+            
+            vendaDao.alterar(new_venda);
+            System.out.println(" [VendaController] Venda antiga com ID(vda_cod): " + vda_cod);
+            System.out.println(" [VendaController] Venda Alterada com ID(new_v): " + new_venda.getVda_codigo());
+
+            
+            for (VendaProdutoModel item : itens) {
+                ProdutoModel p = item.getProduto_VendaProduto();
+                VendaProdutoModel vp = new VendaProdutoModel();
                 
-            vendaDao.alterar(obj);
-        } catch (Exception ex) {
-            System.out.println(ex);
+                vp.setVep_codigo(item.getVep_codigo());
+                vp.setVenda_VendaProduto(new_venda);
+                vp.setProduto_VendaProduto(p);
+                vp.getProduto_VendaProduto().setPRO_NOME(p.getPRO_NOME() );
+                vp.getProduto_VendaProduto().setPRO_UNIDADE(p.getPRO_UNIDADE());
+                vp.setVep_qtde(item.getVep_qtde());
+                vp.setVep_preco(item.getVep_preco());
+                vp.setVep_desconto(item.getVep_desconto());
+                vp.setVep_total(item.getVep_total());
+                
+                vp_ctrl.alterar(vp);
+            }
+
+            for (VendaPagtoModel pagto : pgtos) {
+                
+                VendaPagtoModel vg = new VendaPagtoModel();
+                vg.setVdp_codigo(pagto.getVdp_codigo());
+                vg.setVenda_VendaPagto(new_venda);
+                vg.setFormapagto_Vendapagto(pagto.getFormapagto_VendaPagto());
+                vg.setVdp_valor(pagto.getVdp_valor());
+                
+                pg_ctrl.alterar(vg);
+           }
+            
+            
+            transacao.commit();
+            System.out.println(" [VendaController] Transação concluída com sucesso!");
+        
+        } catch (Exception e) {
+            if (transacao != null && transacao.isActive()) {
+                transacao.rollback();
+            }
+            
+            JOptionPane.showMessageDialog(null, "ERRO ao salvar venda: " + e.getMessage());
+            throw e;
+        } finally {
+            session.close();
         }
         
+        System.out.println("\n [VendaController] void inclui() terminou");
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
 
 public class VendapagtoController implements GenericController<VendaPagtoModel> {
 
@@ -74,25 +75,14 @@ public class VendapagtoController implements GenericController<VendaPagtoModel> 
         return vendapagtoDao.get(cod); 
     }
     
- 
-    // Lista completa por VDA_CODIGO
-    public ArrayList<VendaPagtoModel> buscarPorVdaCodigo(Integer VDA_CODIGO, String op) throws Exception {
-        
-        if (!op.isEmpty() && op.equals("consultaPorVdaCodigo")) {
-            operacao = op;
+    public VendaPagtoModel get(int cod) throws Exception {
+        VendaPagtoModel pg_valido = vendapagtoDao.get(cod);
+        if(pg_valido.getVdp_codigo() == null || pg_valido.getVdp_codigo() < 0){
+            JOptionPane.showMessageDialog(null, "ERRO! Não encontramos em Forma de Pagamento, uma Venda  com esse Codigo.");
+            return null;
         }
-        String cond = " vda.vda_codigo = :vda_codigo";
-        return new ArrayList<>(vendapagtoDao.consultar(cond));
+        return pg_valido; 
     }
-    
-    public void inserirPgtos(int vdaCodigo, ArrayList<VendaPagtoModel> pgtos) throws Exception {
-        if (pgtos == null || pgtos.isEmpty()) {
-            throw new Exception("Nenhum pagamento para inserir.");
-        }
-
-        vendapagtoDao.inserirPgtos(vdaCodigo, pgtos);
-    }
-    
     
     /**
      * Getters

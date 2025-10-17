@@ -12,13 +12,6 @@ import util.HibernateUtil;
 
 public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
     
-    private String operacao;
-    
-    
-
-    public VendaProdutoDao() {
-        operacao = null;
-    }
     
     @Override
     public void incluir(VendaProdutoModel objModel) throws Exception {
@@ -61,8 +54,41 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
     }
     
     @Override
-    public void alterar(VendaProdutoModel objModel) throws Exception {
+    public void alterar(VendaProdutoModel vp) throws Exception {
+        System.out.println("\n [ClienteDao] ALTERAR iniciado");
+        
+        // Venda_Produto com dados NOVOS
+        Integer cod_new_vp = vp.getVep_codigo();
+        System.out.println(" vep_codigo (new_venda) = " + vp.getVep_codigo());
+        
+        // Venda_Produto com dados ANTIGOS;
+        VendaProdutoModel old_vp = get(cod_new_vp);
+        Integer cod_old_vp = old_vp.getVep_codigo();
+        
+        if (old_vp == null) {
+            throw new Exception("Venda não encontrado no banco para atualização!");
+        }
+        
+        if (cod_new_vp != cod_old_vp) return;
+        System.out.println(" vda_codigo (old_venda) = " + vp.getVep_codigo());
+        
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        
+        try {
+           session.merge(vp); 
+           tx.commit();
+       }catch (Exception ex) {
+           if(tx != null) {
+                System.out.println(" [VendaDao] ERRO! ao Alterar Venda_Produto ID = " + vp.getVep_codigo());
+                tx.rollback();
+           }
+       } finally {
+               session.close();              
+        }
     }
+    
     
     @Override
     public ArrayList<VendaProdutoModel> consultar(String filtro) {
@@ -112,33 +138,10 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (VendaProdutoModel) session.getReference(VendaProdutoModel.class, id);
     }
-    
-    
-    public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
-        System.out.println(" [ProdutoDao] inserrirItens() foi iniciado... ");
-        System.out.println(" vda_codigo = " + vdaCodigo);
-        System.out.println(" ---------------------------");
-        System.out.println("    ITENS ");
-        System.out.println("");
-        
-        Transaction tx = null;
 
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            tx = session.beginTransaction();
-
-            for (VendaProdutoModel item : itens) {
-                // vincula o código da venda ao item
-                item.getVenda_VendaProduto().setVda_codigo(vdaCodigo);
-
-                // persiste o item
-                session.persist(item);
-            }
-
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            throw new Exception("Erro ao inserir itens da venda: " + e.getMessage(), e);
-        }
+    public VendaProdutoModel get(int id, Session session) {
+        System.out.println(" [VendaProdutoDao] get(id com session) foi iniciado...");
+        return (VendaProdutoModel) session.getReference(VendaProdutoModel.class, id);
     }
 
 }

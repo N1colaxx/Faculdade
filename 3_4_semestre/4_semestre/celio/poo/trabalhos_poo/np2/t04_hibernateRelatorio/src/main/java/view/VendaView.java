@@ -1096,7 +1096,7 @@ public class VendaView extends JPanel {
     private void novo() {
         System.out.println(" [VendaView] void novo() iniciado");
         
-        setOperacao("gerar_venda");
+        setOperacao("nova_venda");
         limparTudo();
         
         edtData.setText(LocalDate.now().toString());
@@ -1134,7 +1134,6 @@ public class VendaView extends JPanel {
     
     private void incluir_venda(){
         System.out.println("\n [VendaView] void gerar_venda() iniciado...");
-        setOperacao("incluir_venda");
         
         try {
             int usu_cod = parseInt(edtUsuCodigo.getText().trim());
@@ -1152,13 +1151,11 @@ public class VendaView extends JPanel {
             if (usu_cod <= 0) { JOptionPane.showMessageDialog(this,"Informe o usuário."); return; }
             if (cli_cod <= 0) { JOptionPane.showMessageDialog(this,"Informe o cliente."); return; }
 
-            if(itens == null) {
-                JOptionPane.showMessageDialog(this, "Preencha os campos de Itens e Pagamento");
+            if(itens == null || itens.isEmpty()) { JOptionPane.showMessageDialog(this, "Preencha os campos de Itens");
                 return;
             }
             
-            if(pgtos == null) {
-                JOptionPane.showMessageDialog(this, "Preencha os campos de Itens e Pagamento");
+            if(pgtos == null || pgtos.isEmpty()) {JOptionPane.showMessageDialog(this, "Preencha os campos de Pagamentos");
                 return;
             }
             
@@ -1201,24 +1198,39 @@ public class VendaView extends JPanel {
         System.out.println(" [VendaView] Operacoa atual = " + getOperacao());
         
         try {
-            System.out.println(" [VendaView] verificando VDA_CODIGO..");
-            
-            int edt_vda_codigo = parseInt(edtVdaCodigo.getText());
-            VendaModel v = new VendaController().buscarPorCodigo(edt_vda_codigo);
-            
-            if(v == null || v.getVda_codigo() < 0) {
-                JOptionPane.showMessageDialog(this, "Codigo da Venda informado INVALIDO!"); 
+            int vda_cod = parseInt(edtVdaCodigo.getText().trim());
+            int usu_cod = parseInt(edtUsuCodigo.getText().trim());
+            int cli_cod = parseInt(edtCliCodigo.getText().trim());
+            LocalDate data_v = (LocalDate.parse(edtData.getText()));
+            double valor_v = (parseDouble(edtValorVenda.getText()));
+            double desc_v = (parseDouble(edtDescontoVenda.getText()));
+            double total_v = (parseDouble(edtTotalVenda.getText()));
+            String obs_v = (edtObs.getText());
+
+            ArrayList<VendaProdutoModel> itens = (itensModel.getLinhas());
+            ArrayList<VendaPagtoModel> pgtos = (pgtosModel.getLinhas());
+
+            // validações mínimas 
+            if (vda_cod <= 0) { JOptionPane.showMessageDialog(this,"Informe o venda."); return; }
+            if (usu_cod <= 0) { JOptionPane.showMessageDialog(this,"Informe o usuário."); return; }
+            if (cli_cod <= 0) { JOptionPane.showMessageDialog(this,"Informe o cliente."); return; }
+
+            if(itens == null || itens.isEmpty()) { JOptionPane.showMessageDialog(this, "Preencha os campos de Itens");
                 return;
             }
             
-            new VendaController().alterar(v);
+            if(pgtos == null || pgtos.isEmpty()) {JOptionPane.showMessageDialog(this, "Preencha os campos de Pagamentos");
+                return;
+            }
             
-            JOptionPane.showMessageDialog(this, "Venda alterada.");
+            // Gravando a Venda
+            new VendaController().alterar(vda_cod, usu_cod, cli_cod, data_v, valor_v, desc_v, total_v, obs_v, itens, pgtos);
+
+            JOptionPane.showMessageDialog(this, "Venda gravada.");
+            limparTudo();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Falha ao alterar: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Falha ao gravar: " + ex.getMessage());
         }
-        
-        limparTudo();
     }
     
     private void gravar() { 
@@ -1229,7 +1241,7 @@ public class VendaView extends JPanel {
             JOptionPane.showMessageDialog(this, "Selecione uma Operação! exempo: NOVO");
         }
         
-        if (operacao.equals("incluir_venda")) {
+        if (operacao.equals("nova_venda")) {
             incluir_venda();
         }
         

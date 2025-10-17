@@ -22,9 +22,6 @@ public class VendaDao implements GenericDao<VendaModel> {
  
     public VendaModel incluir(VendaModel objModel, Session session) throws Exception {
         System.out.println("\n [VendaDao] INCLUIR iniciado");
-        System.out.println(" venda_codigo = " + objModel.getVda_codigo());
-        System.out.println(" usu_codigo = " + objModel.getUsu_venda().getUSU_CODIGO() );
-        System.out.println(" cli_codigo = " + objModel.getCli_venda().getCLI_CODIGO() );
         
         try {
             session.persist(objModel);
@@ -41,28 +38,38 @@ public class VendaDao implements GenericDao<VendaModel> {
     }
     
        @Override
-    public void alterar(VendaModel objModel) throws Exception {
-        System.out.println("\n [VendaDao] ALTERAR iniciado...");
-        System.out.println(" [VendaDao] alterando Venda ID = " + objModel.getVda_codigo());
+    public void alterar(VendaModel v) throws Exception {
+        System.out.println("\n [ClienteDao] ALTERAR iniciado");
+        // Venda com dados NOVOS
+        Integer cod_new_v = v.getVda_codigo();
+        System.out.println(" vda_codigo (new_venda) = " + v.getVda_codigo());
+        
+        // Venda com dados ANTIGOS;
+        VendaModel old_v = get(cod_new_v);
+        Integer cod_old_v = old_v.getVda_codigo();
+        
+        if (old_v == null) {
+            throw new Exception("Venda não encontrado no banco para atualização!");
+        }
+        
+        if (cod_new_v != cod_old_v) return;
+        System.out.println(" vda_codigo (old_venda) = " + v.getVda_codigo());
+        
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
         
         try {
-            session.merge(objModel);
-            tx.commit();
-        } catch(Exception ex) {
-            if(tx != null) {
-                System.out.println(" [VendaDao] ERRO! ao Alterar a Venda");
-                JOptionPane.showMessageDialog(null, "[VendaDao] ERRO! ao Alterar a Venda");
+           session.merge(v); // MERGE vai atualizar tanto pessoa quanto cliente
+           tx.commit();
+       }catch (Exception ex) {
+           if(tx != null) {
+                System.out.println(" [VendaDao] ERRO! ao Alterar Venda ID = " + v.getVda_codigo());
                 tx.rollback();
-            }
-        } finally {
-            session.close();
-            System.out.println(" [VendaDao] SESSION fechada.");
+           }
+       } finally {
+               session.close();              
         }
-        
-        System.out.println(" [VendaDao] Sucesso! ao Alterar a Venda = " + objModel.getVda_codigo());
     }
     
     // Usado para incluir uma venda
@@ -120,9 +127,14 @@ public class VendaDao implements GenericDao<VendaModel> {
 
     @Override
     public VendaModel get(Integer id) {
-        System.out.println("\n [VendaDao] GET() foi iniciado...");
+        System.out.println("\n [VendaDao] GET(id) foi iniciado...");
         
         Session session = HibernateUtil.getSessionFactory().openSession();
+        return (VendaModel) session.getReference(VendaModel.class, id);
+    }
+    
+    public VendaModel get(Integer id, Session session) {
+        System.out.println("\n [VendaDao] GET(id com Session) foi iniciado...");
         return (VendaModel) session.getReference(VendaModel.class, id);
     }
 }

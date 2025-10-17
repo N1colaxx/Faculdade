@@ -63,8 +63,9 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
         
         // VendaPagto com dados NOVOS
         Integer new_cod_vdp = objModel.getVdp_codigo();
-        
-        // Cliente com dados ANTIGOS;
+        System.out.println(" vdp_codigo (new_venda) = " + objModel.getVdp_codigo());
+
+        // VendaPagto com dados ANTIGOS;
         VendaPagtoModel old_vdp = get(new_cod_vdp);
         Integer old_cod_vdp   = old_vdp.getVdp_codigo();
         
@@ -74,24 +75,20 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
         
         if (new_cod_vdp != old_cod_vdp) return;
         
-        System.out.println(" |---------------------------------");
-        System.out.println(" |  Vendapagto com dados NOVOS     ");
-        System.out.println(" vdp_codigo = " + objModel.getVdp_codigo() );
-        System.out.println(" vda_codigo = " + objModel.getVenda_VendaPagto().getVda_codigo());        
-        System.out.println(" pfg_codigo = " + objModel.getFormapagto_VendaPagto().getFPG_CODIGO());
-        System.out.println(" |----------------------------------");
-        System.out.println(" | Vendapagto com dados ANTIGOS     ");
-        System.out.println(" vdp_codigo = " + old_vdp.getVdp_codigo() );
-        System.out.println(" vda_codigo = " + old_vdp.getVenda_VendaPagto().getVda_codigo());        
-        System.out.println(" pfg_codigo = " + old_vdp.getFormapagto_VendaPagto().getFPG_CODIGO());
-        System.out.println(" |----------------------------------\n");
-        
-       try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-           Transaction t = session.beginTransaction();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
 
+        try{
            session.merge(objModel); // MERGE vai atualizar tanto pessoa quanto cliente
-           t.commit();
-       }
+           tx.commit();
+        }catch (Exception ex) {
+           if(tx != null) {
+                System.out.println(" [VendaPagtoDao] ERRO! ao Alterar Venda_Pagto ID = " + objModel.getVdp_codigo());
+                tx.rollback();
+           }
+       } finally {
+               session.close();              
+        }
     }
     
     
