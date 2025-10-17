@@ -113,19 +113,6 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
         return (VendaProdutoModel) session.getReference(VendaProdutoModel.class, id);
     }
     
-    public VendaProdutoModel buscarPorCodigoVenda(Integer codProduto) throws Exception {
-        System.out.println(" [ProdutoDao] buscarPorCodigoVenda() foi iniciado... \n");
-        
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            String hql = "FROM VendaProdutoModel vp "
-                       + "JOIN FETCH vp.produto_VendaProduto p "
-                       + "WHERE p.PRO_CODIGO = :cod";
-
-            return session.createQuery(hql, VendaProdutoModel.class)
-                          .setParameter("cod", codProduto)
-                          .uniqueResult();
-        }
-    }
     
     public void inserirItens(int vdaCodigo, ArrayList<VendaProdutoModel> itens) throws Exception {
         System.out.println(" [ProdutoDao] inserrirItens() foi iniciado... ");

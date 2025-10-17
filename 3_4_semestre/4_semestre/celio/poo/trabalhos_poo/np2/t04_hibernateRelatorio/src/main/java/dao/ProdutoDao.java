@@ -70,7 +70,7 @@ public class ProdutoDao implements GenericDao<ProdutoModel> {
 
     @Override
     public ProdutoModel get(Integer id) {
-        System.out.println(" [ProdutoDao] get() foi iniciado... \n");
+        System.out.println(" [ProdutoDao] get() foi iniciado...");
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (ProdutoModel) session.getReference(ProdutoModel.class, id);

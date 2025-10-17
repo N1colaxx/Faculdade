@@ -10,6 +10,8 @@ import model.VendaPagtoModel;
 import dao.ClienteDao;
 import dao.UsuarioDao;
 import dao.VendaDao;
+import dao.VendaProdutoDao;
+import dao.VendapagtoDao;
 
 import relatorios.VendaRelatorio;
 
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
+import org.apache.pdfbox.cos.COSName;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -135,7 +138,51 @@ public class VendaController implements GenericController<VendaModel> {
     
     @Override
     public void alterar(VendaModel obj) throws Exception {
-        vendaDao.alterar(obj);
+        System.out.println(" [VendaController] ALTERAR iniciado...");
+
+        VendaProdutoDao vendaProdutoDao = new VendaProdutoDao();
+        VendapagtoDao  vendaPagtoDao = new VendapagtoDao();
+
+        System.out.println(" [VendaController] buscando os Itens e Pagto");
+        String cond = "v.vda_codigo = " + obj.getVda_codigo();
+        ArrayList<VendaProdutoModel> listItensVenda = vendaProdutoDao.consultar(cond);
+        ArrayList<VendaPagtoModel> listPagtos = vendaPagtoDao.consultar(cond);
+ 
+        // Atualiza os campos da venda
+        System.out.println(" [VendaController] limpando as Listas:");
+        
+        obj.getListItens_venda().clear();
+        for(VendaProdutoModel item :obj.getListItens_venda()){
+            System.out.println(" Lista Itens = " + item);
+        }
+        obj.getListPagtos_venda().clear();
+        for(VendaPagtoModel pagto :obj.getListPagtos_venda()){
+            System.out.println(" Lista Itens = " + pagto);
+        }
+        
+        try{
+            
+            for(VendaProdutoModel item : listItensVenda){
+                 item.setVenda_VendaProduto(obj);
+                obj.adicionarVendaProduto(item);
+            }
+            
+            for(VendaPagtoModel pagto : listPagtos) {
+                pagto.setVenda_VendaPagto(obj);
+                obj.adicionarVendaPagto(pagto);
+            }    
+            
+            System.out.println("\n Listas populadas: ");
+            for(int i = 0; i <= 1; i++){
+                System.out.println(" Lista Itens = " + obj.getListItens_venda().getFirst());
+                System.out.println(" Lista Pagtos = " + obj.getListPagtos_venda().getFirst());
+            }
+                
+            vendaDao.alterar(obj);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        
     }
 
     @Override

@@ -19,30 +19,7 @@ public class VendaDao implements GenericDao<VendaModel> {
     public void incluir(VendaModel objModel) throws Exception { 
     }
     
-    @Override
-    public void alterar(VendaModel objModel) throws Exception {
-        System.out.println("\n [VendaDao] ALTERAR iniciado...");
-        System.out.println("\n [VendaDao] alterando Venda ID = " + objModel.getVda_codigo());
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            session.merge(objModel);
-            tx.commit();
-        } catch(Exception ex) {
-            if(tx != null) {
-                System.out.println(" [VendaDao] ERRO! ao Alterar a Venda");
-                JOptionPane.showMessageDialog(null, "[VendaDao] ERRO! ao Alterar a Venda");
-                tx.rollback();
-            }
-        } finally {
-            session.close();
-            System.out.println(" [VendaDao] SESSION fechada.");
-        }
-        
-        System.out.println(" [VendaDao] Sucesso! ao Alterar a Venda = " + objModel.getVda_codigo());
-    }
-    
+ 
     public VendaModel incluir(VendaModel objModel, Session session) throws Exception {
         System.out.println("\n [VendaDao] INCLUIR iniciado");
         System.out.println(" venda_codigo = " + objModel.getVda_codigo());
@@ -63,6 +40,32 @@ public class VendaDao implements GenericDao<VendaModel> {
         return objModel;
     }
     
+       @Override
+    public void alterar(VendaModel objModel) throws Exception {
+        System.out.println("\n [VendaDao] ALTERAR iniciado...");
+        System.out.println(" [VendaDao] alterando Venda ID = " + objModel.getVda_codigo());
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = session.beginTransaction();
+        
+        try {
+            session.merge(objModel);
+            tx.commit();
+        } catch(Exception ex) {
+            if(tx != null) {
+                System.out.println(" [VendaDao] ERRO! ao Alterar a Venda");
+                JOptionPane.showMessageDialog(null, "[VendaDao] ERRO! ao Alterar a Venda");
+                tx.rollback();
+            }
+        } finally {
+            session.close();
+            System.out.println(" [VendaDao] SESSION fechada.");
+        }
+        
+        System.out.println(" [VendaDao] Sucesso! ao Alterar a Venda = " + objModel.getVda_codigo());
+    }
+    
+    // Usado para incluir uma venda
     public void atualizar(VendaModel objModel, Session session) {
         try {
             session.merge(objModel);

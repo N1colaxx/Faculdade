@@ -748,6 +748,7 @@ public class VendaView extends JPanel {
      */
 
     private void preencherProduto() {
+        System.out.println("\n [VendaView] void preencherProduto() iniciado...");
         try {  
             int cod = parseInt(edtProCod.getText());
             if (cod <= 0) { limparCamposProduto(); return; }
@@ -1131,9 +1132,9 @@ public class VendaView extends JPanel {
         carregarFormasPagamento();
     }
     
-    private void gerar_venda(){
+    private void incluir_venda(){
         System.out.println("\n [VendaView] void gerar_venda() iniciado...");
-        setOperacao("gerar_venda");
+        setOperacao("incluir_venda");
         
         try {
             int usu_cod = parseInt(edtUsuCodigo.getText().trim());
@@ -1172,7 +1173,9 @@ public class VendaView extends JPanel {
     }
     
     private void alterar(){
-        setOperacao("alterar");
+        System.out.println("\n [VendaView] btnAlterar clicado.");
+        
+        setOperacao("alterar_gravar");
         
         // btn DADOS
         edtVdaCodigo.setFocusable(true);
@@ -1199,42 +1202,42 @@ public class VendaView extends JPanel {
         
         try {
             System.out.println(" [VendaView] verificando VDA_CODIGO..");
-            int edt_vda_codigo = parseInt(edtVdaCodigo.getText());
             
-            VendaController v_ctrl = new VendaController();
-            VendaModel v = v_ctrl.buscarPorCodigo(edt_vda_codigo);
+            int edt_vda_codigo = parseInt(edtVdaCodigo.getText());
+            VendaModel v = new VendaController().buscarPorCodigo(edt_vda_codigo);
             
             if(v == null || v.getVda_codigo() < 0) {
                 JOptionPane.showMessageDialog(this, "Codigo da Venda informado INVALIDO!"); 
                 return;
             }
             
-            v.setVda_codigo(edt_vda_codigo);
-            new VendaController().excluir(v);
+            new VendaController().alterar(v);
             
             JOptionPane.showMessageDialog(this, "Venda alterada.");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Falha ao alterar: " + ex.getMessage());
         }
+        
+        limparTudo();
     }
     
     private void gravar() { 
         System.out.println("\n [VendaView] btnGravar clicado");
-        System.out.println("\n [VendaView] Operacao = " + getOperacao());
+        System.out.println(" [VendaView] void GRAVAR iniciado com Operacao = " + getOperacao());
 
         if (operacao.isEmpty() || operacao.equals("")) {
             JOptionPane.showMessageDialog(this, "Selecione uma Operação! exempo: NOVO");
         }
         
-        if (operacao.equals("gerar_venda")) {
-            gerar_venda();
+        if (operacao.equals("incluir_venda")) {
+            incluir_venda();
         }
         
-        if (operacao.equals("alterar")) {
-            alterar();
+        if (operacao.equals("alterar_gravar")) {
+            alterar_gravar();
         }
         
-        System.out.println("\n [VendaView] Operacao = " + getOperacao());
+        
     }    
 
     private void excluirSelecionada() {
