@@ -89,7 +89,7 @@ public class VendaView extends JPanel {
         
         setLayout(null);
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(1500, 850));
+
         
         instanciar();
         adicionar();
@@ -149,12 +149,14 @@ public class VendaView extends JPanel {
         tabelaConsulta = new JTable(consultaModel);
         scrollConsulta = new JScrollPane(tabelaConsulta);
 
-        // ===== Dados =====
+        /**
+         * Dados
+         */
         tabDados = new JPanel(null);
+        
         lblVdaCodigo = new JLabel("Cód Venda:");
-            
-        edtVdaCodigo = new JTextField("0");
-        edtVdaCodigo.setEditable(false);   // não permite digitar
+        edtVdaCodigo = new JTextField("");
+            edtVdaCodigo.setEditable(false);   // não permite digitar
             edtVdaCodigo.setFocusable(false);  // nem foco  
 
         lblUsuCodigo = new JLabel("Usuário:");

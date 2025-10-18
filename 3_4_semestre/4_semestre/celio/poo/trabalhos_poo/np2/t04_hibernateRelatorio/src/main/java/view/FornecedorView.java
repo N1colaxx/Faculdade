@@ -69,7 +69,6 @@ public class FornecedorView extends JPanel {
         
         setLayout(null);
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(1500, 850));
 
         instanciar();
         adicionar();

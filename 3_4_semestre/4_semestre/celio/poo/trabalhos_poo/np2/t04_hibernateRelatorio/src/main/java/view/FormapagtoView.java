@@ -54,7 +54,6 @@ public class FormapagtoView extends JPanel {
         
         setLayout(null);
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(1000, 850));
 
         instanciar();
         adicionar();

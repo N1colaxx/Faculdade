@@ -71,14 +71,14 @@ public class CompraView extends JPanel {
     public CompraView() {
         setLayout(null);
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(1500, 850));
 
         instanciar();
         adicionar();
         posicionar();
         
         configurarAcoes();
-        consultarCompra();
+        
+        limparTudo();
     }
 
     private void instanciar() {
@@ -95,6 +95,8 @@ public class CompraView extends JPanel {
         btnExcluir = new JButton("Excluir");
         btnImprimir = new JButton("Imprimir");
         btnGravar = new JButton("Gravar");
+            btnGravar.setFocusable(false);
+            
 
         paneCabecario = new JPanel(null);
         paneCentro = new JPanel(null);
@@ -103,8 +105,8 @@ public class CompraView extends JPanel {
 
         // ===== TÍTULO =====
         lblTitulo = new JLabel("Compras", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
-        lblTitulo.setForeground(new Color(30, 30, 120));
+            lblTitulo.setFont(new Font("Arial", Font.BOLD, 20));
+            lblTitulo.setForeground(new Color(30, 30, 120));
 
         /**
          * Consulta
@@ -135,6 +137,8 @@ public class CompraView extends JPanel {
 
         scrollConsulta = new JScrollPane(tabelaConsulta);
 
+        
+        
         /**
          * Dados
          */
@@ -143,40 +147,49 @@ public class CompraView extends JPanel {
         lblCprCodigo = new JLabel("Código:");
         edtCprCodigo = new JTextField("");
             edtCprCodigo.setEditable(false);
+            edtCprCodigo.setFocusable(false);
             
         lblUsuCodigo = new JLabel("Usuário:");
         edtUsuCodigo = new JTextField();
             edtUsuCodigo.setEditable(false);
+            edtUsuCodigo.setFocusable(false);
 
         lblForCodigo = new JLabel("Fornecedor:");
         edtForCodigo = new JTextField();
             edtForCodigo.setEditable(false);
+            edtForCodigo.setFocusable(false);
 
         lblCprEmissao = new JLabel("Emissão (yyyy-MM-dd):");
         edtCprEmissao = new JTextField(LocalDate.now().toString());
             edtCprEmissao.setEditable(false);
+            edtCprEmissao.setFocusable(false);
 
         lblCprDtEntrada = new JLabel("Entrada (yyyy-MM-dd):");
         edtCprDtEntrada = new JTextField(LocalDate.now().toString());
             edtCprDtEntrada.setEditable(false);
+            edtCprDtEntrada.setFocusable(false);
 
         lblCprObs = new JLabel("Obs.:");
         edtCprObs = new JTextArea();
             edtCprObs.setLineWrap(true);
             edtCprObs.setWrapStyleWord(true);
             edtCprObs.setEditable(false);
+            edtCprObs.setFocusable(false);
 
         lblCprValor = new JLabel("Valor:");
         edtCprValor = new JTextField();
             edtCprValor.setEditable(false);
+            edtCprValor.setFocusable(false);
 
         lblCprDesconto = new JLabel("Desconto:");
         edtCprDesconto = new JTextField("");
             edtCprDesconto.setEditable(false);
+            edtCprDesconto.setFocusable(false);
 
         lblCprTotal = new JLabel("Total:");
         edtCprTotal = new JTextField();
             edtCprTotal.setEditable(false);
+            edtCprTotal.setFocusable(false);
 
         /**
          * ITENS
@@ -189,36 +202,43 @@ public class CompraView extends JPanel {
         lblProCod = new JLabel("Prod Cód:");
         edtProCod = new JTextField();
             edtProCod.setEditable(false);
+            edtProCod.setFocusable(false);
 
         lblProNome = new JLabel("Nome:");
         edtProNome = new JTextField();
             edtProNome.setEditable(false);
-            
+            edtProNome.setFocusable(false);
             
         lblProUn = new JLabel("Und:");
         edtProUn = new JTextField();
             edtProUn.setEditable(false);
+            edtProUn.setFocusable(false);
 
         lblProPreco = new JLabel("Preco Produto");
         edtProPreco = new JTextField();
             edtProPreco.setEditable(false);
+            edtProPreco.setFocusable(false);
 
         //compra_produto = cpp
         lblCppQtde = new JLabel("Qtde:");
         edtCppQtde = new JTextField();
             edtCppQtde.setEditable(false);
+            edtCppQtde.setFocusable(false);
 
         lblCppPreco = new JLabel("Preco:");
         edtCppPreco = new JTextField();
             edtCppPreco.setEditable(false);
+            edtCppPreco.setFocusable(false);
 
         lblCppDesconto = new JLabel("Desconto:");
         edtCppDesconto = new JTextField();
             edtCppDesconto.setEditable(false);
+            edtCppDesconto.setFocusable(false);
 
         lblCppTotal = new JLabel("Total:");
         edtCppTotal = new JTextField();
             edtCppTotal.setEditable(false);
+            edtCppTotal.setFocusable(false);
 
         btnAddItem = new JButton("Adicionar");
             btnAddItem.setFocusable(false);
@@ -226,6 +246,7 @@ public class CompraView extends JPanel {
             btnDelItem.setFocusable(false);
         btnUpItem = new JButton("Update");
             btnUpItem.setFocusable(false);
+
 
         itensModel = new CompraProdutoTableModel(listaItens);
         tabItensGrid = new JTable(itensModel);
@@ -330,7 +351,7 @@ public class CompraView extends JPanel {
         paneItemEditor.add(edtCppQtde);
         
         paneItemEditor.add(lblCppPreco);
-        paneItemEditor.add(lblCppPreco);
+        paneItemEditor.add(edtCppPreco);
         
         paneItemEditor.add(lblCppDesconto);
         paneItemEditor.add(edtCppDesconto);
@@ -935,17 +956,7 @@ public class CompraView extends JPanel {
         tabs.setSelectedComponent(tabDados);
         edtCprEmissao.setText(LocalDate.now().toString());
         edtCprDtEntrada.setText(LocalDate.now().toString());
-
-        btnPrimeiro.setFocusable(true);
-        btnAnterior.setFocusable(true);
-        btnProximo.setFocusable(true);
-        btnUltimo.setFocusable(true);
         
-        btnNovo.setFocusable(true);
-        btnAlterar.setFocusable(true);
-        btnExcluir.setFocusable(true);
-        
-        btnImprimir.setFocusable(true);
         btnGravar.setFocusable(true);
         
         btnAddItem.setFocusable(true);
@@ -963,17 +974,34 @@ public class CompraView extends JPanel {
         edtUsuCodigo.setText(cod_UserLogado);
         
 	edtUsuCodigo.setEditable(true);
+	edtUsuCodigo.setFocusable(true);
+        
 	edtForCodigo.setEditable(true);
+	edtForCodigo.setFocusable(true);
+        
 	edtCprEmissao.setEditable(true);
+	edtCprEmissao.setFocusable(true);
+        
 	edtCprDtEntrada.setEditable(true);
+	edtCprDtEntrada.setFocusable(true);
+        
 	edtCprObs.setEditable(true);
+	edtCprObs.setFocusable(true);
+        
         edtCprDesconto.setEditable(true);
+        edtCprDesconto.setFocusable(true);
             
         // edt ITENS
         edtProCod.setEditable(true);
+        edtProCod.setFocusable(true);
+        
 	edtCppQtde.setEditable(true);
+	edtCppQtde.setFocusable(true);
+        
 	edtCppDesconto.setEditable(true); 
+	edtCppDesconto.setFocusable(true); 
     }
+
     
     private void incluir_compra(){
         System.out.println("\n [CompraView] void gerar_compra() iniciado...");
@@ -1023,16 +1051,6 @@ public class CompraView extends JPanel {
         edtCprEmissao.setText(LocalDate.now().toString());
         edtCprDtEntrada.setText(LocalDate.now().toString());
 
-        btnPrimeiro.setFocusable(true);
-        btnAnterior.setFocusable(true);
-        btnProximo.setFocusable(true);
-        btnUltimo.setFocusable(true);
-        
-        btnNovo.setFocusable(true);
-        btnAlterar.setFocusable(true);
-        btnExcluir.setFocusable(true);
-        
-        btnImprimir.setFocusable(true);
         btnGravar.setFocusable(true);
         
         btnAddItem.setFocusable(true);
@@ -1040,26 +1058,36 @@ public class CompraView extends JPanel {
         btnUpItem.setFocusable(true);
         
         // edt DADOS
-        edtCprCodigo.setText("");
         edtCprCodigo.setFocusable(true);
         edtCprValor.setEditable(true);
         
-        userLogado = SessionModel.getCurrentUser();
-        String cod_UserLogado = String.valueOf(userLogado.getUSU_CODIGO());
-        System.out.println(" [CompraView] void alterar() -> Codigo user logado = " + cod_UserLogado);
-        edtUsuCodigo.setText(cod_UserLogado);
-       
 	edtUsuCodigo.setEditable(true);
+	edtUsuCodigo.setFocusable(true);
+        
 	edtForCodigo.setEditable(true);
+	edtForCodigo.setFocusable(true);
+        
 	edtCprEmissao.setEditable(true);
+	edtCprEmissao.setFocusable(true);
+        
 	edtCprDtEntrada.setEditable(true);
+	edtCprDtEntrada.setFocusable(true);
+        
 	edtCprObs.setEditable(true);
+	edtCprObs.setFocusable(true);
+        
         edtCprDesconto.setEditable(true);
+        edtCprDesconto.setFocusable(true);
             
         // edt ITENS
         edtProCod.setEditable(true);
+        edtProCod.setFocusable(true);
+        
 	edtCppQtde.setEditable(true);
-	edtCppDesconto.setEditable(true);  
+	edtCppQtde.setFocusable(true);
+        
+	edtCppDesconto.setEditable(true); 
+	edtCppDesconto.setFocusable(true); 
     }
     
     private void alterar_gravar(){

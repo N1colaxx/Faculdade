@@ -69,7 +69,6 @@ public class ProdutoView extends JPanel {
         
         setLayout(null);
         setBackground(Color.BLACK);
-        setPreferredSize(new Dimension(1500, 850)); // garante o tamanho do frame
 
         instanciar();
         adicionar();
