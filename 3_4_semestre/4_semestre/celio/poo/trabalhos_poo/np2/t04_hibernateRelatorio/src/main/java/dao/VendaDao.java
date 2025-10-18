@@ -1,9 +1,6 @@
 package dao;
 
 import model.VendaModel;
-import model.ClienteModel;
-import model.UsuarioModel;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +9,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
-public class VendaDao implements GenericDao<VendaModel> {
-
+public class VendaDao {
     
-    @Override
-    public void incluir(VendaModel objModel) throws Exception { 
-    }
-    
- 
     public VendaModel incluir(VendaModel objModel, Session session) throws Exception {
         System.out.println("\n [VendaDao] INCLUIR iniciado");
         
@@ -37,42 +28,6 @@ public class VendaDao implements GenericDao<VendaModel> {
         return objModel;
     }
     
-       @Override
-    public void alterar(VendaModel v) throws Exception {
-        System.out.println("\n [ClienteDao] ALTERAR iniciado");
-        // Venda com dados NOVOS
-        Integer cod_new_v = v.getVda_codigo();
-        System.out.println(" vda_codigo (new_venda) = " + v.getVda_codigo());
-        
-        // Venda com dados ANTIGOS;
-        VendaModel old_v = get(cod_new_v);
-        Integer cod_old_v = old_v.getVda_codigo();
-        
-        if (old_v == null) {
-            throw new Exception("Venda não encontrado no banco para atualização!");
-        }
-        
-        if (cod_new_v != cod_old_v) return;
-        System.out.println(" vda_codigo (old_venda) = " + v.getVda_codigo());
-        
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = session.beginTransaction();
-        
-        try {
-           session.merge(v); // MERGE vai atualizar tanto pessoa quanto cliente
-           tx.commit();
-       }catch (Exception ex) {
-           if(tx != null) {
-                System.out.println(" [VendaDao] ERRO! ao Alterar Venda ID = " + v.getVda_codigo());
-                tx.rollback();
-           }
-       } finally {
-               session.close();              
-        }
-    }
-    
-    // Usado para incluir uma venda
     public void atualizar(VendaModel objModel, Session session) {
         try {
             session.merge(objModel);
@@ -85,7 +40,6 @@ public class VendaDao implements GenericDao<VendaModel> {
         System.out.println(" [VendaDao] Sucesso! ao Atualizar a Venda = " + objModel.getVda_codigo());
     }
     
-    @Override
     public ArrayList<VendaModel> consultar(String filtro) {
         System.out.println("\n [VendaDao] CONSULTAR iniciado...");
         
@@ -111,7 +65,6 @@ public class VendaDao implements GenericDao<VendaModel> {
         }
     }
 
-    @Override
     public void excluir(VendaModel objModel) throws Exception {
         System.out.println("\n [VendaDao] EXCLUIR iniciado \n");
         
@@ -125,7 +78,6 @@ public class VendaDao implements GenericDao<VendaModel> {
         }
     }
 
-    @Override
     public VendaModel get(Integer id) {
         System.out.println("\n [VendaDao] GET(id) foi iniciado...");
         

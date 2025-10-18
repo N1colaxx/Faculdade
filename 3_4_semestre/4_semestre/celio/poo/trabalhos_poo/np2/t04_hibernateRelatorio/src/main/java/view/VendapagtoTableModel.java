@@ -38,7 +38,8 @@ public class VendaPagtoTableModel extends AbstractTableModel {
             case 0:
                 return objModel.getVdp_codigo();
             case 1:
-                return objModel.getVenda_VendaPagto().getVda_codigo();
+                Integer vda_cod = objModel.getVenda_VendaPagto().getVda_codigo();
+                return (vda_cod == null ? 0 : vda_cod);
             case 2:
                 return objModel.getFormapagto_VendaPagto().getFPG_NOME();
             case 3:
@@ -74,6 +75,7 @@ public class VendaPagtoTableModel extends AbstractTableModel {
         linhas.remove(row);
         fireTableRowsDeleted(row, row);
     }
+    
     public ArrayList<VendaPagtoModel> getLinhas(){ return linhas; }
     public VendaPagtoModel get(int row){ return linhas.get(row); }
 }

@@ -9,7 +9,7 @@ import model.VendaProdutoModel;
  */
 public class VendaProdutoTableModel extends AbstractTableModel {
 
-    String[] colunas = {"Codigo VEP", "Código Produto", "Nome", "Quantidade", "Preco", "Desconto", "Total"};
+    String[] colunas = {"Codigo VEP", "Codigo VDA", "Código Produto", "Nome", "Quantidade", "Preco", "Desconto", "Total"};
     private ArrayList<VendaProdutoModel> linhas;
 
     public VendaProdutoTableModel(ArrayList<VendaProdutoModel> itens) {
@@ -44,16 +44,19 @@ public class VendaProdutoTableModel extends AbstractTableModel {
             case 0:
                 return objModel.getVep_codigo();
             case 1:
-                return objModel.getProduto_VendaProduto().getPRO_CODIGO();
+                Integer vda_cod = objModel.getVenda_VendaProduto().getVda_codigo();
+                return (vda_cod == null ? 0 : vda_cod); 
             case 2:
-                return objModel.getProduto_VendaProduto().getPRO_NOME();
+                return objModel.getProduto_VendaProduto().getPRO_CODIGO();
             case 3:
-                return objModel.getVep_qtde();
+                return objModel.getProduto_VendaProduto().getPRO_NOME();
             case 4:
-                return objModel.getVep_preco();
+                return objModel.getVep_qtde();
             case 5:
+                return objModel.getVep_preco();
+            case 6:
                 return objModel.getVep_desconto();
-            case 6: 
+            case 7: 
                 return objModel.getVep_total();
             default:
                 return null;

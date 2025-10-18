@@ -47,7 +47,7 @@ public class ProdutoController implements GenericController<ProdutoModel> {
         }
     }
     
-    public ProdutoModel buscarPorCodigo(Integer cod) throws Exception {
+    public ProdutoModel get(Integer cod) throws Exception {
         return produtoDao.get(cod); 
     }
 

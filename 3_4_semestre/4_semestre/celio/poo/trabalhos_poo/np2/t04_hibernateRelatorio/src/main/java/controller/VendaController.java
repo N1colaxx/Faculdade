@@ -25,19 +25,14 @@ import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 
-public class VendaController implements GenericController<VendaModel> {
+public class VendaController {
 
     private VendaDao vendaDao = null; 
             
     public VendaController() {
         this.vendaDao = new VendaDao();
     }
-
-    @Override
-    public void incluir(VendaModel obj) throws Exception {
-        vendaDao.incluir(obj);
-    }
-
+    
     public void incluir(int usu_cod, int cli_cod, LocalDate data_v, double valor_v, double desc_v, double total_v, String obs_v, 
         ArrayList<VendaProdutoModel> itens, 
         ArrayList<VendaPagtoModel> pgtos) throws Exception {
@@ -129,16 +124,10 @@ public class VendaController implements GenericController<VendaModel> {
         
         System.out.println("\n [VendaController] void inclui() terminou");
     }
-    
-    @Override
-    public void alterar(VendaModel objec) throws Exception {
-        
-    }
-    
+
     
     public void alterar(
-            int vda_cod, int usu_cod, int cli_cod, LocalDate data_v, 
-            double valor_v, double desc_v, double total_v, String obs_v, 
+            int vda_cod, int usu_cod, int cli_cod, LocalDate data_v, double valor_v, double desc_v, double total_v, String obs_v, 
             ArrayList<VendaProdutoModel> itens, 
             ArrayList<VendaPagtoModel> pgtos) throws Exception {
 
@@ -217,8 +206,7 @@ public class VendaController implements GenericController<VendaModel> {
             session.close();
         }
     }
-
-    @Override
+    
     public void excluir(VendaModel obj) throws Exception {
         int resposta = JOptionPane.showConfirmDialog(
             null,
@@ -234,22 +222,12 @@ public class VendaController implements GenericController<VendaModel> {
         }
     }
 
-    @Override
+
     public ArrayList<VendaModel> consultar(String filtro) {
         return vendaDao.consultar(filtro);
     }
-
-    @Override
-    public void gravar(VendaModel obj, String operacao) throws Exception {
-        if (operacao.equals("incluir")) {
-            incluir(obj);
-        } else {
-            alterar(obj);
-        }
-    }
     
     
-    @Override
     public Exception imprimir() {
         Exception retorno = null;
         try {
@@ -271,7 +249,8 @@ public class VendaController implements GenericController<VendaModel> {
         return retorno;
     }
 
-    public VendaModel buscarPorCodigo(Integer cod) throws Exception {
+    
+    public VendaModel get(Integer cod) throws Exception {
         return vendaDao.get(cod); 
     }
     

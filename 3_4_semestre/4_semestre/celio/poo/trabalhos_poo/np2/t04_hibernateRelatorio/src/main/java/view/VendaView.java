@@ -534,6 +534,8 @@ public class VendaView extends JPanel {
         btnProximo.addActionListener(e -> navegar(+1));
         btnUltimo.addActionListener(e -> selecionarIndice(listaVendas.size()-1));
         
+        
+        
         // Consulta
         btnConsultar.addActionListener(e -> consultarVenda());
         
@@ -553,6 +555,9 @@ public class VendaView extends JPanel {
             @Override public void focusLost(FocusEvent e) { recalcProTotal(); }
         });
 
+        
+        
+        
         // Itens
         btnAddItem.addActionListener(e -> {
             System.out.println("\n [VendaView] btnAddItem clicado");
@@ -684,7 +689,7 @@ public class VendaView extends JPanel {
 
         try {
             String cond = "(v.vda_codigo = " + vda + ")";
-            VendaModel venda = new VendaController().buscarPorCodigo(vda);
+            VendaModel venda = new VendaController().get(vda);
             ArrayList<VendaProdutoModel> vendaProduto = new VendaProdutoController().consultar(cond);
             ArrayList<VendaPagtoModel> vendaFormapagto = new VendapagtoController().consultar(cond);
                     
@@ -758,7 +763,7 @@ public class VendaView extends JPanel {
             int cod = parseInt(edtProCod.getText());
             if (cod <= 0) { limparCamposProduto(); return; }
             
-            ProdutoModel p = new ProdutoController().buscarPorCodigo(cod);
+            ProdutoModel p = new ProdutoController().get(cod);
 
             if (p == null) {
                 JOptionPane.showMessageDialog(this, "Produto não encontrado/ativo.");
@@ -796,11 +801,11 @@ public class VendaView extends JPanel {
         if (qt <= 0 || pr <= 0) { JOptionPane.showMessageDialog(this, "Qtde e Preço precisam ser > 0."); return; }
         
         ProdutoModel p = new ProdutoModel();
-        p = null;
-        ProdutoController p_ctrl = new ProdutoController();
+        VendaModel v = new VendaModel();
+        v.setVda_codigo(0);
         
         try {
-            p = p_ctrl.buscarPorCodigo(pro_cod);
+            p =  new ProdutoController().get(pro_cod);
         } catch (Exception e) {
             System.out.println(" [VendaView] ERRO ao CRIAR O PRODUTO da tabela" + e);
             throw e;
@@ -808,6 +813,7 @@ public class VendaView extends JPanel {
         
         VendaProdutoModel it = new VendaProdutoModel();
             it.setVep_codigo(null);
+            it.setVenda_VendaProduto(v);
             it.setProduto_VendaProduto(p);
             it.getProduto_VendaProduto().setPRO_NOME(edtProNome.getText().trim());
             it.getProduto_VendaProduto().setPRO_UNIDADE(edtProUn.getText().trim());
