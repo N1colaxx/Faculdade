@@ -67,9 +67,17 @@ public class VendaModel {
     }
     
     // Método auxiliar para adicionar pagamentos
-    public void adicionarVendaPagto(VendaPagtoModel vp) {
-        this.listPagtos.add(vp);
-//        vp.setVenda_VendaPagto(this);
+    public void adicionarVendaPagto(VendaPagtoModel pg) {
+        this.listPagtos.add(pg);
+        pg.setVenda_VendaPagto(this);
+    }
+    
+    public void limparItens() {
+        listItens.clear();
+    }
+
+    public void limparPagtos() {
+        listPagtos.clear();
     }
     
     

@@ -55,22 +55,25 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
     
     @Override
     public void alterar(VendaProdutoModel vp) throws Exception {
-        System.out.println("\n [ClienteDao] ALTERAR iniciado");
+        System.out.println("\n [VendaProdutoDao] ALTERAR iniciado");
         
         // Venda_Produto com dados NOVOS
         Integer cod_new_vp = vp.getVep_codigo();
-        System.out.println(" vep_codigo (new_venda) = " + vp.getVep_codigo());
+        System.out.println(" [VendaProdutoDao] vep_codigo (new_venda) = " + vp.getVep_codigo());
         
         // Venda_Produto com dados ANTIGOS;
         VendaProdutoModel old_vp = get(cod_new_vp);
         Integer cod_old_vp = old_vp.getVep_codigo();
         
-        if (old_vp == null) {
-            throw new Exception("Venda não encontrado no banco para atualização!");
+        if (cod_old_vp == null) {
+            throw new Exception(" [VendaProdutoDao] Venda não encontrado no banco para atualização!");
         }
         
-        if (cod_new_vp != cod_old_vp) return;
-        System.out.println(" vda_codigo (old_venda) = " + vp.getVep_codigo());
+        System.out.println(" vda_codigo (old_venda) = " + cod_old_vp);
+        if (cod_new_vp != cod_old_vp) {
+            System.out.println(" [VendaProdutoDao] ERRO! vda_codigo (old_venda) diferenda da venda atual = " + old_vp.getVep_codigo());    
+            return;
+        }
         
         
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -79,9 +82,12 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
         try {
            session.merge(vp); 
            tx.commit();
+           
+            System.out.println(" [VendaProdutoDao] Sucesso! ao Alterar Venda_Produto ID = " + vp.getVep_codigo());
+
        }catch (Exception ex) {
            if(tx != null) {
-                System.out.println(" [VendaDao] ERRO! ao Alterar Venda_Produto ID = " + vp.getVep_codigo());
+                System.out.println(" [VendaProdutoDao] ERRO! ao Alterar Venda_Produto ID = " + vp.getVep_codigo());
                 tx.rollback();
            }
        } finally {
@@ -89,6 +95,13 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
         }
     }
     
+    public void alterar(VendaProdutoModel vp, Session session) throws Exception {
+        System.out.println("\n [VendaProdutoDao] ALTERAR iniciado (mesma session)");
+
+        session.merge(vp); 
+        System.out.println(" [VendaProdutoDao] Sucesso! ao Alterar Venda_Produto ID = " + vp.getVep_codigo());
+}
+
     
     @Override
     public ArrayList<VendaProdutoModel> consultar(String filtro) {
@@ -133,7 +146,7 @@ public class VendaProdutoDao implements GenericDao<VendaProdutoModel> {
 
     @Override
     public VendaProdutoModel get(Integer id) {
-        System.out.println(" [VendaProdutoDao] get() foi iniciado... \n");
+        System.out.println(" [VendaProdutoDao] get(id) foi iniciado...");
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (VendaProdutoModel) session.getReference(VendaProdutoModel.class, id);

@@ -62,7 +62,7 @@ public class VendaView extends JPanel {
     private JPanel tabItens, paneItemEditor, paneItemTabela;
     private JLabel lblProCod, lblProNome, lblProUn, lblProQtde, lblProPreco, lblProDesconto, lblProTotal;
     private JTextField edtProCod, edtProNome, edtProUn, edtProQtde, edtProPreco, edtProDesconto, edtProTotal;
-    private JButton btnAddItem, btnDelItem;
+    private JButton btnAddItem, btnDelItem, btnUpdItem;
     private JTable tabItensGrid;
     private VendaProdutoTableModel itensModel;
     private JScrollPane spItens;
@@ -74,7 +74,7 @@ public class VendaView extends JPanel {
     private JTextField edtValorPagamento;
     private JButton btnAddPg, btnUpdPg, btnDelPg;
     private JTable tabPgtosGrid;
-    private VendapagtoTableModel pgtosModel;
+    private VendaPagtoTableModel pgtosModel;
     private JScrollPane spPg;
 
     
@@ -224,6 +224,7 @@ public class VendaView extends JPanel {
 
         btnAddItem = new JButton("Adicionar");
         btnDelItem = new JButton("Remover");
+        btnUpdItem = new JButton("Update");
 
         itensModel = new VendaProdutoTableModel(listaItens);
         tabItensGrid = new JTable(itensModel);
@@ -247,7 +248,7 @@ public class VendaView extends JPanel {
         btnUpdPg = new JButton("Atualizar");
         btnDelPg = new JButton("Remover");
 
-        pgtosModel = new VendapagtoTableModel(listaPgtos);
+        pgtosModel = new VendaPagtoTableModel(listaPgtos);
         tabPgtosGrid = new JTable(pgtosModel);
             tabPgtosGrid.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             
@@ -354,6 +355,7 @@ public class VendaView extends JPanel {
         
         paneItemEditor.add(btnAddItem);
         paneItemEditor.add(btnDelItem);
+        paneItemEditor.add(btnUpdItem);
         
         JScrollPane spItensLocal = new JScrollPane(tabItensGrid);
         paneItemTabela.add(spItensLocal);
@@ -449,8 +451,9 @@ public class VendaView extends JPanel {
         lblProTotal.setBounds(500, 45, 60, 25);
         edtProTotal.setBounds(570, 45, 100, 25);
 
-        btnAddItem.setBounds(900, 10, 110, 25);
-        btnDelItem.setBounds(900, 45, 110, 25);
+        btnAddItem.setBounds(900, 35, 110, 25);
+        btnDelItem.setBounds(1020, 35, 110, 25);
+        btnUpdItem.setBounds(1140, 35, 110, 25);
         
         spItens = (JScrollPane) paneItemTabela.getComponent(0);
         spItens.setBounds(0, 0, 1425, 560);
@@ -562,7 +565,9 @@ public class VendaView extends JPanel {
         });
         
         btnDelItem.addActionListener(e -> removerItemSelecionado());
-
+        btnUpdItem.addActionListener(e -> atualizarProdutoSelecionado());
+        
+        
         // Pagamentos
         btnAddPg.addActionListener(e -> {
             System.out.println("\n [VendaView] btnAddPg clicado");
@@ -710,7 +715,7 @@ public class VendaView extends JPanel {
             tabs.setSelectedComponent(tabDados);
 
             setOperacao("incluir");
-            System.out.println(" [VendaView] void selecionarLinhaConsulta() terminou.");
+            System.out.println("\n [VendaView] void selecionarLinhaConsulta() terminou.");
             System.out.println(" [VendaView] Operacao = " + getOperacao());
             
         } catch (Exception ex) {
@@ -802,7 +807,7 @@ public class VendaView extends JPanel {
         }
         
         VendaProdutoModel it = new VendaProdutoModel();
-            it.setVep_codigo(0);
+            it.setVep_codigo(null);
             it.setProduto_VendaProduto(p);
             it.getProduto_VendaProduto().setPRO_NOME(edtProNome.getText().trim());
             it.getProduto_VendaProduto().setPRO_UNIDADE(edtProUn.getText().trim());
@@ -836,7 +841,68 @@ public class VendaView extends JPanel {
         edtProTotal.setText("");
     }
 
- 
+
+    private void atualizarProdutoSelecionado() {
+        System.out.println("\n [VendaView] void atualizarProdutoSelecionado() iniciado...");
+
+        int row = tabItensGrid.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um produto na tabela para atualizar.");
+            return;
+        }
+
+        int modelRow = tabItensGrid.convertRowIndexToModel(row);
+
+        try {
+            // Obtém o item atual
+            VendaProdutoModel it = itensModel.getItem(modelRow);
+            if (it == null) {
+                JOptionPane.showMessageDialog(this, "Item inválido ou não encontrado.");
+                return;
+            }
+
+            // Lê os novos valores dos campos
+            int pro_cod = parseInt(edtProCod.getText());
+            double qt = parseDouble(edtProQtde.getText());
+            double preco = parseDouble(edtProPreco.getText());
+            double desc = parseDouble(edtProDesconto.getText());
+            double total = (qt * preco) - desc;
+
+            if (pro_cod <= 0) {
+                JOptionPane.showMessageDialog(this, "Informe um código de produto válido.");
+                return;
+            }
+
+            if (qt <= 0 || preco <= 0) {
+                JOptionPane.showMessageDialog(this, "Quantidade e preço devem ser maiores que zero.");
+                return;
+            }
+
+            // Atualiza os dados no objeto
+            it.getProduto_VendaProduto().setPRO_CODIGO(pro_cod);
+            it.getProduto_VendaProduto().setPRO_NOME(edtProNome.getText());
+            it.getProduto_VendaProduto().setPRO_UNIDADE(edtProUn.getText());
+            it.setVep_qtde(qt);
+            it.setVep_preco(preco);
+            it.setVep_desconto(desc);
+            it.setVep_total(total);
+
+            // Atualiza a tabela
+            itensModel.setItem(modelRow, it);
+
+            // Atualiza totais da venda
+            recalcProTotal();
+            recomputarTotais();
+
+            JOptionPane.showMessageDialog(this, "Produto atualizado com sucesso.");
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Erro ao atualizar item: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    
     
     
     /**
@@ -922,151 +988,137 @@ public class VendaView extends JPanel {
     
     private void adicionarPagamento() {
         System.out.println(" [VendaView] void adicionarPagamento() iniciado");
-        
-        String chk_nome = (String) cbFpgNome.getSelectedItem();
-        double edt_valor = parseDouble(edtValorPagamento.getText().trim());
-        double total_venda = parseDouble(edtTotalVenda.getText().trim());
-        double total_venda2 = parseDouble(edtTotalVenda.getText().trim());
-        Integer fpg_codigo = null;
-        
-        FormapagtoController fpg_ctrl = new FormapagtoController();
-        VendaModel v = new VendaModel();
-        v.setVda_codigo(0);
 
-        if (pgtosModel.getRowCount() >= 2) { 
-            JOptionPane.showMessageDialog(this, "MAX de formas de pagamentos inseridas = 2.");
-            return;
-        } 
-        
-        if(pgtosModel.getRowCount() == 0) {
-            try {
-                if (chk_nome == null || chk_nome.isBlank()) { JOptionPane.showMessageDialog(this, "Selecione a forma."); return; }
+        String nomeFpg = (String) cbFpgNome.getSelectedItem();
+        double valorInformado = parseDouble(edtValorPagamento.getText().trim());
+        double totalVenda = parseDouble(edtTotalVenda.getText().trim());
 
-                if (total_venda <= 0) { JOptionPane.showMessageDialog(this, "Total da venda está 0."); return; }
-                
-                System.out.println(" [VendaView] pegando fpg_codigo da Forma de Pagamento");
+        FormapagtoController fpgCtrl = new FormapagtoController();
+        VendaModel vendaTemp = new VendaModel(); // temporário
+        vendaTemp.setVda_codigo(0);
 
+        try {
+            if (nomeFpg == null || nomeFpg.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Selecione a forma de pagamento.");
+                return;
+            }
 
-                FormapagtoModel fpg = fpg_ctrl.obterCodigoPorNome(chk_nome);
+            if (totalVenda <= 0) {
+                JOptionPane.showMessageDialog(this, "Total da venda está zerado. Add um item");
+                return;
+            }
 
-                if(fpg == null) {
-                    System.out.println(" [VendaView] ERRO! ao criar a Primeira forma de pagameto = \n" + fpg);
+            FormapagtoModel fpg = fpgCtrl.obterCodigoPorNome(nomeFpg);
+            if (fpg == null) {
+                JOptionPane.showMessageDialog(this, "Forma de pagamento inválida.");
+                return;
+            }
+
+            // --- Regras de quantidade de pagamentos ---
+            int qtd = pgtosModel.getRowCount();
+
+            if (qtd >= 2) {
+                JOptionPane.showMessageDialog(this, "Máximo de 2 formas de pagamento permitido.");
+                return;
+            }
+
+            // --- Adiciona o 1º pagamento ---
+            if (qtd == 0) {
+                double valor1 = valorInformado > 0 ? valorInformado : totalVenda;
+
+                VendaPagtoModel pg = new VendaPagtoModel();
+                pg.setVdp_codigo(null);
+                pg.setVenda_VendaPagto(vendaTemp);
+                pg.setFormapagto_Vendapagto(fpg);
+                pg.setVdp_valor(valor1);
+
+                pgtosModel.add(pg);
+                System.out.println(" [VendaView] Adicionada 1ª forma de pagamento: " + fpg.getFPG_NOME() + " = " + valor1);
+                edtValorPagamento.setText("");
+                return;
+            }
+
+            // --- Adiciona o 2º pagamento ---
+            if (qtd == 1) {
+                if (valorInformado <= 0 || valorInformado >= totalVenda) {
+                    JOptionPane.showMessageDialog(this, "Valor da 2ª forma deve ser > 0 e < total.");
                     return;
                 }
 
+                double valor2 = valorInformado;
+                double valor1 = totalVenda - valor2;
 
-                if (edt_valor <= 0) { JOptionPane.showMessageDialog(this, "Total da venda está 0."); return; }
+                // Atualiza 1º pagamento
+                VendaPagtoModel pg1 = pgtosModel.get(0);
+                pg1.setVdp_valor(valor1);
+                pgtosModel.set(0, pg1);
 
-                if (pgtosModel.getRowCount() == 0) {
-                    double valor1 = edt_valor;
+                // Cria o 2º pagamento
+                VendaPagtoModel pg2 = new VendaPagtoModel();
+                pg2.setVdp_codigo(null);
+                pg2.setVenda_VendaPagto(vendaTemp);
+                pg2.setFormapagto_Vendapagto(fpg);
+                pg2.setVdp_valor(valor2);
+                pgtosModel.add(pg2);
 
-                    if (!edtValorPagamento.getText().isBlank()) {
-                        valor1 = parseDouble(edtValorPagamento.getText());
-
-                        if (valor1 <= 0) valor1 = edt_valor;
-
-                        if (valor1 > edt_valor) valor1 = edt_valor;
-                    }
-
-
-                    fpg_codigo = fpg.getFPG_CODIGO();
-                    System.out.println(" [VendaView] fpg_codigo = " + fpg_codigo);
-                    
-                    fpg.setFPG_CODIGO(fpg_codigo);
-                    fpg.setFPG_NOME(chk_nome);
-
-                    VendaPagtoModel  pg = new VendaPagtoModel();
-                    pg.setVdp_codigo(0);
-                    pg.setVenda_VendaPagto(v);
-                    pg.setFormapagto_Vendapagto(fpg);
-                    pg.setVdp_valor(valor1);
-                    pgtosModel.add(pg);
-
-                }
-
+                System.out.println(" [VendaView] Adicionada 2ª forma de pagamento: " + fpg.getFPG_NOME() + " = " + valor2);
                 edtValorPagamento.setText("");
-                return ;
-                
-            } catch (Exception ex){
-                JOptionPane.showMessageDialog(this, "Erro ao adicionar PRIMEIRA formapagto: " + ex.getMessage());
-            }   
-        }
-        
-        try {
-            if (edt_valor <= 0 || edt_valor >= total_venda2) {
-                JOptionPane.showMessageDialog(this, "Para 2ª forma informe valor > 0 e < total.");
-                return;
             }
 
-            FormapagtoModel fpg = fpg_ctrl.obterCodigoPorNome(chk_nome);
-
-            fpg_codigo = fpg.getFPG_CODIGO();
-            fpg.setFPG_NOME(chk_nome);
-            System.out.println(" [VendaView] pegando fpg_codigo da 2 formapagto = " + fpg_codigo);
-
-            VendaPagtoModel  pg2 = new VendaPagtoModel();
-            pg2.setVdp_codigo(0);
-            pg2.setFormapagto_Vendapagto(fpg);
-            pg2.setVenda_VendaPagto(v);
-            pg2.setVdp_valor(total_venda2);
-            pgtosModel.add(pg2);
-
-            VendaPagtoModel pg1 = pgtosModel.get(0);
-            pg1.setVdp_valor(total_venda - total_venda2);
-            pgtosModel.set(0, pg1);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Erro ao adicionar SEGUNDA formapagto: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao adicionar pagamento: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
-    
-    //Atualiza somente a 2ª forma (valor/forma) e o restante na 1ª.
+
     private void atualizarPagamentoSelecionado() {
         int row = tabPgtosGrid.getSelectedRow();
-        if (row < 0) { JOptionPane.showMessageDialog(this, "Selecione um pagamento."); return; }
-        int modelRow = tabPgtosGrid.convertRowIndexToModel(row);
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um pagamento para atualizar.");
+            return;
+        }
 
-        if (pgtosModel.getRowCount() == 1 || modelRow == 0) {
-            JOptionPane.showMessageDialog(this, "Atualização permitida apenas na 2ª forma (quando existir).");
+        int qtd = pgtosModel.getRowCount();
+        if (qtd < 2 || row == 0) {
+            JOptionPane.showMessageDialog(this, "A atualização é permitida apenas na 2ª forma (quando existir).");
             return;
         }
 
         try {
-            System.out.println(" [VendaView] pegando Segunda Forma de Pagamento");
-            String nome = (String) cbFpgNome.getSelectedItem();
-            
-            FormapagtoController fpg_ctrl = new FormapagtoController();
-            FormapagtoModel fpg = fpg_ctrl.obterCodigoPorNome(nome);
-            
-            if(fpg == null) {
-                System.out.println(" [VendaView] Forma de pagento veio nula ");
-                return;
-            }
-            
-            Integer fpgCod = fpg.getFPG_CODIGO();
-            System.out.println(" [VendaView] fpg_codigo = " + fpgCod);
-            
-            double total = parseDouble(edtTotalVenda.getText());
-            double val2 = parseDouble(edtValorPagamento.getText());
-            
-            if (val2 <= 0 || val2 >= total) {
+            String nomeFpg = (String) cbFpgNome.getSelectedItem();
+            double totalVenda = parseDouble(edtTotalVenda.getText());
+            double valor2 = parseDouble(edtValorPagamento.getText());
+
+            if (valor2 <= 0 || valor2 >= totalVenda) {
                 JOptionPane.showMessageDialog(this, "Valor da 2ª forma deve ser > 0 e < total.");
                 return;
             }
 
-            VendaPagtoModel sel = pgtosModel.get(modelRow);
-            sel.getFormapagto_VendaPagto().setFPG_CODIGO(fpgCod);
-            sel.getFormapagto_VendaPagto().setFPG_NOME(nome);
-            sel.setVdp_valor(val2);
-            pgtosModel.set(modelRow, sel);
+            FormapagtoModel fpg = new FormapagtoController().obterCodigoPorNome(nomeFpg);
+            if (fpg == null) {
+                JOptionPane.showMessageDialog(this, "Forma de pagamento inválida.");
+                return;
+            }
 
-            int other = modelRow == 0 ? 0 : 1;
-            VendaPagtoModel o = pgtosModel.get(other);
-            o.setVdp_valor(total - val2);
-            pgtosModel.set(other, o);
+            // Atualiza segunda forma
+            VendaPagtoModel segunda = pgtosModel.get(row);
+            segunda.getFormapagto_VendaPagto().setFPG_CODIGO(fpg.getFPG_CODIGO());
+            segunda.getFormapagto_VendaPagto().setFPG_NOME(nomeFpg);
+            segunda.setVdp_valor(valor2);
+            pgtosModel.set(row, segunda);
+
+            // Recalcula primeira
+            VendaPagtoModel primeira = pgtosModel.get(0);
+            primeira.setVdp_valor(totalVenda - valor2);
+            pgtosModel.set(0, primeira);
+
+            System.out.println(" [VendaView] Pagamento atualizado. 1ª forma = " 
+                               + primeira.getVdp_valor() + ", 2ª = " + valor2);
 
             edtValorPagamento.setText("");
-        } catch (Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar pagamento: " + ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -1191,6 +1243,8 @@ public class VendaView extends JPanel {
 
         //btn Pagtos
         edtValorPagamento.setFocusable(true);
+        
+        carregarFormasPagamento();
     }
     
     private void alterar_gravar(){

@@ -9,7 +9,7 @@ import model.VendaProdutoModel;
  */
 public class VendaProdutoTableModel extends AbstractTableModel {
 
-    String[] colunas = {"Código Produto", "Nome", "Quantidade", "Preco", "Desconto", "Total"};
+    String[] colunas = {"Codigo VEP", "Código Produto", "Nome", "Quantidade", "Preco", "Desconto", "Total"};
     private ArrayList<VendaProdutoModel> linhas;
 
     public VendaProdutoTableModel(ArrayList<VendaProdutoModel> itens) {
@@ -42,16 +42,18 @@ public class VendaProdutoTableModel extends AbstractTableModel {
         VendaProdutoModel objModel = (VendaProdutoModel) linhas.get(row);
         switch (col) {
             case 0:
-                return objModel.getProduto_VendaProduto().getPRO_CODIGO();
+                return objModel.getVep_codigo();
             case 1:
-                return objModel.getProduto_VendaProduto().getPRO_NOME();
+                return objModel.getProduto_VendaProduto().getPRO_CODIGO();
             case 2:
-                return objModel.getVep_qtde();
+                return objModel.getProduto_VendaProduto().getPRO_NOME();
             case 3:
-                return objModel.getVep_preco();
+                return objModel.getVep_qtde();
             case 4:
+                return objModel.getVep_preco();
+            case 5:
                 return objModel.getVep_desconto();
-            case 5: 
+            case 6: 
                 return objModel.getVep_total();
             default:
                 return null;
@@ -79,6 +81,14 @@ public class VendaProdutoTableModel extends AbstractTableModel {
         linhas.remove(row);
         fireTableRowsDeleted(row, row);
     }
+    
+    public void setItem(int index, VendaProdutoModel item) {
+        if (index >= 0 && index < linhas.size()) {
+            linhas.set(index, item);
+            fireTableRowsUpdated(index, index);
+        }
+    }
+
     public ArrayList<VendaProdutoModel> getLinhas(){ return linhas; }
     public VendaProdutoModel getItem(int row){ return linhas.get(row); }
 }

@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 import model.VendaPagtoModel;
 
-public class VendapagtoTableModel extends AbstractTableModel {
-    String[] colunas = {"Código Venda", "Forma de Pagamento", "Valor"};
+public class VendaPagtoTableModel extends AbstractTableModel {
+    String[] colunas = {"Código VDP", "Código Venda", "Forma de Pagamento", "Valor"};
     private ArrayList<VendaPagtoModel>linhas;
 
-    public VendapagtoTableModel(ArrayList<VendaPagtoModel>lista) {
+    public VendaPagtoTableModel(ArrayList<VendaPagtoModel>lista) {
         this.linhas = lista;
     }
 
@@ -36,10 +36,12 @@ public class VendapagtoTableModel extends AbstractTableModel {
         VendaPagtoModel objModel = (VendaPagtoModel)linhas.get(row);
         switch (col) {
             case 0:
-                return objModel.getVenda_VendaPagto().getVda_codigo();
+                return objModel.getVdp_codigo();
             case 1:
-                return objModel.getFormapagto_VendaPagto().getFPG_NOME();
+                return objModel.getVenda_VendaPagto().getVda_codigo();
             case 2:
+                return objModel.getFormapagto_VendaPagto().getFPG_NOME();
+            case 3:
                 return objModel.getVdp_valor();
 
             default:

@@ -9,7 +9,7 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import java.util.List;
 
-public class VendapagtoRelatorio {
+public class VendaPagtoRelatorio {
     
     private String nomeArquivo = "relatorioVenda.pdf";
     private String titulo = "Relatório de Venda";

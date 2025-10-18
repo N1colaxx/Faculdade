@@ -34,6 +34,10 @@ public class VendaProdutoController implements GenericController<VendaProdutoMod
         vendaProdutoDao.alterar(vp);
     }
 
+    public void alterar(VendaProdutoModel vp, Session s) throws Exception {
+        vendaProdutoDao.alterar(vp, s);
+    }
+
     
     
     @Override

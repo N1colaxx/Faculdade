@@ -1,8 +1,8 @@
 package controller;
 
 import model.VendaPagtoModel;
-import dao.VendapagtoDao;
-import relatorios.VendapagtoRelatorio;
+import dao.VendaPagtoDao;
+import relatorios.VendaPagtoRelatorio;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,11 +12,11 @@ import javax.swing.JOptionPane;
 
 public class VendapagtoController implements GenericController<VendaPagtoModel> {
 
-    VendapagtoDao vendapagtoDao; 
+    VendaPagtoDao vendapagtoDao; 
     private String operacao;
     
     public VendapagtoController() {
-        vendapagtoDao = new VendapagtoDao();
+        vendapagtoDao = new VendaPagtoDao();
         operacao = null;
     }
 
@@ -53,7 +53,7 @@ public class VendapagtoController implements GenericController<VendaPagtoModel> 
     public Exception imprimir() {
         Exception retorno = null;
         try {
-            VendapagtoRelatorio relatorio = new VendapagtoRelatorio();
+            VendaPagtoRelatorio relatorio = new VendaPagtoRelatorio();
 
             Map<String, Object> parametros = new HashMap<>();
 
@@ -88,7 +88,7 @@ public class VendapagtoController implements GenericController<VendaPagtoModel> 
      * Getters
      */
     
-    public VendapagtoDao getDao() {
+    public VendaPagtoDao getDao() {
         return vendapagtoDao;
     }
     

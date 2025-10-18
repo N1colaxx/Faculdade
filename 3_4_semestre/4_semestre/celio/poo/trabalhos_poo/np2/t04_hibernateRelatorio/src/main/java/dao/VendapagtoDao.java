@@ -10,11 +10,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
-public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
+public class VendaPagtoDao implements GenericDao<VendaPagtoModel> {
     
     private String operacao;
     
-    public VendapagtoDao() {
+    public VendaPagtoDao() {
         operacao = null;
     }
     
@@ -63,16 +63,17 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
         
         // VendaPagto com dados NOVOS
         Integer new_cod_vdp = objModel.getVdp_codigo();
-        System.out.println(" vdp_codigo (new_venda) = " + objModel.getVdp_codigo());
+        System.out.println(" vdp_codigo (new_venda) = " + new_cod_vdp);
 
         // VendaPagto com dados ANTIGOS;
         VendaPagtoModel old_vdp = get(new_cod_vdp);
-        Integer old_cod_vdp   = old_vdp.getVdp_codigo();
+        Integer old_cod_vdp  = old_vdp.getVdp_codigo();
         
-        if (old_vdp == null) {
+        if (old_cod_vdp == null) {
             throw new Exception("  Vendapagto não encontrada no banco para atualização!");
         }
         
+        System.out.println(" [VendaPagtoDao] Codigo da Venda_Pagto antiga = " + old_cod_vdp);
         if (new_cod_vdp != old_cod_vdp) return;
         
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -81,9 +82,11 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
         try{
            session.merge(objModel); // MERGE vai atualizar tanto pessoa quanto cliente
            tx.commit();
+    
+           System.out.println(" [VendaPagtoDao] Sucesso! ao Alterar Venda_Pagto ID = " + new_cod_vdp);
         }catch (Exception ex) {
            if(tx != null) {
-                System.out.println(" [VendaPagtoDao] ERRO! ao Alterar Venda_Pagto ID = " + objModel.getVdp_codigo());
+                System.out.println(" [VendaPagtoDao] ERRO! ao Alterar Venda_Pagto ID = " + new_cod_vdp);
                 tx.rollback();
            }
        } finally {
@@ -138,6 +141,8 @@ public class VendapagtoDao implements GenericDao<VendaPagtoModel> {
 
     @Override
     public VendaPagtoModel get(Integer id) {
+        System.out.println(" [VendaPagtoDao] get(id) iniciaou...");
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (VendaPagtoModel) session.getReference(VendaPagtoModel.class, id);
     }
