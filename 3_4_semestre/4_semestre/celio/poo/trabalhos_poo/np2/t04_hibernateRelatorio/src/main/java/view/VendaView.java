@@ -582,7 +582,9 @@ public class VendaView extends JPanel {
         btnUpdPg.addActionListener(e -> atualizarPagamentoSelecionado());
         btnDelPg.addActionListener(e -> removerPagamentoSelecionado());
         
-        // ==== Seleção nas tabelas ====
+        /**
+         * Seleção nas tabelas ====
+         */
         
         // Consulta: ao selecionar linha, joga para filtros/editores
         tabelaConsulta.getSelectionModel().addListSelectionListener(e -> {
@@ -673,7 +675,7 @@ public class VendaView extends JPanel {
     }
     
     private void limparTabelaConsulta() {
-         System.out.println(" [VendaView] limpando tabela.");
+        System.out.println(" [VendaView] limpando tabela.");
         consultaModel = new VendaTableModel(new ArrayList<>());
         tabelaConsulta.setModel(consultaModel);
     }
@@ -1301,25 +1303,6 @@ public class VendaView extends JPanel {
         }
     }
     
-    private void gravar() { 
-        System.out.println("\n [VendaView] btnGravar clicado");
-        System.out.println(" [VendaView] void GRAVAR iniciado com Operacao = " + getOperacao());
-
-        if (operacao.isEmpty() || operacao.equals("")) {
-            JOptionPane.showMessageDialog(this, "Selecione uma Operação! exempo: NOVO");
-        }
-        
-        if (operacao.equals("nova_venda")) {
-            incluir_venda();
-        }
-        
-        if (operacao.equals("alterar_gravar")) {
-            alterar_gravar();
-        }
-        
-        
-    }    
-
     private void excluirSelecionada() {
         System.out.println("\n [VendaView] void excluir() iniciado");
 
@@ -1339,6 +1322,25 @@ public class VendaView extends JPanel {
             JOptionPane.showMessageDialog(this, "Falha ao excluir: " + ex.getMessage());
         }
     }
+
+     private void gravar() { 
+        System.out.println("\n [VendaView] btnGravar clicado");
+        System.out.println(" [VendaView] void GRAVAR iniciado com Operacao = " + getOperacao());
+
+        if (operacao.isEmpty() || operacao.equals("")) {
+            JOptionPane.showMessageDialog(this, "Selecione uma Operação! exempo: NOVO");
+        }
+        
+        if (operacao.equals("nova_venda")) {
+            incluir_venda();
+        }
+        
+        if (operacao.equals("alterar_gravar")) {
+            alterar_gravar();
+        }
+        
+        
+    }    
 
     
     

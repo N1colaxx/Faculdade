@@ -47,8 +47,8 @@ public class CompraDao {
         
         String tabCompra = CompraModel.class.getName();
         String hql = " FROM " + tabCompra+ " c " 
-                +    " JOIN FETCH v.usuario_compra u "
-                +    " JOIN FETCH v.fornecedor_compra f ";
+                +    " JOIN FETCH c.usuario_compra u "
+                +    " JOIN FETCH c.fornecedor_compra f ";
         
         if (filtro != null && !filtro.trim().isEmpty()) {
             hql += " WHERE " + filtro;

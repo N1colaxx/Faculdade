@@ -270,7 +270,7 @@ public class VendaView extends JPanel {
         tabs.addTab("Pagamentos", tabPgtos);
     }
 
-    /** Posições fixas (frame 1500x850). */
+    
     private void posicionar() {
         paneCabecario.setBounds(10, 10, 1470, 40);
         paneCabecario.setBackground(Color.LIGHT_GRAY);

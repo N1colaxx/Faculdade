@@ -33,24 +33,23 @@ public class CompraController {
     }
     
     public void incluir(
-            int usu_cod, int for_cod, LocalDate data_emissao, double valor_v, double desc_v,
-            double total_v, LocalDate dtentrada, String obs_v,
+            int usu_cod, int for_cod, LocalDate emissao, double valor, double desc, double total, LocalDate dtentrada, String obs,
             ArrayList<CompraProdutoModel> itens
         ) throws Exception {
         
         System.out.println("\n [CompraController] void inclui(compra, itens) iniciou...");
 
         System.out.println(" [CompraController] Verificando User...");
-        UsuarioModel usu_v = new UsuarioDao().get(usu_cod);
-        if (usu_v == null) {
+        UsuarioModel usu_c = new UsuarioDao().get(usu_cod);
+        if (usu_c == null) {
             JOptionPane.showMessageDialog(null, "ERRO! Usuario Invalido!");
             return;
         }
         System.out.println(" [CompraController] User APROVADO!");
 
         System.out.println(" [CompraController] Verificando Cliente...");
-        FornecedorModel for_v = new FornecedorDao().get(for_cod);
-        if (for_v == null) {
+        FornecedorModel for_c = new FornecedorDao().get(for_cod);
+        if (for_c == null) {
             JOptionPane.showMessageDialog(null, "ERRO! Fornecedor Invalido!");
             return;
         }
@@ -63,17 +62,18 @@ public class CompraController {
             transacao = session.beginTransaction();
             
             // Recarrega os objetos nesta sessão
-            usu_v = new UsuarioDao().get(usu_cod, session);
-            for_v = new FornecedorDao().get(for_cod, session);
+            usu_c = new UsuarioDao().get(usu_cod, session);
+            for_c = new FornecedorDao().get(for_cod, session);
 
             CompraModel compra = new CompraModel();
-                compra.setUsuario_compra(usu_v);
-                compra.setFornecedor_compra(for_v);
-                compra.setCpr_emissao(data_emissao);
-                compra.setCpr_valor(valor_v);
-                compra.setCpr_desconto(desc_v);
-                compra.setCpr_valor(total_v);
-                compra.setCpr_obs(obs_v);
+                compra.setUsuario_compra(usu_c);
+                compra.setFornecedor_compra(for_c);
+                compra.setCpr_emissao(emissao);
+                compra.setCpr_valor(valor);
+                compra.setCpr_desconto(desc);
+                compra.setCpr_valor(total);
+                compra.setCpr_dtentrada(dtentrada);
+                compra.setCpr_obs(obs);
             
             CompraModel c = compraDao.gravar(compra, session);
             System.out.println(" [CompraController] Venda salva com ID(new_v): " + c.getCpr_codigo());
@@ -169,7 +169,7 @@ public class CompraController {
                 compra.addProduto_listProduto(item);
             }
             
-            // Persiste toda a venda e suas dependências
+            // Persiste toda a compra e suas dependências
             session.merge(compra);
 
             tx.commit();

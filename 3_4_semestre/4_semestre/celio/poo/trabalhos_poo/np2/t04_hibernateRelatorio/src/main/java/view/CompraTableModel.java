@@ -2,7 +2,7 @@ package view;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
-import model.VendaModel;
+import model.CompraModel;
 
 /**
  * Tabela da Venda
@@ -10,10 +10,10 @@ import model.VendaModel;
 
 public class CompraTableModel extends AbstractTableModel {
 
-    private ArrayList<VendaModel> linhas;
-    String[] colunas = {"Código Venda", "Codigo Usuario", "Nome Cliente", "Data Venda", "Valor Total"};
+    private ArrayList<CompraModel> linhas;
+    String[] colunas = {"Codigo CPR", "Codigo Usuario", "Codigo Fornecedor", "Data Emissao", "Valor", "Desconto", "Total", "Data Entrada", "Obs"};
 
-    public CompraTableModel(ArrayList<VendaModel> lista) {
+    public CompraTableModel(ArrayList<CompraModel> lista) {
         linhas = lista;
     }
 
@@ -37,27 +37,34 @@ public class CompraTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int row, int col) {
-        VendaModel objModel = (VendaModel) linhas.get(row);
+        CompraModel objModel = (CompraModel) linhas.get(row);
         switch (col) {
             case 0:
-                return objModel.getVda_codigo();
+                return objModel.getCpr_codigo();
             case 1:
-                return objModel.getUsu_venda().getUSU_CODIGO();
+                return objModel.getUsuario_compra().getUSU_CODIGO();
             case 2:
-                return objModel.getCli_venda().getPessoa_Cliente().getPES_NOME();
+                return objModel.getFornecedor_compra().getFOR_CODIGO();
             case 3:
-                return objModel.getVda_data();
+                return objModel.getCpr_emissao();
             case 4:
-                return objModel.getVda_total();
+                return objModel.getCpr_valor();
+            case 5:
+                return objModel.getCpr_desconto();
+            case 6:
+                return objModel.getCpr_total();
+            case 7:
+                return objModel.getCpr_dtentrada();
+            case 8:
+                return objModel.getCpr_obs();
             default:
                 return null;
         }
-        // String[] colunas = {"Código Venda", "Codigo Usuario", "Nome Cliente", "Data Venda", "Valor Total"};
-
+        
     }
 
     //Adicionamos várias linhas na tabela de uma vez, recebendo um List de Venda
-    public void addLista(ArrayList<VendaModel> lstModel) {
+    public void addLista(ArrayList<CompraModel> lstModel) {
         int tamanhoAntigo = getRowCount();
 
         //Adiciona os usuários

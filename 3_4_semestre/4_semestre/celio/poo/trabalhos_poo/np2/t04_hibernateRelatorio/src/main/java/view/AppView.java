@@ -23,7 +23,8 @@ public class AppView extends JFrame{
     private UsuarioView usuario1View;
     // ItensMovimentos
     private VendaView vendaView;
-//    private CompraView compraView;
+    private CompraView compraView;
+    
     // Variaveis
     private JPanel contendPanel;
     private CardLayout cardLayout;
@@ -78,8 +79,7 @@ public class AppView extends JFrame{
             usuario1View = new UsuarioView();
             
             // Movimentos
-//            compraView = new CompraView();
-//                System.out.println(" Compra");
+            compraView = new CompraView();
             vendaView = new VendaView();
                                
             System.out.println(" Instanciando View (SUCESSO)");
@@ -114,9 +114,9 @@ public class AppView extends JFrame{
             AppUI.applySize(usuario1View, usu);
             System.out.println(" Usuario");
             
-//            AppUI.applyDefaultSize(compraView);
-//            System.out.println(" Compra");
-//            
+            AppUI.applyDefaultSize(compraView);
+            System.out.println(" Compra");
+            
             AppUI.applyDefaultSize(vendaView);
             System.out.println(" venda");
                 
@@ -157,8 +157,8 @@ public class AppView extends JFrame{
             contendPanel.add(vendaView, "Venda");
             System.out.println(" Venda");
 //            
-//            contendPanel.add(compraView, "Compra");
-//            System.out.println(" Compra");
+            contendPanel.add(compraView, "Compra");
+            System.out.println(" Compra");
             
             System.out.println(" Criando CardLayout (SUCESSO)");
             
@@ -201,7 +201,7 @@ public class AppView extends JFrame{
         System.out.println("\n [AppView] void entrarMenu() iniciado...");
         
         setJMenuBar(menuView);
-        mostrarTela("Venda");
+        mostrarTela("Compra");
         System.out.println("\n [AppView] void entrarMenu() concluido.");
         
         UsuarioModel u = SessionModel.getCurrentUser();

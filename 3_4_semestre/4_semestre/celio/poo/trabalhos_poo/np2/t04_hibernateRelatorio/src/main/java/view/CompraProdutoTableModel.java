@@ -91,6 +91,15 @@ public class CompraProdutoTableModel extends AbstractTableModel {
             fireTableRowsUpdated(index, index);
         }
     }
+ 
+    public Double somaTotais(){
+        double s = 0;
+        for (CompraProdutoModel it : linhas){
+            double v = it.getCpp_total();
+            s += v;
+        }
+        return s;
+    }
 
     public ArrayList<CompraProdutoModel> getLinhas(){ return linhas; }
     public CompraProdutoModel getItem(int row){ return linhas.get(row); }
