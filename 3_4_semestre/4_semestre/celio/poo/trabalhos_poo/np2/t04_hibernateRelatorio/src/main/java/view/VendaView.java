@@ -32,7 +32,7 @@ public class VendaView extends JPanel {
 
     // Botões (cabeçalho)
     private JButton btnPrimeiro, btnAnterior, btnProximo, btnUltimo;
-    private JButton btnNovo, btnAlterar, btnExcluir, btnImprimir, btnGravar;
+    private JButton btnIncluir, btnAlterar, btnExcluir, btnImprimir, btnGravar;
 
     // Abas / painéis
     private JPanel paneCabecario;
@@ -106,7 +106,7 @@ public class VendaView extends JPanel {
         btnAnterior = new JButton("Anterior");
         btnProximo = new JButton("Próximo");
         btnUltimo = new JButton("Último");
-        btnNovo = new JButton("Novo");
+        btnIncluir = new JButton("Incluir");
         btnAlterar = new JButton("Alterar");
         btnExcluir = new JButton("Excluir");
         btnImprimir = new JButton("Imprimir");
@@ -262,7 +262,7 @@ public class VendaView extends JPanel {
         paneCabecario.add(btnAnterior);
         paneCabecario.add(btnProximo);
         paneCabecario.add(btnUltimo);
-        paneCabecario.add(btnNovo);
+        paneCabecario.add(btnIncluir);
         paneCabecario.add(btnAlterar);
         paneCabecario.add(btnExcluir);
         paneCabecario.add(btnImprimir);
@@ -387,7 +387,7 @@ public class VendaView extends JPanel {
         btnAnterior.setBounds(105, 7, 100, 25);
         btnProximo.setBounds(210, 7, 100, 25);
         btnUltimo.setBounds(315, 7, 100, 25);
-        btnNovo.setBounds(520, 7, 100, 25);
+        btnIncluir.setBounds(520, 7, 100, 25);
         btnAlterar.setBounds(625, 7, 100, 25);
         btnExcluir.setBounds(730, 7, 100, 25);
         btnImprimir.setBounds(1190, 7, 120, 25);
@@ -506,11 +506,11 @@ public class VendaView extends JPanel {
     
     private void configurarAcoes() {
         // Cabeçalho
-        btnNovo.addActionListener(e -> {
-            System.out.println("\n [VendaView] btnNovo clicado");
+        btnIncluir.addActionListener(e -> {
+            System.out.println("\n [VendaView] btnIncluir clicado");
             
             userLogado = SessionModel.getCurrentUser();
-            novo(); 
+            incluir(); 
         });
         
         btnAlterar.addActionListener(e -> alterar());
@@ -1151,8 +1151,8 @@ public class VendaView extends JPanel {
      * ===== Cabeçalho / Gravação =====
      */
     
-    private void novo() {
-        System.out.println(" [VendaView] void novo() iniciado");
+    private void incluir() {
+        System.out.println(" [VendaView] void incluir() iniciado");
         
         setOperacao("nova_venda");
         limparTudo();
@@ -1221,6 +1221,10 @@ public class VendaView extends JPanel {
             new VendaController().incluir(usu_cod, cli_cod, data_v, valor_v, desc_v, total_v, obs_v, itens, pgtos);
 
             JOptionPane.showMessageDialog(this, "Venda gravada.");
+            
+            tabs.setSelectedComponent(tabConsulta);
+            consultarVenda();
+            
             limparTudo();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Falha ao gravar: " + ex.getMessage());
@@ -1286,7 +1290,11 @@ public class VendaView extends JPanel {
             // Gravando a Venda
             new VendaController().alterar(vda_cod, usu_cod, cli_cod, data_v, valor_v, desc_v, total_v, obs_v, itens, pgtos);
 
-            JOptionPane.showMessageDialog(this, "Venda gravada.");
+            JOptionPane.showMessageDialog(this, "Venda alterada.");
+            
+            tabs.setSelectedComponent(tabConsulta);
+            consultarVenda();
+            
             limparTudo();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Falha ao gravar: " + ex.getMessage());
@@ -1321,7 +1329,11 @@ public class VendaView extends JPanel {
             VendaModel v = new VendaModel();
             v.setVda_codigo(cod);
             new VendaController().excluir(v);
+           
             JOptionPane.showMessageDialog(this, "Venda excluída.");
+            
+            tabs.setSelectedComponent(tabConsulta);
+            consultarVenda();
            
         } catch (Exception ex){
             JOptionPane.showMessageDialog(this, "Falha ao excluir: " + ex.getMessage());

@@ -25,7 +25,11 @@
         <!-- Movimentos VENDA-->
         <mapping class="model.VendaModel"/>
         <mapping class="model.VendaPagtoModel"/>
-        <mapping class="model.VendaProdutoModel"/>
+        <mapping class="model.VendaPagtoModel"/>
+        
+        <!-- Moviemntos Compra -->
+        <mapping class="model.CompraModel"/>
+        <mapping class="model.CompraProdutoModel"/>
         
         
     </session-factory>

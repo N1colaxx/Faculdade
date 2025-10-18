@@ -114,7 +114,11 @@ public class FornecedorDao implements GenericDao<FornecedorModel> {
         Session session = HibernateUtil.getSessionFactory().openSession();
         return (FornecedorModel) session.getReference(FornecedorModel.class, id);
     }
-    
+
+    public FornecedorModel get(Integer id, Session session ) {
+        return (FornecedorModel) session.getReference(FornecedorModel.class, id);
+    }
+        
     
     
 }

@@ -210,7 +210,7 @@ public class VendaController {
     public void excluir(VendaModel obj) throws Exception {
         int resposta = JOptionPane.showConfirmDialog(
             null,
-            "Deseja realmente EXCLUIR a Venda ? confirmar a ação?", // mensagem
+            "Deseja realmente EXCLUIR a Venda ? ID = "+ obj.getVda_codigo() + "\n Confirmar a ação?", // mensagem
             "Confirmação", // título da janela
             JOptionPane.YES_NO_OPTION, // opções de botões
             JOptionPane.QUESTION_MESSAGE // ícone

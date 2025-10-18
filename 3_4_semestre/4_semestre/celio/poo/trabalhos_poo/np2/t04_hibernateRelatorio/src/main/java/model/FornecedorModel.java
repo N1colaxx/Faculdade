@@ -6,8 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 /**
@@ -23,9 +23,9 @@ public class FornecedorModel implements java.io.Serializable {
     @Column(name = "FOR_CODIGO")
     private Integer for_codigo;
 
-//  JOIN com pessoa -> pessoa 1:N fornecedor
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "PES_CODIGO")
+//  JOIN com pessoa -> pessoa 1:1 fornecedor
+    @OneToOne
+    @JoinColumn(name = "PES_CODIGO", nullable = false)
     private PessoaModel pessoa;
 
     private String for_contato;
@@ -41,7 +41,9 @@ public class FornecedorModel implements java.io.Serializable {
 
     /**
      * GETTERS
+     * @return 
      */
+
     public Integer getFOR_CODIGO() {
         return for_codigo;
     }

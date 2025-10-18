@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -21,11 +21,11 @@ public class ClienteModel implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CLI_CODIGO")
+    @Column(name = "CLI_CODIGO",  nullable = false)
     private Integer cli_codigo;
     
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // aqui o hibernate que fica responsavel para criar a pessoa no dao/DB
-    @JoinColumn (name = "PES_CODIGO")
+    @OneToOne
+    @JoinColumn (name = "PES_CODIGO", nullable = false)
     private PessoaModel pessoa;
 
     private double cli_limitecred;
