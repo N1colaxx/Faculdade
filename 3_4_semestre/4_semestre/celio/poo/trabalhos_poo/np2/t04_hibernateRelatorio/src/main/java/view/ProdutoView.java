@@ -2,6 +2,7 @@ package view;
 
 import controller.ProdutoController;
 import model.ProdutoModel;
+import tableModel.ProdutoTableModel;
 
 
 import javax.swing.*;

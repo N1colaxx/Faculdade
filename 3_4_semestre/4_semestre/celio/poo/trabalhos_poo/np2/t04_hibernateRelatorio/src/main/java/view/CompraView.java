@@ -8,6 +8,9 @@ import model.ProdutoModel;
 import model.CompraModel;
 import model.CompraProdutoModel;
 
+import tableModel.CompraTableModel;
+import tableModel.CompraProdutoTableModel;
+
 import javax.swing.*;
 import javax.swing.ListSelectionModel;
 import java.awt.*;

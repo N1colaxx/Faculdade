@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import controller.UsuarioController;
 import model.UsuarioModel;
+import tableModel.UsuarioTableModel;
 
 public class UsuarioView extends JPanel {
     

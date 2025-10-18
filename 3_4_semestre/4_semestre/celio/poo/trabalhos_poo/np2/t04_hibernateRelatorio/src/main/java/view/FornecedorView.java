@@ -2,7 +2,7 @@ package view;
 
 import controller.FornecedorController;
 import model.FornecedorModel;
-
+import tableModel.FornecedorTableModel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

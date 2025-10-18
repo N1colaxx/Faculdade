@@ -2,7 +2,8 @@ package view;
 
 import controller.FormapagtoController;
 import model.FormapagtoModel;
-
+import tableModel.FormapagtoTableModel;
+        
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.ListSelectionModel;

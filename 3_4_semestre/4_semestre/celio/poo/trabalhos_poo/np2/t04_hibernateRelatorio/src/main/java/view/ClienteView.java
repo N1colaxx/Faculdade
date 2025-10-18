@@ -1,8 +1,12 @@
 package view;
 
-import controller.ClienteController;
 import model.ClienteModel;
 import model.PessoaModel;
+
+import tableModel.ClienteTableModel;
+
+import controller.ClienteController;
+
 import util.UtilsUI;
 
 import javax.swing.*;

@@ -14,6 +14,9 @@ import model.SessionModel;
 import model.UsuarioModel;
 import model.ProdutoModel;
 import model.FormapagtoModel;
+import tableModel.VendaTableModel;
+import tableModel.VendaProdutoTableModel;
+import tableModel.VendaPagtoTableModel;
 
 import util.UtilsUI;
 
