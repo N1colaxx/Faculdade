@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CompraProdutoRelatorio {
     
-    private String nomeArquivo = "relatorioCompraProduto.pdf";
+    private String nomeArquivo = "relatorioCompra_Produto.pdf";
     private String titulo = "Relatório de Compra_Produto";
     private PDDocument doc;
     private PDPage pagina;
@@ -75,7 +75,8 @@ public class CompraProdutoRelatorio {
         String cabecalho = String.format("%-10s %-30s %-40s",
                 "Código Compra_Produto",
                 "Código Codigo Produto",
-                "valor");
+                "valor"
+        );
         cs.showText(cabecalho);
         cs.endText();
 
@@ -95,7 +96,7 @@ public class CompraProdutoRelatorio {
             cs.newLineAtOffset(50, y);
             
                        
-            String linha = String.format("%-10d %-30s %-10",
+            String linha = String.format("%-10d %-30s %-10s",
                     objModel.getCpp_codigo(),
                     objModel.getProduto_compraPro().getPRO_CODIGO(),  
                     objModel.getCpr_total()

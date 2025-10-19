@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import relatorios.CompraProdutoRelatorio;
 import util.HibernateUtil;
 
 
@@ -209,15 +210,18 @@ public class CompraController {
     public Exception imprimir() {
         Exception retorno = null;
         try {
-            CompraRelatorio relatorio = new CompraRelatorio();
+            CompraRelatorio rc = new CompraRelatorio();
+            CompraProdutoRelatorio rcp = new CompraProdutoRelatorio();
 
             Map<String, Object> parametros = new HashMap<>();
 
             // Adicione parâmetros necessários se houver
             // parametros.put("PARAMETRO_EXEMPLO", "valor");
-            List<CompraModel> dados = consultar("");
+            List<CompraModel> dados_compra = consultar("");
+            List<CompraProdutoModel> dados_compraProduto = new CompraProdutoController().consultar("");
 
-            relatorio.gerarRelatorio(dados);
+            rc.gerarRelatorio(dados_compra);
+            rcp.gerarRelatorio(dados_compraProduto);
 
         } catch (Exception ex) {
             retorno = ex;

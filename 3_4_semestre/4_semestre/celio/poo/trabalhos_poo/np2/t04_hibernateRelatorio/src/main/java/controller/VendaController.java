@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import relatorios.VendaPagtoRelatorio;
+import relatorios.VendaProdutoRelatorio;
 import util.HibernateUtil;
 
 
@@ -231,15 +233,21 @@ public class VendaController {
     public Exception imprimir() {
         Exception retorno = null;
         try {
-            VendaRelatorio relatorio = new VendaRelatorio();
+            VendaRelatorio vr = new VendaRelatorio();
+            VendaPagtoRelatorio vpr = new VendaPagtoRelatorio();
+            VendaProdutoRelatorio vprr = new VendaProdutoRelatorio();
 
             Map<String, Object> parametros = new HashMap<>();
 
             // Adicione parâmetros necessários se houver
             // parametros.put("PARAMETRO_EXEMPLO", "valor");
-            List<VendaModel> dados = consultar("");
+            List<VendaModel> dados_vr = consultar("");
+            List<VendaPagtoModel> dados_vpr = new VendapagtoController().consultar("");
+            List<VendaProdutoModel> dados_vprr = new VendaProdutoController().consultar("");
 
-            relatorio.gerarRelatorio(dados);
+            vr.gerarRelatorio(dados_vr);
+            vpr.gerarRelatorio(dados_vpr);
+            vprr.gerarRelatorio(dados_vprr);
 
         } catch (Exception ex) {
             retorno = ex;

@@ -11,8 +11,8 @@ import java.util.List;
 
 public class VendaPagtoRelatorio {
     
-    private String nomeArquivo = "relatorioVenda.pdf";
-    private String titulo = "Relatório de Venda";
+    private String nomeArquivo = "relatorioVenda_Pagto.pdf";
+    private String titulo = "Relatório de Venda Pagto";
     private PDDocument doc;
     private PDPage pagina;
     private PDPageContentStream cs;
@@ -95,7 +95,7 @@ public class VendaPagtoRelatorio {
             cs.newLineAtOffset(50, y);
             
                        
-            String linha = String.format("%-10d %-30s %-10",
+            String linha = String.format("%-10d %-30s %-10s",
                     objModel.getVdp_codigo(),
                     objModel.getVenda_VendaPagto().getVda_codigo(),  
                     objModel.getFormapagto_VendaPagto().getFPG_CODIGO()

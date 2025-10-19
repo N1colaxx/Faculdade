@@ -12,7 +12,7 @@ import java.util.List;
 public class CompraRelatorio {
     
     private String nomeArquivo = "relatorioCompra.pdf";
-    private String titulo = "Relatório de Venda";
+    private String titulo = "Relatório de Compra";
     private PDDocument doc;
     private PDPage pagina;
     private PDPageContentStream cs;
