@@ -859,7 +859,10 @@ public class CompraView extends JPanel {
 
        for (CompraProdutoModel it : itensModel.getLinhas()) {
            double totalItem = it.getCpr_total();
-           if (totalItem < 0) totalItem = 0;
+           if (totalItem < 0) {
+               System.out.println(" [CompraView] ERRO! Produto com Cpr_total < 0 \n Setando valor para '0' Item ID = " + it.getProduto_compraPro().getPRO_NOME());
+               totalItem = 0;
+           }
            somaItens += totalItem;
        }
 
@@ -888,7 +891,7 @@ public class CompraView extends JPanel {
     private void incluir() {
         System.out.println(" [CompraView] void incluir() iniciado");
         
-        setOperacao("compra");
+        setOperacao("incluir_compra");
         limparTudo();
         
         edtCprEmissao.setText(LocalDate.now().toString());
@@ -948,7 +951,7 @@ public class CompraView extends JPanel {
         edtCppDesconto.setFocusable(true);
         }
 
-    private void compra(){
+    private void incluir_compra(){
         System.out.println("\n [CompraView] void compra() iniciado...");
         
         try {
@@ -988,7 +991,7 @@ public class CompraView extends JPanel {
     private void alterar(){
         System.out.println("\n [CompraView] btnAlterar clicado.");
         
-        setOperacao("alterar_gravar");
+        setOperacao("alterar_compra");
         
         // btn DADOS
         edtCprCodigo.setFocusable(true);
@@ -1007,7 +1010,7 @@ public class CompraView extends JPanel {
         edtCppDesconto.setFocusable(true);
     }
     
-    private void alterar_gravar(){
+    private void alterar_compra(){
         System.out.println(" [CompraView] void alterar_gravar() iniciado...");
         System.out.println(" [CompraView] Operacoa atual = " + getOperacao());
         
@@ -1075,12 +1078,12 @@ public class CompraView extends JPanel {
             JOptionPane.showMessageDialog(this, "Selecione uma Operação! exempo: NOVO");
         }
         
-        if (operacao.equals("compra")) {
-            compra();
+        if (operacao.equals("incluir_compra")) {
+            incluir_compra();
         }
         
-        if (operacao.equals("alterar_gravar")) {
-            alterar_gravar();
+        if (operacao.equals("alterar_compra")) {
+            alterar_compra();
         }   
     }
      
