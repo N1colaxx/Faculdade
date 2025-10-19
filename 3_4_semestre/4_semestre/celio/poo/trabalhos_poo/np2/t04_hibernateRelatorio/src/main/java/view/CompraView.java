@@ -755,30 +755,46 @@ public class CompraView extends JPanel {
     }
 
     private void recalcProTotal() {
+        double pre_pro = parseDouble(edtProPreco.getText());
         double qt = parseDouble(edtCppQtde.getText());
-        double pr = parseDouble(edtProPreco.getText());
         double desc = parseDouble(edtCppDesconto.getText());
+        double pre_comPro = parseDouble(edtCppPreco.getText());
 
         if (qt < 0) qt = 0;
-        if (pr < 0) pr = 0;
-        if (desc < 0) desc = 0;
+        if (pre_pro < 0) pre_pro = 0;
+        if (desc < 0) {JOptionPane.showMessageDialog(this, "ERRO! Desconto do Produto não pode ser Negativo!\n Desconto setado para '0'");
+            desc = 0;
+            return;
+        }
+        if (desc > pre_comPro) {JOptionPane.showMessageDialog(this, "ERRO! Desconto do Produto não pode ser MAIOR que Total de Compra_Produto!\n Desconto setado para '0'");
+            desc = 0;
+            return;
+        }
+        
 
-        double totalItem = (qt * pr) - desc;
+        double totalItem = (qt * pre_pro) - desc;
         if (totalItem < 0) totalItem = 0;
 
         edtCppTotal.setText(fmt(totalItem));
     }
 
     private void adicionarItem() throws Exception {
-       int pro_cod = parseInt(edtProCod.getText());
-       double qt = parseDouble(edtCppQtde.getText());
-       double pr = parseDouble(edtProPreco.getText());
-       double desc = parseDouble(edtCppDesconto.getText());
+        int pro_cod = parseInt(edtProCod.getText());
+        double pr = parseDouble(edtProPreco.getText());
+        double qt = parseDouble(edtCppQtde.getText());
+        double desc = parseDouble(edtCppDesconto.getText());
+        double pre_comPro = parseDouble(edtCppPreco.getText());
 
-       if (pro_cod <= 0) { JOptionPane.showMessageDialog(this, "Informe o código do produto."); return; }
-       if (qt <= 0 || pr <= 0) { JOptionPane.showMessageDialog(this, "Quantidade e preço precisam ser maiores que zero."); return; }
-       if (desc < 0) desc = 0;
-
+        if (pro_cod <= 0) { JOptionPane.showMessageDialog(this, "Informe o código do produto."); return; }
+        if (qt <= 0 || pr <= 0) { JOptionPane.showMessageDialog(this, "Quantidade e preço precisam ser maiores que zero."); return; }
+        if (desc < 0) {JOptionPane.showMessageDialog(this, "ERRO! Desconto do Produto não pode ser Negativo!\n Desconto setado para '0'");
+            desc = 0;
+            return;
+        }
+        if (desc > pre_comPro) {JOptionPane.showMessageDialog(this, "ERRO! Desconto do Produto não pode ser MAIOR que Total de Compra_Produto!\n Desconto setado para '0'");
+            desc = 0;
+            return;            
+        }
        ProdutoModel p = new ProdutoController().get(pro_cod);
        if (p == null) { JOptionPane.showMessageDialog(this, "Produto não encontrado."); return; }
 
