@@ -179,7 +179,7 @@ public class AppView extends JFrame{
 //    }
     
     private void mostrandoLogin(){
-        mostrarTela("Login");
+        mostrarTela("Compra");
 
         // Usa a validação da view e chama o controller
         loginView.setOnLogin((email, senha) -> {

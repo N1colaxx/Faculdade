@@ -11,7 +11,7 @@ import model.CompraModel;
 public class CompraTableModel extends AbstractTableModel {
 
     private ArrayList<CompraModel> linhas;
-    String[] colunas = {"Codigo CPR", "Codigo Usuario", "Codigo Fornecedor", "Data Emissao", "Valor", "Desconto", "Total", "Data Entrada", "Obs"};
+    String[] colunas = {"Codigo CPR", "Codigo Usuario", "Codigo Fornecedor", "Data Emissao", "Valor", "Desconto Compra", "Total", "Data Entrada", "Obs"};
 
     public CompraTableModel(ArrayList<CompraModel> lista) {
         linhas = lista;

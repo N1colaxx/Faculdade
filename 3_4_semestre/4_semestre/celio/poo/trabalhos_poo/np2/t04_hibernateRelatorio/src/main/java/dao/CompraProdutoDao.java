@@ -1,15 +1,11 @@
 package dao;
 
 
-
-import java.time.LocalDate;
 import model.CompraProdutoModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import util.HibernateUtil;
 
 public class CompraProdutoDao  {
@@ -20,13 +16,13 @@ public class CompraProdutoDao  {
         
         String tabVendaPro = CompraProdutoModel.class.getName();
         String hql = " FROM " + tabVendaPro + " vep " 
-                +    " JOIN FETCH vep.venda_vendaPro v "
-                +    " JOIN FETCH vep.produto_vendaPro p ";
+                +    " JOIN FETCH vep.produto_compraPro p "
+                +    " JOIN FETCH vep.compra_compraPro c ";
         
         if (filtro != null && !filtro.trim().isEmpty()) {
             hql += " WHERE " + filtro;
         }
-        hql += " ORDER BY v.vda_codigo";
+        hql += " ORDER BY c.cpr_codigo";
         
         System.out.println(" [CompraProdutoDao] query HQL executada:");
         System.out.println(   hql + " \n");

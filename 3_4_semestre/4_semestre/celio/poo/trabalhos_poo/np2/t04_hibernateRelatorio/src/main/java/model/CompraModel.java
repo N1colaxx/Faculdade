@@ -93,7 +93,7 @@ public class CompraModel {
         return cpr_emissao;
     }
 
-    @Column (name = "CPR_VALOR", nullable = false, precision = 18, scale = 2)
+    @Column (name = "CPR_VALOR", nullable = true, precision = 18, scale = 2)
     public double getCpr_valor() {
         return cpr_valor;
     }
@@ -103,7 +103,7 @@ public class CompraModel {
         return cpr_desconto;
     }
 
-    @Column (name = "CPR_TOTAL", nullable = false, precision = 18, scale = 2)
+    @Column (name = "CPR_TOTAL", nullable = true, precision = 18, scale = 2)
     public double getCpr_total() {
         return cpr_total;
     }

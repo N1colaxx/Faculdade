@@ -98,7 +98,7 @@ public class CompraProdutoRelatorio {
             String linha = String.format("%-10d %-30s %-10",
                     objModel.getCpp_codigo(),
                     objModel.getProduto_compraPro().getPRO_CODIGO(),  
-                    objModel.getCpp_total()
+                    objModel.getCpr_total()
             );
             
 

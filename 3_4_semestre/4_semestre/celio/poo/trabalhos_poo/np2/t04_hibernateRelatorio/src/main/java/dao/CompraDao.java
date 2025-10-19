@@ -14,7 +14,7 @@ public class CompraDao {
     
     
     public CompraModel gravar(CompraModel c, Session session) throws Exception{
-        System.out.println(" [CompraDao] void gravar() iniciado...");
+        System.out.println("\n [CompraDao] void gravar() iniciado...");
         
         try {
             session.persist(c);
@@ -31,12 +31,16 @@ public class CompraDao {
     }
     
     public void alterar(CompraModel c, Session session) throws Exception {
+        System.out.println("\n [CompraDao] void alterar() iniciado...");
+
         try {
             session.merge(c);
         } catch(Exception ex) {
             if(c.getCpr_codigo() == null) {
                 System.out.println(" [CompraDao] ERRO! ao Atualizar a Compra");
+                return;
             }
+            System.out.println(" [CompraDao] ERRO! ao Atualizar a Compra \n" + ex);
         }
         
         System.out.println(" [CompraDao] Sucesso! ao Atualizar a Venda = " + c.getCpr_codigo());

@@ -51,13 +51,13 @@ public class CompraProdutoTableModel extends AbstractTableModel {
             case 3:
                 return objModel.getProduto_compraPro().getPRO_NOME();
             case 4:
-                return objModel.getCpp_qtde();
+                return objModel.getCpr_qtde();
             case 5:
-                return objModel.getCpp_preco();
+                return objModel.getCpr_preco();
             case 6:
-                return objModel.getCpp_desconto();
+                return objModel.getCpr_desconto();
             case 7: 
-                return objModel.getCpp_total();
+                return objModel.getCpr_total();
             default:
                 return null;
         }
@@ -95,7 +95,7 @@ public class CompraProdutoTableModel extends AbstractTableModel {
     public Double somaTotais(){
         double s = 0;
         for (CompraProdutoModel it : linhas){
-            double v = it.getCpp_total();
+            double v = it.getCpr_total();
             s += v;
         }
         return s;

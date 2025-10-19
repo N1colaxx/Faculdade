@@ -86,10 +86,10 @@ public class CompraController {
                 cpp.setCpp_codigo(null);
                 cpp.setCompra_compraPro(compra);
                 cpp.setProduto_compraPro(p);
-                cpp.setCpp_qtde(item.getCpp_qtde());
-                cpp.setCpp_preco(item.getCpp_preco());
-                cpp.setCpp_desconto(item.getCpp_desconto());
-                cpp.setCpp_total(item.getCpp_total());
+                cpp.setCpr_qtde(item.getCpr_qtde());
+                cpp.setCpr_preco(item.getCpr_preco());
+                cpp.setCpr_desconto(item.getCpr_desconto());
+                cpp.setCpr_total(item.getCpr_total());
                 
                 compra.addProduto_listProduto(cpp);
             }
