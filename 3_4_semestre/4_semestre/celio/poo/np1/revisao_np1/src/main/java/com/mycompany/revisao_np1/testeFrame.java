@@ -2,8 +2,6 @@ package com.mycompany.revisao_np1;
 
 import java.awt.*;
 import javax.swing.*;
-import java.util.ArrayList;
-
 public class testeFrame extends JFrame{
     
     private JLabel
@@ -112,8 +110,5 @@ private void adicionar() {
         add(btnCancelar);
         add(btnSalvar);
     }
-    
-    public static void main(String[] args) {
-        testeFrame obj = new testeFrame();
-    }
+
 }
