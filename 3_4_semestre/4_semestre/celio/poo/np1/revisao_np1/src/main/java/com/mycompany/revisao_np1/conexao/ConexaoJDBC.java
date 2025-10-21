@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 
 public class ConexaoJDBC {
     
-    private final static String DRIVER = "org.postgresql.Driver";
+    // private final static String DRIVER = "org.postgresql.Driver";
     private final static String BANCO = "jdbc:postgresql://localhost:5432/postgres";
     private final static String USUARIO = "postgres";
     private final static String SENHA = "12345";

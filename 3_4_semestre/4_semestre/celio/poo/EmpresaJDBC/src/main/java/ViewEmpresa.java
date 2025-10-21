@@ -141,17 +141,17 @@ public class ViewEmpresa extends JFrame implements InterfaceFrame, InterfaceCrud
 
     @Override
     public void definirFoco() {
-        // Definir ordem de foco com TAB
-        txtEmprId.setNextFocusableComponent(txtEmprNome);
-        txtEmprNome.setNextFocusableComponent(txtEmprRamo);
-        txtEmprRamo.setNextFocusableComponent(btnIncluir);
+    //     // Definir ordem de foco com TAB
+    //     txtEmprId.setNextFocusableComponent(txtEmprNome);
+    //     txtEmprNome.setNextFocusableComponent(txtEmprRamo);
+    //     txtEmprRamo.setNextFocusableComponent(btnIncluir);
 
-        // Ordem dos botões (opcional)
-        btnIncluir.setNextFocusableComponent(btnAlterar);
-        btnAlterar.setNextFocusableComponent(btnConsultar);
-        btnConsultar.setNextFocusableComponent(btnExcluir);
-        btnExcluir.setNextFocusableComponent(btnSair);
-        btnSair.setNextFocusableComponent(txtEmprId); // Ciclo completo
+    //     // Ordem dos botões (opcional)
+    //     btnIncluir.setNextFocusableComponent(btnAlterar);
+    //     btnAlterar.setNextFocusableComponent(btnConsultar);
+    //     btnConsultar.setNextFocusableComponent(btnExcluir);
+    //     btnExcluir.setNextFocusableComponent(btnSair);
+    //     btnSair.setNextFocusableComponent(txtEmprId); // Ciclo completo
     }
 
     @Override
