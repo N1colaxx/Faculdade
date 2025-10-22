@@ -515,7 +515,7 @@ public class ClienteView extends JPanel {
         edtCelular.setText(pessoa.getPES_CELULAR());
         edtSite.setText(pessoa.getPES_SITE());
         edtEmail.setText(pessoa.getPES_EMAIL());
-        chkAtivo.setSelected(pessoa.getPES_ATIVO() != null && c.getPessoa_Cliente().getPES_ATIVO() == 1);
+        chkAtivo.setSelected(pessoa.getPES_ATIVO() != null && pessoa.getPES_ATIVO().equals("1"));
 
         edtLimiteCred.setText(c.getCLI_LIMITECRED() == 0.0 ? String.valueOf("0.0") : String.valueOf(c.getCLI_LIMITECRED()));
     }
@@ -565,7 +565,7 @@ public class ClienteView extends JPanel {
         pessoa.setPES_CELULAR(edtCelular.getText().trim());
         pessoa.setPES_SITE(edtSite.getText().trim());
         pessoa.setPES_EMAIL(edtEmail.getText().trim());
-        pessoa.setPES_ATIVO(chkAtivo.isSelected() ? 1 : 0);
+        pessoa.setPES_ATIVO(chkAtivo.isSelected() ? "1" : "0");
 
         // Cliente
         c.setPessoa_Cliente(pessoa);
@@ -596,7 +596,7 @@ public class ClienteView extends JPanel {
                 dataFiltroConsulta = data;
 
                 if (!cond.isEmpty()) cond += " AND ";
-                cond += "(p.pes_cadastro >= :dataFiltro)"; //  parametro nomeado
+                cond += "(p.pes_dtcadastro >= :dataFiltro)"; //  parametro nomeado
 
                 System.out.println(" [ClienteView] filtroConsulta() valor da edtDataCliente = " + data + " , tipo = "+ data.getClass().getName());
             } else {

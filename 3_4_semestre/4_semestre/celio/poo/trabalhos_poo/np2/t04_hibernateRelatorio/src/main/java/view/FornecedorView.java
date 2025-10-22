@@ -514,7 +514,7 @@ public class FornecedorView extends JPanel {
         edtCelular.setText(pessoa.getPES_CELULAR());
         edtSite.setText(pessoa.getPES_SITE());
         edtEmail.setText(pessoa.getPES_EMAIL());
-        chkAtivo.setSelected(pessoa.getPES_ATIVO() != null && f.getPESSOA_FORNECEDOR().getPES_ATIVO() == 1);
+        chkAtivo.setSelected(pessoa.getPES_ATIVO() != null && f.getPESSOA_FORNECEDOR().getPES_ATIVO().equals("1"));
 
         edtContato.setText(f.getFOR_CONTATO() == null ? "Sem contato" : f.getFOR_CONTATO());
     }
@@ -564,7 +564,8 @@ public class FornecedorView extends JPanel {
         pessoa.setPES_CELULAR(edtCelular.getText().trim());
         pessoa.setPES_SITE(edtSite.getText().trim());
         pessoa.setPES_EMAIL(edtEmail.getText().trim());
-        pessoa.setPES_ATIVO(chkAtivo.isSelected() ? 1 : 0);
+        pessoa.setPES_ATIVO(chkAtivo.isSelected() ? "1" : "0");
+            
 
         // Cliente
         f.setPESSOA_FORNECEDOR(pessoa);

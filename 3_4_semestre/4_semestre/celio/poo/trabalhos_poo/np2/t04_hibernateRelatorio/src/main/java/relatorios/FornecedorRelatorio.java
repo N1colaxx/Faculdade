@@ -106,7 +106,7 @@ public class FornecedorRelatorio {
             String linha = String.format("%-10d %-50s %-10s",
                     objModel.getFOR_CODIGO(),
                     objModel.getPESSOA_FORNECEDOR().getPES_NOME(),
-                    objModel.getPESSOA_FORNECEDOR().getPES_ATIVO() == 1 ? "Ativo" : "Inativo"
+                    objModel.getPESSOA_FORNECEDOR().getPES_ATIVO() == "1" ? "Ativo" : "Inativo"
             );
 
             cs.showText(linha);

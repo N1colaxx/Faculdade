@@ -21,7 +21,7 @@ public class PessoaModel implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PES_CODIGO")
+    @Column(name = "PES_CODIGO", nullable = false)
     private Integer pes_codigo;
     
 
@@ -30,7 +30,7 @@ public class PessoaModel implements java.io.Serializable {
     private String pes_fisica;
     private String pes_cpfcnpj;
     private String pes_rgie;
-    private LocalDate pes_cadastro;
+    private LocalDate pes_dtcadastro;
     private String pes_endereco;
     private String pes_numero;
     private String pes_complemento;
@@ -43,7 +43,7 @@ public class PessoaModel implements java.io.Serializable {
     private String pes_celular;
     private String pes_site;
     private String pes_email;
-    private Integer pes_ativo;
+    private String pes_ativo;
 
     public PessoaModel() {
 
@@ -53,14 +53,14 @@ public class PessoaModel implements java.io.Serializable {
     public PessoaModel(
             Integer PES_CODIGO, String PES_NOME, String PES_FISICA, String PES_CPFCNPJ,
             String PES_RGIE, LocalDate PES_CADASTRO, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
-            String PES_CIDADE, String PES_UF, String PES_CEP, String PES_CELULAR, String PES_SITE, String PES_EMAIL, Integer PES_ATIVO
+            String PES_CIDADE, String PES_UF, String PES_CEP, String PES_CELULAR, String PES_SITE, String PES_EMAIL, String PES_ATIVO
     ) {
         this.pes_codigo = PES_CODIGO;
         this.pes_nome = PES_NOME;
         this.pes_fisica = PES_FISICA;
         this.pes_cpfcnpj = PES_CPFCNPJ;
         this.pes_rgie = PES_RGIE;
-        this.pes_cadastro = PES_CADASTRO;
+        this.pes_dtcadastro = PES_CADASTRO;
         this.pes_endereco = PES_ENDERECO;
         this.pes_numero = PES_NUMERO;
         this.pes_complemento = PES_COMPLEMENTO;
@@ -79,7 +79,7 @@ public class PessoaModel implements java.io.Serializable {
             Integer PES_CODIGO, String PES_NOME, String PES_FANTASIA, String PES_FISICA, String PES_CPFCNPJ,
             String PES_RGIE, LocalDate PES_CADASTRO, String PES_ENDERECO, String PES_NUMERO, String PES_COMPLEMENTO, String PES_BAIRRO,
             String PES_CIDADE, String PES_UF, String PES_CEP, String PES_FONE1, String PES_FONE2,
-            String PES_CELULAR, String PES_SITE, String PES_EMAIL, Integer PES_ATIVO
+            String PES_CELULAR, String PES_SITE, String PES_EMAIL, String PES_ATIVO
     ) {
         this.pes_codigo = PES_CODIGO;
         this.pes_nome = PES_NOME;
@@ -87,7 +87,7 @@ public class PessoaModel implements java.io.Serializable {
         this.pes_fisica = PES_FISICA;
         this.pes_cpfcnpj = PES_CPFCNPJ;
         this.pes_rgie = PES_RGIE;
-        this.pes_cadastro = PES_CADASTRO;
+        this.pes_dtcadastro = PES_CADASTRO;
         this.pes_endereco = PES_ENDERECO;
         this.pes_numero = PES_NUMERO;
         this.pes_complemento = PES_COMPLEMENTO;
@@ -114,7 +114,7 @@ public class PessoaModel implements java.io.Serializable {
     }
     
 
-    @Column(name = "PES_NOME", nullable = false, length = 80)
+    @Column(name = "PES_NOME", nullable = true, length = 80)
     public String getPES_NOME() {
         return pes_nome;
     }
@@ -126,13 +126,13 @@ public class PessoaModel implements java.io.Serializable {
     }
 
     
-    @Column(name = "PES_FISICA", nullable = false, length = 1)
+    @Column(name = "PES_FISICA", nullable = true, length = 1)
     public String getPES_FISICA() {
         return pes_fisica;
     }
 
     
-    @Column(name = "PES_CPFCNPJ", nullable = false, length = 20)
+    @Column(name = "PES_CPFCNPJ", nullable = true, length = 20)
     public String getPES_CPFCNPJ() {
         return pes_cpfcnpj;
     }
@@ -145,9 +145,9 @@ public class PessoaModel implements java.io.Serializable {
     }
 
     
-    @Column(name = "PES_CADASTRO", nullable = true)
+    @Column(name = "PES_DTCADASTRO", nullable = true)
     public LocalDate getPES_CADASTRO() {
-        return pes_cadastro;
+        return pes_dtcadastro;
     }
 
     
@@ -225,7 +225,7 @@ public class PessoaModel implements java.io.Serializable {
 
     
     @Column(name = "PES_ATIVO", nullable = true, length = 1)
-    public Integer getPES_ATIVO() {
+    public String getPES_ATIVO() {
         return pes_ativo;
     }
 
@@ -257,7 +257,7 @@ public class PessoaModel implements java.io.Serializable {
     }
     
     public void setPES_CADASTRO(LocalDate PES_CADASTRO) {
-        this.pes_cadastro = PES_CADASTRO;
+        this.pes_dtcadastro = PES_CADASTRO;
     }
 
     public void setPES_ENDERECO(String PES_ENDERECO) {
@@ -308,7 +308,7 @@ public class PessoaModel implements java.io.Serializable {
         this.pes_email = PES_EMAIL;
     }
 
-    public void setPES_ATIVO(Integer PES_ATIVO) {
+    public void setPES_ATIVO(String PES_ATIVO) {
         this.pes_ativo = PES_ATIVO;
     }
 

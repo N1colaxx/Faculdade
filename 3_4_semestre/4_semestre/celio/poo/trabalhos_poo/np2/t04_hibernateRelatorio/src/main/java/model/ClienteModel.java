@@ -24,7 +24,7 @@ public class ClienteModel implements java.io.Serializable {
     @Column(name = "CLI_CODIGO",  nullable = false)
     private Integer cli_codigo;
     
-    @OneToOne
+    @OneToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn (name = "PES_CODIGO", nullable = false)
     private PessoaModel pessoa;
 
