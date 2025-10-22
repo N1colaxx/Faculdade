@@ -97,7 +97,7 @@ public class ProdutoRelatorio {
             String linha = String.format("%-10d %-50s %-10s",
                     objModel.getPRO_CODIGO(),
                     objModel.getPRO_NOME(),
-                    objModel.getPRO_ATIVO() == 1 ? "Ativo" : "Inativo");
+                    objModel.getPRO_ATIVO().equals("1") ? "Ativo" : "Inativo");
 
             cs.showText(linha);
             cs.endText();

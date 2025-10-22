@@ -310,7 +310,7 @@ public class ProdutoView extends JPanel {
         btnLimpar.setBounds(1295, 10, 100, 25);
 
         // Tabela
-        paneConsultaTabela.setBounds(10, 130, 1440, 310);
+        paneConsultaTabela.setBounds(10, 110, 1440, 310);
         scrollTabela.setBounds(0, 0, 1440, 310);
     }
 
@@ -447,7 +447,7 @@ public class ProdutoView extends JPanel {
         edtProCadastro.setText(fmtDate(p.getPRO_CADASTRO()));
         edtProObs.setText(p.getPRO_OBS());
         cbxUnidade.setSelectedItem(p.getPRO_UNIDADE());
-        chkAtivo.setSelected(p.getPRO_ATIVO() == 1);
+        chkAtivo.setSelected(p.getPRO_ATIVO().equals("1"));
     }
 
     private ProdutoModel montarProdutoDosCampos() {
@@ -480,7 +480,7 @@ public class ProdutoView extends JPanel {
         p.setPRO_CADASTRO(parseDate(edtProCadastro.getText()));
 
 
-        p.setPRO_ATIVO(chkAtivo.isSelected() ? 1 : 0);
+        p.setPRO_ATIVO(chkAtivo.isSelected() ? "1" : "0");
 
         return p;
     }
@@ -489,31 +489,31 @@ public class ProdutoView extends JPanel {
         String cond = "";
 
         if (!edtId1.getText().trim().isEmpty()) {
-            cond += "(PRO_CODIGO >= " + edtId1.getText().trim() + ")";
+            cond += "(p.pro_codigo >= " + edtId1.getText().trim() + ")";
         }
         if (!edtId2.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(PRO_CODIGO <= " + edtId2.getText().trim() + ")";
+            cond += "(p.pro_codigo <= " + edtId2.getText().trim() + ")";
         }
         if (!edtProNomeFiltro.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(PRO_NOME LIKE ('%" + edtProNomeFiltro.getText().trim() + "%'))";
+            cond += "(p.pro_nome LIKE ('%" + edtProNomeFiltro.getText().trim() + "%'))";
         }
         if (!edtProPrecoFiltro.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(PRO_PRECO = " + edtProPrecoFiltro.getText().trim().replace(",", ".") + ")";
+            cond += "(p.pro_preco = " + edtProPrecoFiltro.getText().trim().replace(",", ".") + ")";
         }
         if (!edtProUnidadeFiltro.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(PRO_UNIDADE LIKE ('%" + edtProUnidadeFiltro.getText().trim() + "%'))";
+            cond += "(p.pro_unidade LIKE ('%" + edtProUnidadeFiltro.getText().trim() + "%'))";
         }
         if (!edtProMinFiltro.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(PRO_ESTOQUE >= " + edtProMinFiltro.getText().trim().replace(",", ".") + ")";
+            cond += "(p.pro_estoque >= " + edtProMinFiltro.getText().trim().replace(",", ".") + ")";
         }
         if (!edtProMaxFiltro.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(PRO_ESTOQUE <= " + edtProMaxFiltro.getText().trim().replace(",", ".") + ")";
+            cond += "(p.pro_estoque <= " + edtProMaxFiltro.getText().trim().replace(",", ".") + ")";
         }
         return cond;
     }

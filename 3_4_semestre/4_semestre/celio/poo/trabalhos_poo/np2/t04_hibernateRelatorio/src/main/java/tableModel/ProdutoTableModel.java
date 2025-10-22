@@ -67,7 +67,7 @@ public class ProdutoTableModel extends AbstractTableModel {
             case 12:
                 return objModel.getPRO_OBS();
             case 13:
-                return objModel.getPRO_ATIVO() == 1 ? "Sim" : "Não";
+                return objModel.getPRO_ATIVO().equals("1") ? "Sim" : "Não";
             default:
                 return null;
         }

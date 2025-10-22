@@ -33,6 +33,8 @@ public class ProdutoDao implements GenericDao<ProdutoModel> {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction t = session.beginTransaction();
             session.merge(objModel); // Mudar persist para merge para atualização
+            
+            System.out.println(" [ProdutoDao] alterar() foi TERMINOU.");
             t.commit();
         }
     }
@@ -40,11 +42,12 @@ public class ProdutoDao implements GenericDao<ProdutoModel> {
     @Override
     public ArrayList<ProdutoModel> consultar(String filtro) {
         System.out.println(" [ProdutoDao] consultar() foi iniciado... \n");
-        
-        String hql = "from " + ProdutoModel.class.getName();
+        String tab = ProdutoModel.class.getName();
+        String hql = "from " + tab + " p ";
         if (filtro != null && !filtro.trim().isEmpty()) {
-            hql += " " + filtro;
+            hql += " WHERE " + filtro;
         }
+        hql += " ORDER BY p.pro_codigo";
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // Removida transação desnecessária para operação de leitura

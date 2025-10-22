@@ -19,7 +19,7 @@ public class ProdutoModel implements java.io.Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PRO_CODIGO")
+    @Column(name = "PRO_CODIGO", nullable = false)
     
     private Integer pro_codigo;
     private String pro_nome;
@@ -32,16 +32,17 @@ public class ProdutoModel implements java.io.Serializable {
     private double  pro_max;
     private double  pro_embalagem;
     private double  pro_peso;
-    private LocalDate pro_cadastro;
+    private LocalDate pro_dtcadastro;
     private String pro_obs;
-    private int pro_ativo;
+    private String pro_ativo;
+    private String pro_tipo;
 
     public ProdutoModel() {
     }
 
     public ProdutoModel(Integer PRO_CODIGO, String PRO_NOME, double  PRO_ESTOQUE, String PRO_UNIDADE, double  PRO_PRECO, 
             double  PRO_CUSTO, double  PRO_ATACADO, double  PRO_MIN, double  PRO_MAX, double  PRO_EMBALAGEM,
-            double  PRO_PESO, LocalDate PRO_CADASTRO, String PRO_OBS, int PRO_ATIVO) {
+            double  PRO_PESO, LocalDate PRO_CADASTRO, String PRO_OBS, String PRO_ATIVO, String PRO_TIPO) {
         this.pro_codigo = PRO_CODIGO;
         this.pro_nome = PRO_NOME;
         this.pro_estoque = PRO_ESTOQUE;
@@ -53,9 +54,10 @@ public class ProdutoModel implements java.io.Serializable {
         this.pro_max = PRO_MAX;
         this.pro_embalagem = PRO_EMBALAGEM;
         this.pro_peso = PRO_PESO;
-        this.pro_cadastro = PRO_CADASTRO;
+        this.pro_dtcadastro = PRO_CADASTRO;
         this.pro_obs = PRO_OBS;
         this.pro_ativo = PRO_ATIVO;
+        this.pro_tipo = PRO_TIPO;
     }
 
     /** 
@@ -65,7 +67,7 @@ public class ProdutoModel implements java.io.Serializable {
         return pro_codigo;
     }
     
-    @Column(name = "PRO_NOME", nullable = false, length = 80)
+    @Column(name = "PRO_NOME", nullable = true, length = 80)
     public String getPRO_NOME() {
         return pro_nome;
     }
@@ -124,9 +126,9 @@ public class ProdutoModel implements java.io.Serializable {
     }
     
     
-    @Column(name = "PRO_CADASTRO", nullable = true)
+    @Column(name = "PRO_DTCADASTRO", nullable = true)
     public LocalDate getPRO_CADASTRO() {
-        return pro_cadastro;
+        return pro_dtcadastro;
     }
 
     
@@ -137,8 +139,13 @@ public class ProdutoModel implements java.io.Serializable {
 
     
     @Column(name = "PRO_ATIVO", nullable = true, length = 1)
-    public int getPRO_ATIVO() {
+    public String getPRO_ATIVO() {
         return pro_ativo;
+    }
+
+    @Column(name = "PRO_TIPO", nullable = true, length = 1)
+    public String getPRO_TIPO() {
+        return pro_tipo;
     }
 
     /**
@@ -190,7 +197,7 @@ public class ProdutoModel implements java.io.Serializable {
     }
 
     public void setPRO_CADASTRO(LocalDate PRO_CADASTRO) {
-        this.pro_cadastro = PRO_CADASTRO;
+        this.pro_dtcadastro = PRO_CADASTRO;
     }
 
 
@@ -198,7 +205,12 @@ public class ProdutoModel implements java.io.Serializable {
         this.pro_obs = PRO_OBS;
     }
 
-    public void setPRO_ATIVO(int PRO_ATIVO) {
+    public void setPRO_ATIVO(String PRO_ATIVO) {
         this.pro_ativo = PRO_ATIVO;
+    }
+    
+    
+    public void setPRO_TIPO(String PRO_TIPO) {
+        this.pro_tipo = PRO_TIPO;
     }
 }
