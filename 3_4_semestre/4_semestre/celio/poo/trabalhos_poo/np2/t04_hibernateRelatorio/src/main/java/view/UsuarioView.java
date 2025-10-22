@@ -187,7 +187,7 @@ public class UsuarioView extends JPanel {
         paneConsultaDados.add(btnLimpar);
 
         paneConsultaTabela.add(scrollTabela);
-
+        
         tabConsulta.add(paneConsultaDados);
         tabConsulta.add(paneConsultaTabela);
         paneConsulta.addTab("Consulta", tabConsulta);
@@ -226,8 +226,8 @@ public class UsuarioView extends JPanel {
         chkAtivo.setBounds(260, 85, 25, 25);
 
         // Aba Consulta
-        paneConsulta.setBounds(10, 190, 930, 330);
-        tabConsulta.setBounds(0, 0, 930, 330);
+        paneConsulta.setBounds(10, 190, 930, 390);
+        tabConsulta.setBounds(0, 0, 930, 390);
 
         paneConsultaDados.setBounds(10, 10, 770, 80);
         lblId1.setBounds(10, 10, 20, 25);
@@ -241,8 +241,11 @@ public class UsuarioView extends JPanel {
         btnConsultar.setBounds(660, 10, 90, 25);
         btnLimpar.setBounds(660, 45, 90, 25);
 
-        paneConsultaTabela.setBounds(10, 100, 740, 220);
-        scrollTabela.setBounds(0, 0, 740, 220);
+        paneConsultaTabela.setBounds(10, 100, 740, 250);
+
+        scrollTabela.setBounds(0, 0, 740, 250);
+        scrollTabela.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
     }
 
     private void configurarAcoes() {
