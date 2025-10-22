@@ -169,6 +169,7 @@ public class FormapagtoView extends JPanel {
 
         tabConsulta.add(paneConsultaDados);
         tabConsulta.add(paneConsultaTabela);
+
         paneConsulta.addTab("Consulta", tabConsulta);
         paneCentro.add(paneConsulta);
     }
@@ -193,7 +194,7 @@ public class FormapagtoView extends JPanel {
 
         // Abas
         paneDados.setBounds(10, 40, 960, 140);
-        paneConsulta.setBounds(10, 190, 960, 470);
+        paneConsulta.setBounds(10, 190, 960, 580);
 
         // ===== Campos da aba "Dados" =====
         lblCodigo.setBounds(10, 15, 60, 25);   edtCodigo.setBounds(75, 15, 100, 25);
@@ -201,7 +202,7 @@ public class FormapagtoView extends JPanel {
         lblAtivo.setBounds(560, 15, 60, 25);   chkAtivo.setBounds(615, 15, 25, 25);
 
         // ===== Aba "Consulta" =====
-        tabConsulta.setBounds(0, 0, 960, 470);
+        tabConsulta.setBounds(0, 0, 960, 580);
 
         // Filtros
         paneConsultaDados.setBounds(10, 10, 930, 100);
@@ -214,8 +215,11 @@ public class FormapagtoView extends JPanel {
         btnLimpar.setBounds(595, 10, 90, 25);
 
         // Tabela
-        paneConsultaTabela.setBounds(10, 120, 930, 330);
+        paneConsultaTabela.setBounds(10, 120, 930, 425);
         scrollTabela.setBounds(0, 0, 930, 330);
+        scrollTabela.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+
     }
 
     private void configurarAcoes() {
