@@ -487,7 +487,7 @@ public class VendaView extends JPanel {
         tabConsulta.setBounds(0, 0, 1450, 750);
         
         paneConsultaDados.setBounds(10, 10, 1425, 60);
-        paneConsultaTabela.setBounds(10, 80, 1425, 650);
+        paneConsultaTabela.setBounds(10, 60, 1425, 650);
 
         lblId1.setBounds(10, 10, 30, 25);
         edtId1.setBounds(50, 10, 80, 25);
