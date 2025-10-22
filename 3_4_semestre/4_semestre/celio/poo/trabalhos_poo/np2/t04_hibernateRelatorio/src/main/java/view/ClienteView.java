@@ -328,6 +328,8 @@ public class ClienteView extends JPanel {
         // Tabela
         paneConsultaTabela.setBounds(10, 120, 1440, 245);
         scrollTabela.setBounds(0, 0, 1440, 245);
+        scrollTabela.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
         paneConsultaTabela.add(scrollTabela);
 
     }
