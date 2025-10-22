@@ -323,7 +323,9 @@ public class FornecedorView extends JPanel {
 
         // Tabela
         paneConsultaTabela.setBounds(10, 120, 1440, 300);
-        scrollTabela.setBounds(0, 0, 1440, 300);
+        scrollTabela.setBounds(0, 0, 1440, 280);
+        scrollTabela.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
         paneConsultaTabela.add(scrollTabela);
     }
 
