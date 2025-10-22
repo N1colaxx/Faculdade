@@ -68,8 +68,8 @@ public class CompraView extends JPanel {
 
     // Estado
     private String operacao = "";
-    private final ArrayList<CompraProdutoModel> listaItens = new ArrayList<>();
-    private final ArrayList<CompraModel> listaCompras = new ArrayList<>();
+    private  ArrayList<CompraProdutoModel> listaItens = new ArrayList<>();
+    private  ArrayList<CompraModel> listaCompras = new ArrayList<>();
 
     public CompraView() {
         setLayout(null);
@@ -505,10 +505,37 @@ public class CompraView extends JPanel {
             System.out.println(" [CompraView] btnImprimir terminou");
         });
         
-        btnPrimeiro.addActionListener(e -> selecionarIndice(0));
-        btnAnterior.addActionListener(e -> navegar(-1));
-        btnProximo.addActionListener(e -> navegar(+1));
-        btnUltimo.addActionListener(e -> selecionarIndice(listaCompras.size() - 1));
+        btnPrimeiro.addActionListener(e -> {
+            System.out.println("\n [CompraView] btnPrimeiro clicado \n ");
+            if (listaCompras == null || listaCompras.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Não Existem Compras Cadastradas !");
+                return;
+            }
+            mostrarRegistro(0);
+        });
+
+        btnAnterior.addActionListener(e -> {
+            System.out.println("\n [CompraView] btnAnterior clicado \n ");
+            int viewSel = tabelaConsulta.getSelectedRow();
+            int sel = (viewSel < 0 ? 0 : tabelaConsulta.convertRowIndexToModel(viewSel)) - 1;
+            mostrarRegistro(sel);
+        });
+
+        btnProximo.addActionListener(e -> {
+            System.out.println("\n [CompraView] btnProximo clicado \n ");
+            int viewSel = tabelaConsulta.getSelectedRow();
+            int sel = (viewSel < 0 ? -1 : tabelaConsulta.convertRowIndexToModel(viewSel)) + 1;
+            mostrarRegistro(sel);
+        });
+
+        btnUltimo.addActionListener(e -> {
+            System.out.println("\n [CompraView] btnUltimo clicado \n ");
+            if (listaCompras == null || listaCompras.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Não Existem Clientes Cadastrados !");
+                return;
+            }
+            mostrarRegistro(listaCompras.size() - 1);
+        });
 
         /**
          * Consulta
@@ -635,13 +662,12 @@ public class CompraView extends JPanel {
             // Limpa a tabela
             limparTabelaConsulta();
 
-            // Busca as compras do banco (retorna lista compraModel)
-            ArrayList<CompraModel> lista = new CompraController().consultar(filtroConsultacompra());
+            listaCompras = new CompraController().consultar(filtroConsultacompra());
 
-            if (lista == null) lista = new ArrayList<>();
+            if (listaCompras == null) listaCompras = new ArrayList<>();
 
             // Cria um novo model com os dados
-            consultaModel = new CompraTableModel(lista);
+            consultaModel = new CompraTableModel(listaCompras);
 
             // Atualiza o JTable com o novo modelo
             tabelaConsulta.setModel(consultaModel);
@@ -701,26 +727,41 @@ public class CompraView extends JPanel {
         }
     }
    
-    private void selecionarIndice(int idx){
-        if (idx < 0 || idx >= listaCompras.size()) return;
-        CompraModel v = listaCompras.get(idx);
-        mostrarDados(v);
+    private void mostrarRegistro(int registro) {
+        System.out.println("\n [CompraView] void MOSTRAR iniciado");
+        setOperacao("");
+        if (listaCompras == null || listaCompras.isEmpty()) return;
+        if (registro < 0 || registro >= listaCompras.size()) return;
+
+        mostrarCompra(listaCompras.get(registro));
+        
+        int viewIndex = tabelaConsulta.convertRowIndexToView(registro);
+        tabelaConsulta.changeSelection(viewIndex, 0, false, false);
+    }
+    
+    private void mostrarCompra(CompraModel c) {
+        mostrarDados(c);
+        mostrarCP(c.getCpr_codigo());
     }
 
-    private void navegar(int delta){
-        if (listaCompras.isEmpty()) return;
-        int atual = -1;
-        int cod = parseInt(edtCprCodigo.getText());
-        for (int i=0;i<listaCompras.size();i++){
-            if (listaCompras.get(i).getCpr_codigo()== cod) { atual = i; break; }
+    private void mostrarCP(int cpr_codigo) {
+        String cond = "(c.cpr_codigo = " + cpr_codigo + ")";
+        ArrayList<CompraProdutoModel> compraProduto = new CompraProdutoController().consultar(cond);
+        
+        while (itensModel.getRowCount() > 0) {
+            itensModel.removeItem(0);
         }
-        int prox = (atual < 0 ? 0 : atual + delta);
-        if (prox < 0) prox = 0;
-        if (prox >= listaCompras.size()) prox = listaCompras.size()-1;
-        selecionarIndice(prox);
-    }
- 
+        
+        for (CompraProdutoModel it : compraProduto) {
+            itensModel.addItem(it);
+        }
+    }    
     
+
+   
+    
+
+
     
     
     
