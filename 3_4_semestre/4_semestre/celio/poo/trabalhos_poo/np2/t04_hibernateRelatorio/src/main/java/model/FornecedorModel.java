@@ -24,7 +24,7 @@ public class FornecedorModel implements java.io.Serializable {
     private Integer for_codigo;
 
 //  JOIN com pessoa -> pessoa 1:1 fornecedor
-    @OneToOne
+    @OneToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "PES_CODIGO", nullable = false)
     private PessoaModel pessoa;
 

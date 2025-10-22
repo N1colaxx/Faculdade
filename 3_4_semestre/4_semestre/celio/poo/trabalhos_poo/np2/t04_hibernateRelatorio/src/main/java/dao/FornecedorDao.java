@@ -31,7 +31,7 @@ public class FornecedorDao implements GenericDao<FornecedorModel> {
             // Garante que o ID seja nulo para nova inserção
             objModel.setFOR_CODIGO(null);
             session.persist(objModel);
-            
+            session.flush();
             t.commit();
         }   
     }
