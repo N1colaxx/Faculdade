@@ -44,7 +44,7 @@ public class FormapagtoDao implements GenericDao<FormapagtoModel> {
         String hql = "FROM " + tabFormapagto + " fpg";
          
         if (filtro != null && !filtro.trim().isEmpty()) {
-            hql += " WEHER" + filtro;
+            hql += " WHERE" + filtro;
         }
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

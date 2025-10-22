@@ -338,15 +338,15 @@ public class FormapagtoView extends JPanel {
     private String filtroConsulta() {
         String cond = "";
         if (!edtId1.getText().trim().isEmpty()) {
-            cond += "(fpg_codigo >= " + edtId1.getText().trim() + ")";
+            cond += "(fpg.fpg_codigo >= " + edtId1.getText().trim() + ")";
         }
         if (!edtId2.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(fpg_codigo <= " + edtId2.getText().trim() + ")";
+            cond += "(fpg.fpg_codigo <= " + edtId2.getText().trim() + ")";
         }
         if (!edtNomeFiltro.getText().trim().isEmpty()) {
             if (!cond.isEmpty()) cond += " AND ";
-            cond += "(fpg_nome LIKE ('%" + edtNomeFiltro.getText().trim() + "%'))";
+            cond += "(fpg.fpg_nome LIKE ('%" + edtNomeFiltro.getText().trim() + "%'))";
         }
         return cond;
     }
