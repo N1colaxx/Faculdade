@@ -294,7 +294,8 @@ public class ProdutoView extends JPanel {
         tabConsulta.setBounds(0, 0, 1470, 460);
 
         // Filtros (topo)
-        paneConsultaDados.setBounds(10, 10, 1440, 110);
+        paneConsultaDados.setBounds(10, 10, 1440, 95);
+
 
         lblId1.setBounds(10, 10, 20, 25);           edtId1.setBounds(35, 10, 100, 25);
         lblText.setBounds(140, 10, 10, 25);         edtId2.setBounds(155, 10, 100, 25);
@@ -312,6 +313,8 @@ public class ProdutoView extends JPanel {
         // Tabela
         paneConsultaTabela.setBounds(10, 110, 1440, 310);
         scrollTabela.setBounds(0, 0, 1440, 310);
+        scrollTabela.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
     }
 
     //  registra listeners dos botões (primeiro, anterior, próximo, etc.)
