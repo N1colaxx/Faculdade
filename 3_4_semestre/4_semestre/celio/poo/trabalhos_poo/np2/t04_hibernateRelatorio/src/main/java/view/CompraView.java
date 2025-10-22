@@ -409,7 +409,7 @@ public class CompraView extends JPanel {
         btnConsultar.setBounds(640, 10, 110, 25);
         btnLimpar.setBounds(760, 10, 110, 25);
 
-        scrollConsulta.setBounds(0, 0, 1425, 650);
+        scrollConsulta.setBounds(0, 0, 1425, 630);
         
         
         
