@@ -174,7 +174,7 @@ public class AppView extends JFrame{
     
     
     private void mostrandoLogin(){
-        mostrarTela("Produto");
+        mostrarTela("Compra");
         loginView.getBtnEntrar().addActionListener(e -> entrarMenu());
     }
     
@@ -201,7 +201,7 @@ public class AppView extends JFrame{
         System.out.println("\n [AppView] void entrarMenu() iniciado...");
         
         setJMenuBar(menuView);
-        mostrarTela("Produto");
+        mostrarTela("Usuario");
         System.out.println("\n [AppView] void entrarMenu() concluido.");
         
         UsuarioModel u = SessionModel.getCurrentUser();
